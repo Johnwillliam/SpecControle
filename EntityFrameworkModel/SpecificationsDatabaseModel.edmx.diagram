@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4eb40bc604f04508aed1ccddbd0c597f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="SpecificationsTestingModel.ATEXType" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CustomOrder" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.GroupType" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.Motor" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.SoundLevelType" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.TemperatureClass" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.Ventilator" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.VoltageType" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrder_ATEXType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrder_GroupType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrder_TemperatureClass" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrder_Ventilator" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_Motor_VoltageType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_Ventilator_Motor" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_Ventilator_SoundLevelType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
