@@ -11,12 +11,12 @@ using SpecificationsTesting.Entities;
 
 namespace SpecificationsTesting
 {
-  public partial class Form1 : Form
+  public partial class CustomOrderForm : Form
   {
     public CustomOrder CustomOrder { get; set; }
     public int SelectedVentilatorID { get; set; }
 
-    public Form1()
+    public CustomOrderForm()
     {
       InitializeComponent();
       InitializeGridColumns();

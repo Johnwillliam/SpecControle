@@ -1,7 +1,7 @@
 ﻿
 namespace SpecificationsTesting
 {
-    partial class Form1
+    partial class CustomOrderForm
     {
         /// <summary>
         /// Required designer variable.
