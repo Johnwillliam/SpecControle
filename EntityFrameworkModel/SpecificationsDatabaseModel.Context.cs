@@ -26,12 +26,14 @@ namespace EntityFrameworkModel
         }
     
         public virtual DbSet<ATEXType> ATEXTypes { get; set; }
+        public virtual DbSet<CustomOrderMotor> CustomOrderMotors { get; set; }
         public virtual DbSet<CustomOrder> CustomOrders { get; set; }
+        public virtual DbSet<CustomOrderVentilator> CustomOrderVentilators { get; set; }
         public virtual DbSet<GroupType> GroupTypes { get; set; }
-        public virtual DbSet<Motor> Motors { get; set; }
         public virtual DbSet<SoundLevelType> SoundLevelTypes { get; set; }
         public virtual DbSet<TemperatureClass> TemperatureClasses { get; set; }
-        public virtual DbSet<Ventilator> Ventilators { get; set; }
+        public virtual DbSet<TemplateMotor> TemplateMotors { get; set; }
+        public virtual DbSet<TemplateVentilator> TemplateVentilators { get; set; }
         public virtual DbSet<VoltageType> VoltageTypes { get; set; }
     }
 }

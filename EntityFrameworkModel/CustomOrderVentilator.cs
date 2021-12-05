@@ -12,31 +12,25 @@ namespace EntityFrameworkModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Ventilator
+    public partial class CustomOrderVentilator
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Ventilator()
-        {
-            this.CustomOrders = new HashSet<CustomOrder>();
-        }
-    
         public int ID { get; set; }
+        public int CustomOrderID { get; set; }
         public string Name { get; set; }
-        public int MotorID { get; set; }
-        public Nullable<int> AirVolume { get; set; }
-        public Nullable<int> PressureTotal { get; set; }
-        public Nullable<int> PressureStatic { get; set; }
-        public Nullable<int> PressureDynamic { get; set; }
-        public Nullable<int> RPM { get; set; }
+        public int CustomOrderMotorID { get; set; }
+        public string AirVolume { get; set; }
+        public string PressureTotal { get; set; }
+        public string PressureStatic { get; set; }
+        public string PressureDynamic { get; set; }
+        public string RPM { get; set; }
         public Nullable<int> Efficiency { get; set; }
-        public Nullable<int> ShaftPower { get; set; }
+        public string ShaftPower { get; set; }
         public Nullable<int> SoundLevel { get; set; }
         public Nullable<int> SoundLevelTypeID { get; set; }
         public Nullable<int> BladeAngle { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustomOrder> CustomOrders { get; set; }
-        public virtual Motor Motor { get; set; }
+        public virtual CustomOrderMotor CustomOrderMotor { get; set; }
+        public virtual CustomOrder CustomOrder { get; set; }
         public virtual SoundLevelType SoundLevelType { get; set; }
     }
 }

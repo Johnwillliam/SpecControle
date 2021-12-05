@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,25 +8,28 @@ using System.Threading.Tasks;
 
 namespace SpecificationsTesting.Entities
 {
-    public class ObjectDisplayValue
-    {
-        public string Description { get; set; }
-        public object Value { get; set; }
-        public string DisplayedValue { get { return Value?.ToString(); } }
+  public class ObjectDisplayValue
+  {
+    public string Description { get; set; }
+    public object Value { get; set; }
+    public string DisplayValue { get; set; }
 
-        public static IEnumerable<ObjectDisplayValue> GetDisplayValues(Type objectType, object displayObject, List<string> displayPropertyNames)
+    public static List<ObjectDisplayValue> GetDisplayValues(Type objectType, object displayObject, List<string> displayPropertyNames)
+    {
+      IEnumerable<PropertyInfo> propertiesToDisplay = objectType.GetProperties().Where(propertyInfo => displayPropertyNames.Contains(propertyInfo.Name) && propertyInfo.CanRead);
+      var valuesToDisplay = new List<ObjectDisplayValue>();
+      foreach (var property in propertiesToDisplay)
+      {
+        var displayValue = new ObjectDisplayValue()
         {
-            IEnumerable<PropertyInfo> propertiesToDisplay = objectType.GetProperties().Where(propertyInfo => displayPropertyNames.Contains(propertyInfo.Name) && propertyInfo.CanRead);
-            var valuesToDisplay = new List<ObjectDisplayValue>();
-            foreach (var property in propertiesToDisplay)
-            {
-                valuesToDisplay.Add(new ObjectDisplayValue()
-                {
-                    Description = property.Name,
-                    Value = property.GetValue(displayObject),
-                });
-            }
-            return valuesToDisplay;
-        }
+          Description = property.Name,
+          Value = displayObject == null ? "" : property.GetValue(displayObject),
+        };
+        displayValue.DisplayValue = displayValue.Value?.ToString();
+        valuesToDisplay.Add(displayValue);
+
+      }
+      return valuesToDisplay;
     }
+  }
 }

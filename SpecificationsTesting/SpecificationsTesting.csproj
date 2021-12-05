@@ -123,9 +123,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\BMotor.cs" />
-    <Compile Include="Business\BVentilator.cs" />
+    <Compile Include="Business\BCustomOrderMotor.cs" />
+    <Compile Include="Business\BTemplateMotor.cs" />
+    <Compile Include="Business\BCustomOrderVentilator.cs" />
     <Compile Include="Business\BCustomOrder.cs" />
+    <Compile Include="DataHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

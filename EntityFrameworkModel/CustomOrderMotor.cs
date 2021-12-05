@@ -12,25 +12,25 @@ namespace EntityFrameworkModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Motor
+    public partial class CustomOrderMotor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Motor()
+        public CustomOrderMotor()
         {
-            this.Ventilators = new HashSet<Ventilator>();
+            this.CustomOrderVentilators = new HashSet<CustomOrderVentilator>();
         }
     
         public int ID { get; set; }
         public string Name { get; set; }
-        public int TypeID { get; set; }
+        public string Type { get; set; }
         public string Version { get; set; }
         public Nullable<int> IEC { get; set; }
         public Nullable<int> IP { get; set; }
         public string BuildingType { get; set; }
         public string ISO { get; set; }
-        public Nullable<decimal> Power { get; set; }
-        public Nullable<int> RPM { get; set; }
-        public Nullable<int> Amperage { get; set; }
+        public string Power { get; set; }
+        public string RPM { get; set; }
+        public string Amperage { get; set; }
         public Nullable<int> StartupAmperage { get; set; }
         public Nullable<int> VoltageTypeID { get; set; }
         public Nullable<int> Frequency { get; set; }
@@ -38,6 +38,6 @@ namespace EntityFrameworkModel
     
         public virtual VoltageType VoltageType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Ventilator> Ventilators { get; set; }
+        public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }
 }

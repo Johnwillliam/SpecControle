@@ -14,6 +14,12 @@ namespace EntityFrameworkModel
     
     public partial class CustomOrder
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustomOrder()
+        {
+            this.CustomOrderVentilators = new HashSet<CustomOrderVentilator>();
+        }
+    
         public int ID { get; set; }
         public int CustomOrderNumber { get; set; }
         public int Type { get; set; }
@@ -21,7 +27,6 @@ namespace EntityFrameworkModel
         public string Debtor { get; set; }
         public string Reference { get; set; }
         public string Remarks { get; set; }
-        public Nullable<int> VentilatorID { get; set; }
         public Nullable<int> ATEXTypeID { get; set; }
         public Nullable<int> GroupTypeID { get; set; }
         public Nullable<int> TemperatureClassID { get; set; }
@@ -29,6 +34,7 @@ namespace EntityFrameworkModel
         public virtual ATEXType ATEXType { get; set; }
         public virtual GroupType GroupType { get; set; }
         public virtual TemperatureClass TemperatureClass { get; set; }
-        public virtual Ventilator Ventilator { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }
 }

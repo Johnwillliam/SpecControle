@@ -17,13 +17,16 @@ namespace EntityFrameworkModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VoltageType()
         {
-            this.Motors = new HashSet<Motor>();
+            this.CustomOrderMotors = new HashSet<CustomOrderMotor>();
+            this.TemplateMotors = new HashSet<TemplateMotor>();
         }
     
         public int ID { get; set; }
         public string Voltage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Motor> Motors { get; set; }
+        public virtual ICollection<CustomOrderMotor> CustomOrderMotors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TemplateMotor> TemplateMotors { get; set; }
     }
 }

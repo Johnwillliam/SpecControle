@@ -170,10 +170,13 @@
     <Compile Include="CustomOrder.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="GroupType.cs">
+    <Compile Include="CustomOrderMotor.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Motor.cs">
+    <Compile Include="CustomOrderVentilator.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GroupType.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,7 +201,10 @@
     <Compile Include="TemperatureClass.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Ventilator.cs">
+    <Compile Include="TemplateMotor.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateVentilator.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VoltageType.cs">
@@ -225,6 +231,7 @@
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
       <LastGenOutput>SpecificationsDatabaseModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="SpecificationsDatabaseModel.edmx.sql" />
     <Content Include="SpecificationsDatabaseModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
