@@ -12,5 +12,11 @@ namespace SpecificationsTesting.Business
       return dbContext.TemplateMotors.ToList();
     }
 
+    public static TemplateMotor GetById(int id)
+    {
+      var dbContext = new SpecificationsDatabaseModel();
+      return dbContext.TemplateMotors.Find(id);
+    }
+
   }
 }

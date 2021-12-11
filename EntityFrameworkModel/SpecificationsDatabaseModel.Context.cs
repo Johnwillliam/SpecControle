@@ -31,6 +31,7 @@ namespace EntityFrameworkModel
         public virtual DbSet<CustomOrderVentilator> CustomOrderVentilators { get; set; }
         public virtual DbSet<GroupType> GroupTypes { get; set; }
         public virtual DbSet<SoundLevelType> SoundLevelTypes { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TemperatureClass> TemperatureClasses { get; set; }
         public virtual DbSet<TemplateMotor> TemplateMotors { get; set; }
         public virtual DbSet<TemplateVentilator> TemplateVentilators { get; set; }

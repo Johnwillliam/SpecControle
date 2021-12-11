@@ -198,6 +198,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TemperatureClass.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>

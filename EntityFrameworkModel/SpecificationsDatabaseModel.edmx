@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SpecificationsTestingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ATEXTypes">
           <Key>
             <PropertyRef Name="ID" />
@@ -39,7 +39,6 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomOrderNumber" Type="int" Nullable="false" />
           <Property Name="Type" Type="int" Nullable="false" />
-          <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Debtor" Type="nvarchar(max)" />
           <Property Name="Reference" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
@@ -53,6 +52,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomOrderID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CustomOrderMotorID" Type="int" Nullable="false" />
           <Property Name="AirVolume" Type="nvarchar(max)" />
@@ -80,6 +80,16 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UOM" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TemperatureClasses">
           <Key>
@@ -240,13 +250,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SpecificationsDatabaseModelStoreContainer">
+        <EntityContainer Name="SpecificationsTestingModelStoreContainer">
           <EntitySet Name="ATEXTypes" EntityType="Self.ATEXTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomOrderMotors" EntityType="Self.CustomOrderMotors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomOrders" EntityType="Self.CustomOrders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomOrderVentilators" EntityType="Self.CustomOrderVentilators" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupTypes" EntityType="Self.GroupTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SoundLevelTypes" EntityType="Self.SoundLevelTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemperatureClasses" EntityType="Self.TemperatureClasses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateMotors" EntityType="Self.TemplateMotors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVentilators" EntityType="Self.TemplateVentilators" Schema="dbo" store:Type="Tables" />
@@ -292,7 +303,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SpecificationsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SpecificationsTestingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ATEXType">
           <Key>
             <PropertyRef Name="ID" />
@@ -330,7 +341,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomOrderNumber" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Int32" Nullable="false" />
           <Property Name="Debtor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -348,6 +358,7 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomOrderID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustomOrderMotorID" Type="Int32" Nullable="false" />
           <Property Name="AirVolume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -381,6 +392,16 @@
           <Property Name="UOM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilator_SoundLevelType" FromRole="SoundLevelTypes" ToRole="CustomOrderVentilators" />
           <NavigationProperty Name="TemplateVentilators" Relationship="Self.FK_Ventilator_SoundLevelType" FromRole="SoundLevelTypes" ToRole="TemplateVentilators" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TemperatureClass">
           <Key>
@@ -553,6 +574,7 @@
           <EntitySet Name="CustomOrderVentilators" EntityType="Self.CustomOrderVentilator" />
           <EntitySet Name="GroupTypes" EntityType="Self.GroupType" />
           <EntitySet Name="SoundLevelTypes" EntityType="Self.SoundLevelType" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TemperatureClasses" EntityType="Self.TemperatureClass" />
           <EntitySet Name="TemplateMotors" EntityType="Self.TemplateMotor" />
           <EntitySet Name="TemplateVentilators" EntityType="Self.TemplateVentilator" />
@@ -599,9 +621,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SpecificationsDatabaseModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="SpecificationsTestingModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="ATEXTypes">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.ATEXType">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.ATEXType">
               <MappingFragment StoreEntitySet="ATEXTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -609,7 +631,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrderMotors">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderMotor">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrderMotor">
               <MappingFragment StoreEntitySet="CustomOrderMotors">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -630,12 +652,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrders">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrder">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrder">
               <MappingFragment StoreEntitySet="CustomOrders">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderNumber" ColumnName="CustomOrderNumber" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Debtor" ColumnName="Debtor" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
@@ -646,10 +667,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrderVentilators">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilator">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrderVentilator">
               <MappingFragment StoreEntitySet="CustomOrderVentilators">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderID" ColumnName="CustomOrderID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CustomOrderMotorID" ColumnName="CustomOrderMotorID" />
                 <ScalarProperty Name="AirVolume" ColumnName="AirVolume" />
@@ -666,7 +688,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupTypes">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.GroupType">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.GroupType">
               <MappingFragment StoreEntitySet="GroupTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -674,7 +696,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SoundLevelTypes">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.SoundLevelType">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.SoundLevelType">
               <MappingFragment StoreEntitySet="SoundLevelTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -682,8 +704,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TemperatureClasses">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemperatureClass">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemperatureClass">
               <MappingFragment StoreEntitySet="TemperatureClasses">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -691,7 +724,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TemplateMotors">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateMotor">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemplateMotor">
               <MappingFragment StoreEntitySet="TemplateMotors">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -712,7 +745,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TemplateVentilators">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateVentilator">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemplateVentilator">
               <MappingFragment StoreEntitySet="TemplateVentilators">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -730,7 +763,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VoltageTypes">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VoltageType">
+            <EntityTypeMapping TypeName="SpecificationsTestingModel.VoltageType">
               <MappingFragment StoreEntitySet="VoltageTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />

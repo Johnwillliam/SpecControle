@@ -11,7 +11,7 @@ namespace SpecificationsTesting.Business
   {
     public static List<string> DisplayPropertyNames = new List<string>
         {
-            "Name", "AirVolume", "PressureTotal", "PressureStatic", "PressureDynamic",
+            "Name", "Amount", "AirVolume", "PressureTotal", "PressureStatic", "PressureDynamic",
             "RPM", "Efficiency", "ShaftPower", "SoundLevel", "BladeAngle"
         };
 
@@ -32,7 +32,18 @@ namespace SpecificationsTesting.Business
         customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
         dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
         dbContext.SaveChanges();
-        Thread.Sleep(500);
+        Thread.Sleep(300);
+      }
+    }
+
+    public static void DeleteById(int id)
+    {
+      var dbContext = new SpecificationsDatabaseModel();
+      var customOrderVentilator = dbContext.CustomOrderVentilators.Find(id);
+      if(customOrderVentilator != null)
+      {
+        dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
+        dbContext.SaveChanges();
       }
     }
 

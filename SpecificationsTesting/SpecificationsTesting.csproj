@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -128,17 +131,40 @@
     <Compile Include="Business\BCustomOrderVentilator.cs" />
     <Compile Include="Business\BCustomOrder.cs" />
     <Compile Include="DataHelper.cs" />
-    <Compile Include="CustomOrderForm.cs">
+    <Compile Include="Forms\CopyOrderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomOrderForm.Designer.cs">
+    <Compile Include="Forms\CopyOrderForm.Designer.cs">
+      <DependentUpon>CopyOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CustomOrderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CustomOrderForm.Designer.cs">
       <DependentUpon>CustomOrderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\ObjectDisplayValue.cs" />
+    <Compile Include="Forms\MotorTemplateSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MotorTemplateSelectionForm.Designer.cs">
+      <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CustomOrderForm.resx">
+    <Compile Include="SpecificationsTestingDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\CopyOrderForm.resx">
+      <DependentUpon>CopyOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CustomOrderForm.resx">
       <DependentUpon>CustomOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MotorTemplateSelectionForm.resx">
+      <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -159,6 +185,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SpecificationsTestingDataSet.xsc">
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SpecificationsTestingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SpecificationsTestingDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpecificationsTestingDataSet.xss">
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

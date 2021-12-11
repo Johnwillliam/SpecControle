@@ -16,6 +16,7 @@ namespace EntityFrameworkModel
     {
         public int ID { get; set; }
         public int CustomOrderID { get; set; }
+        public int Amount { get; set; }
         public string Name { get; set; }
         public int CustomOrderMotorID { get; set; }
         public string AirVolume { get; set; }

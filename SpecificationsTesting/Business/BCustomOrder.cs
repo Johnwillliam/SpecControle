@@ -10,17 +10,16 @@ namespace SpecificationsTesting.Business
   {
     public static List<string> DisplayPropertyNames = new List<string>
         {
-            "CustomOrderNumber", "Amount", "Debtor", "Reference", "Remarks"
+            "CustomOrderNumber", "Debtor", "Reference", "Remarks"
         };
 
-    public static CustomOrder Create(int customOrderNumber, int type, int amount, string debtor = "", string reference = "", string remarks = "")
+    public static CustomOrder Create(int customOrderNumber, int type, string debtor = "", string reference = "", string remarks = "")
     {
       var dbContext = new SpecificationsDatabaseModel();
       var newCO = new CustomOrder()
       {
         CustomOrderNumber = customOrderNumber,
         Type = type,
-        Amount = amount,
         Debtor = debtor,
         Reference = reference,
         Remarks = remarks
@@ -42,6 +41,20 @@ namespace SpecificationsTesting.Business
     {
       var dbContext = new SpecificationsDatabaseModel();
       return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Single(x => x.CustomOrderNumber == customOrderNumber) : null;
+    }
+
+    public static CustomOrder Copy(int id, int customOrderNumber)
+    {
+      var dbContext = new SpecificationsDatabaseModel();
+      var entity = dbContext.CustomOrders
+                    .AsNoTracking()
+                    .Include(x => x.CustomOrderVentilators)
+                    .FirstOrDefault(x => x.ID == id);
+
+      entity.CustomOrderNumber = customOrderNumber;
+      dbContext.CustomOrders.Add(entity);
+      dbContext.SaveChanges();
+      return entity;
     }
 
   }

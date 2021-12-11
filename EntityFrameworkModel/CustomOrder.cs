@@ -23,7 +23,6 @@ namespace EntityFrameworkModel
         public int ID { get; set; }
         public int CustomOrderNumber { get; set; }
         public int Type { get; set; }
-        public int Amount { get; set; }
         public string Debtor { get; set; }
         public string Reference { get; set; }
         public string Remarks { get; set; }
