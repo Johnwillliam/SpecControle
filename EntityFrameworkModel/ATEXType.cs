@@ -14,16 +14,7 @@ namespace EntityFrameworkModel
     
     public partial class ATEXType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ATEXType()
-        {
-            this.CustomOrders = new HashSet<CustomOrder>();
-        }
-    
         public int ID { get; set; }
         public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustomOrder> CustomOrders { get; set; }
     }
 }

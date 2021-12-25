@@ -167,6 +167,9 @@
     <Compile Include="ATEXType.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CatType.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CustomOrder.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
@@ -198,9 +201,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TemperatureClass.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
@@ -208,6 +208,9 @@
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TemplateVentilator.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VentilatorType.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="VoltageType.cs">

@@ -16,6 +16,7 @@ namespace EntityFrameworkModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> VentilatorTypeID { get; set; }
         public Nullable<int> AirVolume { get; set; }
         public Nullable<int> PressureTotal { get; set; }
         public Nullable<int> PressureStatic { get; set; }
@@ -28,5 +29,6 @@ namespace EntityFrameworkModel
         public Nullable<int> BladeAngle { get; set; }
     
         public virtual SoundLevelType SoundLevelType { get; set; }
+        public virtual VentilatorType VentilatorType { get; set; }
     }
 }

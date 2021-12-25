@@ -19,6 +19,7 @@ namespace EntityFrameworkModel
         public int Amount { get; set; }
         public string Name { get; set; }
         public int CustomOrderMotorID { get; set; }
+        public Nullable<int> VentilatorTypeID { get; set; }
         public string AirVolume { get; set; }
         public string PressureTotal { get; set; }
         public string PressureStatic { get; set; }
@@ -29,9 +30,18 @@ namespace EntityFrameworkModel
         public Nullable<int> SoundLevel { get; set; }
         public Nullable<int> SoundLevelTypeID { get; set; }
         public Nullable<int> BladeAngle { get; set; }
+        public string Atex { get; set; }
+        public Nullable<int> GroupTypeID { get; set; }
+        public Nullable<int> TemperatureClassID { get; set; }
+        public Nullable<int> CatID { get; set; }
+        public Nullable<int> CatOutID { get; set; }
     
+        public virtual CatType CatType { get; set; }
         public virtual CustomOrderMotor CustomOrderMotor { get; set; }
         public virtual CustomOrder CustomOrder { get; set; }
         public virtual SoundLevelType SoundLevelType { get; set; }
+        public virtual GroupType GroupType { get; set; }
+        public virtual TemperatureClass TemperatureClass { get; set; }
+        public virtual VentilatorType VentilatorType { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -30,23 +31,78 @@ namespace SpecificationsTesting
       btnRemoveVentilator.Enabled = false;
     }
 
+    private void InitializeComboBoxes()
+    {
+      using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
+      {
+        cmbSoundLevelType.DisplayMember = "Description";
+        cmbSoundLevelType.ValueMember = "ID";
+        cmbSoundLevelType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbSoundLevelType.DataSource = dbContext.SoundLevelTypes.ToList();
+        var cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevelTypeID")).Cells["Value"];
+        Show_Combobox(cell, cmbSoundLevelType);
+
+        cmbVentilatorType.DisplayMember = "Description";
+        cmbVentilatorType.ValueMember = "ID";
+        cmbVentilatorType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbVentilatorType.DataSource = dbContext.VentilatorTypes.ToList();
+        cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("VentilatorTypeID")).Cells["Value"];
+        Show_Combobox(cell, cmbVentilatorType);
+
+        cmbGroupType.DisplayMember = "Description";
+        cmbGroupType.ValueMember = "ID";
+        cmbGroupType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbGroupType.DataSource = dbContext.GroupTypes.ToList();
+        cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("GroupTypeID")).Cells["Value"];
+        Show_Combobox(cell, cmbGroupType);
+
+        cmbTemperatureClassType.DisplayMember = "Description";
+        cmbTemperatureClassType.ValueMember = "ID";
+        cmbTemperatureClassType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbTemperatureClassType.DataSource = dbContext.TemperatureClasses.ToList();
+        cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("TemperatureClassID")).Cells["Value"];
+        Show_Combobox(cell, cmbTemperatureClassType);
+
+        cmbCatType.DisplayMember = "Description";
+        cmbCatType.ValueMember = "ID";
+        cmbCatType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbCatType.DataSource = dbContext.CatTypes.ToList();
+        cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatID")).Cells["Value"];
+        Show_Combobox(cell, cmbCatType);
+
+        cmbCatOutType.DisplayMember = "Description";
+        cmbCatOutType.ValueMember = "ID";
+        cmbCatOutType.DropDownStyle = ComboBoxStyle.DropDownList;
+        cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
+        cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
+        Show_Combobox(cell, cmbCatOutType);
+      }
+      var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+      cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
+      cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
+      cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
+      cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
+      cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
+      cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
+    }
+
     private void InitializeGridColumns()
     {
-      CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", ReadOnly = true });
-      CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+      CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+      CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
       CustomOrderDataGrid.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
       CustomOrderDataGrid.RowHeadersVisible = false;
       CustomOrderDataGrid.AutoGenerateColumns = false;
       CustomOrderDataGrid.AllowUserToResizeRows = false;
 
-      VentilatorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", ReadOnly = true });
-      VentilatorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+      VentilatorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+      VentilatorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
       VentilatorDataGrid.RowHeadersVisible = false;
       VentilatorDataGrid.AutoGenerateColumns = false;
       VentilatorDataGrid.AllowUserToResizeRows = false;
 
-      MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", ReadOnly = true });
-      MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+      MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+      MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
       MotorDataGrid.RowHeadersVisible = false;
       MotorDataGrid.AutoGenerateColumns = false;
       MotorDataGrid.AllowUserToResizeRows = false;
@@ -59,11 +115,32 @@ namespace SpecificationsTesting
       CustomOrderVentilatorsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
       CustomOrderVentilatorsDataGrid.MultiSelect = false;
       CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
+
+      ConfigDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+      ConfigDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+      ConfigDataGrid.RowHeadersVisible = false;
+      ConfigDataGrid.AutoGenerateColumns = false;
+      ConfigDataGrid.AllowUserToResizeRows = false;
     }
 
     private void CustomOrderVentilatorsDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
     {
       e.PaintParts &= ~DataGridViewPaintParts.Focus;
+    }
+
+    private void DisableCalculatedRows()
+    {
+      var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("PressureDynamic")).Cells["Value"];
+      pressureDynamic.ReadOnly = true;
+      pressureDynamic.Style.BackColor = Color.LightGray;
+
+      var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("ShaftPower")).Cells["Value"];
+      shaftPower.ReadOnly = true;
+      shaftPower.Style.BackColor = Color.LightGray;
+
+      var atex = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("Atex")).Cells["Value"];
+      atex.ReadOnly = true;
+      atex.Style.BackColor = Color.LightGray;
     }
 
     private void InitializeGridData(bool initVentilatorsGrid = true)
@@ -96,6 +173,10 @@ namespace SpecificationsTesting
       VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.DisplayPropertyNames);
       VentilatorDataGrid.AutoResizeColumns();
 
+      ConfigDataGrid.DataSource = null;
+      ConfigDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ConfigurationDisplayPropertyNames);
+      ConfigDataGrid.AutoResizeColumns();
+
       if (ventilator.CustomOrderMotor == null)
         ventilator.CustomOrderMotor = new CustomOrderMotor();
 
@@ -109,209 +190,72 @@ namespace SpecificationsTesting
         CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
         CustomOrderVentilatorsDataGrid.AutoResizeColumns();
       }
+
+      InitializeComboBoxes();
+      DisableCalculatedRows();
     }
 
     private void btnCreateCO_Click(object sender, EventArgs e)
     {
+      CustomOrderMotor customOrderMotor;
       if (SelectedTemplateMotor != null)
       {
-        CustomOrder = ReadCustomOrderDataGrid();
-        var copiedMotor = new CustomOrderMotor() { Name = SelectedTemplateMotor.Name, Amperage = SelectedTemplateMotor.Amperage, BuildingType = SelectedTemplateMotor.BuildingType, Frequency = SelectedTemplateMotor.Frequency, IEC = SelectedTemplateMotor.IEC, IP = SelectedTemplateMotor.IP, ISO = SelectedTemplateMotor.ISO, Power = SelectedTemplateMotor.Power, PowerFactor = SelectedTemplateMotor.PowerFactor, RPM = SelectedTemplateMotor.RPM, StartupAmperage = SelectedTemplateMotor.StartupAmperage, Type = SelectedTemplateMotor.Type, Version = SelectedTemplateMotor.Version, VoltageType = SelectedTemplateMotor.VoltageType, VoltageTypeID = SelectedTemplateMotor.VoltageTypeID };
-        var newVentilator = ReadCustomOrderVentilatorDataGrid();
-        if(newVentilator == null)
-        {
-          MessageBox.Show("Creation failed. Please check the filled in data.");
-          return;
-        }
-        CustomOrder = BCustomOrder.Create(CustomOrder);
-        newVentilator.CustomOrderMotor = copiedMotor;
-        newVentilator.CustomOrderID = CustomOrder.ID;
-        BCustomOrderVentilator.Create(newVentilator);
-        CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-        txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
-        InitializeGridData();
+        customOrderMotor = new CustomOrderMotor() { Name = SelectedTemplateMotor.Name, Amperage = SelectedTemplateMotor.Amperage, BuildingType = SelectedTemplateMotor.BuildingType, Frequency = SelectedTemplateMotor.Frequency, IEC = SelectedTemplateMotor.IEC, IP = SelectedTemplateMotor.IP, ISO = SelectedTemplateMotor.ISO, Power = SelectedTemplateMotor.Power, PowerFactor = SelectedTemplateMotor.PowerFactor, RPM = SelectedTemplateMotor.RPM, StartupAmperage = SelectedTemplateMotor.StartupAmperage, Type = SelectedTemplateMotor.Type, Version = SelectedTemplateMotor.Version, VoltageType = SelectedTemplateMotor.VoltageType, VoltageTypeID = SelectedTemplateMotor.VoltageTypeID };
       }
       else
       {
-        CustomOrder = ReadCustomOrderDataGrid();
-        if (CustomOrder == null)
-          return;
-
-        if (BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber) != null)
-          return;
-
-        var customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
-        if (customOrderVentilator == null)
-        {
-          MessageBox.Show("Creation failed. Please check the filled in data.");
-          return;
-        }
-
-        CustomOrder = BCustomOrder.Create(CustomOrder);
-        var customOrderMotor = ReadCustomOrderMotorDataGrid();
-        customOrderMotor = BCustomOrderMotor.Create(customOrderMotor);
-        customOrderVentilator.CustomOrderID = CustomOrder.ID;
-        customOrderVentilator.CustomOrderMotorID = customOrderMotor.ID;
-        BCustomOrderVentilator.Create(customOrderVentilator);
-        CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-        txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
-        InitializeGridData();
+        customOrderMotor = ReadCustomOrderMotorDataGrid();
       }
+
+      CustomOrder = ReadCustomOrderDataGrid();
+      if (CustomOrder == null)
+        return;
+
+      if (BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber) != null)
+      {
+        MessageBox.Show("Creation failed. Order number already exists.");
+        return;
+      }
+
+      var customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
+      customOrderVentilator.CustomOrderMotor = customOrderMotor;
+
+      if (!BCustomOrderVentilator.Validate(customOrderVentilator))
+        return;
+
+      CustomOrder = BCustomOrder.Create(CustomOrder);
+      customOrderVentilator.CustomOrderID = CustomOrder.ID;
+      BCustomOrderVentilator.Create(customOrderVentilator);
+      CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
+      txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
+      InitializeGridData();
     }
 
     private CustomOrder ReadCustomOrderDataGrid()
     {
-      var customOrder = new CustomOrder();
-      foreach (DataGridViewRow row in CustomOrderDataGrid.Rows)
-      {
-        int value;
-        switch (row.Index)
-        {
-          case 0:
-            if (!int.TryParse(row.Cells[1].Value.ToString(), out value))
-              return null;
-
-            customOrder.CustomOrderNumber = value;
-            break;
-          case 1:
-            customOrder.Debtor = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 2:
-            customOrder.Reference = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 3:
-            customOrder.Remarks = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          default:
-            break;
-        }
-      }
-      return customOrder;
+      var rows = CustomOrderDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+      return BCustomOrder.CreateObject(rows);
     }
 
     private CustomOrderVentilator ReadCustomOrderVentilatorDataGrid()
     {
-      var newCustomOrderVentilator = new CustomOrderVentilator();
-      foreach (DataGridViewRow row in VentilatorDataGrid.Rows)
-      {
-        switch (row.Index)
-        {
-          case 0:
-            if (!int.TryParse(row.Cells[1].Value?.ToString(), out int value))
-              return null;
+      var rows = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+      rows.AddRange(ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList());
+      var newCustomOrderVentilator = BCustomOrderVentilator.CreateObject(rows);
+      newCustomOrderVentilator.SoundLevelTypeID = cmbSoundLevelType.SelectedValue == null ? -1 : (int)cmbSoundLevelType.SelectedValue;
+      newCustomOrderVentilator.VentilatorTypeID = cmbVentilatorType.SelectedValue == null ? -1 : (int)cmbVentilatorType.SelectedValue;
+      newCustomOrderVentilator.GroupTypeID = cmbGroupType.SelectedValue == null ? -1 : (int)cmbGroupType.SelectedValue;
+      newCustomOrderVentilator.TemperatureClassID = cmbTemperatureClassType.SelectedValue == null ? -1 : (int)cmbTemperatureClassType.SelectedValue;
+      newCustomOrderVentilator.CatID = cmbCatType.SelectedValue == null ? -1 : (int)cmbCatType.SelectedValue;
+      newCustomOrderVentilator.CatOutID = cmbCatOutType.SelectedValue == null ? -1 : (int)cmbCatOutType.SelectedValue;
 
-            newCustomOrderVentilator.Amount = value;
-            break;
-          case 1:
-            newCustomOrderVentilator.Name = row.Cells[1].Value.ToString();
-            break;
-          case 2:
-            newCustomOrderVentilator.AirVolume = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 32:
-            newCustomOrderVentilator.PressureTotal = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 4:
-            newCustomOrderVentilator.PressureStatic = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 5:
-            if (string.IsNullOrEmpty(newCustomOrderVentilator.PressureTotal) || string.IsNullOrEmpty(newCustomOrderVentilator.PressureStatic))
-              continue;
-
-            var pressureTotals = newCustomOrderVentilator.PressureTotal.Split('/');
-            var pressureStatics = newCustomOrderVentilator.PressureStatic.Split('/');
-            if (pressureTotals.Length != pressureStatics.Length)
-              return null;
-
-            var result = new string[pressureTotals.Length];
-            for (int i = 0; i < pressureTotals.Length; i++)
-            {
-              if (!int.TryParse(pressureTotals[i], out int totalPressure) || !int.TryParse(pressureStatics[i], out int staticPressure))
-                return null;
-
-              result[i] = $"{totalPressure - staticPressure}";
-            }
-            newCustomOrderVentilator.PressureDynamic = string.Join(" / ", result);
-            break;
-          case 6:
-            newCustomOrderVentilator.RPM = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 7:
-            newCustomOrderVentilator.Efficiency = DataHelper.ToNullableInt(row.Cells[1].Value?.ToString());
-            break;
-          case 8:
-            newCustomOrderVentilator.ShaftPower = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 9:
-            newCustomOrderVentilator.SoundLevel = DataHelper.ToNullableInt(row.Cells[1].Value?.ToString());
-            break;
-          case 10:
-            //newCustomOrderVentilator.SoundLevelTypeID = int.Parse(row.Cells[1].Value.ToString());
-            break;
-          case 11:
-            newCustomOrderVentilator.BladeAngle = DataHelper.ToNullableInt(row.Cells[1].Value?.ToString());
-            break;
-          default:
-            break;
-        }
-      }
       return newCustomOrderVentilator;
     }
 
     private CustomOrderMotor ReadCustomOrderMotorDataGrid()
     {
-      var newCustomOrderMotor = new CustomOrderMotor();
-      foreach (DataGridViewRow row in MotorDataGrid.Rows)
-      {
-        switch (row.Index)
-        {
-          case 0:
-            newCustomOrderMotor.Name = row.Cells[1].Value.ToString();
-            break;
-          case 1:
-            newCustomOrderMotor.Type = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 2:
-            newCustomOrderMotor.Version = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 3:
-            newCustomOrderMotor.IEC = DataHelper.ToNullableInt(row.Cells[1].Value.ToString());
-            break;
-          case 4:
-            newCustomOrderMotor.IP = DataHelper.ToNullableInt(row.Cells[1].Value.ToString());
-            break;
-          case 5:
-            newCustomOrderMotor.BuildingType = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 6:
-            newCustomOrderMotor.ISO = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 7:
-            newCustomOrderMotor.Power = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 8:
-            newCustomOrderMotor.RPM = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 9:
-            newCustomOrderMotor.Amperage = row.Cells[1].Value == null ? "" : row.Cells[1].Value.ToString();
-            break;
-          case 10:
-            newCustomOrderMotor.StartupAmperage = DataHelper.ToNullableInt(row.Cells[1].Value?.ToString());
-            break;
-          case 11:
-            //newCustomOrderMotor.VoltageTypeID = int.Parse(row.Cells[1].Value.ToString());
-            break;
-          case 12:
-            newCustomOrderMotor.Frequency = DataHelper.ToNullableInt(row.Cells[1].Value.ToString());
-            break;
-          case 13:
-            newCustomOrderMotor.PowerFactor = int.Parse(row.Cells[1].Value.ToString());
-            break;
-          default:
-            break;
-        }
-      }
-      return newCustomOrderMotor;
+      var rows = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+      return BCustomOrderMotor.CreateObject(rows);
     }
 
     private void btnSearch_Click(object sender, EventArgs e)
@@ -340,6 +284,8 @@ namespace SpecificationsTesting
       CustomOrder = null;
       SelectedVentilatorID = 0;
       txtCustomOrderNumber.Text = "";
+      cmbSoundLevelType.SelectedValue = -1;
+      cmbVentilatorType.SelectedValue = -1;
       InitializeGridData();
     }
 
@@ -368,7 +314,11 @@ namespace SpecificationsTesting
         ventilator.CustomOrderMotorID = motorID;
         ventilator.CustomOrderMotor = motor;
 
+        if (!BCustomOrderVentilator.Validate(ventilator))
+          return;
+
         BCustomOrderVentilator.Update(ventilator);
+        BCustomOrderMotor.Update(ventilator.CustomOrderMotor);
         var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
         CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
         InitializeGridData();
@@ -389,8 +339,11 @@ namespace SpecificationsTesting
     {
       var templateMotorSelectionDialog = new MotorTemplateSelection();
       templateMotorSelectionDialog.ShowDialog();
-      var motorTemplateId = int.Parse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString());
-      CreateVentilatorByTemplateMotorId(motorTemplateId);
+      if (templateMotorSelectionDialog.SelectedRow != null)
+      {
+        var motorTemplateId = int.Parse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString());
+        CreateVentilatorByTemplateMotorId(motorTemplateId);
+      }
     }
 
     private void CreateVentilatorByTemplateMotorId(int motorTemplateId)
@@ -425,6 +378,7 @@ namespace SpecificationsTesting
       {
         var customOrderVentilatorId = int.Parse(CustomOrderVentilatorsDataGrid.SelectedRows[0].Cells[0].Value.ToString());
         BCustomOrderVentilator.DeleteById(customOrderVentilatorId);
+        CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
         SelectedVentilatorID = 0;
         InitializeGridData();
       }
@@ -437,11 +391,6 @@ namespace SpecificationsTesting
       var motorTemplateId = int.Parse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString());
       SelectedTemplateMotor = BTemplateMotor.GetById(motorTemplateId);
       txtSelectedMotor.Text = SelectedTemplateMotor.Name;
-    }
-
-    private void CustomOrderDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-    {
-      //CustomOrderDataGrid.Rows[e.RowIndex]
     }
 
     private void btnCopyOrder_Click(object sender, EventArgs e)
@@ -459,6 +408,20 @@ namespace SpecificationsTesting
         SelectedVentilatorID = 0;
         InitializeGridData();
       }
+    }
+
+    private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
+    {
+      Rectangle rect = cell.DataGridView.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+      int x = rect.X + cell.DataGridView.Left;
+      int y = rect.Y + cell.DataGridView.Top;
+
+      int Width = rect.Width;
+      int height = rect.Height;
+
+      comboBox.SetBounds(x, y, Width, height);
+      comboBox.Visible = true;
+      comboBox.Focus();
     }
   }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Windows.Forms;
 using EntityFrameworkModel;
 
 namespace SpecificationsTesting.Business
@@ -13,13 +14,12 @@ namespace SpecificationsTesting.Business
             "CustomOrderNumber", "Debtor", "Reference", "Remarks"
         };
 
-    public static CustomOrder Create(int customOrderNumber, int type, string debtor = "", string reference = "", string remarks = "")
+    public static CustomOrder Create(int customOrderNumber, string debtor = "", string reference = "", string remarks = "")
     {
       var dbContext = new SpecificationsDatabaseModel();
       var newCO = new CustomOrder()
       {
         CustomOrderNumber = customOrderNumber,
-        Type = type,
         Debtor = debtor,
         Reference = reference,
         Remarks = remarks
@@ -57,5 +57,26 @@ namespace SpecificationsTesting.Business
       return entity;
     }
 
+    public static CustomOrder CreateObject(List<DataGridViewRow> rows)
+    {
+      var customOrder = new CustomOrder();
+
+      var customOrderNumber = rows.First(x => x.Cells["Description"].Value.ToString().Equals("CustomOrderNumber")).Cells["Value"].Value;
+      if (!int.TryParse(customOrderNumber?.ToString(), out int value))
+        return null;
+
+      customOrder.CustomOrderNumber = value;
+
+      var debtor = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Debtor")).Cells["Value"].Value;
+      customOrder.Debtor = debtor == null ? "" : debtor.ToString();
+
+      var reference = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Reference")).Cells["Value"].Value;
+      customOrder.Reference = reference == null ? "" : reference.ToString();
+
+      var remarks = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Remarks")).Cells["Value"].Value;
+      customOrder.Remarks = remarks == null ? "" : remarks.ToString();
+
+      return customOrder;
+    }
   }
 }
