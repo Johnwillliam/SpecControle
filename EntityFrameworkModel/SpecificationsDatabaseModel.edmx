@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpecificationsTestingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ATEXTypes">
           <Key>
             <PropertyRef Name="ID" />
@@ -16,7 +16,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="CustomOrderMotors">
@@ -281,7 +281,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="SpecificationsTestingModelStoreContainer">
+        <EntityContainer Name="SpecificationsDatabaseModelStoreContainer">
           <EntitySet Name="ATEXTypes" EntityType="Self.ATEXTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CatTypes" EntityType="Self.CatTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CustomOrderMotors" EntityType="Self.CustomOrderMotors" Schema="dbo" store:Type="Tables" />
@@ -343,7 +343,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="SpecificationsTestingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="SpecificationsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="ATEXType">
           <Key>
             <PropertyRef Name="ID" />
@@ -355,7 +355,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_CatTypes" FromRole="CatTypes" ToRole="CustomOrderVentilators" />
         </EntityType>
@@ -705,9 +705,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="SpecificationsTestingModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="SpecificationsDatabaseModelStoreContainer" CdmEntityContainer="Entities">
           <EntitySetMapping Name="ATEXTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.ATEXType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.ATEXType">
               <MappingFragment StoreEntitySet="ATEXTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -715,7 +715,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CatTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.CatType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CatType">
               <MappingFragment StoreEntitySet="CatTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -723,7 +723,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrderMotors">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrderMotor">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderMotor">
               <MappingFragment StoreEntitySet="CustomOrderMotors">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -744,7 +744,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrders">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrder">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrder">
               <MappingFragment StoreEntitySet="CustomOrders">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderNumber" ColumnName="CustomOrderNumber" />
@@ -755,7 +755,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CustomOrderVentilators">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.CustomOrderVentilator">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilator">
               <MappingFragment StoreEntitySet="CustomOrderVentilators">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderID" ColumnName="CustomOrderID" />
@@ -782,7 +782,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.GroupType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.GroupType">
               <MappingFragment StoreEntitySet="GroupTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -790,7 +790,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SoundLevelTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.SoundLevelType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.SoundLevelType">
               <MappingFragment StoreEntitySet="SoundLevelTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -799,7 +799,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TemperatureClasses">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemperatureClass">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemperatureClass">
               <MappingFragment StoreEntitySet="TemperatureClasses">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -807,7 +807,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TemplateMotors">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemplateMotor">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateMotor">
               <MappingFragment StoreEntitySet="TemplateMotors">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -828,7 +828,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TemplateVentilators">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.TemplateVentilator">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateVentilator">
               <MappingFragment StoreEntitySet="TemplateVentilators">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -847,7 +847,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VentilatorTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.VentilatorType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VentilatorType">
               <MappingFragment StoreEntitySet="VentilatorType">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -855,7 +855,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VoltageTypes">
-            <EntityTypeMapping TypeName="SpecificationsTestingModel.VoltageType">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VoltageType">
               <MappingFragment StoreEntitySet="VoltageTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />

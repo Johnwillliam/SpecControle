@@ -29,393 +29,433 @@ namespace SpecificationsTesting
         /// </summary>
         private void InitializeComponent()
         {
-      this.components = new System.ComponentModel.Container();
-      this.btnCreateCO = new System.Windows.Forms.Button();
-      this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
-      this.btnSearch = new System.Windows.Forms.Button();
-      this.CustomOrderDataGrid = new System.Windows.Forms.DataGridView();
-      this.CustomOrderVentilatorsDataGrid = new System.Windows.Forms.DataGridView();
-      this.VentilatorDataGrid = new System.Windows.Forms.DataGridView();
-      this.label1 = new System.Windows.Forms.Label();
-      this.label2 = new System.Windows.Forms.Label();
-      this.label3 = new System.Windows.Forms.Label();
-      this.MotorDataGrid = new System.Windows.Forms.DataGridView();
-      this.label4 = new System.Windows.Forms.Label();
-      this.ConfigDataGrid = new System.Windows.Forms.DataGridView();
-      this.label5 = new System.Windows.Forms.Label();
-      this.btnClear = new System.Windows.Forms.Button();
-      this.btnSaveChanges = new System.Windows.Forms.Button();
-      this.btnCreateVentilator = new System.Windows.Forms.Button();
-      this.btnRemoveVentilator = new System.Windows.Forms.Button();
-      this.btnSelectTemplateMotor = new System.Windows.Forms.Button();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.txtSelectedMotor = new System.Windows.Forms.TextBox();
-      this.label6 = new System.Windows.Forms.Label();
-      this.Create = new System.Windows.Forms.GroupBox();
-      this.btnCopyOrder = new System.Windows.Forms.Button();
-      this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-      this.cmbSoundLevelType = new System.Windows.Forms.ComboBox();
-      this.cmbVentilatorType = new System.Windows.Forms.ComboBox();
-      this.cmbGroupType = new System.Windows.Forms.ComboBox();
-      this.cmbTemperatureClassType = new System.Windows.Forms.ComboBox();
-      this.cmbCatType = new System.Windows.Forms.ComboBox();
-      this.cmbCatOutType = new System.Windows.Forms.ComboBox();
-      ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.MotorDataGrid)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.ConfigDataGrid)).BeginInit();
-      this.groupBox1.SuspendLayout();
-      this.groupBox2.SuspendLayout();
-      this.Create.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-      this.SuspendLayout();
-      // 
-      // btnCreateCO
-      // 
-      this.btnCreateCO.Location = new System.Drawing.Point(6, 96);
-      this.btnCreateCO.Name = "btnCreateCO";
-      this.btnCreateCO.Size = new System.Drawing.Size(247, 23);
-      this.btnCreateCO.TabIndex = 0;
-      this.btnCreateCO.Text = "Create";
-      this.btnCreateCO.UseVisualStyleBackColor = true;
-      this.btnCreateCO.Click += new System.EventHandler(this.btnCreateCO_Click);
-      // 
-      // txtCustomOrderNumber
-      // 
-      this.txtCustomOrderNumber.Location = new System.Drawing.Point(6, 35);
-      this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
-      this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
-      this.txtCustomOrderNumber.TabIndex = 1;
-      // 
-      // btnSearch
-      // 
-      this.btnSearch.Location = new System.Drawing.Point(6, 61);
-      this.btnSearch.Name = "btnSearch";
-      this.btnSearch.Size = new System.Drawing.Size(247, 23);
-      this.btnSearch.TabIndex = 2;
-      this.btnSearch.Text = "Search";
-      this.btnSearch.UseVisualStyleBackColor = true;
-      this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-      // 
-      // CustomOrderDataGrid
-      // 
-      this.CustomOrderDataGrid.AllowUserToAddRows = false;
-      this.CustomOrderDataGrid.AllowUserToDeleteRows = false;
-      this.CustomOrderDataGrid.AllowUserToResizeColumns = false;
-      this.CustomOrderDataGrid.AllowUserToResizeRows = false;
-      this.CustomOrderDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.CustomOrderDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.CustomOrderDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-      this.CustomOrderDataGrid.Location = new System.Drawing.Point(12, 31);
-      this.CustomOrderDataGrid.MultiSelect = false;
-      this.CustomOrderDataGrid.Name = "CustomOrderDataGrid";
-      this.CustomOrderDataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-      this.CustomOrderDataGrid.Size = new System.Drawing.Size(327, 111);
-      this.CustomOrderDataGrid.TabIndex = 3;
-      // 
-      // CustomOrderVentilatorsDataGrid
-      // 
-      this.CustomOrderVentilatorsDataGrid.AllowUserToAddRows = false;
-      this.CustomOrderVentilatorsDataGrid.AllowUserToDeleteRows = false;
-      this.CustomOrderVentilatorsDataGrid.AllowUserToResizeColumns = false;
-      this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
-      this.CustomOrderVentilatorsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(610, 31);
-      this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
-      this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(282, 443);
-      this.CustomOrderVentilatorsDataGrid.TabIndex = 4;
-      this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
-      // 
-      // VentilatorDataGrid
-      // 
-      this.VentilatorDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.VentilatorDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.VentilatorDataGrid.Location = new System.Drawing.Point(12, 164);
-      this.VentilatorDataGrid.Name = "VentilatorDataGrid";
-      this.VentilatorDataGrid.Size = new System.Drawing.Size(327, 310);
-      this.VentilatorDataGrid.TabIndex = 5;
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label1.Location = new System.Drawing.Point(13, 12);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(102, 16);
-      this.label1.TabIndex = 6;
-      this.label1.Text = "Custom Order";
-      // 
-      // label2
-      // 
-      this.label2.AutoSize = true;
-      this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label2.Location = new System.Drawing.Point(13, 145);
-      this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(74, 16);
-      this.label2.TabIndex = 7;
-      this.label2.Text = "Ventilator";
-      // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label3.Location = new System.Drawing.Point(13, 477);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(47, 16);
-      this.label3.TabIndex = 9;
-      this.label3.Text = "Motor";
-      // 
-      // MotorDataGrid
-      // 
-      this.MotorDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.MotorDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.MotorDataGrid.Location = new System.Drawing.Point(12, 496);
-      this.MotorDataGrid.Name = "MotorDataGrid";
-      this.MotorDataGrid.Size = new System.Drawing.Size(327, 310);
-      this.MotorDataGrid.TabIndex = 8;
-      // 
-      // label4
-      // 
-      this.label4.AutoSize = true;
-      this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label4.Location = new System.Drawing.Point(12, 809);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(87, 16);
-      this.label4.TabIndex = 11;
-      this.label4.Text = "Configurate";
-      // 
-      // ConfigDataGrid
-      // 
-      this.ConfigDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-      this.ConfigDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.ConfigDataGrid.Location = new System.Drawing.Point(12, 828);
-      this.ConfigDataGrid.Name = "ConfigDataGrid";
-      this.ConfigDataGrid.Size = new System.Drawing.Size(327, 140);
-      this.ConfigDataGrid.TabIndex = 10;
-      // 
-      // label5
-      // 
-      this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(6, 19);
-      this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(23, 13);
-      this.label5.TabIndex = 13;
-      this.label5.Text = "RO";
-      // 
-      // btnClear
-      // 
-      this.btnClear.Location = new System.Drawing.Point(345, 422);
-      this.btnClear.Name = "btnClear";
-      this.btnClear.Size = new System.Drawing.Size(259, 23);
-      this.btnClear.TabIndex = 17;
-      this.btnClear.Text = "Clear";
-      this.btnClear.UseVisualStyleBackColor = true;
-      this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-      // 
-      // btnSaveChanges
-      // 
-      this.btnSaveChanges.Location = new System.Drawing.Point(6, 19);
-      this.btnSaveChanges.Name = "btnSaveChanges";
-      this.btnSaveChanges.Size = new System.Drawing.Size(247, 23);
-      this.btnSaveChanges.TabIndex = 18;
-      this.btnSaveChanges.Text = "Save Changes";
-      this.btnSaveChanges.UseVisualStyleBackColor = true;
-      this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
-      // 
-      // btnCreateVentilator
-      // 
-      this.btnCreateVentilator.Location = new System.Drawing.Point(6, 48);
-      this.btnCreateVentilator.Name = "btnCreateVentilator";
-      this.btnCreateVentilator.Size = new System.Drawing.Size(247, 23);
-      this.btnCreateVentilator.TabIndex = 19;
-      this.btnCreateVentilator.Text = "Add Ventilator";
-      this.btnCreateVentilator.UseVisualStyleBackColor = true;
-      this.btnCreateVentilator.Click += new System.EventHandler(this.btnCreateVentilator_Click);
-      // 
-      // btnRemoveVentilator
-      // 
-      this.btnRemoveVentilator.Location = new System.Drawing.Point(6, 77);
-      this.btnRemoveVentilator.Name = "btnRemoveVentilator";
-      this.btnRemoveVentilator.Size = new System.Drawing.Size(247, 23);
-      this.btnRemoveVentilator.TabIndex = 20;
-      this.btnRemoveVentilator.Text = "Remove Ventilator";
-      this.btnRemoveVentilator.UseVisualStyleBackColor = true;
-      this.btnRemoveVentilator.Click += new System.EventHandler(this.btnRemoveVentilator_Click);
-      // 
-      // btnSelectTemplateMotor
-      // 
-      this.btnSelectTemplateMotor.Location = new System.Drawing.Point(6, 67);
-      this.btnSelectTemplateMotor.Name = "btnSelectTemplateMotor";
-      this.btnSelectTemplateMotor.Size = new System.Drawing.Size(247, 23);
-      this.btnSelectTemplateMotor.TabIndex = 21;
-      this.btnSelectTemplateMotor.Text = "Select Motor";
-      this.btnSelectTemplateMotor.UseVisualStyleBackColor = true;
-      this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
-      // 
-      // groupBox1
-      // 
-      this.groupBox1.Controls.Add(this.txtCustomOrderNumber);
-      this.groupBox1.Controls.Add(this.label5);
-      this.groupBox1.Controls.Add(this.btnSearch);
-      this.groupBox1.Location = new System.Drawing.Point(345, 31);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(259, 100);
-      this.groupBox1.TabIndex = 22;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Search";
-      // 
-      // groupBox2
-      // 
-      this.groupBox2.Controls.Add(this.btnSaveChanges);
-      this.groupBox2.Controls.Add(this.btnCreateVentilator);
-      this.groupBox2.Controls.Add(this.btnRemoveVentilator);
-      this.groupBox2.Location = new System.Drawing.Point(345, 137);
-      this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(259, 114);
-      this.groupBox2.TabIndex = 23;
-      this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "Edit";
-      // 
-      // txtSelectedMotor
-      // 
-      this.txtSelectedMotor.Enabled = false;
-      this.txtSelectedMotor.Location = new System.Drawing.Point(6, 41);
-      this.txtSelectedMotor.Name = "txtSelectedMotor";
-      this.txtSelectedMotor.Size = new System.Drawing.Size(247, 20);
-      this.txtSelectedMotor.TabIndex = 24;
-      // 
-      // label6
-      // 
-      this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(7, 22);
-      this.label6.Name = "label6";
-      this.label6.Size = new System.Drawing.Size(79, 13);
-      this.label6.TabIndex = 25;
-      this.label6.Text = "Selected Motor";
-      // 
-      // Create
-      // 
-      this.Create.Controls.Add(this.btnCopyOrder);
-      this.Create.Controls.Add(this.btnCreateCO);
-      this.Create.Controls.Add(this.label6);
-      this.Create.Controls.Add(this.btnSelectTemplateMotor);
-      this.Create.Controls.Add(this.txtSelectedMotor);
-      this.Create.Location = new System.Drawing.Point(345, 257);
-      this.Create.Name = "Create";
-      this.Create.Size = new System.Drawing.Size(259, 159);
-      this.Create.TabIndex = 26;
-      this.Create.TabStop = false;
-      this.Create.Text = "Create";
-      // 
-      // btnCopyOrder
-      // 
-      this.btnCopyOrder.Location = new System.Drawing.Point(6, 125);
-      this.btnCopyOrder.Name = "btnCopyOrder";
-      this.btnCopyOrder.Size = new System.Drawing.Size(247, 23);
-      this.btnCopyOrder.TabIndex = 26;
-      this.btnCopyOrder.Text = "Copy Order";
-      this.btnCopyOrder.UseVisualStyleBackColor = true;
-      this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
-      // 
-      // errorProvider1
-      // 
-      this.errorProvider1.ContainerControl = this;
-      // 
-      // cmbSoundLevelType
-      // 
-      this.cmbSoundLevelType.FormattingEnabled = true;
-      this.cmbSoundLevelType.Location = new System.Drawing.Point(218, 433);
-      this.cmbSoundLevelType.Name = "cmbSoundLevelType";
-      this.cmbSoundLevelType.Size = new System.Drawing.Size(121, 21);
-      this.cmbSoundLevelType.TabIndex = 27;
-      // 
-      // cmbVentilatorType
-      // 
-      this.cmbVentilatorType.FormattingEnabled = true;
-      this.cmbVentilatorType.Location = new System.Drawing.Point(218, 230);
-      this.cmbVentilatorType.Name = "cmbVentilatorType";
-      this.cmbVentilatorType.Size = new System.Drawing.Size(121, 21);
-      this.cmbVentilatorType.TabIndex = 28;
-      // 
-      // cmbGroupType
-      // 
-      this.cmbGroupType.FormattingEnabled = true;
-      this.cmbGroupType.Location = new System.Drawing.Point(218, 834);
-      this.cmbGroupType.Name = "cmbGroupType";
-      this.cmbGroupType.Size = new System.Drawing.Size(121, 21);
-      this.cmbGroupType.TabIndex = 29;
-      // 
-      // cmbTemperatureClassType
-      // 
-      this.cmbTemperatureClassType.FormattingEnabled = true;
-      this.cmbTemperatureClassType.Location = new System.Drawing.Point(218, 861);
-      this.cmbTemperatureClassType.Name = "cmbTemperatureClassType";
-      this.cmbTemperatureClassType.Size = new System.Drawing.Size(121, 21);
-      this.cmbTemperatureClassType.TabIndex = 30;
-      // 
-      // cmbCatType
-      // 
-      this.cmbCatType.FormattingEnabled = true;
-      this.cmbCatType.Location = new System.Drawing.Point(218, 888);
-      this.cmbCatType.Name = "cmbCatType";
-      this.cmbCatType.Size = new System.Drawing.Size(121, 21);
-      this.cmbCatType.TabIndex = 31;
-      // 
-      // cmbCatOutType
-      // 
-      this.cmbCatOutType.FormattingEnabled = true;
-      this.cmbCatOutType.Location = new System.Drawing.Point(218, 915);
-      this.cmbCatOutType.Name = "cmbCatOutType";
-      this.cmbCatOutType.Size = new System.Drawing.Size(121, 21);
-      this.cmbCatOutType.TabIndex = 32;
-      // 
-      // CustomOrderForm
-      // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(904, 985);
-      this.Controls.Add(this.cmbCatOutType);
-      this.Controls.Add(this.cmbCatType);
-      this.Controls.Add(this.cmbTemperatureClassType);
-      this.Controls.Add(this.cmbGroupType);
-      this.Controls.Add(this.cmbVentilatorType);
-      this.Controls.Add(this.cmbSoundLevelType);
-      this.Controls.Add(this.Create);
-      this.Controls.Add(this.groupBox2);
-      this.Controls.Add(this.groupBox1);
-      this.Controls.Add(this.btnClear);
-      this.Controls.Add(this.label4);
-      this.Controls.Add(this.ConfigDataGrid);
-      this.Controls.Add(this.label3);
-      this.Controls.Add(this.MotorDataGrid);
-      this.Controls.Add(this.label2);
-      this.Controls.Add(this.label1);
-      this.Controls.Add(this.VentilatorDataGrid);
-      this.Controls.Add(this.CustomOrderVentilatorsDataGrid);
-      this.Controls.Add(this.CustomOrderDataGrid);
-      this.Name = "CustomOrderForm";
-      this.Text = "Custom Order";
-      ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.MotorDataGrid)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.ConfigDataGrid)).EndInit();
-      this.groupBox1.ResumeLayout(false);
-      this.groupBox1.PerformLayout();
-      this.groupBox2.ResumeLayout(false);
-      this.Create.ResumeLayout(false);
-      this.Create.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-      this.ResumeLayout(false);
-      this.PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            this.btnCreateCO = new System.Windows.Forms.Button();
+            this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.CustomOrderDataGrid = new System.Windows.Forms.DataGridView();
+            this.CustomOrderVentilatorsDataGrid = new System.Windows.Forms.DataGridView();
+            this.VentilatorDataGrid = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.MotorDataGrid = new System.Windows.Forms.DataGridView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ConfigDataGrid = new System.Windows.Forms.DataGridView();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnSaveChanges = new System.Windows.Forms.Button();
+            this.btnCreateVentilator = new System.Windows.Forms.Button();
+            this.btnRemoveVentilator = new System.Windows.Forms.Button();
+            this.btnSelectTemplateMotor = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtSelectedMotor = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Create = new System.Windows.Forms.GroupBox();
+            this.btnCopyOrder = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.cmbSoundLevelType = new System.Windows.Forms.ComboBox();
+            this.cmbVentilatorType = new System.Windows.Forms.ComboBox();
+            this.cmbGroupType = new System.Windows.Forms.ComboBox();
+            this.cmbTemperatureClassType = new System.Windows.Forms.ComboBox();
+            this.cmbCatType = new System.Windows.Forms.ComboBox();
+            this.cmbCatOutType = new System.Windows.Forms.ComboBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MotorDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ConfigDataGrid)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.Create.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // btnCreateCO
+            // 
+            this.btnCreateCO.Location = new System.Drawing.Point(6, 96);
+            this.btnCreateCO.Name = "btnCreateCO";
+            this.btnCreateCO.Size = new System.Drawing.Size(247, 23);
+            this.btnCreateCO.TabIndex = 0;
+            this.btnCreateCO.Text = "Create";
+            this.btnCreateCO.UseVisualStyleBackColor = true;
+            this.btnCreateCO.Click += new System.EventHandler(this.btnCreateCO_Click);
+            // 
+            // txtCustomOrderNumber
+            // 
+            this.txtCustomOrderNumber.Location = new System.Drawing.Point(6, 35);
+            this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
+            this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
+            this.txtCustomOrderNumber.TabIndex = 1;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(6, 61);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(247, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
+            // CustomOrderDataGrid
+            // 
+            this.CustomOrderDataGrid.AllowUserToAddRows = false;
+            this.CustomOrderDataGrid.AllowUserToDeleteRows = false;
+            this.CustomOrderDataGrid.AllowUserToResizeColumns = false;
+            this.CustomOrderDataGrid.AllowUserToResizeRows = false;
+            this.CustomOrderDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomOrderDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.CustomOrderDataGrid.Location = new System.Drawing.Point(6, 20);
+            this.CustomOrderDataGrid.MultiSelect = false;
+            this.CustomOrderDataGrid.Name = "CustomOrderDataGrid";
+            this.CustomOrderDataGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.CustomOrderDataGrid.Size = new System.Drawing.Size(327, 111);
+            this.CustomOrderDataGrid.TabIndex = 3;
+            // 
+            // CustomOrderVentilatorsDataGrid
+            // 
+            this.CustomOrderVentilatorsDataGrid.AllowUserToAddRows = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToDeleteRows = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeColumns = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
+            this.CustomOrderVentilatorsDataGrid.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(605, 20);
+            this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
+            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(282, 443);
+            this.CustomOrderVentilatorsDataGrid.TabIndex = 4;
+            this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
+            // 
+            // VentilatorDataGrid
+            // 
+            this.VentilatorDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.VentilatorDataGrid.Location = new System.Drawing.Point(6, 153);
+            this.VentilatorDataGrid.Name = "VentilatorDataGrid";
+            this.VentilatorDataGrid.Size = new System.Drawing.Size(327, 310);
+            this.VentilatorDataGrid.TabIndex = 5;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(7, 1);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 16);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Custom Order";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(7, 134);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 16);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Ventilator";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(7, 466);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 16);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Motor";
+            // 
+            // MotorDataGrid
+            // 
+            this.MotorDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MotorDataGrid.Location = new System.Drawing.Point(6, 485);
+            this.MotorDataGrid.Name = "MotorDataGrid";
+            this.MotorDataGrid.Size = new System.Drawing.Size(327, 310);
+            this.MotorDataGrid.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 798);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 16);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Configurate";
+            // 
+            // ConfigDataGrid
+            // 
+            this.ConfigDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ConfigDataGrid.Location = new System.Drawing.Point(6, 817);
+            this.ConfigDataGrid.Name = "ConfigDataGrid";
+            this.ConfigDataGrid.Size = new System.Drawing.Size(327, 131);
+            this.ConfigDataGrid.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(23, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "RO";
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(339, 411);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(259, 23);
+            this.btnClear.TabIndex = 17;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // btnSaveChanges
+            // 
+            this.btnSaveChanges.Location = new System.Drawing.Point(6, 19);
+            this.btnSaveChanges.Name = "btnSaveChanges";
+            this.btnSaveChanges.Size = new System.Drawing.Size(247, 23);
+            this.btnSaveChanges.TabIndex = 18;
+            this.btnSaveChanges.Text = "Save Changes";
+            this.btnSaveChanges.UseVisualStyleBackColor = true;
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // btnCreateVentilator
+            // 
+            this.btnCreateVentilator.Location = new System.Drawing.Point(6, 48);
+            this.btnCreateVentilator.Name = "btnCreateVentilator";
+            this.btnCreateVentilator.Size = new System.Drawing.Size(247, 23);
+            this.btnCreateVentilator.TabIndex = 19;
+            this.btnCreateVentilator.Text = "Add Ventilator";
+            this.btnCreateVentilator.UseVisualStyleBackColor = true;
+            this.btnCreateVentilator.Click += new System.EventHandler(this.btnCreateVentilator_Click);
+            // 
+            // btnRemoveVentilator
+            // 
+            this.btnRemoveVentilator.Location = new System.Drawing.Point(6, 77);
+            this.btnRemoveVentilator.Name = "btnRemoveVentilator";
+            this.btnRemoveVentilator.Size = new System.Drawing.Size(247, 23);
+            this.btnRemoveVentilator.TabIndex = 20;
+            this.btnRemoveVentilator.Text = "Remove Ventilator";
+            this.btnRemoveVentilator.UseVisualStyleBackColor = true;
+            this.btnRemoveVentilator.Click += new System.EventHandler(this.btnRemoveVentilator_Click);
+            // 
+            // btnSelectTemplateMotor
+            // 
+            this.btnSelectTemplateMotor.Location = new System.Drawing.Point(6, 67);
+            this.btnSelectTemplateMotor.Name = "btnSelectTemplateMotor";
+            this.btnSelectTemplateMotor.Size = new System.Drawing.Size(247, 23);
+            this.btnSelectTemplateMotor.TabIndex = 21;
+            this.btnSelectTemplateMotor.Text = "Select Motor";
+            this.btnSelectTemplateMotor.UseVisualStyleBackColor = true;
+            this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtCustomOrderNumber);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.btnSearch);
+            this.groupBox1.Location = new System.Drawing.Point(339, 20);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(259, 100);
+            this.groupBox1.TabIndex = 22;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Search";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnSaveChanges);
+            this.groupBox2.Controls.Add(this.btnCreateVentilator);
+            this.groupBox2.Controls.Add(this.btnRemoveVentilator);
+            this.groupBox2.Location = new System.Drawing.Point(339, 126);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(259, 114);
+            this.groupBox2.TabIndex = 23;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Edit";
+            // 
+            // txtSelectedMotor
+            // 
+            this.txtSelectedMotor.Enabled = false;
+            this.txtSelectedMotor.Location = new System.Drawing.Point(6, 41);
+            this.txtSelectedMotor.Name = "txtSelectedMotor";
+            this.txtSelectedMotor.Size = new System.Drawing.Size(247, 20);
+            this.txtSelectedMotor.TabIndex = 24;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 22);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(79, 13);
+            this.label6.TabIndex = 25;
+            this.label6.Text = "Selected Motor";
+            // 
+            // Create
+            // 
+            this.Create.Controls.Add(this.btnCopyOrder);
+            this.Create.Controls.Add(this.btnCreateCO);
+            this.Create.Controls.Add(this.label6);
+            this.Create.Controls.Add(this.btnSelectTemplateMotor);
+            this.Create.Controls.Add(this.txtSelectedMotor);
+            this.Create.Location = new System.Drawing.Point(339, 246);
+            this.Create.Name = "Create";
+            this.Create.Size = new System.Drawing.Size(259, 159);
+            this.Create.TabIndex = 26;
+            this.Create.TabStop = false;
+            this.Create.Text = "Create";
+            // 
+            // btnCopyOrder
+            // 
+            this.btnCopyOrder.Location = new System.Drawing.Point(6, 125);
+            this.btnCopyOrder.Name = "btnCopyOrder";
+            this.btnCopyOrder.Size = new System.Drawing.Size(247, 23);
+            this.btnCopyOrder.TabIndex = 26;
+            this.btnCopyOrder.Text = "Copy Order";
+            this.btnCopyOrder.UseVisualStyleBackColor = true;
+            this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // cmbSoundLevelType
+            // 
+            this.cmbSoundLevelType.FormattingEnabled = true;
+            this.cmbSoundLevelType.Location = new System.Drawing.Point(212, 422);
+            this.cmbSoundLevelType.Name = "cmbSoundLevelType";
+            this.cmbSoundLevelType.Size = new System.Drawing.Size(121, 21);
+            this.cmbSoundLevelType.TabIndex = 27;
+            // 
+            // cmbVentilatorType
+            // 
+            this.cmbVentilatorType.FormattingEnabled = true;
+            this.cmbVentilatorType.Location = new System.Drawing.Point(212, 219);
+            this.cmbVentilatorType.Name = "cmbVentilatorType";
+            this.cmbVentilatorType.Size = new System.Drawing.Size(121, 21);
+            this.cmbVentilatorType.TabIndex = 28;
+            // 
+            // cmbGroupType
+            // 
+            this.cmbGroupType.FormattingEnabled = true;
+            this.cmbGroupType.Location = new System.Drawing.Point(212, 823);
+            this.cmbGroupType.Name = "cmbGroupType";
+            this.cmbGroupType.Size = new System.Drawing.Size(121, 21);
+            this.cmbGroupType.TabIndex = 29;
+            // 
+            // cmbTemperatureClassType
+            // 
+            this.cmbTemperatureClassType.FormattingEnabled = true;
+            this.cmbTemperatureClassType.Location = new System.Drawing.Point(212, 850);
+            this.cmbTemperatureClassType.Name = "cmbTemperatureClassType";
+            this.cmbTemperatureClassType.Size = new System.Drawing.Size(121, 21);
+            this.cmbTemperatureClassType.TabIndex = 30;
+            // 
+            // cmbCatType
+            // 
+            this.cmbCatType.FormattingEnabled = true;
+            this.cmbCatType.Location = new System.Drawing.Point(212, 877);
+            this.cmbCatType.Name = "cmbCatType";
+            this.cmbCatType.Size = new System.Drawing.Size(121, 21);
+            this.cmbCatType.TabIndex = 31;
+            // 
+            // cmbCatOutType
+            // 
+            this.cmbCatOutType.FormattingEnabled = true;
+            this.cmbCatOutType.Location = new System.Drawing.Point(212, 904);
+            this.cmbCatOutType.Name = "cmbCatOutType";
+            this.cmbCatOutType.Size = new System.Drawing.Size(121, 21);
+            this.cmbCatOutType.TabIndex = 32;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(1, -1);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(906, 977);
+            this.tabControl1.TabIndex = 33;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.CustomOrderDataGrid);
+            this.tabPage1.Controls.Add(this.cmbCatOutType);
+            this.tabPage1.Controls.Add(this.CustomOrderVentilatorsDataGrid);
+            this.tabPage1.Controls.Add(this.cmbCatType);
+            this.tabPage1.Controls.Add(this.VentilatorDataGrid);
+            this.tabPage1.Controls.Add(this.cmbTemperatureClassType);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.cmbGroupType);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.cmbVentilatorType);
+            this.tabPage1.Controls.Add(this.MotorDataGrid);
+            this.tabPage1.Controls.Add(this.cmbSoundLevelType);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.Create);
+            this.tabPage1.Controls.Add(this.ConfigDataGrid);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.btnClear);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(898, 951);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Invoeren";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(898, 951);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Controle";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(898, 951);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Print";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // CustomOrderForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(904, 985);
+            this.Controls.Add(this.tabControl1);
+            this.Name = "CustomOrderForm";
+            this.Text = "Custom Order";
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MotorDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ConfigDataGrid)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.Create.ResumeLayout(false);
+            this.Create.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.ResumeLayout(false);
 
         }
 
@@ -452,6 +492,10 @@ namespace SpecificationsTesting
     private System.Windows.Forms.ComboBox cmbTemperatureClassType;
     private System.Windows.Forms.ComboBox cmbGroupType;
     private System.Windows.Forms.ComboBox cmbCatOutType;
-  }
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+    }
 }
 
