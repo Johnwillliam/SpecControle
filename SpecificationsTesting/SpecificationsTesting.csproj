@@ -144,11 +144,23 @@
       <DependentUpon>CustomOrderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\ObjectDisplayValue.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MotorTemplateSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MotorTemplateSelectionForm.Designer.cs">
       <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MotorTypePlateUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MotorTypePlateUserControl.Designer.cs">
+      <DependentUpon>MotorTypePlateUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,14 +169,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OrderUserControls.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OrderUserControls.Designer.cs">
+      <DependentUpon>OrderUserControls.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\CopyOrderForm.resx">
       <DependentUpon>CopyOrderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CustomOrderForm.resx">
       <DependentUpon>CustomOrderForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MotorTemplateSelectionForm.resx">
       <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MotorTypePlateUserControl.resx">
+      <DependentUpon>MotorTypePlateUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -175,6 +199,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\OrderUserControls.resx">
+      <DependentUpon>OrderUserControls.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

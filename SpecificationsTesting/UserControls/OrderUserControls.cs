@@ -1,50 +1,40 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using EntityFrameworkModel;
+﻿using EntityFrameworkModel;
 using Microsoft.EntityFrameworkCore.Internal;
 using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
-namespace SpecificationsTesting
+namespace SpecificationsTesting.UserControls
 {
-    public partial class CustomOrderForm : Form
+    public partial class OrderUserControls : UserControl
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
-
-        public CustomOrderForm()
+        public OrderUserControls()
         {
             InitializeComponent();
-            TestDatabase();
+            this.btnCreateCO.Click += new System.EventHandler(this.btnCreateCO_Click);
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            this.btnCreateVentilator.Click += new System.EventHandler(this.btnCreateVentilator_Click);
+            this.btnRemoveVentilator.Click += new System.EventHandler(this.btnRemoveVentilator_Click);
+            this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
+            this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
+
             InitializeGridColumns();
             InitializeGridData();
-            InitializeMotorTypePlateUserControl();
             SelectedVentilatorID = -1;
             btnSaveChanges.Enabled = false;
             btnCreateVentilator.Enabled = false;
             btnRemoveVentilator.Enabled = false;
-        }
-
-        private void TestDatabase()
-        {
-            using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
-            {
-                if (!dbContext.Database.Exists())
-                {
-                    MessageBox.Show("Database cannot be reached, please check if the SQL server is running.");
-                }
-            }
-        }
-
-        private void InitializeMotorTypePlateUserControl()
-        {
-            var mtpUserControl = new MotorTypePlateUserControl();
-            MotorTypePlateTabPage.Controls.Add(mtpUserControl);
-
         }
 
         private void InitializeComboBoxes()
@@ -228,7 +218,7 @@ namespace SpecificationsTesting
             else
                 customOrderMotor = ReadCustomOrderMotorDataGrid();
 
-            if(customOrderMotor == null)
+            if (customOrderMotor == null)
             {
                 MessageBox.Show("Creation failed. Missing data.");
                 return;

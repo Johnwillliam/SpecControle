@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using SpecificationsTesting.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace SpecificationsTesting
@@ -16,7 +14,7 @@ namespace SpecificationsTesting
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CustomOrderForm());
+            Application.Run(new MainForm());
         }
     }
 }
