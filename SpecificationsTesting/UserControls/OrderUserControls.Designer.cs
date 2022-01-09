@@ -58,6 +58,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnMotorTypePlate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -351,10 +352,20 @@
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             // 
+            // btnMotorTypePlate
+            // 
+            this.btnMotorTypePlate.Location = new System.Drawing.Point(336, 442);
+            this.btnMotorTypePlate.Name = "btnMotorTypePlate";
+            this.btnMotorTypePlate.Size = new System.Drawing.Size(259, 23);
+            this.btnMotorTypePlate.TabIndex = 52;
+            this.btnMotorTypePlate.Text = "Type Plate";
+            this.btnMotorTypePlate.UseVisualStyleBackColor = true;
+            // 
             // OrderUserControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.CustomOrderDataGrid);
             this.Controls.Add(this.cmbVentilatorType);
             this.Controls.Add(this.cmbCatOutType);
@@ -423,5 +434,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnMotorTypePlate;
     }
 }

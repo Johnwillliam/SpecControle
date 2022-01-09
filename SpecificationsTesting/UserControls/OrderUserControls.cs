@@ -28,6 +28,7 @@ namespace SpecificationsTesting.UserControls
             this.btnRemoveVentilator.Click += new System.EventHandler(this.btnRemoveVentilator_Click);
             this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
             this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
+            this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
 
             InitializeGridColumns();
             InitializeGridData();
@@ -445,6 +446,16 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
+        private void btnMotorTypePlate_Click(object sender, EventArgs e)
+        {
+            if (CustomOrder == null)
+            {
+                return;
+            }
+
+            
+        }
+        
         private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
         {
             Rectangle rect = cell.DataGridView.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
