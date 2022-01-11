@@ -9,11 +9,13 @@ namespace SpecificationsTesting.Forms
     {
         public MotorTypePlateUserControl MotorTypePlateUserControl { get; set; }
         public OrderUserControls OrderUserControls { get; set; }
+        public ControleUserControls ControleUserControls { get; set; }
         public MainForm()
         {
             InitializeComponent();
             TestDatabase();
             InitializeOrderUserControls();
+            InitializeControleUserControls();
             InitializeMotorTypePlateUserControl();
             InitializePrinters();
         }
@@ -47,6 +49,15 @@ namespace SpecificationsTesting.Forms
                 AutoSize = true
             };
             OrderTabPage.Controls.Add(OrderUserControls);
+        }
+
+        private void InitializeControleUserControls()
+        {
+            ControleUserControls = new ControleUserControls
+            {
+                AutoSize = true
+            };
+            ControleTabPage.Controls.Add(ControleUserControls);
         }
 
         private void InitializeMotorTypePlateUserControl()

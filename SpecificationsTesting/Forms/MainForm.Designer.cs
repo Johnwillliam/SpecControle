@@ -30,7 +30,7 @@
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.OrderTabPage = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ControleTabPage = new System.Windows.Forms.TabPage();
             this.MotorTypePlateTabPage = new System.Windows.Forms.TabPage();
             this.cmbPrinters = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,7 +42,7 @@
             this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.OrderTabPage);
-            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Controls.Add(this.ControleTabPage);
             this.tabControl.Controls.Add(this.MotorTypePlateTabPage);
             this.tabControl.Location = new System.Drawing.Point(1, 1);
             this.tabControl.Name = "tabControl";
@@ -60,15 +60,15 @@
             this.OrderTabPage.Text = "Invoeren";
             this.OrderTabPage.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // ControleTabPage
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(898, 951);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Controle";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.ControleTabPage.Location = new System.Drawing.Point(4, 22);
+            this.ControleTabPage.Name = "ControleTabPage";
+            this.ControleTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.ControleTabPage.Size = new System.Drawing.Size(901, 951);
+            this.ControleTabPage.TabIndex = 1;
+            this.ControleTabPage.Text = "Controle";
+            this.ControleTabPage.UseVisualStyleBackColor = true;
             // 
             // MotorTypePlateTabPage
             // 
@@ -118,7 +118,7 @@
 
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage OrderTabPage;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage ControleTabPage;
         private System.Windows.Forms.TabPage MotorTypePlateTabPage;
         private System.Windows.Forms.ComboBox cmbPrinters;
         private System.Windows.Forms.Label label1;

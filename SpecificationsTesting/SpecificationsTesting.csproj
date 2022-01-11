@@ -169,6 +169,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ControleUserControls.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ControleUserControls.Designer.cs">
+      <DependentUpon>ControleUserControls.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OrderUserControls.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -199,6 +205,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\ControleUserControls.resx">
+      <DependentUpon>ControleUserControls.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OrderUserControls.resx">
       <DependentUpon>OrderUserControls.cs</DependentUpon>
     </EmbeddedResource>

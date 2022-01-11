@@ -1,15 +1,9 @@
 ﻿using EntityFrameworkModel;
 using SpecificationsTesting.Business;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SpecificationsTesting.Forms
@@ -74,7 +68,7 @@ namespace SpecificationsTesting.Forms
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
                 graph.DrawImage(arrows, new Rectangle(startX + 20, startY - 20, 550, 250));
-                graph.DrawImage(logo, new Rectangle(startX, 0, logo.Width / 5, logo.Height / 5));
+                graph.DrawImage(logo, new Rectangle(startX, 0, 550, 85));
 
                 for (int row = 0; row < rows + 1; row++)
                 {
