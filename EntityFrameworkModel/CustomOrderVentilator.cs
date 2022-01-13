@@ -14,6 +14,12 @@ namespace EntityFrameworkModel
     
     public partial class CustomOrderVentilator
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustomOrderVentilator()
+        {
+            this.CustomOrderVentilatorTests = new HashSet<CustomOrderVentilatorTest>();
+        }
+    
         public int ID { get; set; }
         public int CustomOrderID { get; set; }
         public int Amount { get; set; }
@@ -43,5 +49,7 @@ namespace EntityFrameworkModel
         public virtual GroupType GroupType { get; set; }
         public virtual TemperatureClass TemperatureClass { get; set; }
         public virtual VentilatorType VentilatorType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomOrderVentilatorTest> CustomOrderVentilatorTests { get; set; }
     }
 }

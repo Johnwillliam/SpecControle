@@ -179,6 +179,9 @@
     <Compile Include="CustomOrderVentilator.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomOrderVentilatorTest.cs">
+      <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GroupType.cs">
       <DependentUpon>SpecificationsDatabaseModel.tt</DependentUpon>
     </Compile>

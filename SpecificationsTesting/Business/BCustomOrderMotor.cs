@@ -8,10 +8,15 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrderMotor
     {
-        public static List<string> EditDisplayPropertyNames = new List<string>
+        public static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
             "ISO", "Power", "RPM", "Amperage", "StartupAmperage", "Frequency", "PowerFactor"
+        };
+
+        public static List<string> ControleDisplayPropertyNames = new List<string>
+        {
+            "Name", "Type", "Version", "Power", "RPM", "Amperage", "StartupAmperage", "Frequency"
         };
 
         public static List<string> SelectDisplayPropertyNames = new List<string>
@@ -37,6 +42,16 @@ namespace SpecificationsTesting.Business
                 dbContext.SaveChanges();
                 Thread.Sleep(300);
             }
+        }
+
+        public static bool Validate(CustomOrderMotor customOrderMotor)
+        {
+            if (customOrderMotor == null)
+            {
+                MessageBox.Show("Creation failed. Missing data.");
+                return false;
+            }
+            return true;
         }
 
         public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)

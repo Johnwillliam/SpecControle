@@ -10,10 +10,15 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrderVentilator
     {
-        public static List<string> DisplayPropertyNames = new List<string>
+        public static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Amount", "VentilatorTypeID", "AirVolume", "PressureTotal", "PressureStatic", "PressureDynamic",
             "RPM", "Efficiency", "ShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
+        };
+
+        public static List<string> ControleDisplayPropertyNames = new List<string>
+        {
+            "Name", "RPM", "BladeAngle"
         };
 
         public static List<string> ConfigurationDisplayPropertyNames = new List<string>
@@ -26,6 +31,7 @@ namespace SpecificationsTesting.Business
             var dbContext = new SpecificationsDatabaseModel();
             dbContext.CustomOrderVentilators.Add(customOrderVentilator);
             dbContext.SaveChanges();
+            BCustomOrderVenilatorTest.Create(customOrderVentilator);
             return customOrderVentilator;
         }
 
@@ -38,7 +44,6 @@ namespace SpecificationsTesting.Business
                 customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
                 dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
                 dbContext.SaveChanges();
-                Thread.Sleep(300);
             }
         }
 
@@ -114,29 +119,19 @@ namespace SpecificationsTesting.Business
             {
                 return null;
             }
-            
         }
 
-        public static bool Validate(CustomOrderVentilator customOrderVentilator)
+        public static void Calculate(CustomOrderVentilator customOrderVentilator)
         {
+            if (customOrderVentilator.CustomOrderMotor == null)
+            {
+                MessageBox.Show("Calculation failed. Please check the filled in data of the motor.");
+                return;
+            }
+
             var dbContext = new SpecificationsDatabaseModel();
-
-            if (customOrderVentilator == null)
-            {
-                MessageBox.Show("Creation failed. Please check the filled in data of the ventilator.");
-                return false;
-            }
-
-            if (int.Parse(customOrderVentilator.PressureTotal) < int.Parse(customOrderVentilator.PressureDynamic))
-            {
-                MessageBox.Show("Creation failed. Static pressure can't be higher than the total pressure.");
-                return false;
-            }
-
             if (customOrderVentilator.VentilatorType == null)
-            {
                 customOrderVentilator.VentilatorType = dbContext.VentilatorTypes.Find(customOrderVentilator.VentilatorTypeID);
-            }
 
             if (customOrderVentilator.VentilatorType.Description.ToUpper().Contains("V-BELT"))
             {
@@ -174,6 +169,27 @@ namespace SpecificationsTesting.Business
                         break;
                 }
                 customOrderVentilator.Atex = $"{value * customOrderVentilator.CustomOrderMotor.Frequency}";
+            }
+        }
+
+        public static bool Validate(CustomOrderVentilator customOrderVentilator)
+        {
+            if (customOrderVentilator == null)
+            {
+                MessageBox.Show("Creation failed. Please check the filled in data of the ventilator.");
+                return false;
+            }
+
+            if (customOrderVentilator.CustomOrderMotor == null)
+            {
+                MessageBox.Show("Creation failed. Please check the filled in data of the motor.");
+                return false;
+            }
+
+            if (int.Parse(customOrderVentilator.PressureTotal) < int.Parse(customOrderVentilator.PressureDynamic))
+            {
+                MessageBox.Show("Creation failed. Static pressure can't be higher than the total pressure.");
+                return false;
             }
 
             if (customOrderVentilator.Efficiency > 95)

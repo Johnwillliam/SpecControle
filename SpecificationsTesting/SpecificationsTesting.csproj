@@ -126,6 +126,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\BCustomOrderVenilatorTest.cs" />
     <Compile Include="Business\BCustomOrderMotor.cs" />
     <Compile Include="Business\BTemplateMotor.cs" />
     <Compile Include="Business\BCustomOrderVentilator.cs" />
@@ -136,12 +137,6 @@
     </Compile>
     <Compile Include="Forms\CopyOrderForm.Designer.cs">
       <DependentUpon>CopyOrderForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CustomOrderForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CustomOrderForm.Designer.cs">
-      <DependentUpon>CustomOrderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\ObjectDisplayValue.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -183,9 +178,6 @@
     </Compile>
     <EmbeddedResource Include="Forms\CopyOrderForm.resx">
       <DependentUpon>CopyOrderForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CustomOrderForm.resx">
-      <DependentUpon>CustomOrderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

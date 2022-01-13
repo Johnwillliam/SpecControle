@@ -4,6 +4,7 @@ using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -15,17 +16,20 @@ namespace SpecificationsTesting.UserControls
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
+        public int SelectedTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
         public ControleUserControls()
         {
             InitializeComponent();
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
+            this.CustomOrderVentilatorTestDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorTestDataGrid_RowEnter);
+
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
  
             InitializeGridColumns();
-            InitializeGridData();
             SelectedVentilatorID = -1;
+            SelectedTestID = -1;
         }
 
         private void InitializeGridColumns()
@@ -58,11 +62,11 @@ namespace SpecificationsTesting.UserControls
             CustomOrderVentilatorsDataGrid.MultiSelect = false;
             CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
 
-            ConfigDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
-            ConfigDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            ConfigDataGrid.RowHeadersVisible = false;
-            ConfigDataGrid.AutoGenerateColumns = false;
-            ConfigDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+            CustomOrderVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            CustomOrderVentilatorTestDataGrid.RowHeadersVisible = false;
+            CustomOrderVentilatorTestDataGrid.AutoGenerateColumns = false;
+            CustomOrderVentilatorTestDataGrid.AllowUserToResizeRows = false;
         }
 
         private void CustomOrderVentilatorsDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -75,35 +79,31 @@ namespace SpecificationsTesting.UserControls
             try
             {
                 CustomOrderDataGrid.DataSource = null;
-                CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.DisplayPropertyNames);
+                CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.ControleDisplayPropertyNames);
                 CustomOrderDataGrid.AutoResizeColumns();
-
-                if (CustomOrder == null || CustomOrder.ID == -1)
-                {
-                    CustomOrder = new CustomOrder { ID = -1 };
-                }
-                else
-                {
-                    txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
-                }
 
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
                     CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
 
                 var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
                 VentilatorDataGrid.DataSource = null;
-                VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.DisplayPropertyNames);
+                VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ControleDisplayPropertyNames);
                 VentilatorDataGrid.AutoResizeColumns();
 
-                ConfigDataGrid.DataSource = null;
-                ConfigDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ConfigurationDisplayPropertyNames);
-                ConfigDataGrid.AutoResizeColumns();
+                VentilatorTestsDataGrid.DataSource = null;
+                VentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => $"TestID {x.ID}").ToList();
+                VentilatorTestsDataGrid.AutoResizeColumns();
+
+                var test = SelectedTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedTestID);
+                CustomOrderVentilatorTestDataGrid.DataSource = null;
+                CustomOrderVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), test, BCustomOrderVenilatorTest.ControleDisplayPropertyNames);
+                CustomOrderVentilatorTestDataGrid.AutoResizeColumns();
 
                 if (ventilator.CustomOrderMotor == null)
                     ventilator.CustomOrderMotor = new CustomOrderMotor();
 
                 MotorDataGrid.DataSource = null;
-                MotorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderMotor), ventilator.CustomOrderMotor, BCustomOrderMotor.EditDisplayPropertyNames);
+                MotorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderMotor), ventilator.CustomOrderMotor, BCustomOrderMotor.ControleDisplayPropertyNames);
                 MotorDataGrid.AutoResizeColumns();
 
                 if (initVentilatorsGrid)
@@ -112,7 +112,6 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
                 }
-
             }
             catch (Exception ex)
             {
@@ -133,6 +132,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             SelectedVentilatorID = 0;
+            SelectedTestID = 0;
             InitializeGridData();
         }
 
@@ -145,6 +145,7 @@ namespace SpecificationsTesting.UserControls
         {
             CustomOrder = null;
             SelectedVentilatorID = 0;
+            SelectedTestID = 0;
             txtCustomOrderNumber.Text = "";
             InitializeGridData();
         }
@@ -158,6 +159,14 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
+        private void CustomOrderVentilatorTestDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (int.TryParse(CustomOrderVentilatorTestDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int testID))
+            {
+                SelectedTestID = testID;
+                InitializeGridData(false);
+            }
+        }
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
@@ -165,8 +174,6 @@ namespace SpecificationsTesting.UserControls
             {
                 return;
             }
-
-            
         }
 
     }

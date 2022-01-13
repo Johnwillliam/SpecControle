@@ -28,6 +28,8 @@
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_Ventilator_SoundLevelType" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_Motor_VoltageType" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_TemplateVentilators_VentilatorType" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.375" PointY="3.75" />
+        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
