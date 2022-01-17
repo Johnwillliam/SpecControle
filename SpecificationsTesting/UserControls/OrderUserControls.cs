@@ -256,8 +256,6 @@ namespace SpecificationsTesting.UserControls
                 var ventilatorID = customOrderVentilator.ID;
                 var motorID = customOrderVentilator.CustomOrderMotorID;
                 customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
-                customOrderVentilator.ID = ventilatorID;
-
                 var motor = ReadCustomOrderMotorDataGrid();
                 motor.ID = motorID;
                 customOrderVentilator.CustomOrderMotorID = motorID;
@@ -270,6 +268,7 @@ namespace SpecificationsTesting.UserControls
                 if (!BCustomOrderVentilator.Validate(customOrderVentilator))
                     return;
 
+                customOrderVentilator.ID = ventilatorID;
                 BCustomOrder.Update(customOrder);
                 BCustomOrderVentilator.Update(customOrderVentilator);
                 BCustomOrderMotor.Update(customOrderVentilator.CustomOrderMotor);
@@ -313,12 +312,12 @@ namespace SpecificationsTesting.UserControls
         {
             return new CustomOrderVentilator
             {
-                SoundLevelTypeID = cmbSoundLevelType.SelectedValue == null ? -1 : (int)cmbSoundLevelType.SelectedValue,
-                VentilatorTypeID = cmbVentilatorType.SelectedValue == null ? -1 : (int)cmbVentilatorType.SelectedValue,
-                GroupTypeID = cmbGroupType.SelectedValue == null ? -1 : (int)cmbGroupType.SelectedValue,
-                TemperatureClassID = cmbTemperatureClassType.SelectedValue == null ? -1 : (int)cmbTemperatureClassType.SelectedValue,
-                CatID = cmbCatType.SelectedValue == null ? -1 : (int)cmbCatType.SelectedValue,
-                CatOutID = cmbCatOutType.SelectedValue == null ? -1 : (int)cmbCatOutType.SelectedValue
+                SoundLevelTypeID = (int?)cmbSoundLevelType.SelectedValue,
+                VentilatorTypeID = (int?)cmbVentilatorType.SelectedValue,
+                GroupTypeID = (int?)cmbGroupType.SelectedValue,
+                TemperatureClassID = (int?)cmbTemperatureClassType.SelectedValue,
+                CatID = (int?)cmbCatType.SelectedValue,
+                CatOutID = (int?)cmbCatOutType.SelectedValue
             }; ;
         }
 

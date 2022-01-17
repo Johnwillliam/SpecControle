@@ -1,12 +1,8 @@
 ﻿using EntityFrameworkModel;
-using Microsoft.EntityFrameworkCore.Internal;
 using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
-using SpecificationsTesting.Forms;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,20 +12,21 @@ namespace SpecificationsTesting.UserControls
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
-        public int SelectedTestID { get; set; }
+        public int SelectedVentilatorTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
         public ControleUserControls()
         {
             InitializeComponent();
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
-            this.CustomOrderVentilatorTestDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorTestDataGrid_RowEnter);
-
+            this.CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorTestsDataGrid_RowEnter);
+            this.CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
  
             InitializeGridColumns();
             SelectedVentilatorID = -1;
-            SelectedTestID = -1;
+            SelectedVentilatorTestID = -1;
         }
 
         private void InitializeGridColumns()
@@ -60,13 +57,19 @@ namespace SpecificationsTesting.UserControls
             CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
             CustomOrderVentilatorsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             CustomOrderVentilatorsDataGrid.MultiSelect = false;
-            CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
 
-            CustomOrderVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
-            CustomOrderVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            CustomOrderVentilatorTestDataGrid.RowHeadersVisible = false;
-            CustomOrderVentilatorTestDataGrid.AutoGenerateColumns = false;
-            CustomOrderVentilatorTestDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "Value", ReadOnly = true });
+            CustomOrderVentilatorTestsDataGrid.RowHeadersVisible = false;
+            CustomOrderVentilatorTestsDataGrid.AutoGenerateColumns = false;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorTestsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            CustomOrderVentilatorTestsDataGrid.MultiSelect = false;
+
+            SelectedVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
+            SelectedVentilatorTestDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            SelectedVentilatorTestDataGrid.RowHeadersVisible = false;
+            SelectedVentilatorTestDataGrid.AutoGenerateColumns = false;
+            SelectedVentilatorTestDataGrid.AllowUserToResizeRows = false;
         }
 
         private void CustomOrderVentilatorsDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -74,7 +77,7 @@ namespace SpecificationsTesting.UserControls
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
-        private void InitializeGridData(bool initVentilatorsGrid = true)
+        private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
         {
             try
             {
@@ -90,14 +93,10 @@ namespace SpecificationsTesting.UserControls
                 VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ControleDisplayPropertyNames);
                 VentilatorDataGrid.AutoResizeColumns();
 
-                VentilatorTestsDataGrid.DataSource = null;
-                VentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => $"TestID {x.ID}").ToList();
-                VentilatorTestsDataGrid.AutoResizeColumns();
-
-                var test = SelectedTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedTestID);
-                CustomOrderVentilatorTestDataGrid.DataSource = null;
-                CustomOrderVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), test, BCustomOrderVenilatorTest.ControleDisplayPropertyNames);
-                CustomOrderVentilatorTestDataGrid.AutoResizeColumns();
+                var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                SelectedVentilatorTestDataGrid.DataSource = null;
+                SelectedVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), selectedTest, BCustomOrderVentilatorTest.ControleDisplayPropertyNames);
+                SelectedVentilatorTestDataGrid.AutoResizeColumns();
 
                 if (ventilator.CustomOrderMotor == null)
                     ventilator.CustomOrderMotor = new CustomOrderMotor();
@@ -111,6 +110,13 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = null;
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
+                }
+
+                if(initVentilatorTestsGrid)
+                {
+                    CustomOrderVentilatorTestsDataGrid.DataSource = null;
+                    CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { Value = $"Test ID {x.ID}" }).ToList();
+                    CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
             }
             catch (Exception ex)
@@ -132,20 +138,15 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             SelectedVentilatorID = 0;
-            SelectedTestID = 0;
+            SelectedVentilatorTestID = 0;
             InitializeGridData();
-        }
-
-        private void cmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
             CustomOrder = null;
             SelectedVentilatorID = 0;
-            SelectedTestID = 0;
+            SelectedVentilatorTestID = 0;
             txtCustomOrderNumber.Text = "";
             InitializeGridData();
         }
@@ -155,25 +156,40 @@ namespace SpecificationsTesting.UserControls
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                InitializeGridData(false);
+                InitializeGridData(false, true);
             }
         }
 
-        private void CustomOrderVentilatorTestDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void CustomOrderVentilatorTestsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorTestDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int testID))
+            if (int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
-                SelectedTestID = testID;
-                InitializeGridData(false);
+                SelectedVentilatorTestID = testID;
+                InitializeGridData(false, false);
             }
         }
 
-        private void btnMotorTypePlate_Click(object sender, EventArgs e)
+        private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null)
-            {
-                return;
-            }
+            var customOrderVentilatorIndex = CustomOrder.CustomOrderVentilators.ToList().FindIndex(x => x.ID == SelectedVentilatorID);
+            var customOrderVentilator = CustomOrder.CustomOrderVentilators.ToList()[customOrderVentilatorIndex];
+            var ventilatorTestIndex = customOrderVentilator.CustomOrderVentilatorTests.ToList().FindIndex(x => x.ID == SelectedVentilatorTestID);
+            var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.ToList()[ventilatorTestIndex];
+            var customOrderVentilatorTestID = customOrderVentilatorTest.ID;
+            var customOrderVentilatorID = customOrderVentilatorTest.CustomOrderVentilatorID;
+            customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
+            customOrderVentilatorTest.ID = customOrderVentilatorTestID;
+            customOrderVentilatorTest.CustomOrderVentilatorID = customOrderVentilatorID;
+            BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
+            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
+            InitializeGridData();
+            MessageBox.Show("Sucessful updated");
+        }
+
+        private CustomOrderVentilatorTest ReadCustomOrderVentilatorTestDataGrid()
+        {
+            var rows = SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+            return BCustomOrderVentilatorTest.CreateObject(rows);
         }
 
     }

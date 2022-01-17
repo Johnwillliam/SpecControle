@@ -345,18 +345,18 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(336, 413);
+            this.btnClear.Location = new System.Drawing.Point(342, 413);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(259, 23);
+            this.btnClear.Size = new System.Drawing.Size(247, 23);
             this.btnClear.TabIndex = 42;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             // 
             // btnMotorTypePlate
             // 
-            this.btnMotorTypePlate.Location = new System.Drawing.Point(336, 442);
+            this.btnMotorTypePlate.Location = new System.Drawing.Point(342, 442);
             this.btnMotorTypePlate.Name = "btnMotorTypePlate";
-            this.btnMotorTypePlate.Size = new System.Drawing.Size(259, 23);
+            this.btnMotorTypePlate.Size = new System.Drawing.Size(247, 23);
             this.btnMotorTypePlate.TabIndex = 52;
             this.btnMotorTypePlate.Text = "Type Plate";
             this.btnMotorTypePlate.UseVisualStyleBackColor = true;

@@ -31,7 +31,7 @@ namespace SpecificationsTesting.Business
             var dbContext = new SpecificationsDatabaseModel();
             dbContext.CustomOrderVentilators.Add(customOrderVentilator);
             dbContext.SaveChanges();
-            BCustomOrderVenilatorTest.Create(customOrderVentilator);
+            BCustomOrderVentilatorTest.Create(customOrderVentilator);
             return customOrderVentilator;
         }
 
@@ -123,6 +123,12 @@ namespace SpecificationsTesting.Business
 
         public static void Calculate(CustomOrderVentilator customOrderVentilator)
         {
+            if (customOrderVentilator == null)
+            {
+                MessageBox.Show("Calculation failed. Please check the filled in data of the ventilator.");
+                return;
+            }
+
             if (customOrderVentilator.CustomOrderMotor == null)
             {
                 MessageBox.Show("Calculation failed. Please check the filled in data of the motor.");

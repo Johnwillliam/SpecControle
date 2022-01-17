@@ -76,7 +76,9 @@ namespace SpecificationsTesting.Business
 
             entity.CustomOrderNumber = customOrderNumber;
             var copiedCustomOrder = Create(entity);
-            BCustomOrderVenilatorTest.Create(copiedCustomOrder);
+            if(copiedCustomOrder != null)
+                BCustomOrderVentilatorTest.Create(copiedCustomOrder);
+
             return copiedCustomOrder;
         }
 

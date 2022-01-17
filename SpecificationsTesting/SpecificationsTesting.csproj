@@ -126,7 +126,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\BCustomOrderVenilatorTest.cs" />
+    <Compile Include="Business\BCustomOrderVentilatorTest.cs" />
     <Compile Include="Business\BCustomOrderMotor.cs" />
     <Compile Include="Business\BTemplateMotor.cs" />
     <Compile Include="Business\BCustomOrderVentilator.cs" />

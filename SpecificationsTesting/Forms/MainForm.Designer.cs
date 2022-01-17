@@ -47,7 +47,7 @@
             this.tabControl.Location = new System.Drawing.Point(1, 1);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(909, 977);
+            this.tabControl.Size = new System.Drawing.Size(934, 977);
             this.tabControl.TabIndex = 34;
             // 
             // OrderTabPage
@@ -55,7 +55,7 @@
             this.OrderTabPage.Location = new System.Drawing.Point(4, 22);
             this.OrderTabPage.Name = "OrderTabPage";
             this.OrderTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.OrderTabPage.Size = new System.Drawing.Size(901, 951);
+            this.OrderTabPage.Size = new System.Drawing.Size(926, 951);
             this.OrderTabPage.TabIndex = 0;
             this.OrderTabPage.Text = "Invoeren";
             this.OrderTabPage.UseVisualStyleBackColor = true;
@@ -83,7 +83,7 @@
             // 
             this.cmbPrinters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPrinters.FormattingEnabled = true;
-            this.cmbPrinters.Location = new System.Drawing.Point(667, 1);
+            this.cmbPrinters.Location = new System.Drawing.Point(690, 1);
             this.cmbPrinters.Name = "cmbPrinters";
             this.cmbPrinters.Size = new System.Drawing.Size(240, 21);
             this.cmbPrinters.TabIndex = 0;
@@ -92,7 +92,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(592, 5);
+            this.label1.Location = new System.Drawing.Point(615, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 0;
@@ -102,7 +102,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(909, 982);
+            this.ClientSize = new System.Drawing.Size(934, 982);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbPrinters);
             this.Controls.Add(this.tabControl);

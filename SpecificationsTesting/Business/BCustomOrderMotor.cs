@@ -105,7 +105,6 @@ namespace SpecificationsTesting.Business
             {
                 return null;
             }
-
         }
     }
 }
