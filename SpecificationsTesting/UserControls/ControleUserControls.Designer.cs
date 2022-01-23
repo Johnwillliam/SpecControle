@@ -44,6 +44,13 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.CustomOrderVentilatorTestsDataGrid = new System.Windows.Forms.DataGridView();
             this.btnSaveChanges = new System.Windows.Forms.Button();
+            this.cmbUser = new System.Windows.Forms.ComboBox();
+            this.radioButtonMotorHigh = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radioButtonMotorLow = new System.Windows.Forms.RadioButton();
+            this.radioButtonVentilatorHigh = new System.Windows.Forms.RadioButton();
+            this.radioButtonVentilatorLow = new System.Windows.Forms.RadioButton();
+            this.btnReadRPM = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -51,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SelectedVentilatorTestDataGrid)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CustomOrderDataGrid
@@ -117,7 +125,7 @@
             this.MotorDataGrid.Location = new System.Drawing.Point(3, 255);
             this.MotorDataGrid.Name = "MotorDataGrid";
             this.MotorDataGrid.ReadOnly = true;
-            this.MotorDataGrid.Size = new System.Drawing.Size(327, 210);
+            this.MotorDataGrid.Size = new System.Drawing.Size(327, 202);
             this.MotorDataGrid.TabIndex = 38;
             // 
             // label3
@@ -133,16 +141,16 @@
             // SelectedVentilatorTestDataGrid
             // 
             this.SelectedVentilatorTestDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.SelectedVentilatorTestDataGrid.Location = new System.Drawing.Point(3, 487);
+            this.SelectedVentilatorTestDataGrid.Location = new System.Drawing.Point(3, 479);
             this.SelectedVentilatorTestDataGrid.Name = "SelectedVentilatorTestDataGrid";
-            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 137);
+            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 269);
             this.SelectedVentilatorTestDataGrid.TabIndex = 40;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 468);
+            this.label4.Location = new System.Drawing.Point(4, 460);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 16);
             this.label4.TabIndex = 41;
@@ -216,10 +224,87 @@
             this.btnSaveChanges.Text = "Save Changes";
             this.btnSaveChanges.UseVisualStyleBackColor = true;
             // 
+            // cmbUser
+            // 
+            this.cmbUser.FormattingEnabled = true;
+            this.cmbUser.Location = new System.Drawing.Point(209, 703);
+            this.cmbUser.Name = "cmbUser";
+            this.cmbUser.Size = new System.Drawing.Size(121, 21);
+            this.cmbUser.TabIndex = 52;
+            // 
+            // radioButtonMotorHigh
+            // 
+            this.radioButtonMotorHigh.AutoSize = true;
+            this.radioButtonMotorHigh.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonMotorHigh.Name = "radioButtonMotorHigh";
+            this.radioButtonMotorHigh.Size = new System.Drawing.Size(77, 17);
+            this.radioButtonMotorHigh.TabIndex = 53;
+            this.radioButtonMotorHigh.TabStop = true;
+            this.radioButtonMotorHigh.Text = "Motor High";
+            this.radioButtonMotorHigh.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.btnReadRPM);
+            this.groupBox2.Controls.Add(this.radioButtonVentilatorLow);
+            this.groupBox2.Controls.Add(this.radioButtonVentilatorHigh);
+            this.groupBox2.Controls.Add(this.radioButtonMotorLow);
+            this.groupBox2.Controls.Add(this.radioButtonMotorHigh);
+            this.groupBox2.Location = new System.Drawing.Point(355, 563);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(200, 148);
+            this.groupBox2.TabIndex = 54;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "RPM Measurements";
+            // 
+            // radioButtonMotorLow
+            // 
+            this.radioButtonMotorLow.AutoSize = true;
+            this.radioButtonMotorLow.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonMotorLow.Name = "radioButtonMotorLow";
+            this.radioButtonMotorLow.Size = new System.Drawing.Size(75, 17);
+            this.radioButtonMotorLow.TabIndex = 54;
+            this.radioButtonMotorLow.TabStop = true;
+            this.radioButtonMotorLow.Text = "Motor Low";
+            this.radioButtonMotorLow.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonVentilatorHigh
+            // 
+            this.radioButtonVentilatorHigh.AutoSize = true;
+            this.radioButtonVentilatorHigh.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonVentilatorHigh.Name = "radioButtonVentilatorHigh";
+            this.radioButtonVentilatorHigh.Size = new System.Drawing.Size(94, 17);
+            this.radioButtonVentilatorHigh.TabIndex = 55;
+            this.radioButtonVentilatorHigh.TabStop = true;
+            this.radioButtonVentilatorHigh.Text = "Ventilator High";
+            this.radioButtonVentilatorHigh.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonVentilatorLow
+            // 
+            this.radioButtonVentilatorLow.AutoSize = true;
+            this.radioButtonVentilatorLow.Location = new System.Drawing.Point(6, 88);
+            this.radioButtonVentilatorLow.Name = "radioButtonVentilatorLow";
+            this.radioButtonVentilatorLow.Size = new System.Drawing.Size(92, 17);
+            this.radioButtonVentilatorLow.TabIndex = 56;
+            this.radioButtonVentilatorLow.TabStop = true;
+            this.radioButtonVentilatorLow.Text = "Ventilator Low";
+            this.radioButtonVentilatorLow.UseVisualStyleBackColor = true;
+            // 
+            // btnReadRPM
+            // 
+            this.btnReadRPM.Location = new System.Drawing.Point(6, 119);
+            this.btnReadRPM.Name = "btnReadRPM";
+            this.btnReadRPM.Size = new System.Drawing.Size(188, 23);
+            this.btnReadRPM.TabIndex = 57;
+            this.btnReadRPM.Text = "Read";
+            this.btnReadRPM.UseVisualStyleBackColor = true;
+            // 
             // ControleUserControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.cmbUser);
             this.Controls.Add(this.btnSaveChanges);
             this.Controls.Add(this.CustomOrderVentilatorTestsDataGrid);
             this.Controls.Add(this.CustomOrderDataGrid);
@@ -234,7 +319,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnClear);
             this.Name = "ControleUserControls";
-            this.Size = new System.Drawing.Size(921, 627);
+            this.Size = new System.Drawing.Size(921, 751);
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).EndInit();
@@ -243,6 +328,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,5 +353,12 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.DataGridView CustomOrderVentilatorTestsDataGrid;
         private System.Windows.Forms.Button btnSaveChanges;
+        private System.Windows.Forms.ComboBox cmbUser;
+        private System.Windows.Forms.RadioButton radioButtonMotorHigh;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton radioButtonVentilatorLow;
+        private System.Windows.Forms.RadioButton radioButtonVentilatorHigh;
+        private System.Windows.Forms.RadioButton radioButtonMotorLow;
+        private System.Windows.Forms.Button btnReadRPM;
     }
 }

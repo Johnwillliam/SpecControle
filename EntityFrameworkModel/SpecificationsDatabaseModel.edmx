@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ATEXTypes">
           <Key>
             <PropertyRef Name="ID" />
@@ -85,6 +85,14 @@
           <Property Name="MeasuredVentilatorRPM" Type="int" />
           <Property Name="MeasuredMotorRPM" Type="int" />
           <Property Name="MeasuredBladeAngle" Type="int" />
+          <Property Name="Cover" Type="int" />
+          <Property Name="L1" Type="nvarchar(max)" />
+          <Property Name="L2" Type="nvarchar(max)" />
+          <Property Name="L3" Type="nvarchar(max)" />
+          <Property Name="MotorNumber" Type="int" />
+          <Property Name="Weight" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="UserID" Type="int" />
         </EntityType>
         <EntityType Name="GroupTypes">
           <Key>
@@ -146,7 +154,14 @@
           <Property Name="SoundLevelTypeID" Type="int" />
           <Property Name="BladeAngle" Type="int" />
         </EntityType>
-        <EntityType Name="VentilatorType">
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="VentilatorTypes">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -245,10 +260,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomOrderVentilators_VentilatorType">
-          <End Role="VentilatorType" Type="Self.VentilatorType" Multiplicity="0..1" />
+          <End Role="VentilatorTypes" Type="Self.VentilatorTypes" Multiplicity="0..1" />
           <End Role="CustomOrderVentilators" Type="Self.CustomOrderVentilators" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="VentilatorType">
+            <Principal Role="VentilatorTypes">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="CustomOrderVentilators">
@@ -257,6 +272,18 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="CustomOrderVentilatorTests" Type="Self.CustomOrderVentilatorTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomOrderVentilatorTests">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators1">
           <End Role="CustomOrderVentilators" Type="Self.CustomOrderVentilators" Multiplicity="1" />
           <End Role="CustomOrderVentilatorTests" Type="Self.CustomOrderVentilatorTests" Multiplicity="*" />
           <ReferentialConstraint>
@@ -281,10 +308,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TemplateVentilators_VentilatorType">
-          <End Role="VentilatorType" Type="Self.VentilatorType" Multiplicity="0..1" />
+          <End Role="VentilatorTypes" Type="Self.VentilatorTypes" Multiplicity="0..1" />
           <End Role="TemplateVentilators" Type="Self.TemplateVentilators" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="VentilatorType">
+            <Principal Role="VentilatorTypes">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TemplateVentilators">
@@ -316,7 +343,8 @@
           <EntitySet Name="TemperatureClasses" EntityType="Self.TemperatureClasses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateMotors" EntityType="Self.TemplateMotors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TemplateVentilators" EntityType="Self.TemplateVentilators" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="VentilatorType" EntityType="Self.VentilatorType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VentilatorTypes" EntityType="Self.VentilatorTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VoltageTypes" EntityType="Self.VoltageTypes" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CustomOrderMotors_VoltageType" Association="Self.FK_CustomOrderMotors_VoltageType">
             <End Role="VoltageTypes" EntitySet="VoltageTypes" />
@@ -347,10 +375,14 @@
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomOrderVentilators_VentilatorType" Association="Self.FK_CustomOrderVentilators_VentilatorType">
-            <End Role="VentilatorType" EntitySet="VentilatorType" />
+            <End Role="VentilatorTypes" EntitySet="VentilatorTypes" />
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators" Association="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomOrderVentilatorTests" EntitySet="CustomOrderVentilatorTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators1" Association="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1">
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
             <End Role="CustomOrderVentilatorTests" EntitySet="CustomOrderVentilatorTests" />
           </AssociationSet>
@@ -359,7 +391,7 @@
             <End Role="TemplateMotors" EntitySet="TemplateMotors" />
           </AssociationSet>
           <AssociationSet Name="FK_TemplateVentilators_VentilatorType" Association="Self.FK_TemplateVentilators_VentilatorType">
-            <End Role="VentilatorType" EntitySet="VentilatorType" />
+            <End Role="VentilatorTypes" EntitySet="VentilatorTypes" />
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
           <AssociationSet Name="FK_Ventilator_SoundLevelType" Association="Self.FK_Ventilator_SoundLevelType">
@@ -367,7 +399,8 @@
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpecificationsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -417,8 +450,8 @@
           <Property Name="Debtor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_CustomOrders" FromRole="CustomOrders" ToRole="CustomOrderVentilators" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_CustomOrders" FromRole="CustomOrders" ToRole="CustomOrderVentilators" />
         </EntityType>
         <EntityType Name="CustomOrderVentilator">
           <Key>
@@ -451,8 +484,28 @@
           <NavigationProperty Name="SoundLevelType" Relationship="Self.FK_CustomOrderVentilator_SoundLevelType" FromRole="CustomOrderVentilators" ToRole="SoundLevelTypes" />
           <NavigationProperty Name="GroupType" Relationship="Self.FK_CustomOrderVentilators_GroupTypes" FromRole="CustomOrderVentilators" ToRole="GroupTypes" />
           <NavigationProperty Name="TemperatureClass" Relationship="Self.FK_CustomOrderVentilators_TemperatureClasses" FromRole="CustomOrderVentilators" ToRole="TemperatureClasses" />
-          <NavigationProperty Name="VentilatorType" Relationship="Self.FK_CustomOrderVentilators_VentilatorType" FromRole="CustomOrderVentilators" ToRole="VentilatorType" />
-          <NavigationProperty Name="CustomOrderVentilatorTests" Relationship="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="CustomOrderVentilator" ToRole="CustomOrderVentilatorTest" />
+          <NavigationProperty Name="VentilatorType" Relationship="Self.FK_CustomOrderVentilators_VentilatorType" FromRole="CustomOrderVentilators" ToRole="VentilatorTypes" />
+          <NavigationProperty Name="CustomOrderVentilatorTests" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" FromRole="CustomOrderVentilators" ToRole="CustomOrderVentilatorTests" />
+        </EntityType>
+        <EntityType Name="CustomOrderVentilatorTest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomOrderVentilatorID" Type="Int32" Nullable="false" />
+          <Property Name="MeasuredVentilatorRPM" Type="Int32" />
+          <Property Name="MeasuredMotorRPM" Type="Int32" />
+          <Property Name="MeasuredBladeAngle" Type="Int32" />
+          <Property Name="Cover" Type="Int32" />
+          <Property Name="L1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="L2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="L3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MotorNumber" Type="Int32" />
+          <Property Name="Weight" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="CustomOrderVentilator" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" FromRole="CustomOrderVentilatorTests" ToRole="CustomOrderVentilators" />
+          <NavigationProperty Name="User" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="CustomOrderVentilatorTests" ToRole="Users" />
         </EntityType>
         <EntityType Name="GroupType">
           <Key>
@@ -519,7 +572,15 @@
           <Property Name="SoundLevelTypeID" Type="Int32" />
           <Property Name="BladeAngle" Type="Int32" />
           <NavigationProperty Name="SoundLevelType" Relationship="Self.FK_Ventilator_SoundLevelType" FromRole="TemplateVentilators" ToRole="SoundLevelTypes" />
-          <NavigationProperty Name="VentilatorType" Relationship="Self.FK_TemplateVentilators_VentilatorType" FromRole="TemplateVentilators" ToRole="VentilatorType" />
+          <NavigationProperty Name="VentilatorType" Relationship="Self.FK_TemplateVentilators_VentilatorType" FromRole="TemplateVentilators" ToRole="VentilatorTypes" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CustomOrderVentilatorTests" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="Users" ToRole="CustomOrderVentilatorTests" />
         </EntityType>
         <EntityType Name="VentilatorType">
           <Key>
@@ -527,8 +588,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_VentilatorType" FromRole="VentilatorType" ToRole="CustomOrderVentilators" />
-          <NavigationProperty Name="TemplateVentilators" Relationship="Self.FK_TemplateVentilators_VentilatorType" FromRole="VentilatorType" ToRole="TemplateVentilators" />
+          <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_VentilatorType" FromRole="VentilatorTypes" ToRole="CustomOrderVentilators" />
+          <NavigationProperty Name="TemplateVentilators" Relationship="Self.FK_TemplateVentilators_VentilatorType" FromRole="VentilatorTypes" ToRole="TemplateVentilators" />
         </EntityType>
         <EntityType Name="VoltageType">
           <Key>
@@ -624,14 +685,38 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CustomOrderVentilators_VentilatorType">
-          <End Role="VentilatorType" Type="Self.VentilatorType" Multiplicity="0..1" />
+          <End Role="VentilatorTypes" Type="Self.VentilatorType" Multiplicity="0..1" />
           <End Role="CustomOrderVentilators" Type="Self.CustomOrderVentilator" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="VentilatorType">
+            <Principal Role="VentilatorTypes">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="CustomOrderVentilators">
               <PropertyRef Name="VentilatorTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators1">
+          <End Role="CustomOrderVentilators" Type="Self.CustomOrderVentilator" Multiplicity="1" />
+          <End Role="CustomOrderVentilatorTests" Type="Self.CustomOrderVentilatorTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomOrderVentilators">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomOrderVentilatorTests">
+              <PropertyRef Name="CustomOrderVentilatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="CustomOrderVentilatorTests" Type="Self.CustomOrderVentilatorTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CustomOrderVentilatorTests">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -660,10 +745,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TemplateVentilators_VentilatorType">
-          <End Role="VentilatorType" Type="Self.VentilatorType" Multiplicity="0..1" />
+          <End Role="VentilatorTypes" Type="Self.VentilatorType" Multiplicity="0..1" />
           <End Role="TemplateVentilators" Type="Self.TemplateVentilator" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="VentilatorType">
+            <Principal Role="VentilatorTypes">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="TemplateVentilators">
@@ -677,11 +762,13 @@
           <EntitySet Name="CustomOrderMotors" EntityType="Self.CustomOrderMotor" />
           <EntitySet Name="CustomOrders" EntityType="Self.CustomOrder" />
           <EntitySet Name="CustomOrderVentilators" EntityType="Self.CustomOrderVentilator" />
+          <EntitySet Name="CustomOrderVentilatorTests" EntityType="Self.CustomOrderVentilatorTest" />
           <EntitySet Name="GroupTypes" EntityType="Self.GroupType" />
           <EntitySet Name="SoundLevelTypes" EntityType="Self.SoundLevelType" />
           <EntitySet Name="TemperatureClasses" EntityType="Self.TemperatureClass" />
           <EntitySet Name="TemplateMotors" EntityType="Self.TemplateMotor" />
           <EntitySet Name="TemplateVentilators" EntityType="Self.TemplateVentilator" />
+          <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="VentilatorTypes" EntityType="Self.VentilatorType" />
           <EntitySet Name="VoltageTypes" EntityType="Self.VoltageType" />
           <AssociationSet Name="FK_CustomOrderVentilators_CatTypes" Association="Self.FK_CustomOrderVentilators_CatTypes">
@@ -713,8 +800,16 @@
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
           </AssociationSet>
           <AssociationSet Name="FK_CustomOrderVentilators_VentilatorType" Association="Self.FK_CustomOrderVentilators_VentilatorType">
-            <End Role="VentilatorType" EntitySet="VentilatorTypes" />
+            <End Role="VentilatorTypes" EntitySet="VentilatorTypes" />
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators1" Association="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1">
+            <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
+            <End Role="CustomOrderVentilatorTests" EntitySet="CustomOrderVentilatorTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators" Association="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomOrderVentilatorTests" EntitySet="CustomOrderVentilatorTests" />
           </AssociationSet>
           <AssociationSet Name="FK_Ventilator_SoundLevelType" Association="Self.FK_Ventilator_SoundLevelType">
             <End Role="SoundLevelTypes" EntitySet="SoundLevelTypes" />
@@ -725,38 +820,10 @@
             <End Role="TemplateMotors" EntitySet="TemplateMotors" />
           </AssociationSet>
           <AssociationSet Name="FK_TemplateVentilators_VentilatorType" Association="Self.FK_TemplateVentilators_VentilatorType">
-            <End Role="VentilatorType" EntitySet="VentilatorTypes" />
+            <End Role="VentilatorTypes" EntitySet="VentilatorTypes" />
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
-          <EntitySet Name="CustomOrderVentilatorTests" EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" />
-          <AssociationSet Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators" Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators">
-            <End Role="CustomOrderVentilator" EntitySet="CustomOrderVentilators" />
-            <End Role="CustomOrderVentilatorTest" EntitySet="CustomOrderVentilatorTests" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="CustomOrderVentilatorTest">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="CustomOrderVentilatorID" Type="Int32" Nullable="false" />
-          <Property Name="MeasuredVentilatorRPM" Type="Int32" />
-          <Property Name="MeasuredMotorRPM" Type="Int32" />
-          <Property Name="MeasuredBladeAngle" Type="Int32" />
-          <NavigationProperty Name="CustomOrderVentilator" Relationship="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="CustomOrderVentilatorTest" ToRole="CustomOrderVentilator" />
-        </EntityType>
-        <Association Name="FK_CustomOrderVentilatorTests_CustomOrderVentilators">
-          <End Type="SpecificationsDatabaseModel.CustomOrderVentilator" Role="CustomOrderVentilator" Multiplicity="1" />
-          <End Type="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Role="CustomOrderVentilatorTest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CustomOrderVentilator">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="CustomOrderVentilatorTest">
-              <PropertyRef Name="CustomOrderVentilatorID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -803,12 +870,12 @@
           <EntitySetMapping Name="CustomOrders">
             <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrder">
               <MappingFragment StoreEntitySet="CustomOrders">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderNumber" ColumnName="CustomOrderNumber" />
                 <ScalarProperty Name="Debtor" ColumnName="Debtor" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -836,6 +903,25 @@
                 <ScalarProperty Name="TemperatureClassID" ColumnName="TemperatureClassID" />
                 <ScalarProperty Name="CatID" ColumnName="CatID" />
                 <ScalarProperty Name="CatOutID" ColumnName="CatOutID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomOrderVentilatorTests">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilatorTest">
+              <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
+                <ScalarProperty Name="MeasuredVentilatorRPM" ColumnName="MeasuredVentilatorRPM" />
+                <ScalarProperty Name="MeasuredMotorRPM" ColumnName="MeasuredMotorRPM" />
+                <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
+                <ScalarProperty Name="Cover" ColumnName="Cover" />
+                <ScalarProperty Name="L1" ColumnName="L1" />
+                <ScalarProperty Name="L2" ColumnName="L2" />
+                <ScalarProperty Name="L3" ColumnName="L3" />
+                <ScalarProperty Name="MotorNumber" ColumnName="MotorNumber" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -904,9 +990,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="VentilatorTypes">
             <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VentilatorType">
-              <MappingFragment StoreEntitySet="VentilatorType">
+              <MappingFragment StoreEntitySet="VentilatorTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
@@ -917,17 +1011,6 @@
               <MappingFragment StoreEntitySet="VoltageTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Voltage" ColumnName="Voltage" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CustomOrderVentilatorTests">
-            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilatorTest">
-              <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
-                <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
-                <ScalarProperty Name="MeasuredMotorRPM" ColumnName="MeasuredMotorRPM" />
-                <ScalarProperty Name="MeasuredVentilatorRPM" ColumnName="MeasuredVentilatorRPM" />
-                <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

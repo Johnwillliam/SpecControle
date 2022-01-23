@@ -5,6 +5,7 @@ using EntityFrameworkModel;
 using System.Data.Entity.Migrations;
 using System.Threading;
 using System.Windows.Forms;
+using System.Data.Entity;
 
 namespace SpecificationsTesting.Business
 {
@@ -28,33 +29,44 @@ namespace SpecificationsTesting.Business
 
         public static CustomOrderVentilator Create(CustomOrderVentilator customOrderVentilator)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            dbContext.CustomOrderVentilators.Add(customOrderVentilator);
-            dbContext.SaveChanges();
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                dbContext.CustomOrderVentilators.Add(customOrderVentilator);
+                dbContext.SaveChanges();
+            }
+            
             BCustomOrderVentilatorTest.Create(customOrderVentilator);
             return customOrderVentilator;
         }
 
         public static void Update(CustomOrderVentilator customOrderVentilator)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
-            if (toUpdate != null)
+            using (var dbContext = new SpecificationsDatabaseModel())
             {
-                customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
-                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
-                dbContext.SaveChanges();
+                var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
+                if (toUpdate != null)
+                {
+                    customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
+                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
+                    dbContext.SaveChanges();
+                }
             }
         }
 
         public static void DeleteById(int id)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var customOrderVentilator = dbContext.CustomOrderVentilators.Find(id);
-            if (customOrderVentilator != null)
+            using (var dbContext = new SpecificationsDatabaseModel())
             {
-                dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
-                dbContext.SaveChanges();
+                var customOrderVentilator = dbContext.CustomOrderVentilators.Find(id);
+                if (customOrderVentilator != null)
+                {
+                    foreach (CustomOrderVentilatorTest test in dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID))
+                    {
+                        dbContext.CustomOrderVentilatorTests.Remove(test);
+                    }
+                    dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
+                    dbContext.SaveChanges();
+                }
             }
         }
 

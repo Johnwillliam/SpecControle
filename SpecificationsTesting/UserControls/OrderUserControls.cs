@@ -36,6 +36,7 @@ namespace SpecificationsTesting.UserControls
             btnSaveChanges.Enabled = false;
             btnCreateVentilator.Enabled = false;
             btnRemoveVentilator.Enabled = false;
+            btnCopyOrder.Enabled = false;
         }
 
         private void InitializeComboBoxes()
@@ -234,11 +235,18 @@ namespace SpecificationsTesting.UserControls
                 return;
 
             CustomOrder = BCustomOrder.Create(CustomOrder);
-            customOrderVentilator.CustomOrderID = CustomOrder.ID;
-            BCustomOrderVentilator.Create(customOrderVentilator);
-            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-            txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
-            InitializeGridData();
+            if(CustomOrder != null)
+            {
+                customOrderVentilator.CustomOrderID = CustomOrder.ID;
+                BCustomOrderMotor.Create(customOrderVentilator.CustomOrderMotor);
+                customOrderVentilator.CustomOrderMotorID = customOrderVentilator.CustomOrderMotor.ID;
+                customOrderVentilator.CustomOrderMotor = null;
+                customOrderVentilator.VentilatorType = null;
+                BCustomOrderVentilator.Create(customOrderVentilator);
+                CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
+                txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
+                InitializeGridData();
+            }
         }
 
 
@@ -341,6 +349,7 @@ namespace SpecificationsTesting.UserControls
             }
             SelectedVentilatorID = 0;
             InitializeGridData();
+            btnCopyOrder.Enabled = true;
         }
 
         private void cmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -355,6 +364,7 @@ namespace SpecificationsTesting.UserControls
             txtCustomOrderNumber.Text = "";
             cmbSoundLevelType.SelectedValue = -1;
             cmbVentilatorType.SelectedValue = -1;
+            btnCopyOrder.Enabled = false;
             InitializeGridData();
         }
 
@@ -450,6 +460,7 @@ namespace SpecificationsTesting.UserControls
                 }
                 SelectedVentilatorID = 0;
                 InitializeGridData();
+                btnCreateCO.Enabled = true;
             }
         }
 

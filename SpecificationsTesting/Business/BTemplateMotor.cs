@@ -4,19 +4,23 @@ using EntityFrameworkModel;
 
 namespace SpecificationsTesting.Business
 {
-  public class BTemplateMotor
-  {
-    public static List<TemplateMotor> GetAll()
+    public class BTemplateMotor
     {
-      var dbContext = new SpecificationsDatabaseModel();
-      return dbContext.TemplateMotors.ToList();
-    }
+        public static List<TemplateMotor> GetAll()
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                return dbContext.TemplateMotors.ToList();
+            }
+        }
 
-    public static TemplateMotor GetById(int id)
-    {
-      var dbContext = new SpecificationsDatabaseModel();
-      return dbContext.TemplateMotors.Find(id);
-    }
+        public static TemplateMotor GetById(int id)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                return dbContext.TemplateMotors.Find(id);
+            }
+        }
 
-  }
+    }
 }

@@ -21,17 +21,19 @@ namespace SpecificationsTesting.Business
 
         public static CustomOrder Create(int customOrderNumber, string debtor = "", string reference = "", string remarks = "")
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var newCO = new CustomOrder()
+            using (var dbContext = new SpecificationsDatabaseModel())
             {
-                CustomOrderNumber = customOrderNumber,
-                Debtor = debtor,
-                Reference = reference,
-                Remarks = remarks
-            };
-            dbContext.CustomOrders.Add(newCO);
-            dbContext.SaveChanges();
-            return newCO;
+                var newCO = new CustomOrder()
+                {
+                    CustomOrderNumber = customOrderNumber,
+                    Debtor = debtor,
+                    Reference = reference,
+                    Remarks = remarks
+                };
+                dbContext.CustomOrders.Add(newCO);
+                dbContext.SaveChanges();
+                return newCO;
+            }
         }
 
         public static CustomOrder Create(CustomOrder customOrder)
@@ -42,44 +44,50 @@ namespace SpecificationsTesting.Business
                 return null;
             }
 
-            var dbContext = new SpecificationsDatabaseModel();
-            dbContext.CustomOrders.Add(customOrder);
-            dbContext.SaveChanges();
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                dbContext.CustomOrders.Add(customOrder);
+                dbContext.SaveChanges();
+            }
             return customOrder;
         }
 
         public static void Update(CustomOrder customOrder)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var toUpdate = dbContext.CustomOrders.Find(customOrder.ID);
-            if (toUpdate != null)
+            using (var dbContext = new SpecificationsDatabaseModel())
             {
-                customOrder.ID = toUpdate.ID;
-                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrder);
-                dbContext.SaveChanges();
+                var toUpdate = dbContext.CustomOrders.Find(customOrder.ID);
+                if (toUpdate != null)
+                {
+                    customOrder.ID = toUpdate.ID;
+                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrder);
+                    dbContext.SaveChanges();
+                }
             }
         }
 
         public static CustomOrder ByCustomOrderNumber(int customOrderNumber)
         {
             var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Single(x => x.CustomOrderNumber == customOrderNumber) : null;
+            return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators.Select(y => y.CustomOrderVentilatorTests)).Single(z => z.CustomOrderNumber == customOrderNumber) : null;
         }
 
         public static CustomOrder Copy(int id, int customOrderNumber)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var entity = dbContext.CustomOrders
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                var entity = dbContext.CustomOrders
                           .AsNoTracking()
                           .Include(x => x.CustomOrderVentilators)
                           .FirstOrDefault(x => x.ID == id);
 
-            entity.CustomOrderNumber = customOrderNumber;
-            var copiedCustomOrder = Create(entity);
-            if(copiedCustomOrder != null)
-                BCustomOrderVentilatorTest.Create(copiedCustomOrder);
+                entity.CustomOrderNumber = customOrderNumber;
+                var copiedCustomOrder = Create(entity);
+                if (copiedCustomOrder != null)
+                    BCustomOrderVentilatorTest.Create(copiedCustomOrder);
 
-            return copiedCustomOrder;
+                return copiedCustomOrder;
+            }
         }
 
         public static bool Validate(CustomOrder customOrder)

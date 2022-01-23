@@ -3,6 +3,8 @@ using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
 using System;
 using System.Data;
+using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -14,6 +16,8 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
+        private SerialPort serialPort;
+
         public ControleUserControls()
         {
             InitializeComponent();
@@ -23,10 +27,46 @@ namespace SpecificationsTesting.UserControls
             this.CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
             this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
- 
+            this.radioButtonMotorHigh.CheckedChanged += new System.EventHandler(this.radioButtonMotorHigh_CheckedChanged);
+            this.radioButtonMotorLow.CheckedChanged += new System.EventHandler(this.radioButtonMotorLow_CheckedChanged);
+            this.radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorHigh_CheckedChanged);
+            this.radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorLow_CheckedChanged);
+            this.btnReadRPM.Click += new System.EventHandler(this.btnReadRPM_Click);
+
             InitializeGridColumns();
+            InitializeComboBoxes();
             SelectedVentilatorID = -1;
             SelectedVentilatorTestID = -1;
+        }
+
+        private void InitializeComboBoxes()
+        {
+            using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
+            {
+                cmbUser.DisplayMember = "Name";
+                cmbUser.ValueMember = "ID";
+                cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
+                cmbUser.DataSource = dbContext.Users.ToList();
+                var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
+                Show_Combobox(cell, cmbUser);
+            }
+        }
+
+        private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
+        {
+            if (cell == null)
+            {
+                comboBox.Visible = false;
+                return;
+            }
+
+            comboBox.Visible = true;
+            Rectangle rect = cell.DataGridView.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
+            int x = rect.X + cell.DataGridView.Left;
+            int y = rect.Y + cell.DataGridView.Top;
+            comboBox.SetBounds(x, y, rect.Width, rect.Height);
+            comboBox.Visible = true;
+            comboBox.Focus();
         }
 
         private void InitializeGridColumns()
@@ -85,6 +125,9 @@ namespace SpecificationsTesting.UserControls
                 CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.ControleDisplayPropertyNames);
                 CustomOrderDataGrid.AutoResizeColumns();
 
+                if (CustomOrder == null)
+                    CustomOrder = new CustomOrder { ID = -1 };
+
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
                     CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
 
@@ -94,6 +137,9 @@ namespace SpecificationsTesting.UserControls
                 VentilatorDataGrid.AutoResizeColumns();
 
                 var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                if (selectedTest != null && selectedTest.Date == null)
+                    selectedTest.Date = DateTime.Now.Date;
+
                 SelectedVentilatorTestDataGrid.DataSource = null;
                 SelectedVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), selectedTest, BCustomOrderVentilatorTest.ControleDisplayPropertyNames);
                 SelectedVentilatorTestDataGrid.AutoResizeColumns();
@@ -112,12 +158,13 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
                 }
 
-                if(initVentilatorTestsGrid)
+                if (initVentilatorTestsGrid)
                 {
                     CustomOrderVentilatorTestsDataGrid.DataSource = null;
                     CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { Value = $"Test ID {x.ID}" }).ToList();
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
+                InitializeComboBoxes();
             }
             catch (Exception ex)
             {
@@ -162,7 +209,7 @@ namespace SpecificationsTesting.UserControls
 
         private void CustomOrderVentilatorTestsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
+            if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
                 InitializeGridData(false, false);
@@ -190,6 +237,73 @@ namespace SpecificationsTesting.UserControls
         {
             var rows = SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList();
             return BCustomOrderVentilatorTest.CreateObject(rows);
+        }
+
+        private void radioButtonMotorHigh_CheckedChanged(object sender, EventArgs e)
+        {
+            var radioButton = (RadioButton)sender;
+            if(radioButton.Checked)
+            {
+                radioButtonMotorLow.Checked = false;
+                radioButtonVentilatorHigh.Checked = false;
+                radioButtonVentilatorLow.Checked = false;
+            }
+        }
+
+        private void radioButtonMotorLow_CheckedChanged(object sender, EventArgs e)
+        {
+            var radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                radioButtonMotorHigh.Checked = false;
+                radioButtonVentilatorHigh.Checked = false;
+                radioButtonVentilatorLow.Checked = false;
+            }
+        }
+
+        private void radioButtonVentilatorHigh_CheckedChanged(object sender, EventArgs e)
+        {
+            var radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                radioButtonMotorHigh.Checked = false;
+                radioButtonMotorLow.Checked = false;
+                radioButtonVentilatorLow.Checked = false;
+            }
+        }
+
+        private void radioButtonVentilatorLow_CheckedChanged(object sender, EventArgs e)
+        {
+            var radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                radioButtonMotorHigh.Checked = false;
+                radioButtonMotorLow.Checked = false;
+                radioButtonVentilatorHigh.Checked = false;
+            }
+        }
+
+        private void btnReadRPM_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                serialPort = new SerialPort("COM1", 19200, Parity.None, 8, StopBits.One)
+                {
+                    Encoding = System.Text.Encoding.Default
+                };
+                serialPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
+                serialPort.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            // Show all the incoming data in the port's buffer
+            //textBox1.Text = serialPort.ReadExisting();
         }
 
     }

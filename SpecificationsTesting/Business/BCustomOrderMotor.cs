@@ -26,21 +26,25 @@ namespace SpecificationsTesting.Business
 
         public static CustomOrderMotor Create(CustomOrderMotor customOrderMotor)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            dbContext.CustomOrderMotors.Add(customOrderMotor);
-            dbContext.SaveChanges();
-            return customOrderMotor;
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                dbContext.CustomOrderMotors.Add(customOrderMotor);
+                dbContext.SaveChanges();
+                return customOrderMotor;
+            }
         }
 
         public static void Update(CustomOrderMotor customOrderMotor)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            var toUpdate = dbContext.CustomOrderMotors.Find(customOrderMotor.ID);
-            if (toUpdate != null)
+            using (var dbContext = new SpecificationsDatabaseModel())
             {
-                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderMotor);
-                dbContext.SaveChanges();
-                Thread.Sleep(300);
+                var toUpdate = dbContext.CustomOrderMotors.Find(customOrderMotor.ID);
+                if (toUpdate != null)
+                {
+                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderMotor);
+                    dbContext.SaveChanges();
+                    Thread.Sleep(300);
+                }
             }
         }
 
