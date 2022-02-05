@@ -26,13 +26,19 @@ namespace EntityFrameworkModel
         public string Name { get; set; }
         public int CustomOrderMotorID { get; set; }
         public Nullable<int> VentilatorTypeID { get; set; }
-        public string AirVolume { get; set; }
-        public string PressureTotal { get; set; }
-        public string PressureStatic { get; set; }
-        public string PressureDynamic { get; set; }
-        public string RPM { get; set; }
+        public Nullable<int> HighAirVolume { get; set; }
+        public Nullable<int> LowAirVolume { get; set; }
+        public Nullable<int> HighPressureTotal { get; set; }
+        public Nullable<int> LowPressureTotal { get; set; }
+        public Nullable<int> HighPressureStatic { get; set; }
+        public Nullable<int> LowPressureStatic { get; set; }
+        public Nullable<int> HighPressureDynamic { get; set; }
+        public Nullable<int> LowPressureDynamic { get; set; }
+        public Nullable<int> HighRPM { get; set; }
+        public Nullable<int> LowRPM { get; set; }
         public Nullable<int> Efficiency { get; set; }
-        public string ShaftPower { get; set; }
+        public Nullable<decimal> HighShaftPower { get; set; }
+        public Nullable<decimal> LowShaftPower { get; set; }
         public Nullable<int> SoundLevel { get; set; }
         public Nullable<int> SoundLevelTypeID { get; set; }
         public Nullable<int> BladeAngle { get; set; }

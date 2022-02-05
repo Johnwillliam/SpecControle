@@ -4,21 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2b026cfadfa74085ae50667a8d0abc3c" Name="Diagram1">
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.ATEXType" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CatType" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrder" Width="1.5" PointX="3" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilator" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.GroupType" Width="1.5" PointX="3" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.SoundLevelType" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemperatureClass" Width="1.5" PointX="3" PointY="23.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateMotor" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateVentilator" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.User" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VentilatorType" Width="1.5" PointX="3" PointY="25.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VoltageType" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+      <Diagram DiagramId="117cf5f7c1db4bb2b495da6d995458de" Name="Diagram1">
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.ATEXType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CatType" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrder" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilator" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.GroupType" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.SoundLevelType" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemperatureClass" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateMotor" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateVentilator" Width="1.5" PointX="5.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.User" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VentilatorType" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VoltageType" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CatTypes" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderMotors_VoltageType" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CustomOrderMotors" ManuallyRouted="false" />

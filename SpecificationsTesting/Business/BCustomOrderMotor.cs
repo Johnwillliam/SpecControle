@@ -11,12 +11,12 @@ namespace SpecificationsTesting.Business
         public static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
-            "ISO", "Power", "RPM", "Amperage", "StartupAmperage", "Frequency", "PowerFactor"
+            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor"
         };
 
         public static List<string> ControleDisplayPropertyNames = new List<string>
         {
-            "Name", "Type", "Version", "Power", "RPM", "Amperage", "StartupAmperage", "Frequency"
+            "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency"
         };
 
         public static List<string> SelectDisplayPropertyNames = new List<string>
@@ -85,14 +85,23 @@ namespace SpecificationsTesting.Business
                 var iso = rows.First(x => x.Cells["Description"].Value.ToString().Equals("ISO")).Cells["Value"].Value;
                 newCustomOrderMotor.ISO = iso == null ? "" : iso.ToString();
 
-                var power = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Power")).Cells["Value"].Value;
-                newCustomOrderMotor.Power = power == null ? "0" : power.ToString();
+                var highPower = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighPower")).Cells["Value"].Value;
+                newCustomOrderMotor.HighPower = DataHelper.ToNullableDecimal(highPower?.ToString());
 
-                var rpm = rows.First(x => x.Cells["Description"].Value.ToString().Equals("RPM")).Cells["Value"].Value;
-                newCustomOrderMotor.RPM = rpm == null ? "" : rpm.ToString();
+                var lowPower = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPower")).Cells["Value"].Value;
+                newCustomOrderMotor.LowPower = DataHelper.ToNullableDecimal(lowPower?.ToString());
 
-                var amperage = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Amperage")).Cells["Value"].Value;
-                newCustomOrderMotor.Amperage = amperage == null ? "" : amperage.ToString();
+                var highRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighRPM")).Cells["Value"].Value;
+                newCustomOrderMotor.HighRPM = DataHelper.ToNullableInt(highRPM?.ToString());
+
+                var lowRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"].Value;
+                newCustomOrderMotor.LowRPM = DataHelper.ToNullableInt(lowRPM?.ToString());
+
+                var highAmperage = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighAmperage")).Cells["Value"].Value;
+                newCustomOrderMotor.HighAmperage = DataHelper.ToNullableDecimal(highAmperage?.ToString());
+
+                var lowAmperage = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowAmperage")).Cells["Value"].Value;
+                newCustomOrderMotor.LowAmperage = DataHelper.ToNullableDecimal(lowAmperage?.ToString());
 
                 var startupAmperage = rows.First(x => x.Cells["Description"].Value.ToString().Equals("StartupAmperage")).Cells["Value"].Value;
                 newCustomOrderMotor.StartupAmperage = DataHelper.ToNullableInt(startupAmperage?.ToString());

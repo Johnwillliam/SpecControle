@@ -11,29 +11,28 @@ using System.Windows.Forms;
 
 namespace SpecificationsTesting
 {
-  public partial class MotorTemplateSelection : Form
-  {
-    public DataGridViewRow SelectedRow { get; set; }
-    public MotorTemplateSelection()
+    public partial class MotorTemplateSelection : Form
     {
-      InitializeComponent();
-      DataGridViewTemplateMotor.MultiSelect = false;
+        public DataGridViewRow SelectedRow { get; set; }
+        public MotorTemplateSelection()
+        {
+            InitializeComponent();
+            DataGridViewTemplateMotor.MultiSelect = false;
+        }
+
+        private void MotorTemplateSelection_Load(object sender, EventArgs e)
+        {
+            // TODO: This line of code loads data into the 'templateMotors._TemplateMotors' table. You can move, or remove it, as needed.
+            this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
+        }
+
+        private void btnSelectTemplateMotor_Click(object sender, EventArgs e)
+        {
+            if (DataGridViewTemplateMotor.Rows.Any() && !DataGridViewTemplateMotor.SelectedRows.Any())
+                DataGridViewTemplateMotor.Rows[0].Selected = true;
+
+            SelectedRow = DataGridViewTemplateMotor.SelectedRows[0];
+            this.Close();
+        }
     }
-
-    private void MotorTemplateSelection_Load(object sender, EventArgs e)
-    {
-      // TODO: This line of code loads data into the 'specificationsTestingDataSet.TemplateMotors' table. You can move, or remove it, as needed.
-      this.templateMotorsTableAdapter.Fill(this.specificationsTestingDataSet.TemplateMotors);
-
-    }
-
-    private void btnSelectTemplateMotor_Click(object sender, EventArgs e)
-    {
-      if (DataGridViewTemplateMotor.Rows.Any() && !DataGridViewTemplateMotor.SelectedRows.Any())
-        DataGridViewTemplateMotor.Rows[0].Selected = true;
-
-      SelectedRow = DataGridViewTemplateMotor.SelectedRows[0];
-      this.Close();
-    }
-  }
 }

@@ -31,9 +31,12 @@
           <Property Name="IP" Type="int" />
           <Property Name="BuildingType" Type="nvarchar(max)" />
           <Property Name="ISO" Type="nvarchar(max)" />
-          <Property Name="Power" Type="nvarchar(max)" />
-          <Property Name="RPM" Type="nvarchar(max)" />
-          <Property Name="Amperage" Type="nvarchar(max)" />
+          <Property Name="HighPower" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LowPower" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HighRPM" Type="int" />
+          <Property Name="LowRPM" Type="int" />
+          <Property Name="HighAmperage" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LowAmperage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StartupAmperage" Type="int" />
           <Property Name="VoltageTypeID" Type="int" />
           <Property Name="Frequency" Type="int" />
@@ -60,13 +63,19 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CustomOrderMotorID" Type="int" Nullable="false" />
           <Property Name="VentilatorTypeID" Type="int" />
-          <Property Name="AirVolume" Type="nvarchar(max)" />
-          <Property Name="PressureTotal" Type="nvarchar(max)" />
-          <Property Name="PressureStatic" Type="nvarchar(max)" />
-          <Property Name="PressureDynamic" Type="nvarchar(max)" />
-          <Property Name="RPM" Type="nvarchar(max)" />
+          <Property Name="HighAirVolume" Type="int" />
+          <Property Name="LowAirVolume" Type="int" />
+          <Property Name="HighPressureTotal" Type="int" />
+          <Property Name="LowPressureTotal" Type="int" />
+          <Property Name="HighPressureStatic" Type="int" />
+          <Property Name="LowPressureStatic" Type="int" />
+          <Property Name="HighPressureDynamic" Type="int" />
+          <Property Name="LowPressureDynamic" Type="int" />
+          <Property Name="HighRPM" Type="int" />
+          <Property Name="LowRPM" Type="int" />
           <Property Name="Efficiency" Type="int" />
-          <Property Name="ShaftPower" Type="nvarchar(max)" />
+          <Property Name="HighShaftPower" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LowShaftPower" Type="decimal" Precision="18" Scale="2" />
           <Property Name="SoundLevel" Type="int" />
           <Property Name="SoundLevelTypeID" Type="int" />
           <Property Name="BladeAngle" Type="int" />
@@ -82,8 +91,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomOrderVentilatorID" Type="int" Nullable="false" />
-          <Property Name="MeasuredVentilatorRPM" Type="int" />
-          <Property Name="MeasuredMotorRPM" Type="int" />
+          <Property Name="MeasuredVentilatorHighRPM" Type="int" />
+          <Property Name="MeasuredVentilatorLowRPM" Type="int" />
+          <Property Name="MeasuredMotorHighRPM" Type="int" />
+          <Property Name="MeasuredMotorLowRPM" Type="int" />
           <Property Name="MeasuredBladeAngle" Type="int" />
           <Property Name="Cover" Type="int" />
           <Property Name="L1" Type="nvarchar(max)" />
@@ -128,9 +139,12 @@
           <Property Name="IP" Type="int" />
           <Property Name="BuildingType" Type="nvarchar(max)" />
           <Property Name="ISO" Type="nvarchar(max)" />
-          <Property Name="Power" Type="nvarchar(max)" />
-          <Property Name="RPM" Type="nvarchar(max)" />
-          <Property Name="Amperage" Type="nvarchar(max)" />
+          <Property Name="HighPower" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LowPower" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="HighRPM" Type="int" />
+          <Property Name="LowRPM" Type="int" />
+          <Property Name="HighAmperage" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LowAmperage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="StartupAmperage" Type="int" />
           <Property Name="VoltageTypeID" Type="int" />
           <Property Name="Frequency" Type="int" />
@@ -431,9 +445,12 @@
           <Property Name="IP" Type="Int32" />
           <Property Name="BuildingType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ISO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Power" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RPM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Amperage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HighPower" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LowPower" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HighRPM" Type="Int32" />
+          <Property Name="LowRPM" Type="Int32" />
+          <Property Name="HighAmperage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LowAmperage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="StartupAmperage" Type="Int32" />
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
@@ -463,13 +480,19 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustomOrderMotorID" Type="Int32" Nullable="false" />
           <Property Name="VentilatorTypeID" Type="Int32" />
-          <Property Name="AirVolume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PressureTotal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PressureStatic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PressureDynamic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RPM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HighAirVolume" Type="Int32" />
+          <Property Name="LowAirVolume" Type="Int32" />
+          <Property Name="HighPressureTotal" Type="Int32" />
+          <Property Name="LowPressureTotal" Type="Int32" />
+          <Property Name="HighPressureStatic" Type="Int32" />
+          <Property Name="LowPressureStatic" Type="Int32" />
+          <Property Name="HighPressureDynamic" Type="Int32" />
+          <Property Name="LowPressureDynamic" Type="Int32" />
+          <Property Name="HighRPM" Type="Int32" />
+          <Property Name="LowRPM" Type="Int32" />
           <Property Name="Efficiency" Type="Int32" />
-          <Property Name="ShaftPower" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HighShaftPower" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LowShaftPower" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="SoundLevel" Type="Int32" />
           <Property Name="SoundLevelTypeID" Type="Int32" />
           <Property Name="BladeAngle" Type="Int32" />
@@ -493,8 +516,10 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomOrderVentilatorID" Type="Int32" Nullable="false" />
-          <Property Name="MeasuredVentilatorRPM" Type="Int32" />
-          <Property Name="MeasuredMotorRPM" Type="Int32" />
+          <Property Name="MeasuredVentilatorHighRPM" Type="Int32" />
+          <Property Name="MeasuredVentilatorLowRPM" Type="Int32" />
+          <Property Name="MeasuredMotorHighRPM" Type="Int32" />
+          <Property Name="MeasuredMotorLowRPM" Type="Int32" />
           <Property Name="MeasuredBladeAngle" Type="Int32" />
           <Property Name="Cover" Type="Int32" />
           <Property Name="L1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -545,9 +570,12 @@
           <Property Name="IP" Type="Int32" />
           <Property Name="BuildingType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ISO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Power" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RPM" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Amperage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HighPower" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LowPower" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="HighRPM" Type="Int32" />
+          <Property Name="LowRPM" Type="Int32" />
+          <Property Name="HighAmperage" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LowAmperage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="StartupAmperage" Type="Int32" />
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
@@ -857,9 +885,12 @@
                 <ScalarProperty Name="IP" ColumnName="IP" />
                 <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
                 <ScalarProperty Name="ISO" ColumnName="ISO" />
-                <ScalarProperty Name="Power" ColumnName="Power" />
-                <ScalarProperty Name="RPM" ColumnName="RPM" />
-                <ScalarProperty Name="Amperage" ColumnName="Amperage" />
+                <ScalarProperty Name="HighPower" ColumnName="HighPower" />
+                <ScalarProperty Name="LowPower" ColumnName="LowPower" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
+                <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
+                <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
                 <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
                 <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />
@@ -888,13 +919,19 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CustomOrderMotorID" ColumnName="CustomOrderMotorID" />
                 <ScalarProperty Name="VentilatorTypeID" ColumnName="VentilatorTypeID" />
-                <ScalarProperty Name="AirVolume" ColumnName="AirVolume" />
-                <ScalarProperty Name="PressureTotal" ColumnName="PressureTotal" />
-                <ScalarProperty Name="PressureStatic" ColumnName="PressureStatic" />
-                <ScalarProperty Name="PressureDynamic" ColumnName="PressureDynamic" />
-                <ScalarProperty Name="RPM" ColumnName="RPM" />
+                <ScalarProperty Name="HighAirVolume" ColumnName="HighAirVolume" />
+                <ScalarProperty Name="LowAirVolume" ColumnName="LowAirVolume" />
+                <ScalarProperty Name="HighPressureTotal" ColumnName="HighPressureTotal" />
+                <ScalarProperty Name="LowPressureTotal" ColumnName="LowPressureTotal" />
+                <ScalarProperty Name="HighPressureStatic" ColumnName="HighPressureStatic" />
+                <ScalarProperty Name="LowPressureStatic" ColumnName="LowPressureStatic" />
+                <ScalarProperty Name="HighPressureDynamic" ColumnName="HighPressureDynamic" />
+                <ScalarProperty Name="LowPressureDynamic" ColumnName="LowPressureDynamic" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
                 <ScalarProperty Name="Efficiency" ColumnName="Efficiency" />
-                <ScalarProperty Name="ShaftPower" ColumnName="ShaftPower" />
+                <ScalarProperty Name="HighShaftPower" ColumnName="HighShaftPower" />
+                <ScalarProperty Name="LowShaftPower" ColumnName="LowShaftPower" />
                 <ScalarProperty Name="SoundLevel" ColumnName="SoundLevel" />
                 <ScalarProperty Name="SoundLevelTypeID" ColumnName="SoundLevelTypeID" />
                 <ScalarProperty Name="BladeAngle" ColumnName="BladeAngle" />
@@ -911,8 +948,10 @@
               <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
-                <ScalarProperty Name="MeasuredVentilatorRPM" ColumnName="MeasuredVentilatorRPM" />
-                <ScalarProperty Name="MeasuredMotorRPM" ColumnName="MeasuredMotorRPM" />
+                <ScalarProperty Name="MeasuredVentilatorHighRPM" ColumnName="MeasuredVentilatorHighRPM" />
+                <ScalarProperty Name="MeasuredVentilatorLowRPM" ColumnName="MeasuredVentilatorLowRPM" />
+                <ScalarProperty Name="MeasuredMotorHighRPM" ColumnName="MeasuredMotorHighRPM" />
+                <ScalarProperty Name="MeasuredMotorLowRPM" ColumnName="MeasuredMotorLowRPM" />
                 <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
                 <ScalarProperty Name="Cover" ColumnName="Cover" />
                 <ScalarProperty Name="L1" ColumnName="L1" />
@@ -961,9 +1000,12 @@
                 <ScalarProperty Name="IP" ColumnName="IP" />
                 <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
                 <ScalarProperty Name="ISO" ColumnName="ISO" />
-                <ScalarProperty Name="Power" ColumnName="Power" />
-                <ScalarProperty Name="RPM" ColumnName="RPM" />
-                <ScalarProperty Name="Amperage" ColumnName="Amperage" />
+                <ScalarProperty Name="HighPower" ColumnName="HighPower" />
+                <ScalarProperty Name="LowPower" ColumnName="LowPower" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
+                <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
+                <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
                 <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
                 <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />

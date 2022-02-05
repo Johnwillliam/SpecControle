@@ -13,13 +13,13 @@ namespace SpecificationsTesting.Business
     {
         public static List<string> OrderDisplayPropertyNames = new List<string>
         {
-            "Name", "Amount", "VentilatorTypeID", "AirVolume", "PressureTotal", "PressureStatic", "PressureDynamic",
-            "RPM", "Efficiency", "ShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
+            "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
+            "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
         };
 
         public static List<string> ControleDisplayPropertyNames = new List<string>
         {
-            "Name", "RPM", "BladeAngle"
+            "Name", "HighRPM", "LowRPM", "BladeAngle"
         };
 
         public static List<string> ConfigurationDisplayPropertyNames = new List<string>
@@ -83,41 +83,46 @@ namespace SpecificationsTesting.Business
                 var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
                 newCustomOrderVentilator.Name = name.ToString();
 
-                var airVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("AirVolume")).Cells["Value"].Value;
-                newCustomOrderVentilator.AirVolume = airVolume == null ? "" : airVolume.ToString();
+                var highAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighAirVolume")).Cells["Value"].Value;
+                newCustomOrderVentilator.HighAirVolume = DataHelper.ToNullableInt(highAirVolume?.ToString());
 
-                var pressureTotal = rows.First(x => x.Cells["Description"].Value.ToString().Equals("PressureTotal")).Cells["Value"].Value;
-                newCustomOrderVentilator.PressureTotal = pressureTotal == null ? "" : pressureTotal.ToString();
+                var lowAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"].Value;
+                newCustomOrderVentilator.LowAirVolume = DataHelper.ToNullableInt(lowAirVolume?.ToString());
 
-                var pressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("PressureStatic")).Cells["Value"].Value;
-                newCustomOrderVentilator.PressureStatic = pressureStatic == null ? "" : pressureStatic.ToString();
+                var highPressureTotal = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureTotal")).Cells["Value"].Value;
+                newCustomOrderVentilator.HighPressureTotal = DataHelper.ToNullableInt(highPressureTotal?.ToString());
 
-                var pressureTotals = newCustomOrderVentilator.PressureTotal.Split('/');
-                var pressureStatics = newCustomOrderVentilator.PressureStatic.Split('/');
-                if (pressureTotals.Length != pressureStatics.Length)
-                    return null;
+                var lowPressureTotal = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"].Value;
+                newCustomOrderVentilator.LowPressureTotal = DataHelper.ToNullableInt(lowPressureTotal?.ToString());
 
-                var result = new string[pressureTotals.Length];
-                for (int i = 0; i < pressureTotals.Length; i++)
-                {
-                    if (!int.TryParse(pressureTotals[i], out int totalPressure) || !int.TryParse(pressureStatics[i], out int staticPressure))
-                        return null;
+                var highPressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureStatic")).Cells["Value"].Value;
+                newCustomOrderVentilator.HighPressureStatic = DataHelper.ToNullableInt(highPressureStatic?.ToString());
 
-                    result[i] = $"{totalPressure - staticPressure}";
-                }
-                newCustomOrderVentilator.PressureDynamic = string.Join(" / ", result);
+                var lowPressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"].Value;
+                newCustomOrderVentilator.LowPressureStatic = DataHelper.ToNullableInt(lowPressureStatic?.ToString());
 
-                decimal? q = (decimal)DataHelper.ToNullableInt(newCustomOrderVentilator.AirVolume) / 3600m;
-                int? p = DataHelper.ToNullableInt(newCustomOrderVentilator.PressureTotal);
+                newCustomOrderVentilator.HighPressureDynamic = newCustomOrderVentilator.HighPressureTotal - newCustomOrderVentilator.HighPressureStatic;
+                newCustomOrderVentilator.LowPressureDynamic = newCustomOrderVentilator.LowPressureTotal - newCustomOrderVentilator.LowPressureStatic;
+
+                decimal? q = (decimal)newCustomOrderVentilator.HighAirVolume / 3600m;
+                int? p = newCustomOrderVentilator.HighPressureTotal;
                 int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
                 decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
-                newCustomOrderVentilator.ShaftPower = $"{shaftPower:0.0000}";
+                newCustomOrderVentilator.HighShaftPower = shaftPower;
+
+                q = (decimal)newCustomOrderVentilator.LowAirVolume / 3600m;
+                p = newCustomOrderVentilator.LowPressureTotal;
+                shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
+                newCustomOrderVentilator.LowShaftPower = shaftPower;
 
                 var efficiency = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Efficiency")).Cells["Value"].Value;
                 newCustomOrderVentilator.Efficiency = DataHelper.ToNullableInt(efficiency?.ToString());
 
-                var rpm = rows.First(x => x.Cells["Description"].Value.ToString().Equals("RPM")).Cells["Value"].Value;
-                newCustomOrderVentilator.RPM = rpm == null ? "" : rpm.ToString();
+                var highRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighRPM")).Cells["Value"].Value;
+                newCustomOrderVentilator.HighRPM = DataHelper.ToNullableInt(highRPM?.ToString());
+
+                var lowRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"].Value;
+                newCustomOrderVentilator.LowRPM = DataHelper.ToNullableInt(lowRPM?.ToString());
 
                 var soundLevel = rows.First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevel")).Cells["Value"].Value;
                 newCustomOrderVentilator.SoundLevel = DataHelper.ToNullableInt(soundLevel?.ToString());
@@ -153,41 +158,94 @@ namespace SpecificationsTesting.Business
 
             if (customOrderVentilator.VentilatorType.Description.ToUpper().Contains("V-BELT"))
             {
-                if (int.Parse(customOrderVentilator.CustomOrderMotor.RPM) > 0)
+                if (customOrderVentilator.CustomOrderMotor.HighRPM > 0)
                 {
-                    var rpm = (decimal)(int.Parse(customOrderVentilator.CustomOrderMotor.RPM) / int.Parse(customOrderVentilator.CustomOrderMotor.RPM));
-                    customOrderVentilator.RPM = rpm.ToString();
+                    var rpm = (customOrderVentilator.CustomOrderMotor.HighRPM / customOrderVentilator.CustomOrderMotor.HighRPM);
+                    customOrderVentilator.HighRPM = rpm;
                 }
                 else
                 {
-                    customOrderVentilator.RPM = "0";
+                    customOrderVentilator.HighRPM = 0;
+                }
+                if (customOrderVentilator.CustomOrderMotor.LowRPM > 0)
+                {
+                    var rpm = (customOrderVentilator.CustomOrderMotor.LowRPM / customOrderVentilator.CustomOrderMotor.LowRPM);
+                    customOrderVentilator.LowRPM = rpm;
+                }
+                else
+                {
+                    customOrderVentilator.LowRPM = 0;
                 }
             }
-            else if (customOrderVentilator.CustomOrderMotor.Frequency > 40)
+            if (customOrderVentilator.CustomOrderMotor.Frequency > 40)
             {
-                var value = (decimal)(int.Parse(customOrderVentilator.CustomOrderMotor.RPM) / customOrderVentilator.CustomOrderMotor.Frequency);
-                switch (value)
-                {
-                    case decimal n when (n >= 5 && n <= 7.5m):
-                        value = 7.5m;
-                        break;
-                    case decimal n when (n >= 7.5m && n <= 10):
-                        value = 10;
-                        break;
-                    case decimal n when (n >= 10 && n <= 15):
-                        value = 15;
-                        break;
-                    case decimal n when (n >= 15 && n <= 30):
-                        value = 30;
-                        break;
-                    case decimal n when (n >= 30 && n <= 60):
-                        value = 60;
-                        break;
-                    default:
-                        break;
-                }
+                var value = (decimal)(customOrderVentilator.CustomOrderMotor.HighRPM / customOrderVentilator.CustomOrderMotor.Frequency);
+                value = CalculateAtexValue(value);
                 customOrderVentilator.Atex = $"{value * customOrderVentilator.CustomOrderMotor.Frequency}";
             }
+        }
+
+        private static decimal CalculateAtexValue(decimal value)
+        {
+            switch (value)
+            {
+                case decimal n when (n >= 5 && n <= 7.5m):
+                    value = 7.5m;
+                    break;
+                case decimal n when (n >= 7.5m && n <= 10):
+                    value = 10;
+                    break;
+                case decimal n when (n >= 10 && n <= 15):
+                    value = 15;
+                    break;
+                case decimal n when (n >= 15 && n <= 30):
+                    value = 30;
+                    break;
+                case decimal n when (n >= 30 && n <= 60):
+                    value = 60;
+                    break;
+                default:
+                    break;
+            }
+            return value;
+        }
+
+        public static int CalculateSyncRPM(int rpm, int frequency)
+        {
+            switch (frequency)
+            {
+                case 50:
+                    switch (rpm)
+                    {
+                        case int n when (n > 1600):
+                            return 3000;
+                        case int n when (n > 1100):
+                            return 1500;
+                        case int n when (n > 755):
+                            return 1000;
+                        case int n when (n > 505):
+                            return 750;
+                        default:
+                            return 500;
+                    }
+                case 60:
+                    switch (rpm)
+                    {
+                        case int n when (n > 1900):
+                            return 3600;
+                        case int n when (n > 1300):
+                            return 1800;
+                        case int n when (n > 906):
+                            return 1200;
+                        case int n when (n > 605):
+                            return 900;
+                        default:
+                            return 600;
+                    }
+                default:
+                    break;
+            }
+            return 0;
         }
 
         public static bool Validate(CustomOrderVentilator customOrderVentilator)
@@ -204,7 +262,7 @@ namespace SpecificationsTesting.Business
                 return false;
             }
 
-            if (int.Parse(customOrderVentilator.PressureTotal) < int.Parse(customOrderVentilator.PressureDynamic))
+            if (customOrderVentilator.HighPressureTotal < customOrderVentilator.HighPressureDynamic || customOrderVentilator.LowPressureTotal < customOrderVentilator.LowPressureDynamic)
             {
                 MessageBox.Show("Creation failed. Static pressure can't be higher than the total pressure.");
                 return false;
@@ -216,12 +274,12 @@ namespace SpecificationsTesting.Business
                 customOrderVentilator.Efficiency = 95;
             }
 
-            if (decimal.Parse(customOrderVentilator.CustomOrderMotor.Power) < decimal.Parse(customOrderVentilator.ShaftPower))
+            if (customOrderVentilator.CustomOrderMotor.HighPower < customOrderVentilator.HighShaftPower || customOrderVentilator.CustomOrderMotor.LowPower < customOrderVentilator.LowShaftPower)
             {
                 MessageBox.Show("Creation failed. Motor power is to low.");
                 return false;
             }
-            else if (decimal.Parse(customOrderVentilator.CustomOrderMotor.Power) < 1.3m * decimal.Parse(customOrderVentilator.ShaftPower))
+            else if (customOrderVentilator.CustomOrderMotor.HighPower < 1.3m * customOrderVentilator.HighShaftPower || customOrderVentilator.CustomOrderMotor.LowPower < 1.3m * customOrderVentilator.LowShaftPower)
             {
                 DialogResult dialogResult = MessageBox.Show("Motor power is lower than 1.3 x the nominal power. Continue?", "Motor Power", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)

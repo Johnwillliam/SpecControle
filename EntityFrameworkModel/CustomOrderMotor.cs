@@ -28,9 +28,12 @@ namespace EntityFrameworkModel
         public Nullable<int> IP { get; set; }
         public string BuildingType { get; set; }
         public string ISO { get; set; }
-        public string Power { get; set; }
-        public string RPM { get; set; }
-        public string Amperage { get; set; }
+        public Nullable<decimal> HighPower { get; set; }
+        public Nullable<decimal> LowPower { get; set; }
+        public Nullable<int> HighRPM { get; set; }
+        public Nullable<int> LowRPM { get; set; }
+        public Nullable<decimal> HighAmperage { get; set; }
+        public Nullable<decimal> LowAmperage { get; set; }
         public Nullable<int> StartupAmperage { get; set; }
         public Nullable<int> VoltageTypeID { get; set; }
         public Nullable<int> Frequency { get; set; }

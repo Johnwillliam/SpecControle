@@ -138,11 +138,19 @@ namespace SpecificationsTesting.UserControls
 
         private void DisableCalculatedRows()
         {
-            var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("PressureDynamic")).Cells["Value"];
+            var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureDynamic")).Cells["Value"];
             pressureDynamic.ReadOnly = true;
             pressureDynamic.Style.BackColor = Color.LightGray;
 
-            var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("ShaftPower")).Cells["Value"];
+            pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureDynamic")).Cells["Value"];
+            pressureDynamic.ReadOnly = true;
+            pressureDynamic.Style.BackColor = Color.LightGray;
+
+            var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("HighShaftPower")).Cells["Value"];
+            shaftPower.ReadOnly = true;
+            shaftPower.Style.BackColor = Color.LightGray;
+
+            shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
             shaftPower.ReadOnly = true;
             shaftPower.Style.BackColor = Color.LightGray;
 
@@ -222,7 +230,11 @@ namespace SpecificationsTesting.UserControls
 
             CustomOrderMotor customOrderMotor;
             if (SelectedTemplateMotor != null)
-                customOrderMotor = new CustomOrderMotor() { Name = SelectedTemplateMotor.Name, Amperage = SelectedTemplateMotor.Amperage, BuildingType = SelectedTemplateMotor.BuildingType, Frequency = SelectedTemplateMotor.Frequency, IEC = SelectedTemplateMotor.IEC, IP = SelectedTemplateMotor.IP, ISO = SelectedTemplateMotor.ISO, Power = SelectedTemplateMotor.Power, PowerFactor = SelectedTemplateMotor.PowerFactor, RPM = SelectedTemplateMotor.RPM, StartupAmperage = SelectedTemplateMotor.StartupAmperage, Type = SelectedTemplateMotor.Type, Version = SelectedTemplateMotor.Version, VoltageType = SelectedTemplateMotor.VoltageType, VoltageTypeID = SelectedTemplateMotor.VoltageTypeID };
+                customOrderMotor = new CustomOrderMotor() { Name = SelectedTemplateMotor.Name, HighAmperage = SelectedTemplateMotor.HighAmperage, LowAmperage = SelectedTemplateMotor.LowAmperage, 
+                    BuildingType = SelectedTemplateMotor.BuildingType, Frequency = SelectedTemplateMotor.Frequency, IEC = SelectedTemplateMotor.IEC, IP = SelectedTemplateMotor.IP, 
+                    ISO = SelectedTemplateMotor.ISO, HighPower = SelectedTemplateMotor.HighPower, LowPower = SelectedTemplateMotor.LowPower, PowerFactor = SelectedTemplateMotor.PowerFactor, 
+                    HighRPM = SelectedTemplateMotor.HighRPM, LowRPM = SelectedTemplateMotor.LowRPM, StartupAmperage = SelectedTemplateMotor.StartupAmperage, Type = SelectedTemplateMotor.Type, 
+                    Version = SelectedTemplateMotor.Version, VoltageType = SelectedTemplateMotor.VoltageType, VoltageTypeID = SelectedTemplateMotor.VoltageTypeID };
             else
                 customOrderMotor = ReadCustomOrderMotorDataGrid();
 
@@ -395,7 +407,11 @@ namespace SpecificationsTesting.UserControls
             {
                 int customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
-                var copiedMotor = new CustomOrderMotor() { Name = selectedMotor.Name, Amperage = selectedMotor.Amperage, BuildingType = selectedMotor.BuildingType, Frequency = selectedMotor.Frequency, IEC = selectedMotor.IEC, IP = selectedMotor.IP, ISO = selectedMotor.ISO, Power = selectedMotor.Power, PowerFactor = selectedMotor.PowerFactor, RPM = selectedMotor.RPM, StartupAmperage = selectedMotor.StartupAmperage, Type = selectedMotor.Type, Version = selectedMotor.Version, VoltageType = selectedMotor.VoltageType, VoltageTypeID = selectedMotor.VoltageTypeID };
+                var copiedMotor = new CustomOrderMotor() { Name = selectedMotor.Name, HighAmperage = selectedMotor.HighAmperage, LowAmperage = selectedMotor.LowAmperage, 
+                    BuildingType = selectedMotor.BuildingType, Frequency = selectedMotor.Frequency, IEC = selectedMotor.IEC, IP = selectedMotor.IP, ISO = selectedMotor.ISO, 
+                    HighPower = selectedMotor.HighPower, LowPower = selectedMotor.LowPower, PowerFactor = selectedMotor.PowerFactor, 
+                    HighRPM = selectedMotor.HighRPM, LowRPM = selectedMotor.LowRPM, StartupAmperage = selectedMotor.StartupAmperage, Type = selectedMotor.Type, 
+                    Version = selectedMotor.Version, VoltageType = selectedMotor.VoltageType, VoltageTypeID = selectedMotor.VoltageTypeID };
                 var newVentilator = ReadCustomOrderVentilatorDataGrid();
                 if (newVentilator == null)
                 {
@@ -466,11 +482,14 @@ namespace SpecificationsTesting.UserControls
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null)
+            if (CustomOrder == null && CustomOrder.CustomOrderNumber != 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
+            var mainForm = (MainForm)this.ParentForm;
+            mainForm.TabControl.SelectedIndex = 2;
+            mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
         
         private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)

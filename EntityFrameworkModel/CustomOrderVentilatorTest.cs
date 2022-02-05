@@ -16,8 +16,10 @@ namespace EntityFrameworkModel
     {
         public int ID { get; set; }
         public int CustomOrderVentilatorID { get; set; }
-        public Nullable<int> MeasuredVentilatorRPM { get; set; }
-        public Nullable<int> MeasuredMotorRPM { get; set; }
+        public Nullable<int> MeasuredVentilatorHighRPM { get; set; }
+        public Nullable<int> MeasuredVentilatorLowRPM { get; set; }
+        public Nullable<int> MeasuredMotorHighRPM { get; set; }
+        public Nullable<int> MeasuredMotorLowRPM { get; set; }
         public Nullable<int> MeasuredBladeAngle { get; set; }
         public Nullable<int> Cover { get; set; }
         public string L1 { get; set; }

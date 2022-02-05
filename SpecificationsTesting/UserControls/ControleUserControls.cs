@@ -227,6 +227,10 @@ namespace SpecificationsTesting.UserControls
             customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
             customOrderVentilatorTest.ID = customOrderVentilatorTestID;
             customOrderVentilatorTest.CustomOrderVentilatorID = customOrderVentilatorID;
+
+            if (!BCustomOrderVentilatorTest.Validate(customOrderVentilatorTest))
+                return;
+
             BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
             InitializeGridData();

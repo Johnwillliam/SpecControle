@@ -38,14 +38,17 @@
             this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
+            this.CustomOrderVentilatorsDataGrid = new System.Windows.Forms.DataGridView();
+            this.btnSize = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(3, 349);
+            this.btnPrint.Location = new System.Drawing.Point(3, 422);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(157, 47);
             this.btnPrint.TabIndex = 11;
@@ -92,7 +95,7 @@
             // 
             this.MotorTypePlateImage.Location = new System.Drawing.Point(3, 3);
             this.MotorTypePlateImage.Name = "MotorTypePlateImage";
-            this.MotorTypePlateImage.Size = new System.Drawing.Size(650, 340);
+            this.MotorTypePlateImage.Size = new System.Drawing.Size(650, 413);
             this.MotorTypePlateImage.TabIndex = 6;
             this.MotorTypePlateImage.TabStop = false;
             // 
@@ -133,11 +136,37 @@
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = true;
             // 
+            // CustomOrderVentilatorsDataGrid
+            // 
+            this.CustomOrderVentilatorsDataGrid.AllowUserToAddRows = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToDeleteRows = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeColumns = false;
+            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
+            this.CustomOrderVentilatorsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(927, 3);
+            this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
+            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(209, 342);
+            this.CustomOrderVentilatorsDataGrid.TabIndex = 45;
+            // 
+            // btnSize
+            // 
+            this.btnSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSize.Location = new System.Drawing.Point(166, 422);
+            this.btnSize.Name = "btnSize";
+            this.btnSize.Size = new System.Drawing.Size(157, 47);
+            this.btnSize.TabIndex = 46;
+            this.btnSize.Text = "Small";
+            this.btnSize.UseVisualStyleBackColor = true;
+            this.btnSize.Click += new System.EventHandler(this.btnSize_Click);
+            // 
             // MotorTypePlateUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.btnSize);
+            this.Controls.Add(this.CustomOrderVentilatorsDataGrid);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.label2);
@@ -146,10 +175,11 @@
             this.Controls.Add(this.LogosListBox);
             this.Controls.Add(this.MotorTypePlateImage);
             this.Name = "MotorTypePlateUserControl";
-            this.Size = new System.Drawing.Size(926, 399);
+            this.Size = new System.Drawing.Size(1139, 472);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,5 +197,7 @@
         private System.Windows.Forms.TextBox txtCustomOrderNumber;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.DataGridView CustomOrderVentilatorsDataGrid;
+        private System.Windows.Forms.Button btnSize;
     }
 }

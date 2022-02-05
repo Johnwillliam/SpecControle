@@ -151,6 +151,17 @@
     <Compile Include="Forms\MotorTemplateSelectionForm.Designer.cs">
       <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TemplateMotors.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateMotors.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MotorTemplateUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\MotorTemplateUserControl.Designer.cs">
+      <DependentUpon>MotorTemplateUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MotorTypePlateUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -159,11 +170,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecificationsTestingDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ControleUserControls.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MotorTemplateSelectionForm.resx">
       <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\MotorTemplateUserControl.resx">
+      <DependentUpon>MotorTemplateUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MotorTypePlateUserControl.resx">
       <DependentUpon>MotorTypePlateUserControl.cs</DependentUpon>
@@ -213,16 +222,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SpecificationsTestingDataSet.xsc">
-      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    <None Include="TemplateMotors.xsc">
+      <DependentUpon>TemplateMotors.xsd</DependentUpon>
     </None>
-    <None Include="SpecificationsTestingDataSet.xsd">
+    <None Include="TemplateMotors.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>SpecificationsTestingDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>TemplateMotors.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="SpecificationsTestingDataSet.xss">
-      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    <None Include="TemplateMotors.xss">
+      <DependentUpon>TemplateMotors.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

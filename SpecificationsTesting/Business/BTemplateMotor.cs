@@ -6,6 +6,16 @@ namespace SpecificationsTesting.Business
 {
     public class BTemplateMotor
     {
+        public static TemplateMotor Create(TemplateMotor templateMotor)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                dbContext.TemplateMotors.Add(templateMotor);
+                dbContext.SaveChanges();
+                return templateMotor;
+            }
+        }
+
         public static List<TemplateMotor> GetAll()
         {
             using (var dbContext = new SpecificationsDatabaseModel())

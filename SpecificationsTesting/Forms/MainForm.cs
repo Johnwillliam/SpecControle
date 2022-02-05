@@ -8,8 +8,10 @@ namespace SpecificationsTesting.Forms
     public partial class MainForm : Form
     {
         public MotorTypePlateUserControl MotorTypePlateUserControl { get; set; }
+        public MotorTemplateUserControl MotorTemplateUserControl { get; set; }
         public OrderUserControls OrderUserControls { get; set; }
         public ControleUserControls ControleUserControls { get; set; }
+        public TabControl TabControl { get => tabControl; }
         public MainForm()
         {
             InitializeComponent();
@@ -17,6 +19,7 @@ namespace SpecificationsTesting.Forms
             InitializeOrderUserControls();
             InitializeControleUserControls();
             InitializeMotorTypePlateUserControl();
+            InitializeMotorTemplateUserControl();
             InitializePrinters();
         }
 
@@ -67,6 +70,15 @@ namespace SpecificationsTesting.Forms
                 AutoSize = true
             };
             MotorTypePlateTabPage.Controls.Add(MotorTypePlateUserControl);
+        }
+
+        private void InitializeMotorTemplateUserControl()
+        {
+            MotorTemplateUserControl = new MotorTemplateUserControl
+            {
+                AutoSize = true
+            };
+            TemplateMotorTabPage.Controls.Add(MotorTemplateUserControl);
         }
 
         private void cmbPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
