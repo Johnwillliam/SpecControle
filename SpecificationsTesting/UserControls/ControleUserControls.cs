@@ -34,6 +34,7 @@ namespace SpecificationsTesting.UserControls
             this.radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorLow_CheckedChanged);
             this.btnReadRPM.Click += new System.EventHandler(this.btnReadRPM_Click);
             this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
+            this.btnAtex.Click += new System.EventHandler(this.btnAtex_Click);
 
             InitializeGridColumns();
             InitializeComboBoxes();
@@ -314,14 +315,32 @@ namespace SpecificationsTesting.UserControls
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null && CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
+            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+                return;
+
             var mainForm = (MainForm)this.ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
             mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+        }
+
+        private void btnAtex_Click(object sender, EventArgs e)
+        {
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            {
+                MessageBox.Show("Please search a order first.");
+                return;
+            }
+            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+                return;
+
+            var mainForm = (MainForm)this.ParentForm;
+            mainForm.TabControl.SelectedIndex = 2;
+            mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
 
     }

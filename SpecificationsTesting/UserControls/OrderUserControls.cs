@@ -28,6 +28,7 @@ namespace SpecificationsTesting.UserControls
             this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
             this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
             this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
+            this.btnAtex.Click += new System.EventHandler(this.btnAtex_Click);
             this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
 
             InitializeGridColumns();
@@ -484,16 +485,34 @@ namespace SpecificationsTesting.UserControls
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null && CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
+            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+                return;
+
             var mainForm = (MainForm)this.ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
             mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
-        
+
+        private void btnAtex_Click(object sender, EventArgs e)
+        {
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            {
+                MessageBox.Show("Please search a order first.");
+                return;
+            }
+            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+                return;
+
+            var mainForm = (MainForm)this.ParentForm;
+            mainForm.TabControl.SelectedIndex = 2;
+            mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+        }
+
         private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
         {
             Rectangle rect = cell.DataGridView.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);

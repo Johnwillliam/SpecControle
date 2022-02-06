@@ -52,6 +52,7 @@
             this.radioButtonVentilatorHigh = new System.Windows.Forms.RadioButton();
             this.radioButtonMotorLow = new System.Windows.Forms.RadioButton();
             this.btnMotorTypePlate = new System.Windows.Forms.Button();
+            this.btnAtex = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -307,13 +308,23 @@
             this.btnMotorTypePlate.Name = "btnMotorTypePlate";
             this.btnMotorTypePlate.Size = new System.Drawing.Size(247, 23);
             this.btnMotorTypePlate.TabIndex = 55;
-            this.btnMotorTypePlate.Text = "Type Plate";
+            this.btnMotorTypePlate.Text = "Type Plate Sticker";
             this.btnMotorTypePlate.UseVisualStyleBackColor = true;
+            // 
+            // btnAtex
+            // 
+            this.btnAtex.Location = new System.Drawing.Point(675, 215);
+            this.btnAtex.Name = "btnAtex";
+            this.btnAtex.Size = new System.Drawing.Size(247, 23);
+            this.btnAtex.TabIndex = 56;
+            this.btnAtex.Text = "Atex Sticker";
+            this.btnAtex.UseVisualStyleBackColor = true;
             // 
             // ControleUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAtex);
             this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cmbUser);
@@ -373,5 +384,6 @@
         private System.Windows.Forms.RadioButton radioButtonMotorLow;
         private System.Windows.Forms.Button btnReadRPM;
         private System.Windows.Forms.Button btnMotorTypePlate;
+        private System.Windows.Forms.Button btnAtex;
     }
 }

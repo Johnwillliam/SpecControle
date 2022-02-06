@@ -100,6 +100,10 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
+
+            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+                return;
+
             InitializeGridData();
         }
 
@@ -120,7 +124,7 @@ namespace SpecificationsTesting.UserControls
 
         private void print()
         {
-            
+
         }
     }
 }

@@ -59,6 +59,7 @@
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnMotorTypePlate = new System.Windows.Forms.Button();
+            this.btnAtex = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -361,10 +362,20 @@
             this.btnMotorTypePlate.Text = "Type Plate";
             this.btnMotorTypePlate.UseVisualStyleBackColor = true;
             // 
-            // OrderUserControls
+            // btnAtex
+            // 
+            this.btnAtex.Location = new System.Drawing.Point(675, 457);
+            this.btnAtex.Name = "btnAtex";
+            this.btnAtex.Size = new System.Drawing.Size(247, 23);
+            this.btnAtex.TabIndex = 57;
+            this.btnAtex.Text = "Atex Sticker";
+            this.btnAtex.UseVisualStyleBackColor = true;
+            // 
+            // OrderUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAtex);
             this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.CustomOrderDataGrid);
             this.Controls.Add(this.cmbVentilatorType);
@@ -385,7 +396,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnClear);
-            this.Name = "OrderUserControls";
+            this.Name = "OrderUserControl";
             this.Size = new System.Drawing.Size(1221, 612);
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
@@ -435,5 +446,6 @@
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnMotorTypePlate;
+        private System.Windows.Forms.Button btnAtex;
     }
 }
