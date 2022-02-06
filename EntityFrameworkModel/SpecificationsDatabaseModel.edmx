@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ATEXTypes">
           <Key>
             <PropertyRef Name="ID" />
@@ -97,9 +97,12 @@
           <Property Name="MeasuredMotorLowRPM" Type="int" />
           <Property Name="MeasuredBladeAngle" Type="int" />
           <Property Name="Cover" Type="int" />
-          <Property Name="L1" Type="nvarchar(max)" />
-          <Property Name="L2" Type="nvarchar(max)" />
-          <Property Name="L3" Type="nvarchar(max)" />
+          <Property Name="I1High" Type="int" />
+          <Property Name="I1Low" Type="int" />
+          <Property Name="I2High" Type="int" />
+          <Property Name="I2Low" Type="int" />
+          <Property Name="I3High" Type="int" />
+          <Property Name="I3Low" Type="int" />
           <Property Name="MotorNumber" Type="int" />
           <Property Name="Weight" Type="int" />
           <Property Name="Date" Type="date" />
@@ -413,8 +416,7 @@
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpecificationsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -522,15 +524,18 @@
           <Property Name="MeasuredMotorLowRPM" Type="Int32" />
           <Property Name="MeasuredBladeAngle" Type="Int32" />
           <Property Name="Cover" Type="Int32" />
-          <Property Name="L1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="L2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="L3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MotorNumber" Type="Int32" />
           <Property Name="Weight" Type="Int32" />
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="UserID" Type="Int32" />
           <NavigationProperty Name="CustomOrderVentilator" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" FromRole="CustomOrderVentilatorTests" ToRole="CustomOrderVentilators" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="CustomOrderVentilatorTests" ToRole="Users" />
+          <Property Name="I1High" Type="Int32" />
+          <Property Name="I1Low" Type="Int32" />
+          <Property Name="I2High" Type="Int32" />
+          <Property Name="I2Low" Type="Int32" />
+          <Property Name="I3High" Type="Int32" />
+          <Property Name="I3Low" Type="Int32" />
         </EntityType>
         <EntityType Name="GroupType">
           <Key>
@@ -946,6 +951,12 @@
           <EntitySetMapping Name="CustomOrderVentilatorTests">
             <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilatorTest">
               <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
+                <ScalarProperty Name="I3Low" ColumnName="I3Low" />
+                <ScalarProperty Name="I3High" ColumnName="I3High" />
+                <ScalarProperty Name="I2Low" ColumnName="I2Low" />
+                <ScalarProperty Name="I2High" ColumnName="I2High" />
+                <ScalarProperty Name="I1Low" ColumnName="I1Low" />
+                <ScalarProperty Name="I1High" ColumnName="I1High" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
                 <ScalarProperty Name="MeasuredVentilatorHighRPM" ColumnName="MeasuredVentilatorHighRPM" />
@@ -954,9 +965,6 @@
                 <ScalarProperty Name="MeasuredMotorLowRPM" ColumnName="MeasuredMotorLowRPM" />
                 <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
                 <ScalarProperty Name="Cover" ColumnName="Cover" />
-                <ScalarProperty Name="L1" ColumnName="L1" />
-                <ScalarProperty Name="L2" ColumnName="L2" />
-                <ScalarProperty Name="L3" ColumnName="L3" />
                 <ScalarProperty Name="MotorNumber" ColumnName="MotorNumber" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="Date" ColumnName="Date" />

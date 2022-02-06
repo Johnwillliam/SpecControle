@@ -16,6 +16,19 @@ namespace SpecificationsTesting.Business
             }
         }
 
+        public static void Update(TemplateMotor templateMotor)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                var toUpdate = dbContext.TemplateMotors.Find(templateMotor.ID);
+                if (toUpdate != null)
+                {
+                    dbContext.Entry(toUpdate).CurrentValues.SetValues(templateMotor);
+                    dbContext.SaveChanges();
+                }
+            }
+        }
+
         public static List<TemplateMotor> GetAll()
         {
             using (var dbContext = new SpecificationsDatabaseModel())

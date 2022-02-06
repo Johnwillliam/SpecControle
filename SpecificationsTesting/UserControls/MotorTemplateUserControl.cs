@@ -30,6 +30,10 @@ namespace SpecificationsTesting.UserControls
                 {
                     BTemplateMotor.Create(motorTemplate);
                 }
+                else
+                {
+                    BTemplateMotor.Update(motorTemplate);
+                }
             }
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
         }

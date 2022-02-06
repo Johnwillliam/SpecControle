@@ -43,7 +43,6 @@ namespace SpecificationsTesting.Business
                 {
                     dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderMotor);
                     dbContext.SaveChanges();
-                    Thread.Sleep(300);
                 }
             }
         }

@@ -11,12 +11,12 @@ using System.Windows.Forms;
 
 namespace SpecificationsTesting.UserControls
 {
-    public partial class OrderUserControls : UserControl
+    public partial class OrderUserControl : UserControl
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
-        public OrderUserControls()
+        public OrderUserControl()
         {
             InitializeComponent();
             this.btnCreateCO.Click += new System.EventHandler(this.btnCreateCO_Click);
@@ -377,6 +377,8 @@ namespace SpecificationsTesting.UserControls
             cmbSoundLevelType.SelectedValue = -1;
             cmbVentilatorType.SelectedValue = -1;
             btnCopyOrder.Enabled = false;
+            SelectedTemplateMotor = null;
+            txtSelectedMotor.Text = "";
             InitializeGridData();
         }
 

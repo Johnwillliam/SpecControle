@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModel;
 using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
+using SpecificationsTesting.Forms;
 using System;
 using System.Data;
 using System.Drawing;
@@ -10,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SpecificationsTesting.UserControls
 {
-    public partial class ControleUserControls : UserControl
+    public partial class ControleUserControl : UserControl
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
@@ -18,7 +19,7 @@ namespace SpecificationsTesting.UserControls
         public TemplateMotor SelectedTemplateMotor { get; set; }
         private SerialPort serialPort;
 
-        public ControleUserControls()
+        public ControleUserControl()
         {
             InitializeComponent();
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
@@ -32,6 +33,7 @@ namespace SpecificationsTesting.UserControls
             this.radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorHigh_CheckedChanged);
             this.radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorLow_CheckedChanged);
             this.btnReadRPM.Click += new System.EventHandler(this.btnReadRPM_Click);
+            this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
 
             InitializeGridColumns();
             InitializeComboBoxes();
@@ -308,6 +310,18 @@ namespace SpecificationsTesting.UserControls
         {
             // Show all the incoming data in the port's buffer
             //textBox1.Text = serialPort.ReadExisting();
+        }
+
+        private void btnMotorTypePlate_Click(object sender, EventArgs e)
+        {
+            if (CustomOrder == null && CustomOrder.CustomOrderNumber != 0)
+            {
+                MessageBox.Show("Please search a order first.");
+                return;
+            }
+            var mainForm = (MainForm)this.ParentForm;
+            mainForm.TabControl.SelectedIndex = 2;
+            mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
 
     }

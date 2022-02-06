@@ -1,6 +1,6 @@
 ﻿namespace SpecificationsTesting.UserControls
 {
-    partial class OrderUserControls
+    partial class OrderUserControl
     {
         /// <summary> 
         /// Required designer variable.

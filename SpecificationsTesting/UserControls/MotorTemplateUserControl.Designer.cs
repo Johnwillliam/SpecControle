@@ -84,15 +84,19 @@
             this.powerFactorDataGridViewTextBoxColumn});
             this.MotorTemplateDataGridView.DataSource = this.templateMotorsBindingSource;
             this.MotorTemplateDataGridView.DateWithTime = false;
-            this.MotorTemplateDataGridView.Location = new System.Drawing.Point(9, 9);
+            this.MotorTemplateDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.MotorTemplateDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.MotorTemplateDataGridView.MultiSelect = false;
             this.MotorTemplateDataGridView.Name = "MotorTemplateDataGridView";
-            this.MotorTemplateDataGridView.Size = new System.Drawing.Size(806, 412);
+            this.MotorTemplateDataGridView.Size = new System.Drawing.Size(1187, 412);
             this.MotorTemplateDataGridView.TabIndex = 0;
             this.MotorTemplateDataGridView.TimeFilter = false;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(280, 427);
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(505, 418);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(250, 37);
             this.btnSave.TabIndex = 1;
@@ -262,10 +266,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.MotorTemplateDataGridView);
             this.Name = "MotorTemplateUserControl";
-            this.Size = new System.Drawing.Size(827, 467);
+            this.Size = new System.Drawing.Size(1187, 467);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTemplateDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource)).EndInit();

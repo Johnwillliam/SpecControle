@@ -7,19 +7,25 @@ namespace SpecificationsTesting.Forms
 {
     public partial class MainForm : Form
     {
-        public MotorTypePlateUserControl MotorTypePlateUserControl { get; set; }
+        public MotorTypePlateStickerUserControl MotorTypePlateUserControl { get; set; }
+        public AtexStickerUserControl AtexStickerUserControl { get; set; }
         public MotorTemplateUserControl MotorTemplateUserControl { get; set; }
-        public OrderUserControls OrderUserControls { get; set; }
-        public ControleUserControls ControleUserControls { get; set; }
+        public OrderUserControl OrderUserControl { get; set; }
+        public ControleUserControl ControleUserControl { get; set; }
+        public TestDocumentGenerationUserControl TestDocumentGenerationUserControl { get; set; }
         public TabControl TabControl { get => tabControl; }
         public MainForm()
         {
+            this.Width = 1400;
+            this.Height = 700;
             InitializeComponent();
             TestDatabase();
             InitializeOrderUserControls();
             InitializeControleUserControls();
             InitializeMotorTypePlateUserControl();
+            InitializeAtexStickerUserControl();
             InitializeMotorTemplateUserControl();
+            InitializeTestDocumentGenerationUserControl();
             InitializePrinters();
         }
 
@@ -47,38 +53,57 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeOrderUserControls()
         {
-            OrderUserControls = new OrderUserControls
+            OrderUserControl = new OrderUserControl
             {
                 AutoSize = true
             };
-            OrderTabPage.Controls.Add(OrderUserControls);
+            OrderTabPage.Controls.Add(OrderUserControl);
         }
 
         private void InitializeControleUserControls()
         {
-            ControleUserControls = new ControleUserControls
+            ControleUserControl = new ControleUserControl
             {
                 AutoSize = true
             };
-            ControleTabPage.Controls.Add(ControleUserControls);
+            ControleTabPage.Controls.Add(ControleUserControl);
         }
 
         private void InitializeMotorTypePlateUserControl()
         {
-            MotorTypePlateUserControl = new MotorTypePlateUserControl
+            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl
             {
                 AutoSize = true
             };
             MotorTypePlateTabPage.Controls.Add(MotorTypePlateUserControl);
         }
 
+        private void InitializeAtexStickerUserControl()
+        {
+            AtexStickerUserControl = new AtexStickerUserControl
+            {
+                AutoSize = true
+            };
+            AtexStickerTabPage.Controls.Add(AtexStickerUserControl);
+        }
+
         private void InitializeMotorTemplateUserControl()
         {
             MotorTemplateUserControl = new MotorTemplateUserControl
             {
-                AutoSize = true
+                AutoSize = true, AutoSizeMode = AutoSizeMode.GrowOnly
             };
             TemplateMotorTabPage.Controls.Add(MotorTemplateUserControl);
+        }
+
+        private void InitializeTestDocumentGenerationUserControl()
+        {
+            TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowOnly
+            };
+            RunningTestTabPage.Controls.Add(TestDocumentGenerationUserControl);
         }
 
         private void cmbPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
