@@ -22,16 +22,16 @@ namespace EntityFrameworkModel
         public Nullable<int> MeasuredMotorLowRPM { get; set; }
         public Nullable<int> MeasuredBladeAngle { get; set; }
         public Nullable<int> Cover { get; set; }
-        public Nullable<int> MotorNumber { get; set; }
+        public string MotorNumber { get; set; }
         public Nullable<int> Weight { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
         public Nullable<int> UserID { get; set; }
-        public Nullable<int> I1High { get; set; }
-        public Nullable<int> I1Low { get; set; }
-        public Nullable<int> I2High { get; set; }
-        public Nullable<int> I2Low { get; set; }
-        public Nullable<int> I3High { get; set; }
-        public Nullable<int> I3Low { get; set; }
+        public Nullable<decimal> I1High { get; set; }
+        public Nullable<decimal> I1Low { get; set; }
+        public Nullable<decimal> I2High { get; set; }
+        public Nullable<decimal> I2Low { get; set; }
+        public Nullable<decimal> I3High { get; set; }
+        public Nullable<decimal> I3Low { get; set; }
     
         public virtual CustomOrderVentilator CustomOrderVentilator { get; set; }
         public virtual User User { get; set; }

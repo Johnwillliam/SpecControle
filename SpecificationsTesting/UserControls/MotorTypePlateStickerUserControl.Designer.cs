@@ -158,9 +158,10 @@
             this.btnSize.TabIndex = 46;
             this.btnSize.Text = "Small";
             this.btnSize.UseVisualStyleBackColor = true;
+            this.btnSize.Visible = false;
             this.btnSize.Click += new System.EventHandler(this.btnSize_Click);
             // 
-            // MotorTypePlateUserControl
+            // MotorTypePlateStickerUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -174,7 +175,7 @@
             this.Controls.Add(this.ArrowsListBox);
             this.Controls.Add(this.LogosListBox);
             this.Controls.Add(this.MotorTypePlateImage);
-            this.Name = "MotorTypePlateUserControl";
+            this.Name = "MotorTypePlateStickerUserControl";
             this.Size = new System.Drawing.Size(1139, 472);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).EndInit();
             this.groupBox1.ResumeLayout(false);

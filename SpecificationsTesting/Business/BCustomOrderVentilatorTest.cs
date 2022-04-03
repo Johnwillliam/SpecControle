@@ -121,17 +121,21 @@ namespace SpecificationsTesting.Business
                 MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is higher than the nominal amperage.");
                 return false;
             }
-            if (test.I1Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I2Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I3Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2))
+            //if (test.I1Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I2Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I3Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2))
+            //{
+            //    MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is lower than 50% of the nominal amperage.");
+            //    return false;
+            //}
+
+            if(test.CustomOrderVentilator.CustomOrderMotor.HighAmperage != null && test.CustomOrderVentilator.CustomOrderMotor.LowAmperage != null)
             {
-                MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is lower than 50% of the nominal amperage.");
-                return false;
-            }
-            var iLows = new List<int?>() { test.I1Low, test.I2Low, test.I3Low };
-            var iHighs = new List<int?>() { test.I1High, test.I2High, test.I3High };
-            if ((double)(iHighs.Max() / iLows.Min()) > 1.1)
-            {
-                MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 10%.");
-                return false;
+                var iLows = new List<decimal?>() { test.I1Low, test.I2Low, test.I3Low };
+                var iHighs = new List<decimal?>() { test.I1High, test.I2High, test.I3High };
+                if ((decimal)(iHighs.Max() / iLows.Min()) > 1.1m)
+                {
+                    MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 10%.");
+                    return false;
+                }
             }
             if (test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
             {
@@ -161,9 +165,14 @@ namespace SpecificationsTesting.Business
             if (test.MeasuredVentilatorHighRPM != null && test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
             {
                 var syncRPM = BCustomOrderVentilator.CalculateSyncRPM(test.MeasuredVentilatorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
+                if (test.MeasuredVentilatorHighRPM > syncRPM)
+                {
+                    MessageBox.Show($"Test ID {test.ID}: Measured motor RPM ({test.MeasuredVentilatorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.");
+                    return false;
+                }
                 if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
                 {
-                    MessageBox.Show($"Test ID {test.ID}: Measured motor RPM is higher than possible, wrong motor?");
+                    MessageBox.Show($"Test ID {test.ID}: Measured ventilator RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?");
                     return false;
                 }
             }
@@ -202,25 +211,25 @@ namespace SpecificationsTesting.Business
                 newCustomOrderVentilatorTest.Cover = DataHelper.ToNullableInt(cover?.ToString());
 
                 var i1High = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I1High")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I1High = DataHelper.ToNullableInt(i1High?.ToString());
+                newCustomOrderVentilatorTest.I1High = DataHelper.ToNullableDecimal(i1High?.ToString());
 
                 var i1Low = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I1Low")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I1Low = DataHelper.ToNullableInt(i1Low?.ToString());
+                newCustomOrderVentilatorTest.I1Low = DataHelper.ToNullableDecimal(i1Low?.ToString());
 
                 var i2High = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I2High")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I2High = DataHelper.ToNullableInt(i2High?.ToString());
+                newCustomOrderVentilatorTest.I2High = DataHelper.ToNullableDecimal(i2High?.ToString());
 
                 var i2Low = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I2Low")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I2Low = DataHelper.ToNullableInt(i2Low?.ToString());
+                newCustomOrderVentilatorTest.I2Low = DataHelper.ToNullableDecimal(i2Low?.ToString());
 
                 var i3High = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I3High")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I3High = DataHelper.ToNullableInt(i3High?.ToString());
+                newCustomOrderVentilatorTest.I3High = DataHelper.ToNullableDecimal(i3High?.ToString());
 
                 var i3Low = rows.First(x => x.Cells["Description"].Value.ToString().Equals("I3Low")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.I3Low = DataHelper.ToNullableInt(i3Low?.ToString());
+                newCustomOrderVentilatorTest.I3Low = DataHelper.ToNullableDecimal(i3Low?.ToString());
 
                 var motorNumber = rows.First(x => x.Cells["Description"].Value.ToString().Equals("MotorNumber")).Cells["Value"].Value;
-                newCustomOrderVentilatorTest.MotorNumber = DataHelper.ToNullableInt(motorNumber?.ToString());
+                newCustomOrderVentilatorTest.MotorNumber = motorNumber?.ToString();
 
                 var weight = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Weight")).Cells["Value"].Value;
                 newCustomOrderVentilatorTest.Weight = DataHelper.ToNullableInt(weight?.ToString());

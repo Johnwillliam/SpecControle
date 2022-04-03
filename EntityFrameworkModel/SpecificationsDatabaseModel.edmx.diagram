@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="117cf5f7c1db4bb2b495da6d995458de" Name="Diagram1">
+      <Diagram DiagramId="e54fe70fd60d428fb655ea8a87294694" Name="Diagram1">
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.ATEXType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CatType" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrder" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilator" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.GroupType" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.SoundLevelType" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemperatureClass" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />

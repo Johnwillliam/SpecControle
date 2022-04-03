@@ -156,9 +156,12 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
-            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
-                return;
-
+            if(SelectedVentilatorID > 0)
+            {
+                if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+                    return;
+            }
+            
             InitializeGridData();
         }
 
@@ -186,10 +189,11 @@ namespace SpecificationsTesting.UserControls
         public void CreateTable(string fileName)
         {
             const int yPos = 7500;
-
-            using (WordprocessingDocument doc = WordprocessingDocument.Open(fileName, true))
+            using (WordprocessingDocument doc = WordprocessingDocument.Create(fileName, WordprocessingDocumentType.Document))
             {
+                doc.AddMainDocumentPart();
                 MainDocumentPart mainPart = doc.MainDocumentPart;
+                mainPart.Document = new Document(new Body());
                 ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Png);
                 using (FileStream stream = new FileStream("D:\\Projecten\\Fiverr\\joitsys\\RunningTestHeader.png", FileMode.Open))
                 {
@@ -208,7 +212,7 @@ namespace SpecificationsTesting.UserControls
                 newParagraph.Append(run);
                 doc.MainDocumentPart.Document.Body.Append(newParagraph);
 
-                Table vorderTable = new Table();
+                Table orderTable = new Table();
 
                 // Create a TableProperties object and specify its border information.
                 TableProperties tblPropOrder = new TableProperties(
@@ -253,13 +257,13 @@ namespace SpecificationsTesting.UserControls
                 );
 
                 // Append the TableProperties object to the empty table.
-                vorderTable.AppendChild<TableProperties>(tblPropOrder);
+                orderTable.AppendChild<TableProperties>(tblPropOrder);
 
                 TableRow tr = new TableRow();
                 TableCell tc1 = new TableCell();
                 tc1.Append(new Paragraph(new Run(new Text("Order Gegevens"))));
                 tr.Append(tc1);
-                vorderTable.Append(tr);
+                orderTable.Append(tr);
                 foreach (DataGridViewRow row in CustomOrderDataGrid.Rows)
                 {
                     tr = new TableRow();
@@ -269,14 +273,14 @@ namespace SpecificationsTesting.UserControls
                     tc1 = new TableCell();
                     tc1.Append(new Paragraph(new Run(new Text(row.Cells[1].Value?.ToString())), paragraphProperties.CloneNode(true)));
                     tr.Append(tc1);
-                    vorderTable.Append(tr);
+                    orderTable.Append(tr);
                 }
 
                 TablePositionProperties tblPosOrder = new TablePositionProperties() { HorizontalAnchor = HorizontalAnchorValues.Page, VerticalAnchor = VerticalAnchorValues.Page, TablePositionX = 500, TablePositionY = yPos };
                 TableOverlap overlapOrder = new TableOverlap() { Val = TableOverlapValues.Overlap };
 
                 tblPropOrder.Append(tblPosOrder, overlapOrder);
-                doc.MainDocumentPart.Document.Body.Append(vorderTable);
+                doc.MainDocumentPart.Document.Body.Append(orderTable);
 
                 Table ventilatorTable = new Table();
 

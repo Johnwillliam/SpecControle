@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="SpecificationsDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ATEXTypes">
           <Key>
             <PropertyRef Name="ID" />
@@ -97,7 +97,7 @@
           <Property Name="MeasuredMotorLowRPM" Type="int" />
           <Property Name="MeasuredBladeAngle" Type="int" />
           <Property Name="Cover" Type="int" />
-          <Property Name="MotorNumber" Type="int" />
+          <Property Name="MotorNumber" Type="nvarchar(max)" />
           <Property Name="Weight" Type="int" />
           <Property Name="Date" Type="datetime" />
           <Property Name="UserID" Type="int" />
@@ -416,7 +416,8 @@
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpecificationsDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -524,18 +525,18 @@
           <Property Name="MeasuredMotorLowRPM" Type="Int32" />
           <Property Name="MeasuredBladeAngle" Type="Int32" />
           <Property Name="Cover" Type="Int32" />
-          <Property Name="MotorNumber" Type="Int32" />
+          <Property Name="MotorNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Weight" Type="Int32" />
           <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="UserID" Type="Int32" />
+          <Property Name="I1High" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="I1Low" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="I2High" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="I2Low" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="I3High" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="I3Low" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="CustomOrderVentilator" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" FromRole="CustomOrderVentilatorTests" ToRole="CustomOrderVentilators" />
           <NavigationProperty Name="User" Relationship="Self.FK_CustomOrderVentilatorTests_CustomOrderVentilators" FromRole="CustomOrderVentilatorTests" ToRole="Users" />
-          <Property Name="I1High" Type="Int32" />
-          <Property Name="I1Low" Type="Int32" />
-          <Property Name="I2High" Type="Int32" />
-          <Property Name="I2Low" Type="Int32" />
-          <Property Name="I3High" Type="Int32" />
-          <Property Name="I3Low" Type="Int32" />
         </EntityType>
         <EntityType Name="GroupType">
           <Key>
@@ -861,211 +862,212 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="SpecificationsDatabaseModelStoreContainer" CdmEntityContainer="Entities">
-    <EntitySetMapping Name="ATEXTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.ATEXType)">
-        <MappingFragment StoreEntitySet="ATEXTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CatTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.CatType)">
-        <MappingFragment StoreEntitySet="CatTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CustomOrderMotors">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.CustomOrderMotor)">
-        <MappingFragment StoreEntitySet="CustomOrderMotors">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="IEC" ColumnName="IEC" />
-          <ScalarProperty Name="IP" ColumnName="IP" />
-          <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
-          <ScalarProperty Name="ISO" ColumnName="ISO" />
-          <ScalarProperty Name="HighPower" ColumnName="HighPower" />
-          <ScalarProperty Name="LowPower" ColumnName="LowPower" />
-          <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
-          <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
-          <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
-          <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
-          <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
-          <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
-          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
-          <ScalarProperty Name="PowerFactor" ColumnName="PowerFactor" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CustomOrders">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.CustomOrder)">
-        <MappingFragment StoreEntitySet="CustomOrders">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="CustomOrderNumber" ColumnName="CustomOrderNumber" />
-          <ScalarProperty Name="Debtor" ColumnName="Debtor" />
-          <ScalarProperty Name="Reference" ColumnName="Reference" />
-          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CustomOrderVentilators">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.CustomOrderVentilator)">
-        <MappingFragment StoreEntitySet="CustomOrderVentilators">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="CustomOrderID" ColumnName="CustomOrderID" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="CustomOrderMotorID" ColumnName="CustomOrderMotorID" />
-          <ScalarProperty Name="VentilatorTypeID" ColumnName="VentilatorTypeID" />
-          <ScalarProperty Name="HighAirVolume" ColumnName="HighAirVolume" />
-          <ScalarProperty Name="LowAirVolume" ColumnName="LowAirVolume" />
-          <ScalarProperty Name="HighPressureTotal" ColumnName="HighPressureTotal" />
-          <ScalarProperty Name="LowPressureTotal" ColumnName="LowPressureTotal" />
-          <ScalarProperty Name="HighPressureStatic" ColumnName="HighPressureStatic" />
-          <ScalarProperty Name="LowPressureStatic" ColumnName="LowPressureStatic" />
-          <ScalarProperty Name="HighPressureDynamic" ColumnName="HighPressureDynamic" />
-          <ScalarProperty Name="LowPressureDynamic" ColumnName="LowPressureDynamic" />
-          <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
-          <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
-          <ScalarProperty Name="Efficiency" ColumnName="Efficiency" />
-          <ScalarProperty Name="HighShaftPower" ColumnName="HighShaftPower" />
-          <ScalarProperty Name="LowShaftPower" ColumnName="LowShaftPower" />
-          <ScalarProperty Name="SoundLevel" ColumnName="SoundLevel" />
-          <ScalarProperty Name="SoundLevelTypeID" ColumnName="SoundLevelTypeID" />
-          <ScalarProperty Name="BladeAngle" ColumnName="BladeAngle" />
-          <ScalarProperty Name="Atex" ColumnName="Atex" />
-          <ScalarProperty Name="GroupTypeID" ColumnName="GroupTypeID" />
-          <ScalarProperty Name="TemperatureClassID" ColumnName="TemperatureClassID" />
-          <ScalarProperty Name="CatID" ColumnName="CatID" />
-          <ScalarProperty Name="CatOutID" ColumnName="CatOutID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CustomOrderVentilatorTests">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.CustomOrderVentilatorTest)">
-        <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
-          <ScalarProperty Name="MeasuredVentilatorHighRPM" ColumnName="MeasuredVentilatorHighRPM" />
-          <ScalarProperty Name="MeasuredVentilatorLowRPM" ColumnName="MeasuredVentilatorLowRPM" />
-          <ScalarProperty Name="MeasuredMotorHighRPM" ColumnName="MeasuredMotorHighRPM" />
-          <ScalarProperty Name="MeasuredMotorLowRPM" ColumnName="MeasuredMotorLowRPM" />
-          <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
-          <ScalarProperty Name="Cover" ColumnName="Cover" />
-          <ScalarProperty Name="MotorNumber" ColumnName="MotorNumber" />
-          <ScalarProperty Name="Weight" ColumnName="Weight" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="I1High" ColumnName="I1High" />
-          <ScalarProperty Name="I1Low" ColumnName="I1Low" />
-          <ScalarProperty Name="I2High" ColumnName="I2High" />
-          <ScalarProperty Name="I2Low" ColumnName="I2Low" />
-          <ScalarProperty Name="I3High" ColumnName="I3High" />
-          <ScalarProperty Name="I3Low" ColumnName="I3Low" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="GroupTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.GroupType)">
-        <MappingFragment StoreEntitySet="GroupTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SoundLevelTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.SoundLevelType)">
-        <MappingFragment StoreEntitySet="SoundLevelTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="UOM" ColumnName="UOM" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TemperatureClasses">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.TemperatureClass)">
-        <MappingFragment StoreEntitySet="TemperatureClasses">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TemplateMotors">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.TemplateMotor)">
-        <MappingFragment StoreEntitySet="TemplateMotors">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="Version" ColumnName="Version" />
-          <ScalarProperty Name="IEC" ColumnName="IEC" />
-          <ScalarProperty Name="IP" ColumnName="IP" />
-          <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
-          <ScalarProperty Name="ISO" ColumnName="ISO" />
-          <ScalarProperty Name="HighPower" ColumnName="HighPower" />
-          <ScalarProperty Name="LowPower" ColumnName="LowPower" />
-          <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
-          <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
-          <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
-          <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
-          <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
-          <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
-          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
-          <ScalarProperty Name="PowerFactor" ColumnName="PowerFactor" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TemplateVentilators">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.TemplateVentilator)">
-        <MappingFragment StoreEntitySet="TemplateVentilators">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="VentilatorTypeID" ColumnName="VentilatorTypeID" />
-          <ScalarProperty Name="AirVolume" ColumnName="AirVolume" />
-          <ScalarProperty Name="PressureTotal" ColumnName="PressureTotal" />
-          <ScalarProperty Name="PressureStatic" ColumnName="PressureStatic" />
-          <ScalarProperty Name="PressureDynamic" ColumnName="PressureDynamic" />
-          <ScalarProperty Name="RPM" ColumnName="RPM" />
-          <ScalarProperty Name="Efficiency" ColumnName="Efficiency" />
-          <ScalarProperty Name="ShaftPower" ColumnName="ShaftPower" />
-          <ScalarProperty Name="SoundLevel" ColumnName="SoundLevel" />
-          <ScalarProperty Name="SoundLevelTypeID" ColumnName="SoundLevelTypeID" />
-          <ScalarProperty Name="BladeAngle" ColumnName="BladeAngle" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.User)">
-        <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="VentilatorTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.VentilatorType)">
-        <MappingFragment StoreEntitySet="VentilatorTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="VoltageTypes">
-      <EntityTypeMapping TypeName="IsTypeOf(SpecificationsDatabaseModel.VoltageType)">
-        <MappingFragment StoreEntitySet="VoltageTypes">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Voltage" ColumnName="Voltage" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SpecificationsDatabaseModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="ATEXTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.ATEXType">
+              <MappingFragment StoreEntitySet="ATEXTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CatTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CatType">
+              <MappingFragment StoreEntitySet="CatTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomOrderMotors">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderMotor">
+              <MappingFragment StoreEntitySet="CustomOrderMotors">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="IEC" ColumnName="IEC" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
+                <ScalarProperty Name="ISO" ColumnName="ISO" />
+                <ScalarProperty Name="HighPower" ColumnName="HighPower" />
+                <ScalarProperty Name="LowPower" ColumnName="LowPower" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
+                <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
+                <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
+                <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
+                <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="PowerFactor" ColumnName="PowerFactor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomOrders">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrder">
+              <MappingFragment StoreEntitySet="CustomOrders">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomOrderNumber" ColumnName="CustomOrderNumber" />
+                <ScalarProperty Name="Debtor" ColumnName="Debtor" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomOrderVentilators">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilator">
+              <MappingFragment StoreEntitySet="CustomOrderVentilators">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomOrderID" ColumnName="CustomOrderID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CustomOrderMotorID" ColumnName="CustomOrderMotorID" />
+                <ScalarProperty Name="VentilatorTypeID" ColumnName="VentilatorTypeID" />
+                <ScalarProperty Name="HighAirVolume" ColumnName="HighAirVolume" />
+                <ScalarProperty Name="LowAirVolume" ColumnName="LowAirVolume" />
+                <ScalarProperty Name="HighPressureTotal" ColumnName="HighPressureTotal" />
+                <ScalarProperty Name="LowPressureTotal" ColumnName="LowPressureTotal" />
+                <ScalarProperty Name="HighPressureStatic" ColumnName="HighPressureStatic" />
+                <ScalarProperty Name="LowPressureStatic" ColumnName="LowPressureStatic" />
+                <ScalarProperty Name="HighPressureDynamic" ColumnName="HighPressureDynamic" />
+                <ScalarProperty Name="LowPressureDynamic" ColumnName="LowPressureDynamic" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
+                <ScalarProperty Name="Efficiency" ColumnName="Efficiency" />
+                <ScalarProperty Name="HighShaftPower" ColumnName="HighShaftPower" />
+                <ScalarProperty Name="LowShaftPower" ColumnName="LowShaftPower" />
+                <ScalarProperty Name="SoundLevel" ColumnName="SoundLevel" />
+                <ScalarProperty Name="SoundLevelTypeID" ColumnName="SoundLevelTypeID" />
+                <ScalarProperty Name="BladeAngle" ColumnName="BladeAngle" />
+                <ScalarProperty Name="Atex" ColumnName="Atex" />
+                <ScalarProperty Name="GroupTypeID" ColumnName="GroupTypeID" />
+                <ScalarProperty Name="TemperatureClassID" ColumnName="TemperatureClassID" />
+                <ScalarProperty Name="CatID" ColumnName="CatID" />
+                <ScalarProperty Name="CatOutID" ColumnName="CatOutID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomOrderVentilatorTests">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.CustomOrderVentilatorTest">
+              <MappingFragment StoreEntitySet="CustomOrderVentilatorTests">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomOrderVentilatorID" ColumnName="CustomOrderVentilatorID" />
+                <ScalarProperty Name="MeasuredVentilatorHighRPM" ColumnName="MeasuredVentilatorHighRPM" />
+                <ScalarProperty Name="MeasuredVentilatorLowRPM" ColumnName="MeasuredVentilatorLowRPM" />
+                <ScalarProperty Name="MeasuredMotorHighRPM" ColumnName="MeasuredMotorHighRPM" />
+                <ScalarProperty Name="MeasuredMotorLowRPM" ColumnName="MeasuredMotorLowRPM" />
+                <ScalarProperty Name="MeasuredBladeAngle" ColumnName="MeasuredBladeAngle" />
+                <ScalarProperty Name="Cover" ColumnName="Cover" />
+                <ScalarProperty Name="MotorNumber" ColumnName="MotorNumber" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="I1High" ColumnName="I1High" />
+                <ScalarProperty Name="I1Low" ColumnName="I1Low" />
+                <ScalarProperty Name="I2High" ColumnName="I2High" />
+                <ScalarProperty Name="I2Low" ColumnName="I2Low" />
+                <ScalarProperty Name="I3High" ColumnName="I3High" />
+                <ScalarProperty Name="I3Low" ColumnName="I3Low" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.GroupType">
+              <MappingFragment StoreEntitySet="GroupTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SoundLevelTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.SoundLevelType">
+              <MappingFragment StoreEntitySet="SoundLevelTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UOM" ColumnName="UOM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemperatureClasses">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemperatureClass">
+              <MappingFragment StoreEntitySet="TemperatureClasses">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateMotors">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateMotor">
+              <MappingFragment StoreEntitySet="TemplateMotors">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="IEC" ColumnName="IEC" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="BuildingType" ColumnName="BuildingType" />
+                <ScalarProperty Name="ISO" ColumnName="ISO" />
+                <ScalarProperty Name="HighPower" ColumnName="HighPower" />
+                <ScalarProperty Name="LowPower" ColumnName="LowPower" />
+                <ScalarProperty Name="HighRPM" ColumnName="HighRPM" />
+                <ScalarProperty Name="LowRPM" ColumnName="LowRPM" />
+                <ScalarProperty Name="HighAmperage" ColumnName="HighAmperage" />
+                <ScalarProperty Name="LowAmperage" ColumnName="LowAmperage" />
+                <ScalarProperty Name="StartupAmperage" ColumnName="StartupAmperage" />
+                <ScalarProperty Name="VoltageTypeID" ColumnName="VoltageTypeID" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="PowerFactor" ColumnName="PowerFactor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TemplateVentilators">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.TemplateVentilator">
+              <MappingFragment StoreEntitySet="TemplateVentilators">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VentilatorTypeID" ColumnName="VentilatorTypeID" />
+                <ScalarProperty Name="AirVolume" ColumnName="AirVolume" />
+                <ScalarProperty Name="PressureTotal" ColumnName="PressureTotal" />
+                <ScalarProperty Name="PressureStatic" ColumnName="PressureStatic" />
+                <ScalarProperty Name="PressureDynamic" ColumnName="PressureDynamic" />
+                <ScalarProperty Name="RPM" ColumnName="RPM" />
+                <ScalarProperty Name="Efficiency" ColumnName="Efficiency" />
+                <ScalarProperty Name="ShaftPower" ColumnName="ShaftPower" />
+                <ScalarProperty Name="SoundLevel" ColumnName="SoundLevel" />
+                <ScalarProperty Name="SoundLevelTypeID" ColumnName="SoundLevelTypeID" />
+                <ScalarProperty Name="BladeAngle" ColumnName="BladeAngle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentilatorTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VentilatorType">
+              <MappingFragment StoreEntitySet="VentilatorTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VoltageTypes">
+            <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VoltageType">
+              <MappingFragment StoreEntitySet="VoltageTypes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Voltage" ColumnName="Voltage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -1079,7 +1081,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

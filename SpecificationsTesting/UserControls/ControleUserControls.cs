@@ -132,7 +132,11 @@ namespace SpecificationsTesting.UserControls
                     CustomOrder = new CustomOrder { ID = -1 };
 
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
-                    CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
+                {
+                    var emptyVentilator = new CustomOrderVentilator();
+                    emptyVentilator.CustomOrderVentilatorTests.Add(new CustomOrderVentilatorTest());
+                    CustomOrder.CustomOrderVentilators.Add(emptyVentilator);
+                }
 
                 var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
                 VentilatorDataGrid.DataSource = null;
@@ -164,7 +168,8 @@ namespace SpecificationsTesting.UserControls
                 if (initVentilatorTestsGrid)
                 {
                     CustomOrderVentilatorTestsDataGrid.DataSource = null;
-                    CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { Value = $"Test ID {x.ID}" }).ToList();
+                    if (ventilator.CustomOrderVentilatorTests.Count >= 1 && ventilator.CustomOrderVentilatorTests.First().ID != 0)
+                        CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { Value = $"Test ID {x.ID}" }).ToList();
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
                 InitializeComboBoxes();
@@ -185,6 +190,13 @@ namespace SpecificationsTesting.UserControls
             if (CustomOrder == null)
             {
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
+                ClearDataGrids();
+                return;
+            }
+            if(CustomOrder.CustomOrderVentilators.Count == 0)
+            {
+                MessageBox.Show($"No ventilators found, please create a ventilator first.");
+                ClearDataGrids();
                 return;
             }
             SelectedVentilatorID = 0;
@@ -193,6 +205,11 @@ namespace SpecificationsTesting.UserControls
         }
 
         private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearDataGrids();
+        }
+
+        private void ClearDataGrids()
         {
             CustomOrder = null;
             SelectedVentilatorID = 0;

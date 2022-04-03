@@ -140,92 +140,97 @@ namespace SpecificationsTesting.Forms
                     switch (row)
                     {
                         case 1:
-                            columns.Add(new StickerRowColumn() { LeftText = "ABC" });
+                            columns.Add(new StickerRowColumn() { LeftText = "TODO" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 2:
-                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilator.Name });
+                            columns.Add(new StickerRowColumn() { LeftText = "Order", MiddleText = CustomOrder.CustomOrderNumber.ToString() });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 3:
-                            columns.Add(new StickerRowColumn() { LeftText = "Series Number", MiddleText = CustomOrder.CustomOrderNumber.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilator.Name });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 4:
-                            columns.Add(new StickerRowColumn() { LeftText = "Build year", MiddleText = "ABC" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = "TODO" });
                             //TODO: get selected test
                             columns.Add(new StickerRowColumn() { LeftText = "Weight", MiddleText = ventilator.CustomOrderVentilatorTests.First().Weight.ToString() });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 5:
                             columns.Add(new StickerRowColumn() { LeftText = "VENTILATOR" });
-                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR"});
+                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = ventilator.CustomOrderMotor.Name});
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 6:
+                            columns.Add(new StickerRowColumn() { LeftText = "Type", MiddleText = ventilator.Name });
+                            columns.Add(new StickerRowColumn() { LeftText = "Frequentie", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString() });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            break;
+                        case 7:
                             columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = DataHelper.CreateHighLowText(ventilator.HighAirVolume.ToString(), ventilator.LowAirVolume.ToString()), RightText = "m3/h" });
                             columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Type });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 7:
+                        case 8:
                             columns.Add(new StickerRowColumn() { LeftText = "Ptot", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureTotal.ToString(), ventilator.LowPressureTotal.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "P", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "kW" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 8:
+                        case 9:
                             columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureStatic.ToString(), ventilator.LowPressureStatic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType?.Voltage, RightText = "V" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 9:
+                        case 10:
                             columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureDynamic.ToString(), ventilator.LowPressureDynamic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 10:
+                        case 11:
                             columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
                             columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = ventilator.CustomOrderMotor.StartupAmperage.ToString(), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 11:
+                        case 12:
                             columns.Add(new StickerRowColumn() { LeftText = "Schoephoek", RightText = $"{ventilator.BladeAngle}°" });
                             columns.Add(new StickerRowColumn() { LeftText = "Nmotor", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighRPM.ToString(), ventilator.CustomOrderMotor.LowRPM.ToString()), RightText = "rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 12:
-                            columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.Description}" });
+                        case 13:
+                            columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", RightText = "abc" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
-                        case 13:
+                        case 14:
                             columns.Add(new StickerRowColumn() { LeftText = $"T {ventilator.TemperatureClass?.Description}", RightText = "°C" });
                             columns.Add(new StickerRowColumn() { LeftText = "p abc", RightText = "kg/m3" });
                             columns.Add(new StickerRowColumn() { LeftText = $"IP {ventilator.CustomOrderMotor.IP}" });
                             columns.Add(new StickerRowColumn() { LeftText = $"ISO {ventilator.CustomOrderMotor.ISO}" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
                             break;
-                        case 14:
-                            columns.Add(new StickerRowColumn() { LeftText = "Maximum RPM", RightText = $"{ventilator.HighRPM} rpm" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
-                            break;
                         case 15:
-                            columns.Add(new StickerRowColumn() { LeftText = "Maximum Intake temperature", RightText = "ABC °C" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Maximum toerental", RightText = $"{ventilator.HighRPM} rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 16:
-                            columns.Add(new StickerRowColumn() { LeftText = "Temperature class", RightText = ventilator.TemperatureClass?.Description });
+                            columns.Add(new StickerRowColumn() { LeftText = "Maximum Inlaattemperatuur", RightText = "ABC °C" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 17:
-                            columns.Add(new StickerRowColumn());
+                            columns.Add(new StickerRowColumn() { LeftText = "Temperatureklasse", RightText = ventilator.TemperatureClass?.Description });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 18:
-                            columns.Add(new StickerRowColumn() { LeftText = "ATEX marking", RightText = ventilator.Atex });
+                            columns.Add(new StickerRowColumn());
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 19:
-                            columns.Add(new StickerRowColumn() { LeftText = "Environment temperature reach", RightText = "ABC" });
+                            columns.Add(new StickerRowColumn() { LeftText = "ATEX markering", RightText = ventilator.Atex });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
+                            break;
+                        case 20:
+                            columns.Add(new StickerRowColumn() { LeftText = "Omgevingstemperatuurbereik", RightText = "ABC" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         default:
@@ -332,9 +337,7 @@ namespace SpecificationsTesting.Forms
 
         private void PrintPage(object o, PrintPageEventArgs e)
         {
-            var imageWidth = 650;
-            var imageHeight = 340;
-            var image = GenerateTable(imageWidth, imageHeight);
+            var image = GenerateTable(NormalImageWidth, NormalImageHeight);
             Point loc = new Point(0, 0);
             e.Graphics.DrawImage(image, loc);
         }
