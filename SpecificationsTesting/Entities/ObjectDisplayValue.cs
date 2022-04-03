@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SpecificationsTesting.Entities
@@ -22,7 +23,7 @@ namespace SpecificationsTesting.Entities
             {
                 var displayValue = new ObjectDisplayValue()
                 {
-                    Description = property.Name,
+                    Description = property.Name, // Regex.Replace(property.Name, "([A-Z])", " $1").Trim(),
                     Value = displayObject == null ? "" : property.GetValue(displayObject),
                 };
                 if (displayValue.Value?.GetType() == typeof(DateTime))

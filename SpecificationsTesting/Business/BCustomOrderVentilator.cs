@@ -27,6 +27,14 @@ namespace SpecificationsTesting.Business
             "Atex", "GroupTypeID", "TemperatureClassID", "CatID", "CatOutID"
         };
 
+        public static CustomOrderVentilator GetById(int id)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                return dbContext.CustomOrderVentilators.Find(id);
+            }
+        }
+
         public static CustomOrderVentilator Create(CustomOrderVentilator customOrderVentilator)
         {
             using (var dbContext = new SpecificationsDatabaseModel())
@@ -81,6 +89,8 @@ namespace SpecificationsTesting.Business
                 newCustomOrderVentilator.Amount = value;
 
                 var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
+                if (name == null)
+                    return null;
                 newCustomOrderVentilator.Name = name.ToString();
 
                 var highAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighAirVolume")).Cells["Value"].Value;
@@ -104,16 +114,23 @@ namespace SpecificationsTesting.Business
                 newCustomOrderVentilator.HighPressureDynamic = newCustomOrderVentilator.HighPressureTotal - newCustomOrderVentilator.HighPressureStatic;
                 newCustomOrderVentilator.LowPressureDynamic = newCustomOrderVentilator.LowPressureTotal - newCustomOrderVentilator.LowPressureStatic;
 
-                decimal? q = (decimal)newCustomOrderVentilator.HighAirVolume / 3600m;
-                int? p = newCustomOrderVentilator.HighPressureTotal;
-                int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
-                decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
-                newCustomOrderVentilator.HighShaftPower = shaftPower;
+                if(newCustomOrderVentilator.HighAirVolume != null)
+                {
+                    decimal? q = (decimal)newCustomOrderVentilator.HighAirVolume / 3600m;
+                    int? p = newCustomOrderVentilator.HighPressureTotal;
+                    int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
+                    decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
+                    newCustomOrderVentilator.HighShaftPower = shaftPower;
+                }
 
-                q = (decimal)newCustomOrderVentilator.LowAirVolume / 3600m;
-                p = newCustomOrderVentilator.LowPressureTotal;
-                shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
-                newCustomOrderVentilator.LowShaftPower = shaftPower;
+                if(newCustomOrderVentilator.LowAirVolume != null)
+                {
+                    decimal? q = (decimal)newCustomOrderVentilator.LowAirVolume / 3600m;
+                    int? p = newCustomOrderVentilator.LowPressureTotal;
+                    int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
+                    decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
+                    newCustomOrderVentilator.LowShaftPower = shaftPower;
+                }
 
                 var efficiency = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Efficiency")).Cells["Value"].Value;
                 newCustomOrderVentilator.Efficiency = DataHelper.ToNullableInt(efficiency?.ToString());

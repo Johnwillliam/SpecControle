@@ -11,7 +11,7 @@ namespace SpecificationsTesting.Business
     {
         public static List<string> ControleDisplayPropertyNames = new List<string>
         {
-            "MeasuredVentilatorRPM", "MeasuredMotorRPM", "MeasuredBladeAngle", "Cover",
+            "MeasuredVentilatorHighRPM", "MeasuredVentilatorLowRPM", "MeasuredMotorHighRPM", "MeasuredMotorLowRPM", "MeasuredBladeAngle", "Cover",
             "I1High", "I1Low", "I2High", "I2Low", "I3High", "I3Low", "MotorNumber", "Weight", "Date", "UserID"
         };
 
@@ -60,27 +60,47 @@ namespace SpecificationsTesting.Business
 
         public static bool Validate(CustomOrderVentilatorTest test)
         {
-            if (test.CustomOrderVentilator.BladeAngle.Value != test.MeasuredBladeAngle.Value)
+            if (test.CustomOrderVentilator.BladeAngle == null)
+            {
+                MessageBox.Show("Ventilator blade angle not filled in.");
+                //return false;
+            }
+            if (test.MeasuredBladeAngle == null)
+            {
+                MessageBox.Show("Measured blade angle not filled in.");
+                //return false;
+            }
+            if (test.CustomOrderVentilator.BladeAngle != null && test.MeasuredBladeAngle != null && test.CustomOrderVentilator.BladeAngle.Value != test.MeasuredBladeAngle.Value)
             {
                 MessageBox.Show("Measured blade angle does not correspond the ventilator data. Please check.");
-                return false;
+                //return false;
             }
             if (test.MotorNumber == null)
             {
                 MessageBox.Show("Motornumber not filled in.");
-                return false;
+                //return false;
             }
             if (test.MeasuredMotorHighRPM == null)
             {
                 MessageBox.Show("Motor High RPM not filled in.");
-                return false;
+                //return false;
             }
             if (test.MeasuredVentilatorHighRPM == null)
             {
                 MessageBox.Show("Ventilator High RPM not filled in.");
-                return false;
+                //return false;
             }
 
+            return true;
+        }
+
+        public static bool ValidateForPrinting(CustomOrderVentilator ventilator)
+        {
+            foreach (CustomOrderVentilatorTest test in ventilator.CustomOrderVentilatorTests)
+            {
+                if (!BCustomOrderVentilatorTest.ValidateForPrinting(test))
+                    return false;
+            }
             return true;
         }
 
@@ -88,54 +108,54 @@ namespace SpecificationsTesting.Business
         {
             if (test.MeasuredBladeAngle == null)
             {
-                MessageBox.Show("Measured blade angle not filled in.");
+                MessageBox.Show($"Test ID {test.ID}: Measured blade angle not filled in.");
                 return false;
             }
             if (test.MeasuredBladeAngle != test.CustomOrderVentilator.BladeAngle)
             {
-                MessageBox.Show("Measured blade angle does not matched the ordered angle.");
+                MessageBox.Show($"Test ID {test.ID}: Measured blade angle does not matched the ordered angle.");
                 return false;
             }
             if (test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
             {
-                MessageBox.Show("One of the measured amperages is higher than the nominal amperage.");
+                MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is higher than the nominal amperage.");
                 return false;
             }
             if (test.I1Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I2Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I3Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2))
             {
-                MessageBox.Show("One of the measured amperages is lower than 50% of the nominal amperage.");
+                MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is lower than 50% of the nominal amperage.");
                 return false;
             }
             var iLows = new List<int?>() { test.I1Low, test.I2Low, test.I3Low };
             var iHighs = new List<int?>() { test.I1High, test.I2High, test.I3High };
             if ((double)(iHighs.Max() / iLows.Min()) > 1.1)
             {
-                MessageBox.Show("The difference between the highest and lowest amperage is more than 10%.");
+                MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 10%.");
                 return false;
             }
-            if(test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
+            if (test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
             {
-                MessageBox.Show("Motor high RPM is not filled in.");
+                MessageBox.Show($"Test ID {test.ID}: Motor high RPM is not filled in.");
                 return false;
             }
             if (test.CustomOrderVentilator.HighRPM == null)
             {
-                MessageBox.Show("Ventilator high RPM is not filled in.");
+                MessageBox.Show($"Test ID {test.ID}: Ventilator high RPM is not filled in.");
                 return false;
             }
-            if(test.MeasuredMotorHighRPM == null)
+            if (test.MeasuredMotorHighRPM == null)
             {
-                MessageBox.Show("Measured motor high not filled in.");
-                return false;
-            }
-            if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
-            {
-                MessageBox.Show("The measured motor RPM is lower t han the nominal RPM.");
+                MessageBox.Show($"Test ID {test.ID}: Measured motor high not filled in.");
                 return false;
             }
             if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
-                MessageBox.Show("The measured motor RPM is lower t han the nominal RPM.");
+                MessageBox.Show($"Test ID {test.ID}: The measured motor RPM is lower t han the nominal RPM.");
+                return false;
+            }
+            if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
+            {
+                MessageBox.Show($"Test ID {test.ID}: The measured motor RPM is lower t han the nominal RPM.");
                 return false;
             }
             if (test.MeasuredVentilatorHighRPM != null && test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
@@ -143,7 +163,7 @@ namespace SpecificationsTesting.Business
                 var syncRPM = BCustomOrderVentilator.CalculateSyncRPM(test.MeasuredVentilatorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                 if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
                 {
-                    MessageBox.Show("Measured motor RPM is higher than possible, wrong motor?");
+                    MessageBox.Show($"Test ID {test.ID}: Measured motor RPM is higher than possible, wrong motor?");
                     return false;
                 }
             }
@@ -151,7 +171,7 @@ namespace SpecificationsTesting.Business
             var r2 = test.MeasuredMotorHighRPM / test.MeasuredVentilatorHighRPM;
             if (r1 != r2 && (double)(r1 / r2) < 0.95)
             {
-                MessageBox.Show("The measured ventilator RPM differs more than 5%.");
+                MessageBox.Show($"Test ID {test.ID}: The measured ventilator RPM differs more than 5%.");
                 return false;
             }
             return true;

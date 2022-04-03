@@ -228,8 +228,15 @@ namespace SpecificationsTesting.UserControls
             var customOrderVentilatorTestID = customOrderVentilatorTest.ID;
             var customOrderVentilatorID = customOrderVentilatorTest.CustomOrderVentilatorID;
             customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
+            if(customOrderVentilatorTest == null)
+            {
+                MessageBox.Show("Please verify the filled in data.");
+                return;
+            }
+
             customOrderVentilatorTest.ID = customOrderVentilatorTestID;
             customOrderVentilatorTest.CustomOrderVentilatorID = customOrderVentilatorID;
+            customOrderVentilatorTest.CustomOrderVentilator = BCustomOrderVentilator.GetById(customOrderVentilatorID);
 
             if (!BCustomOrderVentilatorTest.Validate(customOrderVentilatorTest))
                 return;
@@ -249,7 +256,7 @@ namespace SpecificationsTesting.UserControls
         private void radioButtonMotorHigh_CheckedChanged(object sender, EventArgs e)
         {
             var radioButton = (RadioButton)sender;
-            if(radioButton.Checked)
+            if (radioButton.Checked)
             {
                 radioButtonMotorLow.Checked = false;
                 radioButtonVentilatorHigh.Checked = false;
@@ -315,12 +322,12 @@ namespace SpecificationsTesting.UserControls
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 return;
 
             var mainForm = (MainForm)this.ParentForm;
@@ -330,12 +337,12 @@ namespace SpecificationsTesting.UserControls
 
         private void btnAtex_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 return;
 
             var mainForm = (MainForm)this.ParentForm;

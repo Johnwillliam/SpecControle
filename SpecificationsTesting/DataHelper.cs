@@ -69,5 +69,17 @@ namespace SpecificationsTesting
 
             return Convert.ChangeType(value, type);
         }
+
+        public static string CreateHighLowText(string highText, string lowText)
+        {
+            if (!string.IsNullOrEmpty(highText) && !string.IsNullOrEmpty(lowText))
+                return $"{highText} / {lowText}";
+            else if (!string.IsNullOrEmpty(highText))
+                return $"{highText}";
+            else if (!string.IsNullOrEmpty(lowText))
+                return $"{lowText}";
+
+            return "";
+        }
     }
 }

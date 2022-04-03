@@ -145,7 +145,7 @@
             this.SelectedVentilatorTestDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SelectedVentilatorTestDataGrid.Location = new System.Drawing.Point(336, 22);
             this.SelectedVentilatorTestDataGrid.Name = "SelectedVentilatorTestDataGrid";
-            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 337);
+            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 378);
             this.SelectedVentilatorTestDataGrid.TabIndex = 40;
             // 
             // label4

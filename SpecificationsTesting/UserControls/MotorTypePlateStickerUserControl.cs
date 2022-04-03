@@ -170,33 +170,33 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 6:
-                            columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = $"{ventilator.HighAirVolume} / {ventilator.LowAirVolume}", RightText = "m3/h" });
+                            columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = DataHelper.CreateHighLowText(ventilator.HighAirVolume.ToString(), ventilator.LowAirVolume.ToString()), RightText = "m3/h" });
                             columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Type });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 7:
-                            columns.Add(new StickerRowColumn() { LeftText = "Ptot", MiddleText = $"{ventilator.HighPressureTotal} / {ventilator.LowPressureTotal}", RightText = "Pa" });
-                            columns.Add(new StickerRowColumn() { LeftText = "P", MiddleText = $"{ventilator.CustomOrderMotor.HighPower} / {ventilator.CustomOrderMotor.LowPower}", RightText = "kW" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Ptot", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureTotal.ToString(), ventilator.LowPressureTotal.ToString()), RightText = "Pa" });
+                            columns.Add(new StickerRowColumn() { LeftText = "P", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "kW" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 8:
-                            columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = $"{ventilator.HighPressureStatic} / {ventilator.LowPressureStatic}", RightText = "Pa" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureStatic.ToString(), ventilator.LowPressureStatic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType?.Voltage, RightText = "V" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 9:
-                            columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = $"{ventilator.HighPressureDynamic} / {ventilator.LowPressureDynamic}", RightText = "Pa" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = $"{ventilator.CustomOrderMotor.HighPower} / {ventilator.CustomOrderMotor.LowPower}", RightText = "A" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureDynamic.ToString(), ventilator.LowPressureDynamic.ToString()), RightText = "Pa" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 10:
-                            columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = $"{ventilator.HighRPM} / {ventilator.LowRPM}", RightText = "rpm" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
                             columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = ventilator.CustomOrderMotor.StartupAmperage.ToString(), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 11:
                             columns.Add(new StickerRowColumn() { LeftText = "Schoephoek", MiddleText = ventilator.BladeAngle.ToString(), RightText = "°" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Nmotor", MiddleText = $"{ventilator.CustomOrderMotor.HighRPM} / {ventilator.CustomOrderMotor.LowRPM}", RightText = "rpm" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Nmotor", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighRPM.ToString(), ventilator.CustomOrderMotor.LowRPM.ToString()), RightText = "rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 12:
@@ -304,6 +304,9 @@ namespace SpecificationsTesting.Forms
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+                return;
+
             PrintDocument pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = PrinterName;
             pd.PrintPage += PrintPage;

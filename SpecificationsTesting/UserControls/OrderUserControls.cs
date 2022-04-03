@@ -223,42 +223,68 @@ namespace SpecificationsTesting.UserControls
 
         private void btnCreateCO_Click(object sender, EventArgs e)
         {
-            CustomOrder = ReadCustomOrderDataGrid();
-            if (!BCustomOrder.Validate(CustomOrder))
-                return;
-
-            var customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
-
-            CustomOrderMotor customOrderMotor;
-            if (SelectedTemplateMotor != null)
-                customOrderMotor = new CustomOrderMotor() { Name = SelectedTemplateMotor.Name, HighAmperage = SelectedTemplateMotor.HighAmperage, LowAmperage = SelectedTemplateMotor.LowAmperage, 
-                    BuildingType = SelectedTemplateMotor.BuildingType, Frequency = SelectedTemplateMotor.Frequency, IEC = SelectedTemplateMotor.IEC, IP = SelectedTemplateMotor.IP, 
-                    ISO = SelectedTemplateMotor.ISO, HighPower = SelectedTemplateMotor.HighPower, LowPower = SelectedTemplateMotor.LowPower, PowerFactor = SelectedTemplateMotor.PowerFactor, 
-                    HighRPM = SelectedTemplateMotor.HighRPM, LowRPM = SelectedTemplateMotor.LowRPM, StartupAmperage = SelectedTemplateMotor.StartupAmperage, Type = SelectedTemplateMotor.Type, 
-                    Version = SelectedTemplateMotor.Version, VoltageType = SelectedTemplateMotor.VoltageType, VoltageTypeID = SelectedTemplateMotor.VoltageTypeID };
-            else
-                customOrderMotor = ReadCustomOrderMotorDataGrid();
-
-            if (!BCustomOrderMotor.Validate(customOrderMotor))
-                return;
-
-            customOrderVentilator.CustomOrderMotor = customOrderMotor;
-            BCustomOrderVentilator.Calculate(customOrderVentilator);
-            if (!BCustomOrderVentilator.Validate(customOrderVentilator))
-                return;
-
-            CustomOrder = BCustomOrder.Create(CustomOrder);
-            if(CustomOrder != null)
+            try
             {
-                customOrderVentilator.CustomOrderID = CustomOrder.ID;
-                BCustomOrderMotor.Create(customOrderVentilator.CustomOrderMotor);
-                customOrderVentilator.CustomOrderMotorID = customOrderVentilator.CustomOrderMotor.ID;
-                customOrderVentilator.CustomOrderMotor = null;
-                customOrderVentilator.VentilatorType = null;
-                BCustomOrderVentilator.Create(customOrderVentilator);
-                CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-                txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
-                InitializeGridData();
+                CustomOrder = ReadCustomOrderDataGrid();
+                if (!BCustomOrder.Validate(CustomOrder))
+                    return;
+
+                var customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
+                if (customOrderVentilator == null)
+                    return;
+
+                CustomOrderMotor customOrderMotor;
+                if (SelectedTemplateMotor != null)
+                    customOrderMotor = new CustomOrderMotor()
+                    {
+                        Name = SelectedTemplateMotor.Name,
+                        HighAmperage = SelectedTemplateMotor.HighAmperage,
+                        LowAmperage = SelectedTemplateMotor.LowAmperage,
+                        BuildingType = SelectedTemplateMotor.BuildingType,
+                        Frequency = SelectedTemplateMotor.Frequency,
+                        IEC = SelectedTemplateMotor.IEC,
+                        IP = SelectedTemplateMotor.IP,
+                        ISO = SelectedTemplateMotor.ISO,
+                        HighPower = SelectedTemplateMotor.HighPower,
+                        LowPower = SelectedTemplateMotor.LowPower,
+                        PowerFactor = SelectedTemplateMotor.PowerFactor,
+                        HighRPM = SelectedTemplateMotor.HighRPM,
+                        LowRPM = SelectedTemplateMotor.LowRPM,
+                        StartupAmperage = SelectedTemplateMotor.StartupAmperage,
+                        Type = SelectedTemplateMotor.Type,
+                        Version = SelectedTemplateMotor.Version,
+                        VoltageType = SelectedTemplateMotor.VoltageType,
+                        VoltageTypeID = SelectedTemplateMotor.VoltageTypeID
+                    };
+                else
+                    customOrderMotor = ReadCustomOrderMotorDataGrid();
+
+                if (!BCustomOrderMotor.Validate(customOrderMotor))
+                    return;
+
+                customOrderVentilator.CustomOrderMotor = customOrderMotor;
+                BCustomOrderVentilator.Calculate(customOrderVentilator);
+                if (!BCustomOrderVentilator.Validate(customOrderVentilator))
+                    return;
+
+                CustomOrder = BCustomOrder.Create(CustomOrder);
+                if (CustomOrder != null)
+                {
+                    customOrderVentilator.CustomOrderID = CustomOrder.ID;
+                    BCustomOrderMotor.Create(customOrderVentilator.CustomOrderMotor);
+                    customOrderVentilator.CustomOrderMotorID = customOrderVentilator.CustomOrderMotor.ID;
+                    customOrderVentilator.CustomOrderMotor = null;
+                    customOrderVentilator.VentilatorType = null;
+                    BCustomOrderVentilator.Create(customOrderVentilator);
+                    CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
+                    txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
+                    InitializeGridData();
+                }
+                MessageBox.Show("Order succesfully created.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -410,11 +436,27 @@ namespace SpecificationsTesting.UserControls
             {
                 int customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
-                var copiedMotor = new CustomOrderMotor() { Name = selectedMotor.Name, HighAmperage = selectedMotor.HighAmperage, LowAmperage = selectedMotor.LowAmperage, 
-                    BuildingType = selectedMotor.BuildingType, Frequency = selectedMotor.Frequency, IEC = selectedMotor.IEC, IP = selectedMotor.IP, ISO = selectedMotor.ISO, 
-                    HighPower = selectedMotor.HighPower, LowPower = selectedMotor.LowPower, PowerFactor = selectedMotor.PowerFactor, 
-                    HighRPM = selectedMotor.HighRPM, LowRPM = selectedMotor.LowRPM, StartupAmperage = selectedMotor.StartupAmperage, Type = selectedMotor.Type, 
-                    Version = selectedMotor.Version, VoltageType = selectedMotor.VoltageType, VoltageTypeID = selectedMotor.VoltageTypeID };
+                var copiedMotor = new CustomOrderMotor()
+                {
+                    Name = selectedMotor.Name,
+                    HighAmperage = selectedMotor.HighAmperage,
+                    LowAmperage = selectedMotor.LowAmperage,
+                    BuildingType = selectedMotor.BuildingType,
+                    Frequency = selectedMotor.Frequency,
+                    IEC = selectedMotor.IEC,
+                    IP = selectedMotor.IP,
+                    ISO = selectedMotor.ISO,
+                    HighPower = selectedMotor.HighPower,
+                    LowPower = selectedMotor.LowPower,
+                    PowerFactor = selectedMotor.PowerFactor,
+                    HighRPM = selectedMotor.HighRPM,
+                    LowRPM = selectedMotor.LowRPM,
+                    StartupAmperage = selectedMotor.StartupAmperage,
+                    Type = selectedMotor.Type,
+                    Version = selectedMotor.Version,
+                    VoltageType = selectedMotor.VoltageType,
+                    VoltageTypeID = selectedMotor.VoltageTypeID
+                };
                 var newVentilator = ReadCustomOrderVentilatorDataGrid();
                 if (newVentilator == null)
                 {
@@ -452,11 +494,11 @@ namespace SpecificationsTesting.UserControls
             if (templateMotorSelectionDialog.SelectedRow == null)
                 return;
 
-            if(int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
+            if (int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
             {
                 SelectedTemplateMotor = BTemplateMotor.GetById(motorTemplateId);
                 txtSelectedMotor.Text = SelectedTemplateMotor.Name;
-            }            
+            }
         }
 
         private void btnCopyOrder_Click(object sender, EventArgs e)
@@ -475,7 +517,7 @@ namespace SpecificationsTesting.UserControls
                 if (customOrder != null)
                 {
                     MessageBox.Show($"Data of CustomOrderNumber: {CustomOrder.CustomOrderNumber} copied to new CustomOrderNumber: {customOrder.CustomOrderNumber}.");
-                    CustomOrder = customOrder;
+                    CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrder.CustomOrderNumber);
                 }
                 SelectedVentilatorID = 0;
                 InitializeGridData();
@@ -485,12 +527,12 @@ namespace SpecificationsTesting.UserControls
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 return;
 
             var mainForm = (MainForm)this.ParentForm;
@@ -500,12 +542,12 @@ namespace SpecificationsTesting.UserControls
 
         private void btnAtex_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber != 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.First().CustomOrderVentilatorTests.First()))
+            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 return;
 
             var mainForm = (MainForm)this.ParentForm;
@@ -521,6 +563,11 @@ namespace SpecificationsTesting.UserControls
             comboBox.SetBounds(x, y, rect.Width, rect.Height);
             comboBox.Visible = true;
             comboBox.Focus();
+        }
+
+        private void OrderUserControl_Load(object sender, EventArgs e)
+        {
+            DisableCalculatedRows();
         }
     }
 }

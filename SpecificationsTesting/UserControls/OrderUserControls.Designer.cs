@@ -398,6 +398,7 @@
             this.Controls.Add(this.btnClear);
             this.Name = "OrderUserControl";
             this.Size = new System.Drawing.Size(1221, 612);
+            this.Load += new System.EventHandler(this.OrderUserControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).EndInit();
