@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e54fe70fd60d428fb655ea8a87294694" Name="Diagram1">
+      <Diagram DiagramId="222b2d01630d4417b5d0e7f36c0f5fbc" Name="Diagram1">
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.ATEXType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CatType" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
@@ -20,7 +20,7 @@
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.VentilatorType" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
         <EntityTypeShape EntityType="SpecificationsDatabaseModel.VoltageType" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CatTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderMotors_VoltageType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderMotors_VoltageTypes" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CustomOrderMotors" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CustomOrders" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilator_SoundLevelType" ManuallyRouted="false" />
@@ -30,7 +30,7 @@
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_Ventilator_SoundLevelType" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_Motor_VoltageType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsDatabaseModel.FK_TemplateMotors_VoltageTypes" ManuallyRouted="false" />
         <AssociationConnector Association="SpecificationsDatabaseModel.FK_TemplateVentilators_VentilatorType" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

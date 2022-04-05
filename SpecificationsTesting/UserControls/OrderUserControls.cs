@@ -85,6 +85,13 @@ namespace SpecificationsTesting.UserControls
                 cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
+
+                cmbVoltageType.DisplayMember = "Description";
+                cmbVoltageType.ValueMember = "ID";
+                cmbVoltageType.DropDownStyle = ComboBoxStyle.DropDownList;
+                cmbVoltageType.DataSource = dbContext.VoltageTypes.ToList();
+                cell = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("VoltageTypeID")).Cells["Value"];
+                Show_Combobox(cell, cmbVoltageType);
             }
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
@@ -93,6 +100,7 @@ namespace SpecificationsTesting.UserControls
             cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
             cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
             cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
+            cmbVoltageType.SelectedValue = ventilator.CustomOrderMotor.VoltageTypeID == null ? -1 : ventilator.CustomOrderMotor.VoltageTypeID;
         }
 
         private void InitializeGridColumns()
@@ -365,13 +373,22 @@ namespace SpecificationsTesting.UserControls
                 TemperatureClassID = (int?)cmbTemperatureClassType.SelectedValue,
                 CatID = (int?)cmbCatType.SelectedValue,
                 CatOutID = (int?)cmbCatOutType.SelectedValue
-            }; ;
+            };
         }
 
         private CustomOrderMotor ReadCustomOrderMotorDataGrid()
         {
             var rows = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
-            return BCustomOrderMotor.CreateObject(rows);
+            var newCustomOrderMotor = ReadCustomOrderMotorComboboxes();
+            return BCustomOrderMotor.CreateObject(newCustomOrderMotor, rows);
+        }
+
+        private CustomOrderMotor ReadCustomOrderMotorComboboxes()
+        {
+            return new CustomOrderMotor
+            {
+                VoltageTypeID = (int?)cmbVoltageType.SelectedValue,
+            };
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

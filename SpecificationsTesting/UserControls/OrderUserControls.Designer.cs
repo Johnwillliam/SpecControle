@@ -60,6 +60,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnMotorTypePlate = new System.Windows.Forms.Button();
             this.btnAtex = new System.Windows.Forms.Button();
+            this.cmbVoltageType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -371,10 +372,19 @@
             this.btnAtex.Text = "Atex Sticker";
             this.btnAtex.UseVisualStyleBackColor = true;
             // 
+            // cmbVoltageType
+            // 
+            this.cmbVoltageType.FormattingEnabled = true;
+            this.cmbVoltageType.Location = new System.Drawing.Point(542, 401);
+            this.cmbVoltageType.Name = "cmbVoltageType";
+            this.cmbVoltageType.Size = new System.Drawing.Size(121, 21);
+            this.cmbVoltageType.TabIndex = 58;
+            // 
             // OrderUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cmbVoltageType);
             this.Controls.Add(this.btnAtex);
             this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.CustomOrderDataGrid);
@@ -448,5 +458,6 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnMotorTypePlate;
         private System.Windows.Forms.Button btnAtex;
+        private System.Windows.Forms.ComboBox cmbVoltageType;
     }
 }

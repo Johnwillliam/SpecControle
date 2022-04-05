@@ -11,7 +11,7 @@ namespace SpecificationsTesting.Business
         public static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
-            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor"
+            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor", "VoltageTypeID"
         };
 
         public static List<string> ControleDisplayPropertyNames = new List<string>
@@ -57,12 +57,10 @@ namespace SpecificationsTesting.Business
             return true;
         }
 
-        public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)
+        public static CustomOrderMotor CreateObject(CustomOrderMotor newCustomOrderMotor, List<DataGridViewRow> rows)
         {
             try
             {
-                var newCustomOrderMotor = new CustomOrderMotor();
-
                 var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
                 newCustomOrderMotor.Name = name.ToString();
 

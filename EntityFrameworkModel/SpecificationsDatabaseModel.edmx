@@ -190,9 +190,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Voltage" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <Association Name="FK_CustomOrderMotors_VoltageType">
+        <Association Name="FK_CustomOrderMotors_VoltageTypes">
           <End Role="VoltageTypes" Type="Self.VoltageTypes" Multiplicity="0..1" />
           <End Role="CustomOrderMotors" Type="Self.CustomOrderMotors" Multiplicity="*" />
           <ReferentialConstraint>
@@ -312,7 +312,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Motor_VoltageType">
+        <Association Name="FK_TemplateMotors_VoltageTypes">
           <End Role="VoltageTypes" Type="Self.VoltageTypes" Multiplicity="0..1" />
           <End Role="TemplateMotors" Type="Self.TemplateMotors" Multiplicity="*" />
           <ReferentialConstraint>
@@ -363,7 +363,7 @@
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VentilatorTypes" EntityType="Self.VentilatorTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VoltageTypes" EntityType="Self.VoltageTypes" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_CustomOrderMotors_VoltageType" Association="Self.FK_CustomOrderMotors_VoltageType">
+          <AssociationSet Name="FK_CustomOrderMotors_VoltageTypes" Association="Self.FK_CustomOrderMotors_VoltageTypes">
             <End Role="VoltageTypes" EntitySet="VoltageTypes" />
             <End Role="CustomOrderMotors" EntitySet="CustomOrderMotors" />
           </AssociationSet>
@@ -403,7 +403,7 @@
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
             <End Role="CustomOrderVentilatorTests" EntitySet="CustomOrderVentilatorTests" />
           </AssociationSet>
-          <AssociationSet Name="FK_Motor_VoltageType" Association="Self.FK_Motor_VoltageType">
+          <AssociationSet Name="FK_TemplateMotors_VoltageTypes" Association="Self.FK_TemplateMotors_VoltageTypes">
             <End Role="VoltageTypes" EntitySet="VoltageTypes" />
             <End Role="TemplateMotors" EntitySet="TemplateMotors" />
           </AssociationSet>
@@ -458,7 +458,7 @@
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
           <Property Name="PowerFactor" Type="Int32" />
-          <NavigationProperty Name="VoltageType" Relationship="Self.FK_CustomOrderMotors_VoltageType" FromRole="CustomOrderMotors" ToRole="VoltageTypes" />
+          <NavigationProperty Name="VoltageType" Relationship="Self.FK_CustomOrderMotors_VoltageTypes" FromRole="CustomOrderMotors" ToRole="VoltageTypes" />
           <NavigationProperty Name="CustomOrderVentilators" Relationship="Self.FK_CustomOrderVentilators_CustomOrderMotors" FromRole="CustomOrderMotors" ToRole="CustomOrderVentilators" />
         </EntityType>
         <EntityType Name="CustomOrder">
@@ -586,7 +586,7 @@
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
           <Property Name="PowerFactor" Type="Int32" />
-          <NavigationProperty Name="VoltageType" Relationship="Self.FK_Motor_VoltageType" FromRole="TemplateMotors" ToRole="VoltageTypes" />
+          <NavigationProperty Name="VoltageType" Relationship="Self.FK_TemplateMotors_VoltageTypes" FromRole="TemplateMotors" ToRole="VoltageTypes" />
         </EntityType>
         <EntityType Name="TemplateVentilator">
           <Key>
@@ -630,9 +630,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Voltage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CustomOrderMotors" Relationship="Self.FK_CustomOrderMotors_VoltageType" FromRole="VoltageTypes" ToRole="CustomOrderMotors" />
-          <NavigationProperty Name="TemplateMotors" Relationship="Self.FK_Motor_VoltageType" FromRole="VoltageTypes" ToRole="TemplateMotors" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CustomOrderMotors" Relationship="Self.FK_CustomOrderMotors_VoltageTypes" FromRole="VoltageTypes" ToRole="CustomOrderMotors" />
+          <NavigationProperty Name="TemplateMotors" Relationship="Self.FK_TemplateMotors_VoltageTypes" FromRole="VoltageTypes" ToRole="TemplateMotors" />
         </EntityType>
         <Association Name="FK_CustomOrderVentilators_CatTypes">
           <End Role="CatTypes" Type="Self.CatType" Multiplicity="0..1" />
@@ -646,7 +646,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CustomOrderMotors_VoltageType">
+        <Association Name="FK_CustomOrderMotors_VoltageTypes">
           <End Role="VoltageTypes" Type="Self.VoltageType" Multiplicity="0..1" />
           <End Role="CustomOrderMotors" Type="Self.CustomOrderMotor" Multiplicity="*" />
           <ReferentialConstraint>
@@ -766,7 +766,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Motor_VoltageType">
+        <Association Name="FK_TemplateMotors_VoltageTypes">
           <End Role="VoltageTypes" Type="Self.VoltageType" Multiplicity="0..1" />
           <End Role="TemplateMotors" Type="Self.TemplateMotor" Multiplicity="*" />
           <ReferentialConstraint>
@@ -809,7 +809,7 @@
             <End Role="CatTypes" EntitySet="CatTypes" />
             <End Role="CustomOrderVentilators" EntitySet="CustomOrderVentilators" />
           </AssociationSet>
-          <AssociationSet Name="FK_CustomOrderMotors_VoltageType" Association="Self.FK_CustomOrderMotors_VoltageType">
+          <AssociationSet Name="FK_CustomOrderMotors_VoltageTypes" Association="Self.FK_CustomOrderMotors_VoltageTypes">
             <End Role="VoltageTypes" EntitySet="VoltageTypes" />
             <End Role="CustomOrderMotors" EntitySet="CustomOrderMotors" />
           </AssociationSet>
@@ -849,7 +849,7 @@
             <End Role="SoundLevelTypes" EntitySet="SoundLevelTypes" />
             <End Role="TemplateVentilators" EntitySet="TemplateVentilators" />
           </AssociationSet>
-          <AssociationSet Name="FK_Motor_VoltageType" Association="Self.FK_Motor_VoltageType">
+          <AssociationSet Name="FK_TemplateMotors_VoltageTypes" Association="Self.FK_TemplateMotors_VoltageTypes">
             <End Role="VoltageTypes" EntitySet="VoltageTypes" />
             <End Role="TemplateMotors" EntitySet="TemplateMotors" />
           </AssociationSet>
@@ -1061,7 +1061,7 @@
             <EntityTypeMapping TypeName="SpecificationsDatabaseModel.VoltageType">
               <MappingFragment StoreEntitySet="VoltageTypes">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Voltage" ColumnName="Voltage" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
