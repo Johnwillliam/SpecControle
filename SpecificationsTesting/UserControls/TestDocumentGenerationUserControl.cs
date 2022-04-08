@@ -5,13 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using SpecificationsTesting.Entities;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
-using System.IO;
-using A = DocumentFormat.OpenXml.Drawing;
-using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
+using System.Drawing;
+using Spire.Doc;
+using Spire.Doc.Documents;
+using Spire.Doc.Fields;
+using System.Collections.Generic;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -20,6 +18,8 @@ namespace SpecificationsTesting.UserControls
         private CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
+        const int TableFontSize = 8;
+        const int TableRowHeight = 10;
         public TestDocumentGenerationUserControl()
         {
             InitializeComponent();
@@ -156,12 +156,12 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
-            if(SelectedVentilatorID > 0)
+            if (SelectedVentilatorID > 0)
             {
                 if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                     return;
             }
-            
+
             InitializeGridData();
         }
 
@@ -172,332 +172,272 @@ namespace SpecificationsTesting.UserControls
 
         private void btnPrintSelectedTest_Click(object sender, EventArgs e)
         {
-            print();
+            var selectedTest = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            Print(new List<CustomOrderVentilatorTest>() { selectedTest });
         }
 
         private void btnPrintAll_Click(object sender, EventArgs e)
         {
-            print();
+            Print(CustomOrder.CustomOrderVentilators.SelectMany(x => x.CustomOrderVentilatorTests).ToList());
         }
 
-        private void print()
+        private void Print(List<CustomOrderVentilatorTest> tests)
         {
-            CreateTable("D:\\Projecten\\Fiverr\\joitsys\\MyDocFile-Copy.docx");
-        }
-
-        // Insert a table into a word processing document.
-        public void CreateTable(string fileName)
-        {
-            const int yPos = 7500;
-            using (WordprocessingDocument doc = WordprocessingDocument.Create(fileName, WordprocessingDocumentType.Document))
+            using (var fbd = new FolderBrowserDialog())
             {
-                doc.AddMainDocumentPart();
-                MainDocumentPart mainPart = doc.MainDocumentPart;
-                mainPart.Document = new Document(new Body());
-                ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Png);
-                using (FileStream stream = new FileStream("D:\\Projecten\\Fiverr\\joitsys\\RunningTestHeader.png", FileMode.Open))
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    imagePart.FeedData(stream);
+                    var fileName = $"Running test - Ordernumber {CustomOrder.CustomOrderNumber} - {DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
+                    var fullPath = $"{fbd.SelectedPath}\\{fileName}";
+                    CreateTableInWordDocument(tests, fullPath);
                 }
-                AddImageToBody(doc, mainPart.GetIdOfPart(imagePart));
-
-                SpacingBetweenLines spacing = new SpacingBetweenLines() { Line = "240", LineRule = LineSpacingRuleValues.Auto, Before = "0", After = "0" };
-                ParagraphProperties paragraphProperties = new ParagraphProperties();
-                Justification justification1 = new Justification() { Val = JustificationValues.Center };
-                paragraphProperties.Append(justification1);
-                paragraphProperties.Append(spacing);
-                Paragraph newParagraph = new Paragraph(paragraphProperties);
-                var run = new Run();
-                run.Append(new Text("SPECIFICATIE"));
-                newParagraph.Append(run);
-                doc.MainDocumentPart.Document.Body.Append(newParagraph);
-
-                Table orderTable = new Table();
-
-                // Create a TableProperties object and specify its border information.
-                TableProperties tblPropOrder = new TableProperties(
-                    new TableBorders(
-                        new TopBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new BottomBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new LeftBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new RightBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideHorizontalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideVerticalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        }
-                    )
-                );
-
-                // Append the TableProperties object to the empty table.
-                orderTable.AppendChild<TableProperties>(tblPropOrder);
-
-                TableRow tr = new TableRow();
-                TableCell tc1 = new TableCell();
-                tc1.Append(new Paragraph(new Run(new Text("Order Gegevens"))));
-                tr.Append(tc1);
-                orderTable.Append(tr);
-                foreach (DataGridViewRow row in CustomOrderDataGrid.Rows)
-                {
-                    tr = new TableRow();
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[0].Value.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[1].Value?.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    orderTable.Append(tr);
-                }
-
-                TablePositionProperties tblPosOrder = new TablePositionProperties() { HorizontalAnchor = HorizontalAnchorValues.Page, VerticalAnchor = VerticalAnchorValues.Page, TablePositionX = 500, TablePositionY = yPos };
-                TableOverlap overlapOrder = new TableOverlap() { Val = TableOverlapValues.Overlap };
-
-                tblPropOrder.Append(tblPosOrder, overlapOrder);
-                doc.MainDocumentPart.Document.Body.Append(orderTable);
-
-                Table ventilatorTable = new Table();
-
-                // Create a TableProperties object and specify its border information.
-                TableProperties tblProp = new TableProperties(
-                    new TableBorders(
-                        new TopBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new BottomBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new LeftBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new RightBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideHorizontalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideVerticalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        }
-                    )
-                );
-
-                // Append the TableProperties object to the empty table.
-                ventilatorTable.AppendChild<TableProperties>(tblProp);
-
-                tr = new TableRow();
-                tc1 = new TableCell();
-                tc1.Append(new Paragraph(new Run(new Text("Ventilator Gegevens"))));
-                tr.Append(tc1);
-                ventilatorTable.Append(tr);
-                foreach (DataGridViewRow row in VentilatorDataGrid.Rows)
-                {
-                    tr = new TableRow(new TableRowProperties(new TableRowHeight() { Val = Convert.ToUInt32("10") }));
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[0].Value.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[1].Value?.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    ventilatorTable.Append(tr);
-                }
-
-                TablePositionProperties tblPos1 = new TablePositionProperties() { HorizontalAnchor = HorizontalAnchorValues.Page, VerticalAnchor = VerticalAnchorValues.Page, TablePositionX = 3500, TablePositionY = yPos };
-                TableOverlap overlap1 = new TableOverlap() { Val = TableOverlapValues.Overlap };
-
-                tblProp.Append(tblPos1, overlap1);
-
-                // Append the table to the document.
-                doc.MainDocumentPart.Document.Body.Append(ventilatorTable);
-
-                TableProperties tblPropMotor = new TableProperties(
-                    new TableBorders(
-                        new TopBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new BottomBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new LeftBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new RightBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideHorizontalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        },
-                        new InsideVerticalBorder()
-                        {
-                            Val =
-                            new EnumValue<BorderValues>(BorderValues.None),
-                            Size = 10
-                        }
-                    )
-                );
-
-
-
-                Table motorTable = new Table();
-                motorTable.AppendChild<TableProperties>(tblPropMotor);
-
-                tr = new TableRow(new TableRowProperties(new TableRowHeight() { Val = Convert.ToUInt32("20") }));
-                tc1 = new TableCell();
-                tc1.Append(new Paragraph(new Run(new Text("Motor Gegevens"))));
-                tr.Append(tc1);
-                motorTable.Append(tr);
-                foreach (DataGridViewRow row in MotorDataGrid.Rows)
-                {
-                    tr = new TableRow();
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[0].Value.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    tc1 = new TableCell();
-                    tc1.Append(new Paragraph(new Run(new Text(row.Cells[1].Value?.ToString())), paragraphProperties.CloneNode(true)));
-                    tr.Append(tc1);
-                    motorTable.Append(tr);
-                }
-
-                /// Add position property to right table, set 8700 and 2400 to where you want the table
-                TableProperties tblProps2 = motorTable.Descendants<TableProperties>().First();
-                TablePositionProperties tblPos2 = new TablePositionProperties() { HorizontalAnchor = HorizontalAnchorValues.Page, VerticalAnchor = VerticalAnchorValues.Page, TablePositionX = 7000, TablePositionY = yPos };
-                TableOverlap overlap2 = new TableOverlap() { Val = TableOverlapValues.Overlap };
-
-                tblProps2.Append(tblPos2, overlap2);
-
-                doc.MainDocumentPart.Document.Body.Append(motorTable);
-
             }
         }
 
-        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId)
+        private void CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests, string fullPath)
         {
-            // Define the reference of the image.
-            var element =
-                 new Drawing(
-                     new DW.Inline(
-                         new DW.Extent() { Cx = 6000000L, Cy = 2000000L },
-                         new DW.EffectExtent()
-                         {
-                             LeftEdge = 0L,
-                             TopEdge = 0L,
-                             RightEdge = 0L,
-                             BottomEdge = 0L
-                         },
-                         new DW.DocProperties()
-                         {
-                             Id = (UInt32Value)1U,
-                             Name = "Picture 1"
-                         },
-                         new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks() { NoChangeAspect = true }),
-                         new A.Graphic(
-                             new A.GraphicData(
-                                 new PIC.Picture(
-                                     new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties()
-                                         {
-                                             Id = (UInt32Value)0U,
-                                             Name = "New Bitmap Image.jpg"
-                                         },
-                                         new PIC.NonVisualPictureDrawingProperties()),
-                                     new PIC.BlipFill(
-                                         new A.Blip(
-                                             new A.BlipExtensionList(
-                                                 new A.BlipExtension()
-                                                 {
-                                                     Uri =
-                                                       "{28A0092B-C50C-407E-A947-70E740481C1C}"
-                                                 })
-                                         )
-                                         {
-                                             Embed = relationshipId,
-                                             CompressionState =
-                                             A.BlipCompressionValues.Print
-                                         },
-                                         new A.Stretch(
-                                             new A.FillRectangle())),
-                                     new PIC.ShapeProperties(
-                                         new A.Transform2D(
-                                             new A.Offset() { X = 0L, Y = 0L },
-                                             new A.Extents() { Cx = 6000000L, Cy = 2000000L }),
-                                         new A.PresetGeometry(
-                                             new A.AdjustValueList()
-                                         )
-                                         { Preset = A.ShapeTypeValues.Rectangle }))
-                             )
-                             { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     )
-                     {
-                         DistanceFromTop = (UInt32Value)0U,
-                         DistanceFromBottom = (UInt32Value)0U,
-                         DistanceFromLeft = (UInt32Value)0U,
-                         DistanceFromRight = (UInt32Value)0U,
-                         EditId = "50D07946"
-                     });
+            Document doc = new Document();
+            foreach (var test in tests)
+            {
+                Section section = doc.AddSection();
+                Image image = Image.FromFile("D:\\Projecten\\Fiverr\\joitsys\\RunningTestHeader2.jpg");
+                Paragraph paragraph = section.AddParagraph();
+                paragraph.AppendPicture(image);
 
-            // Append the reference to the body. The element should be in 
-            // a DocumentFormat.OpenXml.Wordprocessing.Run.
-            wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
+                AddSpecificationText(section);
+                CreateOrderTable(section, test);
+                CreateVentilatorTable(section, test);
+                CreateMotorTable(section, test);
+                AddDateAndSignature(section);
+            }
+            
+            doc.SaveToFile(fullPath, FileFormat.Docx);
+        }
+
+        private void AddDateAndSignature(Section section)
+        {
+            Paragraph paragraph = section.AddParagraph();
+            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
+            TextRange text = paragraph.AppendText($"Datum            {DateTime.Now:MM-dd-yyyy}                                                          Handtekening");
+            text.CharacterFormat.TextColor = Color.Black;
+            text.CharacterFormat.Bold = true;
+            text.CharacterFormat.FontSize = 10;
+            text.CharacterFormat.FontName = "Calibri";
+            var count = section.Body.ChildObjects.Count - 1;
+            section.Body.ChildObjects.Insert(count, paragraph);
+        }
+
+        private void AddSpecificationText(Section section)
+        {
+            Paragraph paragraph = section.AddParagraph();
+            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
+            TextRange text = paragraph.AppendText("SPECIFICATION");
+            text.CharacterFormat.TextColor = Color.Black;
+            text.CharacterFormat.Bold = true;
+            text.CharacterFormat.FontSize = 15;
+            text.CharacterFormat.FontName = "Calibri";
+            var count = section.Body.ChildObjects.Count - 1;
+            section.Body.ChildObjects.Insert(count, paragraph);
+        }
+    
+        private void AddEmptyParagraph(Section section)
+        {
+            Paragraph paragraph = section.AddParagraph();
+            TextRange text = paragraph.AppendText("");
+            text.CharacterFormat.TextColor = Color.Blue;
+            text.CharacterFormat.FontSize = 15;
+            text.CharacterFormat.UnderlineStyle = UnderlineStyle.Dash;
+            var count = section.Body.ChildObjects.Count - 1;
+            section.Body.ChildObjects.Insert(count, paragraph);
+        }
+
+        private void CreateOrderTable(Section section, CustomOrderVentilatorTest test)
+        {
+            Table table = section.AddTable(true);
+            int rows = 8;
+            int columns = 2;
+            //Add Cells
+            table.ResetCells(rows, columns);
+
+            //Data Row
+            for (int r = 0; r < rows; r++)
+            {
+                TableRow DataRow = table.Rows[r];
+                switch (r)
+                {
+                    case 0:
+                        AddDataRow(DataRow, new List<string>() { "Serienummer", test.CustomOrderVentilator.CustomOrder.CustomOrderNumber.ToString() });
+                        break;
+                    case 1:
+                        AddDataRow(DataRow, new List<string>() { "Motornummer", test.CustomOrderVentilator.CustomOrderMotor.Type });
+                        break;
+                    case 2:
+                        AddDataRow(DataRow, new List<string>() { "Systemair order", test.CustomOrderVentilator.CustomOrder.CustomOrderNumber.ToString() });
+                        break;
+                    case 3:
+                        AddDataRow(DataRow, new List<string>() { "Bouwjaar", test.Date.GetValueOrDefault().Year.ToString() });
+                        break;
+                    case 4:
+                        AddDataRow(DataRow, new List<string>() { "ATEX Markering", test.CustomOrderVentilator.Atex });
+                        break;
+                    case 5:
+                        AddDataRow(DataRow, new List<string>() { "Temperatuur bereik", "-20 - +40 °C" });
+                        break;
+                    case 6:
+                        AddDataRow(DataRow, new List<string>() { "Temperatuurklasse", test.CustomOrderVentilator.TemperatureClass.Description });
+                        break;
+                    case 7:
+                        AddDataRow(DataRow, new List<string>() { "Referentie", test.CustomOrderVentilator.CustomOrder.Reference});
+                        break;
+                    default:
+                        break;
+                }
+            }
+            AddEmptyParagraph(section);
+        }
+
+        private void CreateVentilatorTable(Section section, CustomOrderVentilatorTest test)
+        {
+            Table table = section.AddTable(true);
+            int rows = 11;
+            int columns = 3;
+            //Add Cells
+            table.ResetCells(rows, columns);
+
+            //Data Row
+            for (int r = 0; r < rows; r++)
+            {
+                TableRow DataRow = table.Rows[r];
+                switch (r)
+                {
+                    case 0:
+                        AddDataRow(DataRow, new List<string>() { "VENTILATOR GEGEVENS" });
+                        break;
+                    case 1:
+                        AddDataRow(DataRow, new List<string>() { "Type", test.CustomOrderVentilator.Name, "DUMMY" });
+                        break;
+                    case 2:
+                        AddDataRow(DataRow, new List<string>() { "Luchthoeveelheid", test.CustomOrderVentilator.HighAirVolume.ToString(), "m3/h" });
+                        break;
+                    case 3:
+                        AddDataRow(DataRow, new List<string>() { "Opvoerhoogte totaal", test.CustomOrderVentilator.HighPressureTotal.ToString(), "Pa"});
+                        break;
+                    case 4:
+                        AddDataRow(DataRow, new List<string>() { "Opvoerhoogte statisch", test.CustomOrderVentilator.HighPressureStatic.ToString(), "Pa" });
+                        break;
+                    case 5:
+                        AddDataRow(DataRow, new List<string>() { "Opvoerhoogte dynamisch", test.CustomOrderVentilator.HighPressureDynamic.ToString(), "Pa" });
+                        break;
+                    case 6:
+                        AddDataRow(DataRow, new List<string>() { "Toerental", test.CustomOrderVentilator.HighRPM.ToString(), "rpm" });
+                        break;
+                    case 7:
+                        AddDataRow(DataRow, new List<string>() { "Rendement", test.CustomOrderVentilator.Efficiency.ToString(), "%" });
+                        break;
+                    case 8:
+                        AddDataRow(DataRow, new List<string>() { "Asvermogen", test.CustomOrderVentilator.HighShaftPower.ToString(), "kW" });
+                        break;
+                    case 9:
+                        AddDataRow(DataRow, new List<string>() { "Geluidsvermogen", test.CustomOrderVentilator.SoundLevel.ToString(), "dB" });
+                        break;
+                    case 10:
+                        AddDataRow(DataRow, new List<string>() { "Schoephoek", test.CustomOrderVentilator.BladeAngle.ToString(), "°" });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            AddEmptyParagraph(section);
+        }
+
+        private void CreateMotorTable(Section section, CustomOrderVentilatorTest test)
+        {
+            Table table = section.AddTable(true);
+            int rows = 11;
+            int columns = 3;
+            //Add Cells
+            table.ResetCells(rows, columns);
+
+            //Data Row
+            for (int r = 0; r < rows; r++)
+            {
+                TableRow DataRow = table.Rows[r];
+                switch (r)
+                {
+                    case 0:
+                        AddDataRow(DataRow, new List<string>() { "MOTOR GEGEVENS" });
+                        break;
+                    case 1:
+                        AddDataRow(DataRow, new List<string>() { "Fabrikaat", test.CustomOrderVentilator.CustomOrderMotor.Name, "DUMMY" });
+                        break;
+                    case 2:
+                        AddDataRow(DataRow, new List<string>() { "Type", test.CustomOrderVentilator.CustomOrderMotor.Type, "DUMMY" });
+                        break;
+                    case 3:
+                        AddDataRow(DataRow, new List<string>() { "Uitvoering", test.CustomOrderVentilator.CustomOrderMotor.Version, "DUMMY" });
+                        break;
+                    case 4:
+                        AddDataRow(DataRow, new List<string>() { "Bouwgrootte", "?", "DUMMY" });
+                        break;
+                    case 5:
+                        AddDataRow(DataRow, new List<string>() { "Bouwvorm", test.CustomOrderVentilator.CustomOrderMotor.BuildingType, "DUMMY" });
+                        break;
+                    case 6:
+                        AddDataRow(DataRow, new List<string>() { "Beschermklasse", "55", "DUMMY" });
+                        break;
+                    case 7:
+                        AddDataRow(DataRow, new List<string>() { "Isolatieklasse", "F", "DUMMY" });
+                        break;
+                    case 8:
+                        AddDataRow(DataRow, new List<string>() { "Nominaal vermogen", test.CustomOrderVentilator.CustomOrderMotor.HighPower.ToString(), "kW" });
+                        break;
+                    case 9:
+                        AddDataRow(DataRow, new List<string>() { "Toerental", test.CustomOrderVentilator.CustomOrderMotor.HighRPM.ToString(), "rpm" });
+                        break;
+                    case 10:
+                        AddDataRow(DataRow, new List<string>() { "Nominaal stroom", test.CustomOrderVentilator.CustomOrderMotor.HighAmperage.ToString(), "A" });
+                        break;
+                    case 11:
+                        AddDataRow(DataRow, new List<string>() { "Arbeidsfactor", test.CustomOrderVentilator.CustomOrderMotor.PowerFactor.ToString() });
+                        break;
+                    case 12:
+                        AddDataRow(DataRow, new List<string>() { "Aanloopstroom", test.CustomOrderVentilator.CustomOrderMotor.StartupAmperage.ToString(), "A" });
+                        break;
+                    case 13:
+                        AddDataRow(DataRow, new List<string>() { "Aansluitspanning", test.CustomOrderVentilator.CustomOrderMotor.VoltageType.Description, "V" });
+                        break;
+                    case 14:
+                        AddDataRow(DataRow, new List<string>() { "Frequentie", test.CustomOrderVentilator.CustomOrderMotor.Frequency.ToString(), "Hz" });
+                        break;
+                    default:
+                        break;
+                }
+            }
+            AddEmptyParagraph(section);
+            AddEmptyParagraph(section);
+        }
+
+        private void AddDataRow(TableRow DataRow, List<string> values)
+        {
+            DataRow.Height = TableRowHeight;
+            for (int i = 0; i < values.Count; i++)
+            {
+                //Cell Alignment
+                DataRow.Cells[i].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
+                //Fill Data in Rows
+                Paragraph p2 = DataRow.Cells[i].AddParagraph();
+                TextRange TR2 = p2.AppendText(values[i]);
+                //Format Cells
+                p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
+                TR2.CharacterFormat.FontName = "Calibri";
+                TR2.CharacterFormat.FontSize = TableFontSize;
+                TR2.CharacterFormat.Bold = true;
+                if(values[i] != "DUMMY")
+                    TR2.CharacterFormat.TextColor = Color.Black;
+                else
+                    TR2.CharacterFormat.TextColor = Color.White;
+            }
         }
 
     }
