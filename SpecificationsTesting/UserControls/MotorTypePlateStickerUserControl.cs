@@ -155,8 +155,8 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 3:
-                            columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = "2021" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Gewicht", MiddleText = ventilator.CustomOrderVentilatorTests.First().Weight.ToString(), RightText = "kg" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Gewicht", MiddleText = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.Weight.ToString(), RightText = "kg" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 4:
@@ -201,7 +201,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 12:
                             columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", MiddleText = ventilator.SoundLevel.ToString(), RightText = ventilator.SoundLevelType?.UOM });
-                            columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = "abc" });
+                            columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 13:

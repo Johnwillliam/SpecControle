@@ -44,6 +44,9 @@ namespace SpecificationsTesting.Business
                 return null;
             }
 
+            if (customOrder.CreateDate == null)
+                customOrder.CreateDate = DateTime.Now;
+
             using (var dbContext = new SpecificationsDatabaseModel())
             {
                 dbContext.CustomOrders.Add(customOrder);
@@ -59,6 +62,9 @@ namespace SpecificationsTesting.Business
                 var toUpdate = dbContext.CustomOrders.Find(customOrder.ID);
                 if (toUpdate != null)
                 {
+                    if (customOrder.CreateDate == null)
+                        customOrder.CreateDate = DateTime.Now;
+
                     customOrder.ID = toUpdate.ID;
                     dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrder);
                     dbContext.SaveChanges();

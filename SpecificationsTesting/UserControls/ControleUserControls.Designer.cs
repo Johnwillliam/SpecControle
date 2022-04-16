@@ -53,6 +53,8 @@
             this.radioButtonMotorLow = new System.Windows.Forms.RadioButton();
             this.btnMotorTypePlate = new System.Windows.Forms.Button();
             this.btnAtex = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -87,9 +89,9 @@
             this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
             this.CustomOrderVentilatorsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(936, 22);
+            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(937, 22);
             this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
-            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(178, 443);
+            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(147, 575);
             this.CustomOrderVentilatorsDataGrid.TabIndex = 34;
             // 
             // VentilatorDataGrid
@@ -127,7 +129,7 @@
             this.MotorDataGrid.Location = new System.Drawing.Point(3, 277);
             this.MotorDataGrid.Name = "MotorDataGrid";
             this.MotorDataGrid.ReadOnly = true;
-            this.MotorDataGrid.Size = new System.Drawing.Size(327, 277);
+            this.MotorDataGrid.Size = new System.Drawing.Size(327, 320);
             this.MotorDataGrid.TabIndex = 38;
             // 
             // label3
@@ -213,9 +215,9 @@
             this.CustomOrderVentilatorTestsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomOrderVentilatorTestsDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.CustomOrderVentilatorTestsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomOrderVentilatorTestsDataGrid.Location = new System.Drawing.Point(1120, 22);
+            this.CustomOrderVentilatorTestsDataGrid.Location = new System.Drawing.Point(1090, 22);
             this.CustomOrderVentilatorTestsDataGrid.Name = "CustomOrderVentilatorTestsDataGrid";
-            this.CustomOrderVentilatorTestsDataGrid.Size = new System.Drawing.Size(132, 443);
+            this.CustomOrderVentilatorTestsDataGrid.Size = new System.Drawing.Size(132, 575);
             this.CustomOrderVentilatorTestsDataGrid.TabIndex = 44;
             // 
             // btnSaveChanges
@@ -320,10 +322,34 @@
             this.btnAtex.Text = "Atex Sticker";
             this.btnAtex.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(934, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 16);
+            this.label6.TabIndex = 57;
+            this.label6.Text = "Ventilators";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(1087, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(116, 16);
+            this.label7.TabIndex = 58;
+            this.label7.Text = "Ventilator Tests";
+            // 
             // ControleUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnAtex);
             this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.groupBox2);
@@ -342,7 +368,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnClear);
             this.Name = "ControleUserControl";
-            this.Size = new System.Drawing.Size(1255, 557);
+            this.Size = new System.Drawing.Size(1225, 600);
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).EndInit();
@@ -385,5 +411,7 @@
         private System.Windows.Forms.Button btnReadRPM;
         private System.Windows.Forms.Button btnMotorTypePlate;
         private System.Windows.Forms.Button btnAtex;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }

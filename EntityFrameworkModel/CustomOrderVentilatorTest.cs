@@ -32,6 +32,7 @@ namespace EntityFrameworkModel
         public Nullable<decimal> I2Low { get; set; }
         public Nullable<decimal> I3High { get; set; }
         public Nullable<decimal> I3Low { get; set; }
+        public Nullable<int> BuildSize { get; set; }
     
         public virtual CustomOrderVentilator CustomOrderVentilator { get; set; }
         public virtual User User { get; set; }

@@ -199,7 +199,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 13:
                             columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
-                            columns.Add(new StickerRowColumn() { LeftText = "nr", RightText = "abc" });
+                            columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 14:
@@ -214,7 +214,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 16:
-                            columns.Add(new StickerRowColumn() { LeftText = "Maximum Inlaattemperatuur", MiddleText = "40", RightText = "°C" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Maximum Inlaattemperatuur", RightText = "40 °C" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 17:

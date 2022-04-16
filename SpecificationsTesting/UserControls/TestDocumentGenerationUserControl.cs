@@ -232,7 +232,7 @@ namespace SpecificationsTesting.UserControls
         {
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
-            TextRange text = paragraph.AppendText("SPECIFICATION");
+            TextRange text = paragraph.AppendText("SPECIFICATIE");
             text.CharacterFormat.TextColor = Color.Black;
             text.CharacterFormat.Bold = true;
             text.CharacterFormat.FontSize = 15;
@@ -378,7 +378,7 @@ namespace SpecificationsTesting.UserControls
                         AddDataRow(DataRow, new List<string>() { "Uitvoering", test.CustomOrderVentilator.CustomOrderMotor.Version, "DUMMY" });
                         break;
                     case 4:
-                        AddDataRow(DataRow, new List<string>() { "Bouwgrootte", "?", "DUMMY" });
+                        AddDataRow(DataRow, new List<string>() { "Bouwgrootte", test.BuildSize.ToString(), "DUMMY" });
                         break;
                     case 5:
                         AddDataRow(DataRow, new List<string>() { "Bouwvorm", test.CustomOrderVentilator.CustomOrderMotor.BuildingType, "DUMMY" });

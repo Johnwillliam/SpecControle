@@ -12,7 +12,7 @@ namespace SpecificationsTesting.Business
         public static List<string> ControleDisplayPropertyNames = new List<string>
         {
             "MeasuredVentilatorHighRPM", "MeasuredVentilatorLowRPM", "MeasuredMotorHighRPM", "MeasuredMotorLowRPM", "MeasuredBladeAngle", "Cover",
-            "I1High", "I1Low", "I2High", "I2Low", "I3High", "I3Low", "MotorNumber", "Weight", "Date", "UserID"
+            "I1High", "I1Low", "I2High", "I2Low", "I3High", "I3Low", "MotorNumber", "Weight", "Date", "UserID", "MotorNumber", "BuildSize"
         };
 
         public static CustomOrderVentilatorTest Create(CustomOrderVentilatorTest customOrderVentilatorTest)
@@ -237,6 +237,8 @@ namespace SpecificationsTesting.Business
                 var date = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Date")).Cells["Value"].Value;
                 newCustomOrderVentilatorTest.Date = string.IsNullOrEmpty(date.ToString()) ? (DateTime?)null : DateTime.Parse(date.ToString());
 
+                var buildSize = rows.First(x => x.Cells["Description"].Value.ToString().Equals("BuildSize")).Cells["Value"].Value;
+                newCustomOrderVentilatorTest.BuildSize = DataHelper.ToNullableInt(buildSize?.ToString());
 
                 return newCustomOrderVentilatorTest;
             }

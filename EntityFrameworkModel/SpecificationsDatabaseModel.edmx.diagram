@@ -4,34 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="222b2d01630d4417b5d0e7f36c0f5fbc" Name="Diagram1">
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.ATEXType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CatType" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrder" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilator" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.GroupType" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.SoundLevelType" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemperatureClass" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateMotor" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.TemplateVentilator" Width="1.5" PointX="5.25" PointY="24" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.User" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VentilatorType" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SpecificationsDatabaseModel.VoltageType" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CatTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderMotors_VoltageTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CustomOrderMotors" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_CustomOrders" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilator_SoundLevelType" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_GroupTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_TemperatureClasses" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilators_VentilatorType" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_Ventilator_SoundLevelType" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_TemplateMotors_VoltageTypes" ManuallyRouted="false" />
-        <AssociationConnector Association="SpecificationsDatabaseModel.FK_TemplateVentilators_VentilatorType" ManuallyRouted="false" />
+      <Diagram DiagramId="131328d64d0940fe96dbe20622b5f2e1" Name="Diagram1">
+        <EntityTypeShape EntityType="SpecificationsTestingModel.ATEXType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CatType" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CustomOrderMotor" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CustomOrder" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CustomOrderVentilator" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.CustomOrderVentilatorTest" Width="1.5" PointX="7.5" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.GroupType" Width="1.5" PointX="3" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.SoundLevelType" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.TemperatureClass" Width="1.5" PointX="3" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.TemplateMotor" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.TemplateVentilator" Width="1.5" PointX="5.25" PointY="24" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.User" Width="1.5" PointX="5.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.VentilatorType" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpecificationsTestingModel.VoltageType" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_CatTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderMotors_VoltageTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_CustomOrderMotors" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_CustomOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilator_SoundLevelType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_GroupTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_TemperatureClasses" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilators_VentilatorType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators1" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_CustomOrderVentilatorTests_CustomOrderVentilators" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_Ventilator_SoundLevelType" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_TemplateMotors_VoltageTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="SpecificationsTestingModel.FK_TemplateVentilators_VentilatorType" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
