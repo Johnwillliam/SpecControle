@@ -3,6 +3,7 @@ using SpecificationsTesting.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO.Ports;
@@ -17,7 +18,7 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
-        private SerialPort serialPort;
+        private readonly SerialPort SerialPort = new SerialPort(ConfigurationManager.AppSettings.Get("SerialPortName"), int.Parse(ConfigurationManager.AppSettings.Get("SerialPortBaudRate")), Parity.None, 8, StopBits.One);
 
         public ControleUserControl()
         {
@@ -40,6 +41,8 @@ namespace SpecificationsTesting.UserControls
             InitializeComboBoxes();
             SelectedVentilatorID = -1;
             SelectedVentilatorTestID = -1;
+
+            SerialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
         }
 
         private void InitializeComboBoxes()
@@ -238,30 +241,37 @@ namespace SpecificationsTesting.UserControls
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            var customOrderVentilatorIndex = CustomOrder.CustomOrderVentilators.ToList().FindIndex(x => x.ID == SelectedVentilatorID);
-            var customOrderVentilator = CustomOrder.CustomOrderVentilators.ToList()[customOrderVentilatorIndex];
-            var ventilatorTestIndex = customOrderVentilator.CustomOrderVentilatorTests.ToList().FindIndex(x => x.ID == SelectedVentilatorTestID);
-            var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.ToList()[ventilatorTestIndex];
-            var customOrderVentilatorTestID = customOrderVentilatorTest.ID;
-            var customOrderVentilatorID = customOrderVentilatorTest.CustomOrderVentilatorID;
-            customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
-            if(customOrderVentilatorTest == null)
+            try
             {
-                MessageBox.Show("Please verify the filled in data.");
-                return;
+                var customOrderVentilatorIndex = CustomOrder.CustomOrderVentilators.ToList().FindIndex(x => x.ID == SelectedVentilatorID);
+                var customOrderVentilator = CustomOrder.CustomOrderVentilators.ToList()[customOrderVentilatorIndex];
+                var ventilatorTestIndex = customOrderVentilator.CustomOrderVentilatorTests.ToList().FindIndex(x => x.ID == SelectedVentilatorTestID);
+                var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.ToList()[ventilatorTestIndex];
+                var customOrderVentilatorTestID = customOrderVentilatorTest.ID;
+                var customOrderVentilatorID = customOrderVentilatorTest.CustomOrderVentilatorID;
+                customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
+                if (customOrderVentilatorTest == null)
+                {
+                    MessageBox.Show("Please verify the filled in data.");
+                    return;
+                }
+
+                customOrderVentilatorTest.ID = customOrderVentilatorTestID;
+                customOrderVentilatorTest.CustomOrderVentilatorID = customOrderVentilatorID;
+                customOrderVentilatorTest.CustomOrderVentilator = BCustomOrderVentilator.GetById(customOrderVentilatorID);
+
+                if (!BCustomOrderVentilatorTest.Validate(customOrderVentilatorTest))
+                    return;
+
+                BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
+                CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
+                InitializeGridData();
+                MessageBox.Show("Sucessful updated");
             }
-
-            customOrderVentilatorTest.ID = customOrderVentilatorTestID;
-            customOrderVentilatorTest.CustomOrderVentilatorID = customOrderVentilatorID;
-            customOrderVentilatorTest.CustomOrderVentilator = BCustomOrderVentilator.GetById(customOrderVentilatorID);
-
-            if (!BCustomOrderVentilatorTest.Validate(customOrderVentilatorTest))
-                return;
-
-            BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
-            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-            InitializeGridData();
-            MessageBox.Show("Sucessful updated");
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private CustomOrderVentilatorTest ReadCustomOrderVentilatorTestDataGrid()
@@ -318,23 +328,57 @@ namespace SpecificationsTesting.UserControls
         {
             try
             {
-                serialPort = new SerialPort("COM1", 19200, Parity.None, 8, StopBits.One)
-                {
-                    Encoding = System.Text.Encoding.Default
-                };
-                serialPort.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
-                serialPort.Open();
+                SerialPort.Open();
+                var bytess = new byte[13] { 0x81, 0x4D, 0x45, 0x41, 0x20, 0x43, 0x48, 0x20, 0x31, 0x20, 0x3F, 0x03, 0x6F };
+                SerialPort.Write(bytess, 0, bytess.Length);
             }
             catch (Exception ex)
             {
+                SerialPort.Close();
                 MessageBox.Show(ex.Message);
             }
         }
 
-        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            // Show all the incoming data in the port's buffer
-            //textBox1.Text = serialPort.ReadExisting();
+            try
+            {
+                var serialPort = (SerialPort)sender;
+                var value = serialPort.ReadExisting();
+                if (value.Length < 3)
+                {
+                    MessageBox.Show("No valid value read, please try again.");
+                    serialPort.Close();
+                    return;
+                }
+
+                value = value.Substring(1, value.Length - 2);
+                if (!int.TryParse(value, out int rpm))
+                {
+                    MessageBox.Show("No valid value read, please try again.");
+                    serialPort.Close();
+                    return;
+                }
+
+                var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                if (radioButtonMotorHigh.Checked)
+                    selectedTest.MeasuredMotorHighRPM = rpm;
+                else if (radioButtonMotorLow.Checked)
+                    selectedTest.MeasuredMotorLowRPM = rpm;
+                else if (radioButtonVentilatorHigh.Checked)
+                    selectedTest.MeasuredVentilatorHighRPM = rpm;
+                else if (radioButtonVentilatorLow.Checked)
+                    selectedTest.MeasuredVentilatorLowRPM = rpm;
+
+                serialPort.Close();
+                InitializeGridData();
+            }
+            catch (Exception ex)
+            {
+                SerialPort.Close();
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnMotorTypePlate_Click(object sender, EventArgs e)
