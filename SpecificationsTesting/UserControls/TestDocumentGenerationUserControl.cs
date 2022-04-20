@@ -201,9 +201,8 @@ namespace SpecificationsTesting.UserControls
             foreach (var test in tests)
             {
                 Section section = doc.AddSection();
-                Image image = Image.FromFile("D:\\Projecten\\Fiverr\\joitsys\\RunningTestHeader2.jpg");
                 Paragraph paragraph = section.AddParagraph();
-                paragraph.AppendPicture(image);
+                paragraph.AppendPicture(SpecificationsTesting.Properties.Resources.RunningTestHeader);
 
                 AddSpecificationText(section);
                 CreateOrderTable(section, test);

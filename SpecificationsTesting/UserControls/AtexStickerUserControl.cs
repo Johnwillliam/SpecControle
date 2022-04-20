@@ -36,7 +36,7 @@ namespace SpecificationsTesting.Forms
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
 
-            PopulateListBox(LogosListBox, @"D:\Projecten\Fiverr\joitsys\SpecificationsTesting\SpecificationsTesting\Images\Logos", "*.jpg");
+            PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
             LogosListBox.SelectedIndex = 0;
             SelectedImageSize = ImageSize.Medium;
             ShowTable(SelectedImageSize);

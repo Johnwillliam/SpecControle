@@ -248,6 +248,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="UserControls\ControleUserControls.resx">
       <DependentUpon>ControleUserControls.cs</DependentUpon>
@@ -268,6 +269,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Arrows\spaans\Thumbs.db" />
     <None Include="TemplateMotors.xsc">
       <DependentUpon>TemplateMotors.xsd</DependentUpon>
     </None>
@@ -318,6 +320,50 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Arrows\Pijl_GB_LB.jpg" />
+    <Content Include="Resources\Arrows\Pijl_GB_LO.jpg" />
+    <Content Include="Resources\Arrows\Pijl_GB_OO.jpg" />
+    <Content Include="Resources\Arrows\Pijl_GB_RB.jpg" />
+    <Content Include="Resources\Arrows\Pijl_GB_RO.jpg" />
+    <Content Include="Resources\Arrows\Pijl_NL_LB.jpg" />
+    <Content Include="Resources\Arrows\Pijl_NL_LO.jpg" />
+    <Content Include="Resources\Arrows\Pijl_NL_OO.jpg" />
+    <Content Include="Resources\Arrows\Pijl_NL_RB.jpg" />
+    <Content Include="Resources\Arrows\Pijl_NL_RO.jpg" />
+    <Content Include="Resources\Arrows\spaans\Pijl_SP_LB.jpg" />
+    <Content Include="Resources\Arrows\spaans\Pijl_SP_LO.jpg" />
+    <Content Include="Resources\Arrows\spaans\Pijl_SP_OO.jpg" />
+    <Content Include="Resources\Arrows\spaans\Pijl_SP_RB.jpg" />
+    <Content Include="Resources\Arrows\spaans\Pijl_SP_RO.jpg" />
+    <Content Include="Resources\Logos\Aerox.jpg" />
+    <Content Include="Resources\Logos\Alstom.gif" />
+    <Content Include="Resources\Logos\Breman.gif" />
+    <Content Include="Resources\Logos\Bronswerk.jpg" />
+    <Content Include="Resources\Logos\CSB.jpg" />
+    <Content Include="Resources\Logos\De Haan.gif" />
+    <Content Include="Resources\Logos\Donaldson.gif" />
+    <Content Include="Resources\Logos\Eval.gif" />
+    <Content Include="Resources\Logos\GMI.gif" />
+    <Content Include="Resources\Logos\Grenco.gif" />
+    <Content Include="Resources\Logos\HeinenenHopman.gif" />
+    <Content Include="Resources\Logos\Imtech.gif" />
+    <Content Include="Resources\Logos\Jos America temp.jpg" />
+    <Content Include="Resources\Logos\Klimaatservice.gif" />
+    <Content Include="Resources\Logos\Mooij.gif" />
+    <Content Include="Resources\Logos\N.R.Koeling.gif" />
+    <Content Include="Resources\Logos\Necap.gif" />
+    <Content Include="Resources\Logos\Novenco.gif" />
+    <Content Include="Resources\Logos\NR koeling.jpg" />
+    <Content Include="Resources\Logos\Ottobock.jpg" />
+    <Content Include="Resources\Logos\Recoma.gif" />
+    <Content Include="Resources\Logos\Rucon Logo zonder CE.jpg" />
+    <Content Include="Resources\Logos\Rucon Logo.jpg" />
+    <Content Include="Resources\Logos\Selmers.jpg" />
+    <Content Include="Resources\Logos\Van Dijk.jpg" />
+    <Content Include="Resources\Logos\Windex.gif" />
+    <Content Include="Resources\RunningTestHeader.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -326,4 +372,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(ProjectDir)Resources\*.*" "$(TargetDir)\Resources" /Y /I /E</PreBuildEvent>
+  </PropertyGroup>
 </Project>
