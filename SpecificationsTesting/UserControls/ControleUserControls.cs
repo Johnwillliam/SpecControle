@@ -37,11 +37,13 @@ namespace SpecificationsTesting.UserControls
             this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
             this.btnAtex.Click += new System.EventHandler(this.btnAtex_Click);
 
+            CustomOrder = null;
+            SelectedVentilatorID = 0;
+            SelectedVentilatorTestID = 0;
+            txtCustomOrderNumber.Text = "";
+
             InitializeGridColumns();
             InitializeComboBoxes();
-            SelectedVentilatorID = -1;
-            SelectedVentilatorTestID = -1;
-
             SerialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
         }
 
@@ -205,6 +207,29 @@ namespace SpecificationsTesting.UserControls
             SelectedVentilatorID = 0;
             SelectedVentilatorTestID = 0;
             InitializeGridData();
+
+            if (CustomOrder.CustomOrderVentilators.FirstOrDefault().LowRPM == null)
+                ShowSingleRPMSelection();
+            else
+                ShowAllRPMSelection();
+        }
+
+        private void ShowSingleRPMSelection()
+        {
+            radioButtonMotorLow.Visible = false;
+            radioButtonVentilatorLow.Visible = false;
+
+            radioButtonMotorHigh.Text = "Motor RPM";
+            radioButtonVentilatorHigh.Text = "Ventilator RPM";
+        }
+
+        private void ShowAllRPMSelection()
+        {
+            radioButtonMotorLow.Visible = true;
+            radioButtonVentilatorLow.Visible = true;
+
+            radioButtonMotorHigh.Text = "Motor High RPM";
+            radioButtonVentilatorHigh.Text = "Ventilator High RPM";
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -241,6 +266,9 @@ namespace SpecificationsTesting.UserControls
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtCustomOrderNumber.Text) || CustomOrder != null)
+                return;
+
             try
             {
                 var customOrderVentilatorIndex = CustomOrder.CustomOrderVentilators.ToList().FindIndex(x => x.ID == SelectedVentilatorID);
@@ -252,7 +280,7 @@ namespace SpecificationsTesting.UserControls
                 customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
                 if (customOrderVentilatorTest == null)
                 {
-                    MessageBox.Show("Please verify the filled in data.");
+                    MessageBox.Show("Please verify the filled in test data.");
                     return;
                 }
 
@@ -261,7 +289,10 @@ namespace SpecificationsTesting.UserControls
                 customOrderVentilatorTest.CustomOrderVentilator = BCustomOrderVentilator.GetById(customOrderVentilatorID);
 
                 if (!BCustomOrderVentilatorTest.Validate(customOrderVentilatorTest))
+                {
+                    MessageBox.Show("Please verify the filled in test data.");
                     return;
+                }
 
                 BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
@@ -389,7 +420,10 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            {
+                MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
+            }
 
             var mainForm = (MainForm)this.ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
@@ -403,8 +437,12 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            if (string.IsNullOrEmpty(ventilator.Atex) || !BCustomOrderVentilatorTest.ValidateForPrinting(ventilator))
+            {
+                MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
+            }
 
             var mainForm = (MainForm)this.ParentForm;
             mainForm.TabControl.SelectedIndex = 2;

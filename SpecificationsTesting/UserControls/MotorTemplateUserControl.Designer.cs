@@ -30,10 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.MotorTemplateDataGridView = new ADGV.AdvancedDataGridView();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.templateMotors = new SpecificationsTesting.TemplateMotors();
-            this.templateMotorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.templateMotorsTableAdapter = new SpecificationsTesting.TemplateMotorsTableAdapters.TemplateMotorsTableAdapter();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,9 +48,13 @@
             this.voltageTypeIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frequencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.powerFactorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.templateMotorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.templateMotors = new SpecificationsTesting.TemplateMotors();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.templateMotorsTableAdapter = new SpecificationsTesting.TemplateMotorsTableAdapters.TemplateMotorsTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.MotorTemplateDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).BeginInit();
             this.SuspendLayout();
             // 
             // MotorTemplateDataGridView
@@ -91,31 +91,7 @@
             this.MotorTemplateDataGridView.Size = new System.Drawing.Size(1187, 412);
             this.MotorTemplateDataGridView.TabIndex = 0;
             this.MotorTemplateDataGridView.TimeFilter = false;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(505, 418);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(250, 37);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // templateMotors
-            // 
-            this.templateMotors.DataSetName = "TemplateMotors";
-            this.templateMotors.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // templateMotorsBindingSource
-            // 
-            this.templateMotorsBindingSource.DataMember = "TemplateMotors";
-            this.templateMotorsBindingSource.DataSource = this.templateMotors;
-            // 
-            // templateMotorsTableAdapter
-            // 
-            this.templateMotorsTableAdapter.ClearBeforeFill = true;
+            this.MotorTemplateDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MotorTemplateDataGridView_DataError);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -262,6 +238,31 @@
             this.powerFactorDataGridViewTextBoxColumn.Name = "powerFactorDataGridViewTextBoxColumn";
             this.powerFactorDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
+            // templateMotorsBindingSource
+            // 
+            this.templateMotorsBindingSource.DataMember = "TemplateMotors";
+            this.templateMotorsBindingSource.DataSource = this.templateMotors;
+            // 
+            // templateMotors
+            // 
+            this.templateMotors.DataSetName = "TemplateMotors";
+            this.templateMotors.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(505, 418);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(250, 37);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // templateMotorsTableAdapter
+            // 
+            this.templateMotorsTableAdapter.ClearBeforeFill = true;
+            // 
             // MotorTemplateUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -272,8 +273,8 @@
             this.Name = "MotorTemplateUserControl";
             this.Size = new System.Drawing.Size(1187, 467);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTemplateDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).EndInit();
             this.ResumeLayout(false);
 
         }

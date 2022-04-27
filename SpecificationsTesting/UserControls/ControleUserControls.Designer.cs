@@ -147,7 +147,7 @@
             this.SelectedVentilatorTestDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SelectedVentilatorTestDataGrid.Location = new System.Drawing.Point(336, 22);
             this.SelectedVentilatorTestDataGrid.Name = "SelectedVentilatorTestDataGrid";
-            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 378);
+            this.SelectedVentilatorTestDataGrid.Size = new System.Drawing.Size(327, 398);
             this.SelectedVentilatorTestDataGrid.TabIndex = 40;
             // 
             // label4
@@ -242,10 +242,10 @@
             this.radioButtonMotorHigh.AutoSize = true;
             this.radioButtonMotorHigh.Location = new System.Drawing.Point(6, 19);
             this.radioButtonMotorHigh.Name = "radioButtonMotorHigh";
-            this.radioButtonMotorHigh.Size = new System.Drawing.Size(77, 17);
+            this.radioButtonMotorHigh.Size = new System.Drawing.Size(104, 17);
             this.radioButtonMotorHigh.TabIndex = 53;
             this.radioButtonMotorHigh.TabStop = true;
-            this.radioButtonMotorHigh.Text = "Motor High";
+            this.radioButtonMotorHigh.Text = "Motor High RPM";
             this.radioButtonMotorHigh.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -255,7 +255,7 @@
             this.groupBox2.Controls.Add(this.radioButtonVentilatorHigh);
             this.groupBox2.Controls.Add(this.radioButtonMotorLow);
             this.groupBox2.Controls.Add(this.radioButtonMotorHigh);
-            this.groupBox2.Location = new System.Drawing.Point(399, 406);
+            this.groupBox2.Location = new System.Drawing.Point(397, 449);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 148);
             this.groupBox2.TabIndex = 54;
@@ -276,10 +276,10 @@
             this.radioButtonVentilatorLow.AutoSize = true;
             this.radioButtonVentilatorLow.Location = new System.Drawing.Point(6, 88);
             this.radioButtonVentilatorLow.Name = "radioButtonVentilatorLow";
-            this.radioButtonVentilatorLow.Size = new System.Drawing.Size(92, 17);
+            this.radioButtonVentilatorLow.Size = new System.Drawing.Size(119, 17);
             this.radioButtonVentilatorLow.TabIndex = 56;
             this.radioButtonVentilatorLow.TabStop = true;
-            this.radioButtonVentilatorLow.Text = "Ventilator Low";
+            this.radioButtonVentilatorLow.Text = "Ventilator Low RPM";
             this.radioButtonVentilatorLow.UseVisualStyleBackColor = true;
             // 
             // radioButtonVentilatorHigh
@@ -287,10 +287,10 @@
             this.radioButtonVentilatorHigh.AutoSize = true;
             this.radioButtonVentilatorHigh.Location = new System.Drawing.Point(6, 65);
             this.radioButtonVentilatorHigh.Name = "radioButtonVentilatorHigh";
-            this.radioButtonVentilatorHigh.Size = new System.Drawing.Size(94, 17);
+            this.radioButtonVentilatorHigh.Size = new System.Drawing.Size(121, 17);
             this.radioButtonVentilatorHigh.TabIndex = 55;
             this.radioButtonVentilatorHigh.TabStop = true;
-            this.radioButtonVentilatorHigh.Text = "Ventilator High";
+            this.radioButtonVentilatorHigh.Text = "Ventilator High RPM";
             this.radioButtonVentilatorHigh.UseVisualStyleBackColor = true;
             // 
             // radioButtonMotorLow
@@ -298,10 +298,10 @@
             this.radioButtonMotorLow.AutoSize = true;
             this.radioButtonMotorLow.Location = new System.Drawing.Point(6, 42);
             this.radioButtonMotorLow.Name = "radioButtonMotorLow";
-            this.radioButtonMotorLow.Size = new System.Drawing.Size(75, 17);
+            this.radioButtonMotorLow.Size = new System.Drawing.Size(102, 17);
             this.radioButtonMotorLow.TabIndex = 54;
             this.radioButtonMotorLow.TabStop = true;
-            this.radioButtonMotorLow.Text = "Motor Low";
+            this.radioButtonMotorLow.Text = "Motor Low RPM";
             this.radioButtonMotorLow.UseVisualStyleBackColor = true;
             // 
             // btnMotorTypePlate

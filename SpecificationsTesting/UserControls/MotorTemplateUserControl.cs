@@ -38,5 +38,9 @@ namespace SpecificationsTesting.UserControls
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
         }
 
+        private void MotorTemplateDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show(e.Exception.Message);
+        }
     }
 }

@@ -304,7 +304,7 @@ namespace SpecificationsTesting.Forms
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (CustomOrder == null || !BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 return;
 
             PrintDocument pd = new PrintDocument();
