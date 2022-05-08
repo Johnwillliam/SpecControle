@@ -204,7 +204,7 @@ namespace SpecificationsTesting.UserControls
                 DialogResult result = fbd.ShowDialog();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    var fileName = $"Running test - {CustomOrder.CustomOrderNumber} - {DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
+                    var fileName = $"Running test-{CustomOrder.CustomOrderNumber}_{DateTime.Now:yyyy-dd-MM--HH-mm-ss}.docx";
                     var fullPath = $"{fbd.SelectedPath}\\{fileName}";
                     CreateTableInWordDocument(tests, fullPath);
                 }
@@ -261,7 +261,7 @@ namespace SpecificationsTesting.UserControls
         {
             var paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            var text = paragraph.AppendText($"Datum assemblage            {test.Date}");
+            var text = paragraph.AppendText($"Datum assemblage            {test.Date:yyyy-dd-MM}");
             text.CharacterFormat.TextColor = Color.Black;
             text.CharacterFormat.Bold = true;
             text.CharacterFormat.FontSize = 10;

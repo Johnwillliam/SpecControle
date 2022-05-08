@@ -337,27 +337,26 @@ namespace SpecificationsTesting.Forms
 
             PrintDocument pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = PrinterName;
-            pd.PrintPage += PrintPage;
+            pd.PrintPage += PrintSticker;
             pd.Print();
-        }
-
-        private void PrintPage(object o, PrintPageEventArgs e)
-        {
-            var image = GenerateTable(NormalImageWidth, NormalImageHeight);
-            Point loc = new Point(0, 0);
-            e.Graphics.DrawImage(image, loc);
 
             using (var fbd = new FolderBrowserDialog())
             {
                 DialogResult result = fbd.ShowDialog();
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    var fileName = $"ATEX - {CustomOrder.CustomOrderNumber} - {DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
+                    var fileName = $"ATEX-{CustomOrder.CustomOrderNumber}_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
                     var fullPath = $"{fbd.SelectedPath}\\{fileName}";
-                    var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
                     CreateTableInWordDocument(ventilator.CustomOrderVentilatorTests.ToList(), fullPath);
                 }
             }
+        }
+
+        private void PrintSticker(object o, PrintPageEventArgs e)
+        {
+            var image = GenerateTable(NormalImageWidth, NormalImageHeight);
+            Point loc = new Point(0, 0);
+            e.Graphics.DrawImage(image, loc);
         }
 
         private void CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests, string fullPath)
