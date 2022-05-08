@@ -47,7 +47,10 @@ namespace SpecificationsTesting.Forms
             using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
             {
                 if (!dbContext.Database.Exists())
+                {
                     MessageBox.Show("Database cannot be reached, please check if the SQL server is running.");
+                    System.Windows.Forms.Application.Exit();
+                }
             }
         }
 
