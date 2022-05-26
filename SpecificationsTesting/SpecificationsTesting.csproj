@@ -180,6 +180,11 @@
     <Compile Include="Forms\MotorTemplateSelectionForm.Designer.cs">
       <DependentUpon>MotorTemplateSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TemplateMotors.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -243,14 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UserControls\ControleUserControls.resx">
       <DependentUpon>ControleUserControls.cs</DependentUpon>
     </EmbeddedResource>
@@ -363,7 +363,7 @@
     <Content Include="Resources\Logos\Selmers.jpg" />
     <Content Include="Resources\Logos\Van Dijk.jpg" />
     <Content Include="Resources\Logos\Windex.gif" />
-    <Content Include="Resources\RunningTestHeader.jpg" />
+    <Content Include="Resources\AtexDocumentHeader.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.0\build\netstandard2.0\NETStandard.Library.targets')" />

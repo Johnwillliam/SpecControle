@@ -63,9 +63,9 @@ namespace SpecificationsTesting.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RunningTestHeader {
+        internal static System.Drawing.Bitmap AtexDocumentHeader {
             get {
-                object obj = ResourceManager.GetObject("RunningTestHeader", resourceCulture);
+                object obj = ResourceManager.GetObject("AtexDocumentHeader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

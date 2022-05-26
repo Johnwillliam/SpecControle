@@ -266,7 +266,7 @@ namespace SpecificationsTesting.UserControls
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtCustomOrderNumber.Text) || CustomOrder != null)
+            if (string.IsNullOrEmpty(txtCustomOrderNumber.Text) || CustomOrder == null)
                 return;
 
             try
@@ -308,7 +308,9 @@ namespace SpecificationsTesting.UserControls
         private CustomOrderVentilatorTest ReadCustomOrderVentilatorTestDataGrid()
         {
             var rows = SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList();
-            return BCustomOrderVentilatorTest.CreateObject(rows);
+            var test = BCustomOrderVentilatorTest.CreateObject(rows);
+            test.UserID = (int?)cmbUser.SelectedValue;
+            return test;
         }
 
         private void radioButtonMotorHigh_CheckedChanged(object sender, EventArgs e)

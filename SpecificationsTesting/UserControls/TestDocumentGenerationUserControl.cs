@@ -223,6 +223,7 @@ namespace SpecificationsTesting.UserControls
                     CreateOrderTable(section, test);
                     CreateVentilatorTable(section, test);
                     CreateMotorTable(section, test);
+                    CreateTestTable(section, test);
                     AddFooterText(section, test);
                 }
 
@@ -261,7 +262,7 @@ namespace SpecificationsTesting.UserControls
         {
             var paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            var text = paragraph.AppendText($"Datum assemblage            {test.Date:yyyy-dd-MM}");
+            var text = paragraph.AppendText($"Datum assemblage             {test.Date:yyyy-dd-MM}");
             text.CharacterFormat.TextColor = Color.Black;
             text.CharacterFormat.Bold = true;
             text.CharacterFormat.FontSize = 10;
@@ -271,7 +272,7 @@ namespace SpecificationsTesting.UserControls
 
             paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            text = paragraph.AppendText($"Uitgevoerd door            {test.User?.Name}");
+            text = paragraph.AppendText($"Uitgevoerd door                  {test.User?.Name}");
             text.CharacterFormat.TextColor = Color.Black;
             text.CharacterFormat.Bold = true;
             text.CharacterFormat.FontSize = 10;
@@ -417,6 +418,56 @@ namespace SpecificationsTesting.UserControls
                     }
                 }
                 AddEmptyParagraph(section);
+                AddEmptyParagraph(section);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void CreateTestTable(Section section, CustomOrderVentilatorTest test)
+        {
+            try
+            {
+                Table table = section.AddTable(true);
+                var rows = 7;
+                var columns = 3;
+                //Add Cells
+                table.ResetCells(rows, columns);
+
+                //Data Row
+                for (int r = 0; r < rows; r++)
+                {
+                    TableRow DataRow = table.Rows[r];
+                    switch (r)
+                    {
+
+                        case 0:
+                            AddDataRow(DataRow, new List<string>() { "MEETGEGEVENS"});
+                            break;
+                        case 1:
+                            AddDataRow(DataRow, new List<string>() { "Stroom I1", test.I1High.ToString(), "A" });
+                            break;
+                        case 2:
+                            AddDataRow(DataRow, new List<string>() { "Stroom I2", test.I2High.ToString(), "A" });
+                            break;
+                        case 3:
+                            AddDataRow(DataRow, new List<string>() { "Stroom I3", test.I3High.ToString(), "A" });
+                            break;
+                        case 4:
+                            AddDataRow(DataRow, new List<string>() { "Toerental motor", test.MeasuredMotorHighRPM.ToString(), "rpm" });
+                            break;
+                        case 5:
+                            AddDataRow(DataRow, new List<string>() { "Toerental ventilator", test.MeasuredVentilatorHighRPM.ToString(), "rpm" });
+                            break;
+                        case 6:
+                            AddDataRow(DataRow, new List<string>() { "Schoephoek", test.MeasuredBladeAngle.ToString(), "°" });
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 AddEmptyParagraph(section);
             }
             catch (Exception ex)

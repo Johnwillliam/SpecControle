@@ -368,7 +368,7 @@ namespace SpecificationsTesting.Forms
                 {
                     Section section = doc.AddSection();
                     Paragraph paragraph = section.AddParagraph();
-                    paragraph.AppendPicture(SpecificationsTesting.Properties.Resources.RunningTestHeader);
+                    paragraph.AppendPicture(SpecificationsTesting.Properties.Resources.AtexDocumentHeader);
 
                     AddSpecificationText(section);
                     CreateOrderTable(section, test);
