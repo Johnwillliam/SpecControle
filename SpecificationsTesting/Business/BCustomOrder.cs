@@ -98,7 +98,7 @@ namespace SpecificationsTesting.Business
 
         public static bool Validate(CustomOrder customOrder)
         {
-            if (customOrder == null)
+            if (customOrder == null || customOrder.CustomOrderNumber == -1)
             {
                 MessageBox.Show("Creation failed. Missing data.");
                 return false;
