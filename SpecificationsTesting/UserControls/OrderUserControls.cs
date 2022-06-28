@@ -249,6 +249,7 @@ namespace SpecificationsTesting.UserControls
 
                 CustomOrderMotor customOrderMotor;
                 if (SelectedTemplateMotor != null)
+                {
                     customOrderMotor = new CustomOrderMotor()
                     {
                         Name = SelectedTemplateMotor.Name,
@@ -267,11 +268,13 @@ namespace SpecificationsTesting.UserControls
                         StartupAmperage = SelectedTemplateMotor.StartupAmperage,
                         Type = SelectedTemplateMotor.Type,
                         Version = SelectedTemplateMotor.Version,
-                        VoltageType = SelectedTemplateMotor.VoltageType,
                         VoltageTypeID = SelectedTemplateMotor.VoltageTypeID
                     };
+                }
                 else
+                {
                     customOrderMotor = ReadCustomOrderMotorDataGrid();
+                }
 
                 if (!BCustomOrderMotor.Validate(customOrderMotor))
                 {
@@ -299,8 +302,8 @@ namespace SpecificationsTesting.UserControls
                     CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
                     txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
                     InitializeGridData();
+                    MessageBox.Show("Order succesfully created.");
                 }
-                MessageBox.Show("Order succesfully created.");
             }
             catch (Exception ex)
             {
