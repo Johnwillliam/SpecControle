@@ -19,6 +19,7 @@ namespace SpecificationsTesting.UserControls
         {
             // TODO: This line of code loads data into the 'templateMotors._TemplateMotors' table. You can move, or remove it, as needed.
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
+            this.voltageTypesTableAdapter.Fill(this.templateMotors.VoltageTypes);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -26,7 +27,7 @@ namespace SpecificationsTesting.UserControls
             foreach (DataRow row in this.templateMotors._TemplateMotors.Rows)
             {
                 var motorTemplate = DataHelper.ToObject<TemplateMotor>(row);
-                if(motorTemplate.ID < 0)
+                if (motorTemplate.ID < 0)
                 {
                     BTemplateMotor.Create(motorTemplate);
                 }
@@ -36,6 +37,7 @@ namespace SpecificationsTesting.UserControls
                 }
             }
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
+            this.voltageTypesTableAdapter.Fill(this.templateMotors.VoltageTypes);
         }
 
         private void MotorTemplateDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)

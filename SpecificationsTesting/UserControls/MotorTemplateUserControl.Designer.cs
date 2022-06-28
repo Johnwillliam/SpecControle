@@ -30,7 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.MotorTemplateDataGridView = new ADGV.AdvancedDataGridView();
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.voltageTypesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.templateMotorsBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.templateMotors = new SpecificationsTesting.TemplateMotors();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.templateMotorsTableAdapter = new SpecificationsTesting.TemplateMotorsTableAdapters.TemplateMotorsTableAdapter();
+            this.voltageTypesTableAdapter = new SpecificationsTesting.TemplateMotorsTableAdapters.VoltageTypesTableAdapter();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.versionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,15 +51,12 @@
             this.highAmperageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lowAmperageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.startupAmperageDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.voltageTypeIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.frequencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.powerFactorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.templateMotorsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.templateMotors = new SpecificationsTesting.TemplateMotors();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.templateMotorsTableAdapter = new SpecificationsTesting.TemplateMotorsTableAdapters.TemplateMotorsTableAdapter();
+            this.voltageTypeIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.MotorTemplateDataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.voltageTypesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,7 +67,7 @@
             this.MotorTemplateDataGridView.AutoGenerateContextFilters = true;
             this.MotorTemplateDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MotorTemplateDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
+            this.ID,
             this.nameDataGridViewTextBoxColumn,
             this.typeDataGridViewTextBoxColumn,
             this.versionDataGridViewTextBoxColumn,
@@ -79,10 +82,11 @@
             this.highAmperageDataGridViewTextBoxColumn,
             this.lowAmperageDataGridViewTextBoxColumn,
             this.startupAmperageDataGridViewTextBoxColumn,
-            this.voltageTypeIDDataGridViewTextBoxColumn,
             this.frequencyDataGridViewTextBoxColumn,
-            this.powerFactorDataGridViewTextBoxColumn});
-            this.MotorTemplateDataGridView.DataSource = this.templateMotorsBindingSource;
+            this.powerFactorDataGridViewTextBoxColumn,
+            this.voltageTypeIDDataGridViewTextBoxColumn});
+            this.MotorTemplateDataGridView.DataMember = "TemplateMotors";
+            this.MotorTemplateDataGridView.DataSource = this.templateMotorsBindingSource1;
             this.MotorTemplateDataGridView.DateWithTime = false;
             this.MotorTemplateDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
             this.MotorTemplateDataGridView.Location = new System.Drawing.Point(0, 0);
@@ -93,14 +97,49 @@
             this.MotorTemplateDataGridView.TimeFilter = false;
             this.MotorTemplateDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MotorTemplateDataGridView_DataError);
             // 
-            // iDDataGridViewTextBoxColumn
+            // voltageTypesBindingSource
             // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.MinimumWidth = 22;
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
-            this.iDDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.voltageTypesBindingSource.DataMember = "VoltageTypes";
+            this.voltageTypesBindingSource.DataSource = this.templateMotorsBindingSource1;
+            // 
+            // templateMotorsBindingSource1
+            // 
+            this.templateMotorsBindingSource1.DataSource = this.templateMotors;
+            this.templateMotorsBindingSource1.Position = 0;
+            // 
+            // templateMotors
+            // 
+            this.templateMotors.DataSetName = "TemplateMotors";
+            this.templateMotors.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(505, 418);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(250, 37);
+            this.btnSave.TabIndex = 1;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // templateMotorsTableAdapter
+            // 
+            this.templateMotorsTableAdapter.ClearBeforeFill = true;
+            // 
+            // voltageTypesTableAdapter
+            // 
+            this.voltageTypesTableAdapter.ClearBeforeFill = true;
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "ID";
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 22;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.ID.Visible = false;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -214,14 +253,6 @@
             this.startupAmperageDataGridViewTextBoxColumn.Name = "startupAmperageDataGridViewTextBoxColumn";
             this.startupAmperageDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
-            // voltageTypeIDDataGridViewTextBoxColumn
-            // 
-            this.voltageTypeIDDataGridViewTextBoxColumn.DataPropertyName = "VoltageTypeID";
-            this.voltageTypeIDDataGridViewTextBoxColumn.HeaderText = "VoltageTypeID";
-            this.voltageTypeIDDataGridViewTextBoxColumn.MinimumWidth = 22;
-            this.voltageTypeIDDataGridViewTextBoxColumn.Name = "voltageTypeIDDataGridViewTextBoxColumn";
-            this.voltageTypeIDDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
             // frequencyDataGridViewTextBoxColumn
             // 
             this.frequencyDataGridViewTextBoxColumn.DataPropertyName = "Frequency";
@@ -238,30 +269,17 @@
             this.powerFactorDataGridViewTextBoxColumn.Name = "powerFactorDataGridViewTextBoxColumn";
             this.powerFactorDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
             // 
-            // templateMotorsBindingSource
+            // voltageTypeIDDataGridViewTextBoxColumn
             // 
-            this.templateMotorsBindingSource.DataMember = "TemplateMotors";
-            this.templateMotorsBindingSource.DataSource = this.templateMotors;
-            // 
-            // templateMotors
-            // 
-            this.templateMotors.DataSetName = "TemplateMotors";
-            this.templateMotors.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(505, 418);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(250, 37);
-            this.btnSave.TabIndex = 1;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // templateMotorsTableAdapter
-            // 
-            this.templateMotorsTableAdapter.ClearBeforeFill = true;
+            this.voltageTypeIDDataGridViewTextBoxColumn.DataPropertyName = "VoltageTypeID";
+            this.voltageTypeIDDataGridViewTextBoxColumn.DataSource = this.voltageTypesBindingSource;
+            this.voltageTypeIDDataGridViewTextBoxColumn.DisplayMember = "Description";
+            this.voltageTypeIDDataGridViewTextBoxColumn.HeaderText = "VoltageType";
+            this.voltageTypeIDDataGridViewTextBoxColumn.MinimumWidth = 22;
+            this.voltageTypeIDDataGridViewTextBoxColumn.Name = "voltageTypeIDDataGridViewTextBoxColumn";
+            this.voltageTypeIDDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.voltageTypeIDDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.voltageTypeIDDataGridViewTextBoxColumn.ValueMember = "ID";
             // 
             // MotorTemplateUserControl
             // 
@@ -273,7 +291,8 @@
             this.Name = "MotorTemplateUserControl";
             this.Size = new System.Drawing.Size(1187, 467);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTemplateDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.voltageTypesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.templateMotorsBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.templateMotors)).EndInit();
             this.ResumeLayout(false);
 
@@ -284,6 +303,12 @@
         private ADGV.AdvancedDataGridView MotorTemplateDataGridView;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private TemplateMotors templateMotors;
+        private TemplateMotorsTableAdapters.TemplateMotorsTableAdapter templateMotorsTableAdapter;
+        private System.Windows.Forms.BindingSource templateMotorsBindingSource1;
+        private System.Windows.Forms.BindingSource voltageTypesBindingSource;
+        private TemplateMotorsTableAdapters.VoltageTypesTableAdapter voltageTypesTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn typeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn versionDataGridViewTextBoxColumn;
@@ -298,11 +323,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn highAmperageDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn lowAmperageDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn startupAmperageDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn voltageTypeIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn frequencyDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn powerFactorDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource templateMotorsBindingSource;
-        private TemplateMotors templateMotors;
-        private TemplateMotorsTableAdapters.TemplateMotorsTableAdapter templateMotorsTableAdapter;
+        private System.Windows.Forms.DataGridViewComboBoxColumn voltageTypeIDDataGridViewTextBoxColumn;
     }
 }
