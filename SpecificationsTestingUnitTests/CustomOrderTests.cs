@@ -1,12 +1,12 @@
-using EntityFrameworkModel;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpecificationsTesting.Business;
 
 namespace SpecificationsTestingUnitTests
 {
+    [TestFixture]
     public class CustomOrderTests
     {
-        [Test]
+        [TestMethod]
         public void ValidateCustomOrder()
         {
             // Arrange

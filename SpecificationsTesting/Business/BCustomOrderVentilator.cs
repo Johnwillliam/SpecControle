@@ -116,20 +116,16 @@ namespace SpecificationsTesting.Business
 
                 if(newCustomOrderVentilator.HighAirVolume != null)
                 {
-                    decimal? q = (decimal)newCustomOrderVentilator.HighAirVolume / 3600m;
-                    int? p = newCustomOrderVentilator.HighPressureTotal;
-                    int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
-                    decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
-                    newCustomOrderVentilator.HighShaftPower = shaftPower;
+                    newCustomOrderVentilator.HighShaftPower = CalculateShaftPower((decimal)newCustomOrderVentilator.HighAirVolume,
+                        newCustomOrderVentilator.HighPressureTotal,
+                        newCustomOrderVentilator.Efficiency);
                 }
 
                 if(newCustomOrderVentilator.LowAirVolume != null)
                 {
-                    decimal? q = (decimal)newCustomOrderVentilator.LowAirVolume / 3600m;
-                    int? p = newCustomOrderVentilator.LowPressureTotal;
-                    int r = newCustomOrderVentilator.Efficiency == null ? 1 : (int)newCustomOrderVentilator.Efficiency / 100;
-                    decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 100);
-                    newCustomOrderVentilator.LowShaftPower = shaftPower;
+                    newCustomOrderVentilator.LowShaftPower = CalculateShaftPower((decimal)newCustomOrderVentilator.LowAirVolume, 
+                        newCustomOrderVentilator.LowPressureTotal, 
+                        newCustomOrderVentilator.Efficiency);
                 }
 
                 var efficiency = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Efficiency")).Cells["Value"].Value;
@@ -153,6 +149,15 @@ namespace SpecificationsTesting.Business
             {
                 return null;
             }
+        }
+
+        public static decimal? CalculateShaftPower(decimal airVolume, int? pressureTotal, int? efficiency)
+        {
+            decimal? q = airVolume / 3600m;
+            int? p = pressureTotal;
+            decimal r = efficiency == null ? 1 : (decimal)efficiency / 100;
+            decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 1000 );
+            return shaftPower;
         }
 
         public static void Calculate(CustomOrderVentilator customOrderVentilator)
