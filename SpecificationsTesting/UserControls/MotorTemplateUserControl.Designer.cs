@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.MotorTemplateDataGridView = new ADGV.AdvancedDataGridView();
+            this.MotorTemplateDataGridView = new Zuby.ADGV.AdvancedDataGridView();
             this.voltageTypesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.templateMotorsBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.templateMotors = new SpecificationsTesting.TemplateMotors();
@@ -64,7 +64,6 @@
             // 
             this.MotorTemplateDataGridView.AllowUserToOrderColumns = true;
             this.MotorTemplateDataGridView.AutoGenerateColumns = false;
-            this.MotorTemplateDataGridView.AutoGenerateContextFilters = true;
             this.MotorTemplateDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MotorTemplateDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -87,14 +86,12 @@
             this.voltageTypeIDDataGridViewTextBoxColumn});
             this.MotorTemplateDataGridView.DataMember = "TemplateMotors";
             this.MotorTemplateDataGridView.DataSource = this.templateMotorsBindingSource1;
-            this.MotorTemplateDataGridView.DateWithTime = false;
             this.MotorTemplateDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
             this.MotorTemplateDataGridView.Location = new System.Drawing.Point(0, 0);
             this.MotorTemplateDataGridView.MultiSelect = false;
             this.MotorTemplateDataGridView.Name = "MotorTemplateDataGridView";
             this.MotorTemplateDataGridView.Size = new System.Drawing.Size(1187, 412);
             this.MotorTemplateDataGridView.TabIndex = 0;
-            this.MotorTemplateDataGridView.TimeFilter = false;
             this.MotorTemplateDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.MotorTemplateDataGridView_DataError);
             // 
             // voltageTypesBindingSource
@@ -300,7 +297,7 @@
 
         #endregion
 
-        private ADGV.AdvancedDataGridView MotorTemplateDataGridView;
+        private Zuby.ADGV.AdvancedDataGridView MotorTemplateDataGridView;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private TemplateMotors templateMotors;

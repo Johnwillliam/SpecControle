@@ -105,7 +105,7 @@
     <Property Name="LowRPM" Type="int" Nullable="true" />
     <Property Name="HighAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="LowAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
-    <Property Name="StartupAmperage" Type="int" Nullable="true" />
+    <Property Name="StartupAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="VoltageTypeID" Type="int" Nullable="true" />
     <Property Name="Frequency" Type="int" Nullable="true" />
     <Property Name="PowerFactor" Type="int" Nullable="true" />
@@ -217,7 +217,7 @@
     <Property Name="LowRPM" Type="int" Nullable="true" />
     <Property Name="HighAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="LowAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
-    <Property Name="StartupAmperage" Type="int" Nullable="true" />
+    <Property Name="StartupAmperage" Type="decimal" Nullable="true" Precision="18" Scale="2" />
     <Property Name="VoltageTypeID" Type="int" Nullable="true" />
     <Property Name="Frequency" Type="int" Nullable="true" />
     <Property Name="PowerFactor" Type="int" Nullable="true" />
@@ -454,7 +454,7 @@
           <Property Name="LowRPM" Type="Int32" />
           <Property Name="HighAmperage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="LowAmperage" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StartupAmperage" Type="Int32" />
+          <Property Name="StartupAmperage" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
           <Property Name="PowerFactor" Type="Int32" />
@@ -583,7 +583,7 @@
           <Property Name="LowRPM" Type="Int32" />
           <Property Name="HighAmperage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="LowAmperage" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="StartupAmperage" Type="Int32" />
+          <Property Name="StartupAmperage" Type="Decimal" Precision="18" Scale="2" Nullable="true" />
           <Property Name="VoltageTypeID" Type="Int32" />
           <Property Name="Frequency" Type="Int32" />
           <Property Name="PowerFactor" Type="Int32" />

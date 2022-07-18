@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/25/2022 13:28:42
+-- Date Created: 06/29/2022 20:27:57
 -- Generated from EDMX file: D:\Projecten\Fiverr\joitsys\SpecificationsTesting\SpecificationsTesting\EntityFrameworkModel\SpecificationsDatabaseModel.edmx
 -- --------------------------------------------------
 
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[CustomOrderMotors] (
     [LowRPM] int  NULL,
     [HighAmperage] decimal(18,2)  NULL,
     [LowAmperage] decimal(18,2)  NULL,
-    [StartupAmperage] int  NULL,
+    [StartupAmperage] decimal(18,2)  NULL,
     [VoltageTypeID] int  NULL,
     [Frequency] int  NULL,
     [PowerFactor] int  NULL
@@ -250,7 +250,7 @@ CREATE TABLE [dbo].[TemplateMotors] (
     [LowRPM] int  NULL,
     [HighAmperage] decimal(18,2)  NULL,
     [LowAmperage] decimal(18,2)  NULL,
-    [StartupAmperage] int  NULL,
+    [StartupAmperage] decimal(18,2)  NULL,
     [VoltageTypeID] int  NULL,
     [Frequency] int  NULL,
     [PowerFactor] int  NULL

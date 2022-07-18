@@ -153,11 +153,9 @@ namespace SpecificationsTesting.Business
 
         public static decimal? CalculateShaftPower(decimal airVolume, int? pressureTotal, int? efficiency)
         {
-            decimal? q = airVolume / 3600m;
-            int? p = pressureTotal;
-            decimal r = efficiency == null ? 1 : (decimal)efficiency / 100;
-            decimal shaftPower = (decimal)((q == null ? 0 : q) * p / r / 1000 );
-            return shaftPower;
+            int press = pressureTotal == null ? 1 : (int)pressureTotal;
+            decimal eff = efficiency == null ? 1 : (decimal)efficiency / 100;
+            return airVolume * press / 3600 / (eff * 10);
         }
 
         public static void Calculate(CustomOrderVentilator customOrderVentilator)

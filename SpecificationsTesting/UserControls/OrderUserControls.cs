@@ -222,6 +222,7 @@ namespace SpecificationsTesting.UserControls
 
                 InitializeComboBoxes();
                 DisableCalculatedRows();
+                BCustomOrderVentilator.Validate(ventilator);
             }
             catch (Exception ex)
             {
@@ -428,6 +429,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             SelectedVentilatorID = 0;
+
             InitializeGridData();
             btnCopyOrder.Enabled = true;
         }

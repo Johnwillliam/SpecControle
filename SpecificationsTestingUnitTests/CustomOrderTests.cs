@@ -3,7 +3,7 @@ using SpecificationsTesting.Business;
 
 namespace SpecificationsTestingUnitTests
 {
-    [TestFixture]
+    [TestClass]
     public class CustomOrderTests
     {
         [TestMethod]

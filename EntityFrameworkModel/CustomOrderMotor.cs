@@ -34,7 +34,7 @@ namespace EntityFrameworkModel
         public Nullable<int> LowRPM { get; set; }
         public Nullable<decimal> HighAmperage { get; set; }
         public Nullable<decimal> LowAmperage { get; set; }
-        public Nullable<int> StartupAmperage { get; set; }
+        public Nullable<decimal> StartupAmperage { get; set; }
         public Nullable<int> VoltageTypeID { get; set; }
         public Nullable<int> Frequency { get; set; }
         public Nullable<int> PowerFactor { get; set; }

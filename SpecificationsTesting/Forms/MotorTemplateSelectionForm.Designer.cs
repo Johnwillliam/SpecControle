@@ -31,7 +31,7 @@ namespace SpecificationsTesting
     {
             this.components = new System.ComponentModel.Container();
             this.btnSelectTemplateMotor = new System.Windows.Forms.Button();
-            this.DataGridViewTemplateMotor = new ADGV.AdvancedDataGridView();
+            this.DataGridViewTemplateMotor = new Zuby.ADGV.AdvancedDataGridView();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.typeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,7 +75,6 @@ namespace SpecificationsTesting
             this.DataGridViewTemplateMotor.AllowUserToOrderColumns = true;
             this.DataGridViewTemplateMotor.AllowUserToResizeRows = false;
             this.DataGridViewTemplateMotor.AutoGenerateColumns = false;
-            this.DataGridViewTemplateMotor.AutoGenerateContextFilters = true;
             this.DataGridViewTemplateMotor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridViewTemplateMotor.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.iDDataGridViewTextBoxColumn,
@@ -97,7 +96,6 @@ namespace SpecificationsTesting
             this.frequencyDataGridViewTextBoxColumn,
             this.powerFactorDataGridViewTextBoxColumn});
             this.DataGridViewTemplateMotor.DataSource = this.templateMotorsBindingSource;
-            this.DataGridViewTemplateMotor.DateWithTime = false;
             this.DataGridViewTemplateMotor.Location = new System.Drawing.Point(20, 19);
             this.DataGridViewTemplateMotor.MultiSelect = false;
             this.DataGridViewTemplateMotor.Name = "DataGridViewTemplateMotor";
@@ -105,7 +103,6 @@ namespace SpecificationsTesting
             this.DataGridViewTemplateMotor.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridViewTemplateMotor.Size = new System.Drawing.Size(757, 451);
             this.DataGridViewTemplateMotor.TabIndex = 2;
-            this.DataGridViewTemplateMotor.TimeFilter = false;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -285,7 +282,7 @@ namespace SpecificationsTesting
 
     #endregion
     private System.Windows.Forms.Button btnSelectTemplateMotor;
-        private ADGV.AdvancedDataGridView DataGridViewTemplateMotor;
+        private Zuby.ADGV.AdvancedDataGridView DataGridViewTemplateMotor;
         private TemplateMotors templateMotors;
         private System.Windows.Forms.BindingSource templateMotorsBindingSource;
         private TemplateMotorsTableAdapters.TemplateMotorsTableAdapter templateMotorsTableAdapter;
