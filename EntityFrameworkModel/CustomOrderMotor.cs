@@ -35,11 +35,10 @@ namespace EntityFrameworkModel
         public Nullable<decimal> HighAmperage { get; set; }
         public Nullable<decimal> LowAmperage { get; set; }
         public Nullable<decimal> StartupAmperage { get; set; }
-        public Nullable<int> VoltageTypeID { get; set; }
+        public string VoltageType { get; set; }
         public Nullable<int> Frequency { get; set; }
         public Nullable<int> PowerFactor { get; set; }
     
-        public virtual VoltageType VoltageType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }

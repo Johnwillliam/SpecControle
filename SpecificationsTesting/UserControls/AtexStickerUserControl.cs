@@ -184,7 +184,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 9:
                             columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureStatic.ToString(), ventilator.LowPressureStatic.ToString()), RightText = "Pa" });
-                            columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType?.Description, RightText = "V" });
+                            columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType, RightText = "V" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 10:
@@ -591,7 +591,7 @@ namespace SpecificationsTesting.Forms
                             AddDataRow(DataRow, new List<string>() { "Aanloopstroom", test.CustomOrderVentilator.CustomOrderMotor.StartupAmperage.ToString(), "A" });
                             break;
                         case 13:
-                            AddDataRow(DataRow, new List<string>() { "Aansluitspanning", test.CustomOrderVentilator.CustomOrderMotor.VoltageType.Description, "V" });
+                            AddDataRow(DataRow, new List<string>() { "Aansluitspanning", test.CustomOrderVentilator.CustomOrderMotor.VoltageType, "V" });
                             break;
                         case 14:
                             AddDataRow(DataRow, new List<string>() { "Frequentie", test.CustomOrderVentilator.CustomOrderMotor.Frequency.ToString(), "Hz" });

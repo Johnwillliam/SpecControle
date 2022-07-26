@@ -19,7 +19,6 @@ namespace SpecificationsTesting.UserControls
         {
             // TODO: This line of code loads data into the 'templateMotors._TemplateMotors' table. You can move, or remove it, as needed.
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
-            this.voltageTypesTableAdapter.Fill(this.templateMotors.VoltageTypes);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -37,7 +36,6 @@ namespace SpecificationsTesting.UserControls
                 }
             }
             this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
-            this.voltageTypesTableAdapter.Fill(this.templateMotors.VoltageTypes);
         }
 
         private void MotorTemplateDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)

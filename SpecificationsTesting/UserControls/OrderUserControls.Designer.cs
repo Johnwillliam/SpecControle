@@ -60,7 +60,6 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnMotorTypePlate = new System.Windows.Forms.Button();
             this.btnAtex = new System.Windows.Forms.Button();
-            this.cmbVoltageType = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VentilatorDataGrid)).BeginInit();
@@ -130,6 +129,7 @@
             this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
             this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(282, 443);
             this.CustomOrderVentilatorsDataGrid.TabIndex = 34;
+            this.CustomOrderVentilatorsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_CellClick);
             // 
             // VentilatorDataGrid
             // 
@@ -277,7 +277,7 @@
             this.btnSaveChanges.Name = "btnSaveChanges";
             this.btnSaveChanges.Size = new System.Drawing.Size(247, 23);
             this.btnSaveChanges.TabIndex = 18;
-            this.btnSaveChanges.Text = "Save Changes";
+            this.btnSaveChanges.Text = "Overwrite Order/Ventilator";
             this.btnSaveChanges.UseVisualStyleBackColor = true;
             // 
             // btnCreateVentilator
@@ -286,7 +286,7 @@
             this.btnCreateVentilator.Name = "btnCreateVentilator";
             this.btnCreateVentilator.Size = new System.Drawing.Size(247, 23);
             this.btnCreateVentilator.TabIndex = 19;
-            this.btnCreateVentilator.Text = "Add Ventilator";
+            this.btnCreateVentilator.Text = "Copy Selected Ventilator";
             this.btnCreateVentilator.UseVisualStyleBackColor = true;
             // 
             // btnRemoveVentilator
@@ -295,7 +295,7 @@
             this.btnRemoveVentilator.Name = "btnRemoveVentilator";
             this.btnRemoveVentilator.Size = new System.Drawing.Size(247, 23);
             this.btnRemoveVentilator.TabIndex = 20;
-            this.btnRemoveVentilator.Text = "Remove Ventilator";
+            this.btnRemoveVentilator.Text = "Remove Selected Ventilator";
             this.btnRemoveVentilator.UseVisualStyleBackColor = true;
             // 
             // label4
@@ -326,15 +326,16 @@
             this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
             this.txtCustomOrderNumber.TabIndex = 1;
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 19);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 13);
+            this.label5.Size = new System.Drawing.Size(22, 13);
             this.label5.TabIndex = 13;
-            this.label5.Text = "RO";
+            this.label5.Text = "CO";
             // 
             // btnSearch
             // 
@@ -372,19 +373,10 @@
             this.btnAtex.Text = "Atex Sticker";
             this.btnAtex.UseVisualStyleBackColor = true;
             // 
-            // cmbVoltageType
-            // 
-            this.cmbVoltageType.FormattingEnabled = true;
-            this.cmbVoltageType.Location = new System.Drawing.Point(542, 401);
-            this.cmbVoltageType.Name = "cmbVoltageType";
-            this.cmbVoltageType.Size = new System.Drawing.Size(121, 21);
-            this.cmbVoltageType.TabIndex = 58;
-            // 
             // OrderUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.cmbVoltageType);
             this.Controls.Add(this.btnAtex);
             this.Controls.Add(this.btnMotorTypePlate);
             this.Controls.Add(this.CustomOrderDataGrid);
@@ -458,6 +450,5 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnMotorTypePlate;
         private System.Windows.Forms.Button btnAtex;
-        private System.Windows.Forms.ComboBox cmbVoltageType;
     }
 }

@@ -61,6 +61,23 @@ namespace SpecificationsTesting.Business
             }
         }
 
+        public static CustomOrderVentilator Copy(CustomOrderVentilator toCopy)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                var entity = dbContext.CustomOrderVentilators
+                          .AsNoTracking()
+                          .Include(x => x.CustomOrderMotor)
+                          .FirstOrDefault(x => x.ID == toCopy.ID);
+
+                var copiedCustomOrderVentilator = Create(entity);
+                if (copiedCustomOrderVentilator != null)
+                    BCustomOrderVentilatorTest.Create(copiedCustomOrderVentilator);
+
+                return copiedCustomOrderVentilator;
+            }
+        }
+
         public static void DeleteById(int id)
         {
             using (var dbContext = new SpecificationsDatabaseModel())
@@ -172,11 +189,7 @@ namespace SpecificationsTesting.Business
                 return;
             }
 
-            var dbContext = new SpecificationsDatabaseModel();
-            if (customOrderVentilator.VentilatorType == null)
-                customOrderVentilator.VentilatorType = dbContext.VentilatorTypes.Find(customOrderVentilator.VentilatorTypeID);
-
-            if (customOrderVentilator.VentilatorType.Description.ToUpper().Contains("V-BELT"))
+            if (customOrderVentilator.VentilatorType?.Description?.ToUpper().Contains("V-BELT") != null)
             {
                 if (customOrderVentilator.CustomOrderMotor.HighRPM > 0)
                 {

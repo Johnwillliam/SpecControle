@@ -106,7 +106,8 @@ namespace SpecificationsTesting.UserControls
             CustomOrderVentilatorsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             CustomOrderVentilatorsDataGrid.MultiSelect = false;
 
-            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "Value", ReadOnly = true });
+            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "ID", DataPropertyName = "ID", ReadOnly = true });
+            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Name", DataPropertyName = "Name", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             CustomOrderVentilatorTestsDataGrid.RowHeadersVisible = false;
             CustomOrderVentilatorTestsDataGrid.AutoGenerateColumns = false;
             CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
@@ -174,7 +175,9 @@ namespace SpecificationsTesting.UserControls
                 {
                     CustomOrderVentilatorTestsDataGrid.DataSource = null;
                     if (ventilator.CustomOrderVentilatorTests.Count >= 1 && ventilator.CustomOrderVentilatorTests.First().ID != 0)
-                        CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { Value = $"Test ID {x.ID}" }).ToList();
+                    {
+                        CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { x.ID, Name = $"Test {x.CustomOrderVentilator.Name}" }).ToList();
+                    }
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
                 InitializeComboBoxes();

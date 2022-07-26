@@ -85,13 +85,6 @@ namespace SpecificationsTesting.UserControls
                 cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
-
-                cmbVoltageType.DisplayMember = "Description";
-                cmbVoltageType.ValueMember = "ID";
-                cmbVoltageType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbVoltageType.DataSource = dbContext.VoltageTypes.ToList();
-                cell = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("VoltageTypeID")).Cells["Value"];
-                Show_Combobox(cell, cmbVoltageType);
             }
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
@@ -100,7 +93,6 @@ namespace SpecificationsTesting.UserControls
             cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
             cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
             cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
-            cmbVoltageType.SelectedValue = ventilator.CustomOrderMotor.VoltageTypeID == null ? -1 : ventilator.CustomOrderMotor.VoltageTypeID;
         }
 
         private void InitializeGridColumns()
@@ -218,6 +210,10 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = null;
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
+                    if(SelectedVentilatorID > 0)
+                    {
+                        CustomOrderVentilatorsDataGrid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => (int)x.Cells[0].Value == SelectedVentilatorID).Selected = true;
+                    }
                 }
 
                 InitializeComboBoxes();
@@ -269,7 +265,7 @@ namespace SpecificationsTesting.UserControls
                         StartupAmperage = SelectedTemplateMotor.StartupAmperage,
                         Type = SelectedTemplateMotor.Type,
                         Version = SelectedTemplateMotor.Version,
-                        VoltageTypeID = SelectedTemplateMotor.VoltageTypeID
+                        VoltageType = SelectedTemplateMotor.VoltageType
                     };
                 }
                 else
@@ -404,19 +400,15 @@ namespace SpecificationsTesting.UserControls
         private CustomOrderMotor ReadCustomOrderMotorDataGrid()
         {
             var rows = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
-            var newCustomOrderMotor = ReadCustomOrderMotorComboboxes();
-            return BCustomOrderMotor.CreateObject(newCustomOrderMotor, rows);
-        }
-
-        private CustomOrderMotor ReadCustomOrderMotorComboboxes()
-        {
-            return new CustomOrderMotor
-            {
-                VoltageTypeID = (int?)cmbVoltageType.SelectedValue,
-            };
+            return BCustomOrderMotor.CreateObject(rows);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchOrder();
+        }
+
+        private void SearchOrder()
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
                 return;
@@ -454,63 +446,16 @@ namespace SpecificationsTesting.UserControls
 
         private void CustomOrderVentilatorsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
-            {
-                SelectedVentilatorID = ventilatorID;
-                InitializeGridData(false);
-            }
+            
         }
 
         private void btnCreateVentilator_Click(object sender, EventArgs e)
         {
-            var templateMotorSelectionDialog = new MotorTemplateSelection();
-            templateMotorSelectionDialog.ShowDialog();
-            if (templateMotorSelectionDialog.SelectedRow != null)
-            {
-                var motorTemplateId = int.Parse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString());
-                CreateVentilatorByTemplateMotorId(motorTemplateId);
-            }
-        }
-
-        private void CreateVentilatorByTemplateMotorId(int motorTemplateId)
-        {
-            var selectedMotor = BTemplateMotor.GetById(motorTemplateId);
-            if (selectedMotor != null)
-            {
-                int customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
-                CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
-                var copiedMotor = new CustomOrderMotor()
-                {
-                    Name = selectedMotor.Name,
-                    HighAmperage = selectedMotor.HighAmperage,
-                    LowAmperage = selectedMotor.LowAmperage,
-                    BuildingType = selectedMotor.BuildingType,
-                    Frequency = selectedMotor.Frequency,
-                    IEC = selectedMotor.IEC,
-                    IP = selectedMotor.IP,
-                    ISO = selectedMotor.ISO,
-                    HighPower = selectedMotor.HighPower,
-                    LowPower = selectedMotor.LowPower,
-                    PowerFactor = selectedMotor.PowerFactor,
-                    HighRPM = selectedMotor.HighRPM,
-                    LowRPM = selectedMotor.LowRPM,
-                    StartupAmperage = selectedMotor.StartupAmperage,
-                    Type = selectedMotor.Type,
-                    Version = selectedMotor.Version,
-                    VoltageType = selectedMotor.VoltageType,
-                    VoltageTypeID = selectedMotor.VoltageTypeID
-                };
-                var newVentilator = ReadCustomOrderVentilatorDataGrid();
-                if (newVentilator == null)
-                {
-                    MessageBox.Show("Creation failed. Please check the filled in data.");
-                    return;
-                }
-                newVentilator.CustomOrderMotor = copiedMotor;
-                newVentilator.CustomOrderID = CustomOrder.ID;
-                BCustomOrderVentilator.Create(newVentilator);
-                InitializeGridData();
-            }
+            var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            ventilator = BCustomOrderVentilator.Copy(ventilator);
+            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.ID);
+            SelectedVentilatorID = ventilator.ID;
+            InitializeGridData();
         }
 
         private void btnRemoveVentilator_Click(object sender, EventArgs e)
@@ -618,6 +563,23 @@ namespace SpecificationsTesting.UserControls
         private void OrderUserControl_Load(object sender, EventArgs e)
         {
             DisableCalculatedRows();
+        }
+
+        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                SearchOrder();
+            }
+        }
+
+        private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            {
+                SelectedVentilatorID = ventilatorID;
+                InitializeGridData(false);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace SpecificationsTesting.Business
         public static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
-            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor", "VoltageTypeID"
+            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor", "VoltageType"
         };
 
         public static List<string> ControleDisplayPropertyNames = new List<string>
@@ -57,10 +57,11 @@ namespace SpecificationsTesting.Business
             return true;
         }
 
-        public static CustomOrderMotor CreateObject(CustomOrderMotor newCustomOrderMotor, List<DataGridViewRow> rows)
+        public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)
         {
             try
             {
+                var newCustomOrderMotor = new CustomOrderMotor();
                 var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
                 newCustomOrderMotor.Name = name.ToString();
 
@@ -108,6 +109,9 @@ namespace SpecificationsTesting.Business
 
                 var powerFactor = rows.First(x => x.Cells["Description"].Value.ToString().Equals("PowerFactor")).Cells["Value"].Value;
                 newCustomOrderMotor.PowerFactor = DataHelper.ToNullableInt(powerFactor?.ToString());
+
+                var voltageType = rows.First(x => x.Cells["Description"].Value.ToString().Equals("VoltageType")).Cells["Value"].Value;
+                newCustomOrderMotor.VoltageType = voltageType?.ToString();
 
                 return newCustomOrderMotor;
             }

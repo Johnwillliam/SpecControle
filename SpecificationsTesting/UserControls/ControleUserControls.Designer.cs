@@ -212,7 +212,8 @@
             this.CustomOrderVentilatorTestsDataGrid.AllowUserToDeleteRows = false;
             this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeColumns = false;
             this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
-            this.CustomOrderVentilatorTestsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CustomOrderVentilatorTestsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomOrderVentilatorTestsDataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.CustomOrderVentilatorTestsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.CustomOrderVentilatorTestsDataGrid.Location = new System.Drawing.Point(1090, 22);

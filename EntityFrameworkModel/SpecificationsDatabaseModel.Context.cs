@@ -38,6 +38,5 @@ namespace EntityFrameworkModel
         public virtual DbSet<TemplateVentilator> TemplateVentilators { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<VentilatorType> VentilatorTypes { get; set; }
-        public virtual DbSet<VoltageType> VoltageTypes { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="TemplateMotors" targetNamespace="http://tempuri.org/TemplateMotors.xsd" xmlns:mstns="http://tempuri.org/TemplateMotors.xsd" xmlns="http://tempuri.org/TemplateMotors.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="SpecificationsTestingDataSet" targetNamespace="http://tempuri.org/SpecificationsTestingDataSet.xsd" xmlns:mstns="http://tempuri.org/SpecificationsTestingDataSet.xsd" xmlns="http://tempuri.org/SpecificationsTestingDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
@@ -149,10 +149,10 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="TemplateMotors" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="TemplateMotors" msprop:Generator_DataSetName="TemplateMotors">
+  <xs:element name="SpecificationsTestingDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_UserDSName="SpecificationsTestingDataSet" msprop:Generator_DataSetName="SpecificationsTestingDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TemplateMotors" msprop:Generator_RowEvHandlerName="TemplateMotorsRowChangeEventHandler" msprop:Generator_RowDeletedName="TemplateMotorsRowDeleted" msprop:Generator_RowDeletingName="TemplateMotorsRowDeleting" msprop:Generator_RowEvArgName="TemplateMotorsRowChangeEvent" msprop:Generator_TablePropName="_TemplateMotors" msprop:Generator_RowChangedName="TemplateMotorsRowChanged" msprop:Generator_RowChangingName="TemplateMotorsRowChanging" msprop:Generator_TableClassName="TemplateMotorsDataTable" msprop:Generator_RowClassName="TemplateMotorsRow" msprop:Generator_TableVarName="tableTemplateMotors" msprop:Generator_UserTableName="TemplateMotors">
+        <xs:element name="TemplateMotors" msprop:Generator_RowEvHandlerName="TemplateMotorsRowChangeEventHandler" msprop:Generator_RowDeletedName="TemplateMotorsRowDeleted" msprop:Generator_RowDeletingName="TemplateMotorsRowDeleting" msprop:Generator_RowEvArgName="TemplateMotorsRowChangeEvent" msprop:Generator_TablePropName="TemplateMotors" msprop:Generator_RowChangedName="TemplateMotorsRowChanged" msprop:Generator_RowChangingName="TemplateMotorsRowChanging" msprop:Generator_TableClassName="TemplateMotorsDataTable" msprop:Generator_RowClassName="TemplateMotorsRow" msprop:Generator_TableVarName="tableTemplateMotors" msprop:Generator_UserTableName="TemplateMotors">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_UserColumnName="ID" type="xs:int" />

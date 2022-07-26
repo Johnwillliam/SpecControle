@@ -22,8 +22,10 @@ namespace SpecificationsTesting
 
         private void MotorTemplateSelection_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'specificationsTestingDataSet.TemplateMotors' table. You can move, or remove it, as needed.
+            this.templateMotorsTableAdapter.Fill(this.specificationsTestingDataSet.TemplateMotors);
             // TODO: This line of code loads data into the 'templateMotors._TemplateMotors' table. You can move, or remove it, as needed.
-            this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
+            //this.templateMotorsTableAdapter.Fill(this.templateMotors._TemplateMotors);
         }
 
         private void btnSelectTemplateMotor_Click(object sender, EventArgs e)

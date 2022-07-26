@@ -20,9 +20,9 @@ namespace SpecificationsTesting {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("TemplateMotors")]
+    [global::System.Xml.Serialization.XmlRootAttribute("SpecificationsTestingDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class TemplateMotors : global::System.Data.DataSet {
+    public partial class SpecificationsTestingDataSet : global::System.Data.DataSet {
         
         private TemplateMotorsDataTable tableTemplateMotors;
         
@@ -30,7 +30,7 @@ namespace SpecificationsTesting {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public TemplateMotors() {
+        public SpecificationsTestingDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace SpecificationsTesting {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        protected TemplateMotors(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected SpecificationsTestingDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -79,7 +79,7 @@ namespace SpecificationsTesting {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public TemplateMotorsDataTable _TemplateMotors {
+        public TemplateMotorsDataTable TemplateMotors {
             get {
                 return this.tableTemplateMotors;
             }
@@ -127,7 +127,7 @@ namespace SpecificationsTesting {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            TemplateMotors cln = ((TemplateMotors)(base.Clone()));
+            SpecificationsTestingDataSet cln = ((SpecificationsTestingDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace SpecificationsTesting {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "TemplateMotors";
+            this.DataSetName = "SpecificationsTestingDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/TemplateMotors.xsd";
+            this.Namespace = "http://tempuri.org/SpecificationsTestingDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableTemplateMotors = new TemplateMotorsDataTable();
@@ -210,7 +210,7 @@ namespace SpecificationsTesting {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private bool ShouldSerialize_TemplateMotors() {
+        private bool ShouldSerializeTemplateMotors() {
             return false;
         }
         
@@ -225,7 +225,7 @@ namespace SpecificationsTesting {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            TemplateMotors ds = new TemplateMotors();
+            SpecificationsTestingDataSet ds = new SpecificationsTestingDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -670,8 +670,6 @@ namespace SpecificationsTesting {
                 this.columnBuildingType.MaxLength = 2147483647;
                 this.columnISO.MaxLength = 2147483647;
                 this.columnVoltageType.MaxLength = 2147483647;
-                this.ExtendedProperties.Add("Generator_TablePropName", "_TemplateMotors");
-                this.ExtendedProperties.Add("Generator_UserTableName", "TemplateMotors");
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -739,7 +737,7 @@ namespace SpecificationsTesting {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                TemplateMotors ds = new TemplateMotors();
+                SpecificationsTestingDataSet ds = new SpecificationsTestingDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -1318,7 +1316,7 @@ namespace SpecificationsTesting {
         }
     }
 }
-namespace SpecificationsTesting.TemplateMotorsTableAdapters {
+namespace SpecificationsTesting.SpecificationsTestingDataSetTableAdapters {
     
     
     /// <summary>
@@ -1601,7 +1599,7 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(TemplateMotors.TemplateMotorsDataTable dataTable) {
+        public virtual int Fill(SpecificationsTestingDataSet.TemplateMotorsDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1614,9 +1612,9 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual TemplateMotors.TemplateMotorsDataTable GetData() {
+        public virtual SpecificationsTestingDataSet.TemplateMotorsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            TemplateMotors.TemplateMotorsDataTable dataTable = new TemplateMotors.TemplateMotorsDataTable();
+            SpecificationsTestingDataSet.TemplateMotorsDataTable dataTable = new SpecificationsTestingDataSet.TemplateMotorsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1624,14 +1622,14 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(TemplateMotors.TemplateMotorsDataTable dataTable) {
+        public virtual int Update(SpecificationsTestingDataSet.TemplateMotorsDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(TemplateMotors dataSet) {
+        public virtual int Update(SpecificationsTestingDataSet dataSet) {
             return this.Adapter.Update(dataSet, "TemplateMotors");
         }
         
@@ -2272,10 +2270,10 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateUpdatedRows(TemplateMotors dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(SpecificationsTestingDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._templateMotorsTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet._TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                global::System.Data.DataRow[] updatedRows = dataSet.TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
@@ -2291,10 +2289,10 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateInsertedRows(TemplateMotors dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(SpecificationsTestingDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._templateMotorsTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet._TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.Added);
+                global::System.Data.DataRow[] addedRows = dataSet.TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._templateMotorsTableAdapter.Update(addedRows));
@@ -2309,10 +2307,10 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateDeletedRows(TemplateMotors dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(SpecificationsTestingDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._templateMotorsTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet._TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                global::System.Data.DataRow[] deletedRows = dataSet.TemplateMotors.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._templateMotorsTableAdapter.Update(deletedRows));
@@ -2351,7 +2349,7 @@ SELECT ID, Name, Type, Version, IEC, IP, BuildingType, ISO, HighPower, LowPower,
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public virtual int UpdateAll(TemplateMotors dataSet) {
+        public virtual int UpdateAll(SpecificationsTestingDataSet dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

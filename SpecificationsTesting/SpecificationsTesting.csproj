@@ -208,8 +208,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TemplateMotors.cs">
-      <DependentUpon>TemplateMotors.xsd</DependentUpon>
+    <Compile Include="SpecificationsTestingDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="TemplateMotors.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -297,6 +299,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Resources\Arrows\spaans\Thumbs.db" />
+    <None Include="SpecificationsTestingDataSet.xsc">
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SpecificationsTestingDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SpecificationsTestingDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpecificationsTestingDataSet.xss">
+      <DependentUpon>SpecificationsTestingDataSet.xsd</DependentUpon>
+    </None>
     <None Include="TemplateMotors.xsc">
       <DependentUpon>TemplateMotors.xsd</DependentUpon>
     </None>
