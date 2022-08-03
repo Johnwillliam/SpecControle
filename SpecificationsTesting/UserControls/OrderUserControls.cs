@@ -86,7 +86,7 @@ namespace SpecificationsTesting.UserControls
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
             }
-            var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
             cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
             cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
@@ -158,6 +158,26 @@ namespace SpecificationsTesting.UserControls
             var atex = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("Atex")).Cells["Value"];
             atex.ReadOnly = true;
             atex.Style.BackColor = Color.LightGray;
+
+            var lowAirvolume = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"];
+            lowAirvolume.ReadOnly = true;
+            lowAirvolume.Style.BackColor = Color.LightGray;
+
+            var lowPressureTotal = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"];
+            lowPressureTotal.ReadOnly = true;
+            lowPressureTotal.Style.BackColor = Color.LightGray;
+
+            var lowPressureStatic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"];
+            lowPressureStatic.ReadOnly = true;
+            lowPressureStatic.Style.BackColor = Color.LightGray;
+
+            var lowShaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
+            lowShaftPower.ReadOnly = true;
+            lowShaftPower.Style.BackColor = Color.LightGray;
+
+            var lowRPM = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"];
+            lowRPM.ReadOnly = true;
+            lowRPM.Style.BackColor = Color.LightGray;
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true)
@@ -188,7 +208,7 @@ namespace SpecificationsTesting.UserControls
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
                     CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
 
-                var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
 
                 VentilatorDataGrid.DataSource = null;
                 VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.OrderDisplayPropertyNames);
@@ -298,6 +318,7 @@ namespace SpecificationsTesting.UserControls
                     BCustomOrderVentilator.Create(customOrderVentilator);
                     CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
                     txtCustomOrderNumber.Text = CustomOrder.CustomOrderNumber.ToString();
+                    SelectedVentilatorID = -1;
                     InitializeGridData();
                     MessageBox.Show("Order succesfully created.");
                 }
@@ -322,7 +343,7 @@ namespace SpecificationsTesting.UserControls
 
                 customOrder.ID = CustomOrder.ID;
                 var index = CustomOrder.CustomOrderVentilators.ToList().FindIndex(x => x.ID == SelectedVentilatorID);
-                var customOrderVentilator = CustomOrder.CustomOrderVentilators.ToList()[index];
+                var customOrderVentilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.ToList()[index];
                 var ventilatorID = customOrderVentilator.ID;
                 var motorID = customOrderVentilator.CustomOrderMotorID;
                 customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
@@ -453,7 +474,7 @@ namespace SpecificationsTesting.UserControls
         {
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             ventilator = BCustomOrderVentilator.Copy(ventilator);
-            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.ID);
+            CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
             SelectedVentilatorID = ventilator.ID;
             InitializeGridData();
         }

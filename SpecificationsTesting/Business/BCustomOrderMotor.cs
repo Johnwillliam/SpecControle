@@ -54,6 +54,12 @@ namespace SpecificationsTesting.Business
                 MessageBox.Show("Creation failed. Missing data.");
                 return false;
             }
+
+            if (customOrderMotor.LowRPM > customOrderMotor.HighRPM)
+            {
+                MessageBox.Show("Creation failed. Motor low RPM can't be higher than high RPM");
+                return false;
+            }
             return true;
         }
 

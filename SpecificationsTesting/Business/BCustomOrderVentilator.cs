@@ -70,11 +70,7 @@ namespace SpecificationsTesting.Business
                           .Include(x => x.CustomOrderMotor)
                           .FirstOrDefault(x => x.ID == toCopy.ID);
 
-                var copiedCustomOrderVentilator = Create(entity);
-                if (copiedCustomOrderVentilator != null)
-                    BCustomOrderVentilatorTest.Create(copiedCustomOrderVentilator);
-
-                return copiedCustomOrderVentilator;
+                return Create(entity);
             }
         }
 
@@ -128,23 +124,6 @@ namespace SpecificationsTesting.Business
                 var lowPressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"].Value;
                 newCustomOrderVentilator.LowPressureStatic = DataHelper.ToNullableInt(lowPressureStatic?.ToString());
 
-                newCustomOrderVentilator.HighPressureDynamic = newCustomOrderVentilator.HighPressureTotal - newCustomOrderVentilator.HighPressureStatic;
-                newCustomOrderVentilator.LowPressureDynamic = newCustomOrderVentilator.LowPressureTotal - newCustomOrderVentilator.LowPressureStatic;
-
-                if(newCustomOrderVentilator.HighAirVolume != null)
-                {
-                    newCustomOrderVentilator.HighShaftPower = CalculateShaftPower((decimal)newCustomOrderVentilator.HighAirVolume,
-                        newCustomOrderVentilator.HighPressureTotal,
-                        newCustomOrderVentilator.Efficiency);
-                }
-
-                if(newCustomOrderVentilator.LowAirVolume != null)
-                {
-                    newCustomOrderVentilator.LowShaftPower = CalculateShaftPower((decimal)newCustomOrderVentilator.LowAirVolume, 
-                        newCustomOrderVentilator.LowPressureTotal, 
-                        newCustomOrderVentilator.Efficiency);
-                }
-
                 var efficiency = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Efficiency")).Cells["Value"].Value;
                 newCustomOrderVentilator.Efficiency = DataHelper.ToNullableInt(efficiency?.ToString());
 
@@ -172,7 +151,7 @@ namespace SpecificationsTesting.Business
         {
             int press = pressureTotal == null ? 1 : (int)pressureTotal;
             decimal eff = efficiency == null ? 1 : (decimal)efficiency / 100;
-            return airVolume * press / 3600 / (eff * 10);
+            return (airVolume * press / 3600 / (eff * 10)) / 100;
         }
 
         public static void Calculate(CustomOrderVentilator customOrderVentilator)
@@ -189,20 +168,40 @@ namespace SpecificationsTesting.Business
                 return;
             }
 
-            if (customOrderVentilator.VentilatorType?.Description?.ToUpper().Contains("V-BELT") != null)
+            if (customOrderVentilator.HighAirVolume != null)
             {
-                if (customOrderVentilator.CustomOrderMotor.HighRPM > 0)
-                {
-                    var rpm = (customOrderVentilator.CustomOrderMotor.HighRPM / customOrderVentilator.CustomOrderMotor.HighRPM);
-                    customOrderVentilator.HighRPM = rpm;
-                }
-                else
-                {
-                    customOrderVentilator.HighRPM = 0;
-                }
+                customOrderVentilator.HighShaftPower = CalculateShaftPower((decimal)customOrderVentilator.HighAirVolume,
+                    customOrderVentilator.HighPressureTotal,
+                    customOrderVentilator.Efficiency);
+            }
+
+            if (customOrderVentilator.LowAirVolume != null)
+            {
+                customOrderVentilator.LowShaftPower = CalculateShaftPower((decimal)customOrderVentilator.LowAirVolume,
+                    customOrderVentilator.LowPressureTotal,
+                    customOrderVentilator.Efficiency);
+            }
+
+            var motorConstant = (double)customOrderVentilator.CustomOrderMotor.LowRPM / (double)customOrderVentilator.CustomOrderMotor.HighRPM;
+            customOrderVentilator.LowAirVolume = (int)(motorConstant * customOrderVentilator.HighAirVolume);
+            customOrderVentilator.LowPressureTotal = (int)(Math.Pow(motorConstant, 2) * customOrderVentilator.HighPressureTotal);
+            customOrderVentilator.LowPressureStatic = (int)(Math.Pow(motorConstant, 2) * customOrderVentilator.HighPressureStatic);
+            customOrderVentilator.LowShaftPower = (decimal)(Math.Pow(motorConstant, 3) * (int)customOrderVentilator.HighShaftPower);
+            customOrderVentilator.LowRPM = customOrderVentilator.CustomOrderMotor.LowRPM;
+
+            customOrderVentilator.HighPressureDynamic = customOrderVentilator.HighPressureTotal - customOrderVentilator.HighPressureStatic;
+            customOrderVentilator.LowPressureDynamic = customOrderVentilator.LowPressureTotal - customOrderVentilator.LowPressureStatic;
+
+            if(customOrderVentilator.VentilatorType == null && customOrderVentilator.VentilatorTypeID != null)
+            {
+                customOrderVentilator.VentilatorType = new SpecificationsDatabaseModel().VentilatorTypes.FirstOrDefault(x => x.ID == customOrderVentilator.VentilatorTypeID);
+            }    
+
+            if (customOrderVentilator.VentilatorType != null && customOrderVentilator.VentilatorType.Description.ToUpper().Contains("V-BELT"))
+            {
                 if (customOrderVentilator.CustomOrderMotor.LowRPM > 0)
                 {
-                    var rpm = (customOrderVentilator.CustomOrderMotor.LowRPM / customOrderVentilator.CustomOrderMotor.LowRPM);
+                    var rpm = (int)Math.Round((double)motorConstant * (int)customOrderVentilator.HighRPM);
                     customOrderVentilator.LowRPM = rpm;
                 }
                 else
@@ -307,12 +306,7 @@ namespace SpecificationsTesting.Business
                 customOrderVentilator.Efficiency = 95;
             }
 
-            if (customOrderVentilator.CustomOrderMotor.HighPower < customOrderVentilator.HighShaftPower || customOrderVentilator.CustomOrderMotor.LowPower < customOrderVentilator.LowShaftPower)
-            {
-                MessageBox.Show("Creation failed. Motor power is to low.");
-                return false;
-            }
-            else if (customOrderVentilator.CustomOrderMotor.HighPower < 1.3m * customOrderVentilator.HighShaftPower || customOrderVentilator.CustomOrderMotor.LowPower < 1.3m * customOrderVentilator.LowShaftPower)
+            if (customOrderVentilator.CustomOrderMotor.HighPower < 1.3m * customOrderVentilator.HighShaftPower || customOrderVentilator.CustomOrderMotor.LowPower < 1.3m * customOrderVentilator.LowShaftPower)
             {
                 DialogResult dialogResult = MessageBox.Show("Motor power is lower than 1.3 x the nominal power. Continue?", "Motor Power", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
