@@ -13,10 +13,10 @@ namespace EntityFrameworkModel
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class SpecificationsDatabaseModel : DbContext
+    public partial class Entities : DbContext
     {
-        public SpecificationsDatabaseModel()
-            : base("name=SpecificationsDatabaseModel")
+        public Entities()
+            : base("name=Entities")
         {
         }
     

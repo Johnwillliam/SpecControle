@@ -176,7 +176,7 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorTestsDataGrid.DataSource = null;
                     if (ventilator.CustomOrderVentilatorTests.Count >= 1 && ventilator.CustomOrderVentilatorTests.First().ID != 0)
                     {
-                        CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { x.ID, Name = $"Test {x.CustomOrderVentilator.Name}" }).ToList();
+                        CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { x.ID, x.CustomOrderVentilator.Name }).ToList();
                     }
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
