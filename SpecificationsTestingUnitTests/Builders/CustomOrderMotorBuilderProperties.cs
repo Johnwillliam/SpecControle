@@ -41,7 +41,6 @@ namespace EntityFrameworkModel
         
         private Nullable<int> _powerFactor;
         
-        private VoltageType _voltageType;
         
         private ICollection<CustomOrderVentilator> _customOrderVentilators;
         

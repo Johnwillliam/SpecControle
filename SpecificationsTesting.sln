@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationsTesting", "Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkModel", "EntityFrameworkModel\EntityFrameworkModel.csproj", "{B8A94058-37F0-4EF9-B928-56B24488F6EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificationsTestingUnitTests", "SpecificationsTestingUnitTests\SpecificationsTestingUnitTests.csproj", "{BADB6BF1-2D81-4059-87B2-23F21C396049}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +31,6 @@ Global
 		{B8A94058-37F0-4EF9-B928-56B24488F6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B8A94058-37F0-4EF9-B928-56B24488F6EE}.Release|x64.ActiveCfg = Release|x64
 		{B8A94058-37F0-4EF9-B928-56B24488F6EE}.Release|x64.Build.0 = Release|x64
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Debug|x64.ActiveCfg = Debug|x64
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Debug|x64.Build.0 = Debug|x64
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Release|x64.ActiveCfg = Release|x64
-		{BADB6BF1-2D81-4059-87B2-23F21C396049}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

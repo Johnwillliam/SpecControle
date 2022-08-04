@@ -259,7 +259,6 @@
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
       <LastGenOutput>SpecificationsDatabaseModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="SpecificationsDatabaseModel.edmx.sql" />
     <Content Include="SpecificationsDatabaseModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>

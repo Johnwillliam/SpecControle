@@ -39,9 +39,7 @@ namespace EntityFrameworkModel
         private Nullable<int> _frequency;
         
         private Nullable<int> _powerFactor;
-        
-        private VoltageType _voltageType;
-        
+                
         public TemplateMotorBuilder()
         {
             _iD = 1;
