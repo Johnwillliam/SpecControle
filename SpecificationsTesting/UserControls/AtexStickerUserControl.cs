@@ -24,6 +24,7 @@ namespace SpecificationsTesting.Forms
         private const int NormalImageHeight = 700;
         private const int SmallImageWidth = 580;
         private const int SmallImageHeight = 400;
+        private bool InitGrid = false;
         const int TableFontSize = 8;
         const int TableRowHeight = 10;
 
@@ -71,18 +72,28 @@ namespace SpecificationsTesting.Forms
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                InitializeGridData(false);
+                if(!InitGrid)
+                {
+                    InitializeGridData(false);
+                }
             }
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true)
         {
+            InitGrid = true;
             if (CustomOrder != null && initVentilatorsGrid)
             {
-                CustomOrderVentilatorsDataGrid.DataSource = null;
                 CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                 CustomOrderVentilatorsDataGrid.AutoResizeColumns();
             }
+            else
+            {
+                CustomOrderVentilatorsDataGrid.DataSource = null;
+                CustomOrderVentilatorsDataGrid.Rows.Clear();
+                CustomOrderVentilatorsDataGrid.Refresh();
+            }
+            InitGrid = false;
         }
 
         private void ShowTable(ImageSize imageSize)
@@ -104,12 +115,9 @@ namespace SpecificationsTesting.Forms
                     break;
             }
             var image = GenerateTable(imageWidth, imageHeight);
-            if (image != null)
-            {
-                MotorTypePlateImage.Image = (Image)image;
-                MotorTypePlateImage.Width = imageWidth;
-                MotorTypePlateImage.Height = imageHeight;
-            }
+            MotorTypePlateImage.Image = (Image)image;
+            MotorTypePlateImage.Width = imageWidth;
+            MotorTypePlateImage.Height = imageHeight;
         }
 
         private Image GenerateTable(int imageWidth, int imageHeight)
@@ -120,7 +128,7 @@ namespace SpecificationsTesting.Forms
             if (CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
                 return null;
 
-            var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
 
             var rows = 20;
             var colWidth = (imageWidth / 2) - 70;
@@ -323,6 +331,19 @@ namespace SpecificationsTesting.Forms
             if (CustomOrder == null)
             {
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
+                CustomOrder = null;
+                InitializeGridData();
+                ShowTable(SelectedImageSize);
+                return;
+            }
+
+            var ventilator = CustomOrder.CustomOrderVentilators?.Count > 0 ? CustomOrder.CustomOrderVentilators.First() : null;
+            if (string.IsNullOrEmpty(ventilator?.Atex))
+            {
+                MessageBox.Show($"Searched order is not a atex order");
+                CustomOrder = null;
+                InitializeGridData();
+                ShowTable(SelectedImageSize);
                 return;
             }
             InitializeGridData();
@@ -637,6 +658,14 @@ namespace SpecificationsTesting.Forms
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                ShowCustomOrder();
+            }
         }
     }
 }

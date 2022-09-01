@@ -85,6 +85,7 @@ namespace SpecificationsTesting.Business
                     {
                         dbContext.CustomOrderVentilatorTests.Remove(test);
                     }
+                    dbContext.CustomOrderMotors.Remove(customOrderVentilator.CustomOrderMotor);
                     dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
                     dbContext.SaveChanges();
                 }
@@ -240,44 +241,6 @@ namespace SpecificationsTesting.Business
                     break;
             }
             return value;
-        }
-
-        public static int CalculateSyncRPM(int rpm, int frequency)
-        {
-            switch (frequency)
-            {
-                case 50:
-                    switch (rpm)
-                    {
-                        case int n when (n > 1600):
-                            return 3000;
-                        case int n when (n > 1100):
-                            return 1500;
-                        case int n when (n > 755):
-                            return 1000;
-                        case int n when (n > 505):
-                            return 750;
-                        default:
-                            return 500;
-                    }
-                case 60:
-                    switch (rpm)
-                    {
-                        case int n when (n > 1900):
-                            return 3600;
-                        case int n when (n > 1300):
-                            return 1800;
-                        case int n when (n > 906):
-                            return 1200;
-                        case int n when (n > 605):
-                            return 900;
-                        default:
-                            return 600;
-                    }
-                default:
-                    break;
-            }
-            return 0;
         }
 
         public static bool Validate(CustomOrderVentilator customOrderVentilator)

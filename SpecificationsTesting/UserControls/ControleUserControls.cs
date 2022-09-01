@@ -190,6 +190,11 @@ namespace SpecificationsTesting.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            ShowCustomOrder();
+        }
+
+        private void ShowCustomOrder()
+        {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
                 return;
 
@@ -201,7 +206,7 @@ namespace SpecificationsTesting.UserControls
                 ClearDataGrids();
                 return;
             }
-            if(CustomOrder.CustomOrderVentilators.Count == 0)
+            if (CustomOrder.CustomOrderVentilators.Count == 0)
             {
                 MessageBox.Show($"No ventilators found, please create a ventilator first.");
                 ClearDataGrids();
@@ -426,7 +431,7 @@ namespace SpecificationsTesting.UserControls
             }
             if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                MessageBox.Show("Not all steps have been completed to be able to print this order.");
+                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -445,7 +450,7 @@ namespace SpecificationsTesting.UserControls
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             if (string.IsNullOrEmpty(ventilator.Atex) || !BCustomOrderVentilatorTest.ValidateForPrinting(ventilator))
             {
-                MessageBox.Show("Not all steps have been completed to be able to print this order.");
+                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -454,5 +459,12 @@ namespace SpecificationsTesting.UserControls
             mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
 
+        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                ShowCustomOrder();
+            }
+        }
     }
 }

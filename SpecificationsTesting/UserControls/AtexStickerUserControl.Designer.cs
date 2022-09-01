@@ -96,15 +96,16 @@
             this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
             this.txtCustomOrderNumber.TabIndex = 1;
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 19);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 13);
+            this.label5.Size = new System.Drawing.Size(22, 13);
             this.label5.TabIndex = 13;
-            this.label5.Text = "RO";
+            this.label5.Text = "CO";
             // 
             // btnSearch
             // 

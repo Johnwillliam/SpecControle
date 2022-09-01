@@ -31,7 +31,7 @@ namespace SpecificationsTesting.Business
             {
                 for (int i = 0; i < ventilator.Amount; i++)
                 {
-                    BCustomOrderVentilatorTest.Create(new CustomOrderVentilatorTest() { CustomOrderVentilatorID = ventilator.ID });
+                    Create(new CustomOrderVentilatorTest() { CustomOrderVentilatorID = ventilator.ID });
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace SpecificationsTesting.Business
         {
             for (int i = 0; i < customOrderVentilator.Amount; i++)
             {
-                BCustomOrderVentilatorTest.Create(new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID });
+                Create(new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID });
             }
         }
 
@@ -121,20 +121,16 @@ namespace SpecificationsTesting.Business
                 MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is higher than the nominal amperage.");
                 return false;
             }
-            //if (test.I1Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I2Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2) || test.I3Low < (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage / 2))
-            //{
-            //    MessageBox.Show($"Test ID {test.ID}: One of the measured amperages is lower than 50% of the nominal amperage.");
-            //    return false;
-            //}
-
             if(test.CustomOrderVentilator.CustomOrderMotor.HighAmperage != null && test.CustomOrderVentilator.CustomOrderMotor.LowAmperage != null)
             {
                 var iLows = new List<decimal?>() { test.I1Low, test.I2Low, test.I3Low };
                 var iHighs = new List<decimal?>() { test.I1High, test.I2High, test.I3High };
-                if ((decimal)(iHighs.Max() / iLows.Min()) > 1.1m)
+                var max = iHighs.Max();
+                var min = iLows.Min();
+                var difference = (decimal)(max / min);
+                if (max != null && min != null && difference > 1.1m)
                 {
                     MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 10%.");
-                    return false;
                 }
             }
             if (test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
@@ -152,9 +148,15 @@ namespace SpecificationsTesting.Business
                 MessageBox.Show($"Test ID {test.ID}: Measured motor high not filled in.");
                 return false;
             }
+            //var value = test.MeasuredMotorHighRPM.Value / test.CustomOrderVentilator.CustomOrderMotor.HighRPM * test.CustomOrderVentilator.HighRPM;
+            //if (test.)
+            //{
+            //    MessageBox.Show($"Test ID {test.ID}: The measured ventilator RPM differs more than 3%, V-Belt transmission not correct?");
+            //    return false;
+            //}
             if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
-                MessageBox.Show($"Test ID {test.ID}: The measured motor RPM is lower t han the nominal RPM.");
+                MessageBox.Show($"Test ID {test.ID}: The measured motor RPM is lower than the nominal RPM.");
                 return false;
             }
             if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
@@ -164,7 +166,7 @@ namespace SpecificationsTesting.Business
             }
             if (test.MeasuredVentilatorHighRPM != null && test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
             {
-                var syncRPM = BCustomOrderVentilator.CalculateSyncRPM(test.MeasuredVentilatorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
+                var syncRPM = CalculateSyncRPM(test.MeasuredVentilatorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                 if (test.MeasuredVentilatorHighRPM > syncRPM)
                 {
                     MessageBox.Show($"Test ID {test.ID}: Measured motor RPM ({test.MeasuredVentilatorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.");
@@ -184,6 +186,26 @@ namespace SpecificationsTesting.Business
                 return false;
             }
             return true;
+        }
+
+        private static int CalculateSyncRPM(int rpm, int frequency)
+        {
+            var syncRPM = rpm / frequency;
+
+            switch (syncRPM)
+            {
+                case int n when (n <= 10):
+                    return frequency * 10;
+                case int n when (n <= 15):
+                    return frequency * 15;
+                case int n when (n <= 20):
+                    return frequency * 20;
+                case int n when (n <= 30):
+                    return frequency * 30;
+                case int n when (n <= 60):
+                    return frequency * 60;
+            }
+            return 0;
         }
 
         public static CustomOrderVentilatorTest CreateObject(List<DataGridViewRow> rows)
@@ -239,6 +261,12 @@ namespace SpecificationsTesting.Business
 
                 var buildSize = rows.First(x => x.Cells["Description"].Value.ToString().Equals("BuildSize")).Cells["Value"].Value;
                 newCustomOrderVentilatorTest.BuildSize = DataHelper.ToNullableInt(buildSize?.ToString());
+
+                newCustomOrderVentilatorTest.I2High = newCustomOrderVentilatorTest.I2High ?? newCustomOrderVentilatorTest.I1High;
+                newCustomOrderVentilatorTest.I3High = newCustomOrderVentilatorTest.I3High ?? newCustomOrderVentilatorTest.I1High;
+
+                newCustomOrderVentilatorTest.I2Low = newCustomOrderVentilatorTest.I2Low ?? newCustomOrderVentilatorTest.I1Low;
+                newCustomOrderVentilatorTest.I3Low = newCustomOrderVentilatorTest.I3Low ?? newCustomOrderVentilatorTest.I1Low;
 
                 return newCustomOrderVentilatorTest;
             }

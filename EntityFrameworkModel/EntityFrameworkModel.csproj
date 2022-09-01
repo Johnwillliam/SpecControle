@@ -246,6 +246,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SpecificationsDatabaseModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Production\app.config" />
     <None Include="SpecificationsDatabaseModel.edmx.diagram">
       <DependentUpon>SpecificationsDatabaseModel.edmx</DependentUpon>
     </None>

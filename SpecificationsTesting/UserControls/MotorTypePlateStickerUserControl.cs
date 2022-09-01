@@ -305,7 +305,9 @@ namespace SpecificationsTesting.Forms
         private void btnPrint_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || !BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            {
                 return;
+            }
 
             PrintDocument pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = PrinterName;
@@ -335,6 +337,23 @@ namespace SpecificationsTesting.Forms
                 SelectedImageSize = ImageSize.Medium;
             }
             ShowTable(SelectedImageSize);
+        }
+
+        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                ShowCustomOrder();
+            }
+        }
+
+        private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            {
+                SelectedVentilatorID = ventilatorID;
+                ShowTable(SelectedImageSize);
+            }
         }
     }
 }

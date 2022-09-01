@@ -63,6 +63,30 @@ namespace SpecificationsTesting.Business
             return true;
         }
 
+        public static CustomOrderMotor CreateFromTemplate(TemplateMotor templateMotor)
+        {
+            return new CustomOrderMotor()
+            {
+                Name = templateMotor.Name,
+                HighAmperage = templateMotor.HighAmperage,
+                LowAmperage = templateMotor.LowAmperage,
+                BuildingType = templateMotor.BuildingType,
+                Frequency = templateMotor.Frequency,
+                IEC = templateMotor.IEC,
+                IP = templateMotor.IP,
+                ISO = templateMotor.ISO,
+                HighPower = templateMotor.HighPower,
+                LowPower = templateMotor.LowPower,
+                PowerFactor = templateMotor.PowerFactor,
+                HighRPM = templateMotor.HighRPM,
+                LowRPM = templateMotor.LowRPM,
+                StartupAmperage = templateMotor.StartupAmperage,
+                Type = templateMotor.Type,
+                Version = templateMotor.Version,
+                VoltageType = templateMotor.VoltageType
+            };
+        }
+
         public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)
         {
             try

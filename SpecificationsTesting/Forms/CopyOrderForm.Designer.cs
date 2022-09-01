@@ -29,49 +29,50 @@ namespace SpecificationsTesting.Forms
     /// </summary>
     private void InitializeComponent()
     {
-      this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
-      this.label1 = new System.Windows.Forms.Label();
-      this.btnCopy = new System.Windows.Forms.Button();
-      this.SuspendLayout();
-      // 
-      // txtCustomOrderNumber
-      // 
-      this.txtCustomOrderNumber.Location = new System.Drawing.Point(12, 29);
-      this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
-      this.txtCustomOrderNumber.Size = new System.Drawing.Size(241, 20);
-      this.txtCustomOrderNumber.TabIndex = 0;
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(12, 13);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(101, 13);
-      this.label1.TabIndex = 1;
-      this.label1.Text = "New Order Number:";
-      // 
-      // btnCopy
-      // 
-      this.btnCopy.Location = new System.Drawing.Point(178, 55);
-      this.btnCopy.Name = "btnCopy";
-      this.btnCopy.Size = new System.Drawing.Size(75, 23);
-      this.btnCopy.TabIndex = 2;
-      this.btnCopy.Text = "Copy";
-      this.btnCopy.UseVisualStyleBackColor = true;
-      this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
-      // 
-      // CopyOrderForm
-      // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(265, 85);
-      this.Controls.Add(this.btnCopy);
-      this.Controls.Add(this.label1);
-      this.Controls.Add(this.txtCustomOrderNumber);
-      this.Name = "CopyOrderForm";
-      this.Text = "CopyOrder";
-      this.ResumeLayout(false);
-      this.PerformLayout();
+            this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // txtCustomOrderNumber
+            // 
+            this.txtCustomOrderNumber.Location = new System.Drawing.Point(12, 29);
+            this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
+            this.txtCustomOrderNumber.Size = new System.Drawing.Size(241, 20);
+            this.txtCustomOrderNumber.TabIndex = 0;
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "New Order Number:";
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.Location = new System.Drawing.Point(178, 55);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(75, 23);
+            this.btnCopy.TabIndex = 2;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            // 
+            // CopyOrderForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(265, 85);
+            this.Controls.Add(this.btnCopy);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtCustomOrderNumber);
+            this.Name = "CopyOrderForm";
+            this.Text = "CopyOrder";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
     }
 

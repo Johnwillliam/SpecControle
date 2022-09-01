@@ -161,7 +161,7 @@ namespace SpecificationsTesting.UserControls
             {
                 if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 {
-                    MessageBox.Show("Not all steps have been completed to be able to print this order.");
+                    //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                     return;
                 }
             }
@@ -179,7 +179,7 @@ namespace SpecificationsTesting.UserControls
             var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (CustomOrder == null || selectedTest == null || !BCustomOrderVentilatorTest.ValidateForPrinting(selectedTest))
             {
-                MessageBox.Show("Not all steps have been completed to be able to print this order.");
+                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -190,7 +190,7 @@ namespace SpecificationsTesting.UserControls
         {
             if (CustomOrder == null || !BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                MessageBox.Show("Not all steps have been completed to be able to print this order.");
+                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -506,5 +506,12 @@ namespace SpecificationsTesting.UserControls
 
         }
 
+        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+            {
+                ShowCustomOrder();
+            }
+        }
     }
 }
