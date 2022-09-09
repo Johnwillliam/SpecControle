@@ -527,7 +527,7 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
                 //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
@@ -546,7 +546,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (string.IsNullOrEmpty(ventilator?.Atex) || !BCustomOrderVentilatorTest.ValidateForPrinting(ventilator))
+            if (string.IsNullOrEmpty(ventilator?.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;

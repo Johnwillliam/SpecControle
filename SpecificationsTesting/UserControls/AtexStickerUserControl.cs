@@ -353,7 +353,7 @@ namespace SpecificationsTesting.Forms
         private void btnPrint_Click(object sender, EventArgs e)
         {
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (CustomOrder == null || string.IsNullOrEmpty(ventilator.Atex) || !BCustomOrderVentilatorTest.ValidateForPrinting(ventilator))
+            if (CustomOrder == null || string.IsNullOrEmpty(ventilator.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
                 return;
 
             PrintDocument pd = new PrintDocument();

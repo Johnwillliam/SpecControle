@@ -159,7 +159,7 @@ namespace SpecificationsTesting.UserControls
             }
             if (SelectedVentilatorID > 0)
             {
-                if (!BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+                if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
                 {
                     //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                     return;
@@ -177,7 +177,7 @@ namespace SpecificationsTesting.UserControls
         private void btnPrintSelectedTest_Click(object sender, EventArgs e)
         {
             var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-            if (CustomOrder == null || selectedTest == null || !BCustomOrderVentilatorTest.ValidateForPrinting(selectedTest))
+            if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidatePrinting(selectedTest))
             {
                 //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
@@ -188,7 +188,7 @@ namespace SpecificationsTesting.UserControls
 
         private void btnPrintAll_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || !BCustomOrderVentilatorTest.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
                 //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;

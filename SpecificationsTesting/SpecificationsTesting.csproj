@@ -194,6 +194,8 @@
   <ItemGroup>
     <Compile Include="Business\BCustomOrderVentilatorTest.cs" />
     <Compile Include="Business\BCustomOrderMotor.cs" />
+    <Compile Include="Business\BCustomOrderVentilatorTestUI.cs" />
+    <Compile Include="Business\BValidateMessage.cs" />
     <Compile Include="Business\BTemplateMotor.cs" />
     <Compile Include="Business\BCustomOrderVentilator.cs" />
     <Compile Include="Business\BCustomOrder.cs" />
