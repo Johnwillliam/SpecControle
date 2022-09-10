@@ -92,6 +92,25 @@ namespace SpecificationsTesting.Business
             return null;
         }
 
+        private static string ValidateSyncRPM(CustomOrderVentilatorTest test)
+        {
+            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
+            {
+                var syncRPM = CalculateSyncRPM(test.MeasuredMotorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
+                if (test.MeasuredMotorHighRPM > syncRPM)
+                {
+                    return $"Measured motor high RPM ({test.MeasuredMotorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
+                }
+
+                syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
+                if (test.MeasuredMotorLowRPM > syncRPM)
+                {
+                    return $"Measured motor low RPM ({test.MeasuredMotorLowRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
+                }
+            }
+            return null;
+        }
+
         public static string ValidateForPrinting(CustomOrderVentilatorTest test)
         {
             var nullablePropertiesChecked = CheckNullableProperties(test);
@@ -107,33 +126,18 @@ namespace SpecificationsTesting.Business
             {
                 return "One of the measured amperages is higher than the nominal amperage.";
             } 
+            var syncRPMChecked = ValidateSyncRPM(test);
+            if(!string.IsNullOrEmpty(syncRPMChecked))
+            {
+                return syncRPMChecked;
+            }
             if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
                 return "The measured motor RPM is lower than the nominal RPM.";
             }
-            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
+            if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
-                var syncRPM = CalculateSyncRPM(test.MeasuredMotorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
-                if (test.MeasuredMotorHighRPM > syncRPM)
-                {
-                    return $"Measured motor high RPM ({test.MeasuredMotorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
-                }
-                if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
-                {
-                    return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
-                }
-            }
-            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
-            {
-                var syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
-                if (test.MeasuredMotorLowRPM > syncRPM)
-                {
-                    return $"Measured motor low RPM ({test.MeasuredMotorLowRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
-                }
-                if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
-                {
-                    return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
-                }
+                return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
             }
             if (!MeasuredVentilatorRPMIsInSpec(test.CustomOrderVentilator.CustomOrderMotor.HighRPM, test.CustomOrderVentilator.HighRPM, test.MeasuredMotorHighRPM, test.MeasuredVentilatorHighRPM))
             {
