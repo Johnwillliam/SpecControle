@@ -9,7 +9,7 @@ namespace SpeificationsTestingTests
         {
         }
 
-        [TestCase(10, 10, 60, 10)]
+        [TestCase(3000, 4000, 60, 5.5555555555555555555555555555d)]
         public void TestCalculateShaftPower(decimal airVolume, int? pressureTotal, int? efficiency, decimal? expectedResult)
         {
             var result = BCustomOrderVentilator.CalculateShaftPower(airVolume, pressureTotal, efficiency);
