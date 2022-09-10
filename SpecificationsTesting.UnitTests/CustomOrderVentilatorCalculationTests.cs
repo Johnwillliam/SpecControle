@@ -16,7 +16,7 @@ namespace SpeificationsTestingTests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        [TestCase(10, 10, 10, 10)]
+        [TestCase(101, 10, 10, 10)]
         public void TestCalculateLowPressureTotal(int? lowRPM, int? highRPM, int? highPressureTotal, decimal? expectedResult)
         {
             var motorConstant = BCustomOrderVentilator.CalculateMotorConstant(lowRPM, highRPM);
