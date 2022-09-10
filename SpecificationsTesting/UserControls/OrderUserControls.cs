@@ -46,42 +46,42 @@ namespace SpecificationsTesting.UserControls
                 cmbSoundLevelType.ValueMember = "ID";
                 cmbSoundLevelType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbSoundLevelType.DataSource = dbContext.SoundLevelTypes.ToList();
-                var cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevelTypeID")).Cells["Value"];
+                var cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevelTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbSoundLevelType);
 
                 cmbVentilatorType.DisplayMember = "Description";
                 cmbVentilatorType.ValueMember = "ID";
                 cmbVentilatorType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbVentilatorType.DataSource = dbContext.VentilatorTypes.ToList();
-                cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("VentilatorTypeID")).Cells["Value"];
+                cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("VentilatorTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbVentilatorType);
 
                 cmbGroupType.DisplayMember = "Description";
                 cmbGroupType.ValueMember = "ID";
                 cmbGroupType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbGroupType.DataSource = dbContext.GroupTypes.ToList();
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("GroupTypeID")).Cells["Value"];
+                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("GroupTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbGroupType);
 
                 cmbTemperatureClassType.DisplayMember = "Description";
                 cmbTemperatureClassType.ValueMember = "ID";
                 cmbTemperatureClassType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbTemperatureClassType.DataSource = dbContext.TemperatureClasses.ToList();
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("TemperatureClassID")).Cells["Value"];
+                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("TemperatureClassID")).Cells["Value"];
                 Show_Combobox(cell, cmbTemperatureClassType);
 
                 cmbCatType.DisplayMember = "Description";
                 cmbCatType.ValueMember = "ID";
                 cmbCatType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbCatType.DataSource = dbContext.CatTypes.ToList();
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatID")).Cells["Value"];
+                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatType);
 
                 cmbCatOutType.DisplayMember = "Description";
                 cmbCatOutType.ValueMember = "ID";
                 cmbCatOutType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
+                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
             }
             SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
@@ -529,7 +529,6 @@ namespace SpecificationsTesting.UserControls
             }
             if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -548,7 +547,6 @@ namespace SpecificationsTesting.UserControls
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             if (string.IsNullOrEmpty(ventilator?.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 

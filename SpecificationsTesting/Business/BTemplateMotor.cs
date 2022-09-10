@@ -4,7 +4,7 @@ using EntityFrameworkModel;
 
 namespace SpecificationsTesting.Business
 {
-    public class BTemplateMotor
+    public static class BTemplateMotor
     {
         public static TemplateMotor Create(TemplateMotor templateMotor)
         {

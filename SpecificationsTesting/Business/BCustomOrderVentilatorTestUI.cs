@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace SpecificationsTesting.Business
 {
-    internal class BCustomOrderVentilatorTestUI
+    public static class BCustomOrderVentilatorTestUI
     {
         public static CustomOrderVentilatorTest CreateObject(List<DataGridViewRow> rows)
         {

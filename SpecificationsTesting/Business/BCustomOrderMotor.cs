@@ -8,18 +8,18 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrderMotor
     {
-        private static readonly List<string> orderDisplayPropertyNames = new List<string>
+        protected static readonly List<string> orderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
             "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency", "PowerFactor", "VoltageType"
         };
 
-        private static readonly List<string> controleDisplayPropertyNames = new List<string>
+        protected static readonly List<string> controleDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", "LowAmperage", "StartupAmperage", "Frequency"
         };
 
-        private static readonly List<string> selectDisplayPropertyNames = new List<string>
+        protected static readonly List<string> selectDisplayPropertyNames = new List<string>
         {
             "ID", "Name"
         };

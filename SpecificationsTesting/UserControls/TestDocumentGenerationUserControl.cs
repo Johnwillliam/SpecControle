@@ -157,13 +157,9 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
-            if (SelectedVentilatorID > 0)
+            if (SelectedVentilatorID > 0 && !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
-                {
-                    //MessageBox.Show("Not all steps have been completed to be able to print this order.");
-                    return;
-                }
+                return;
             }
 
             InitializeGridData();
@@ -179,7 +175,6 @@ namespace SpecificationsTesting.UserControls
             var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidatePrinting(selectedTest))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -340,10 +335,8 @@ namespace SpecificationsTesting.UserControls
                 Table table = section.AddTable(true);
                 var rows = 4;
                 var columns = 3;
-                //Add Cells
                 table.ResetCells(rows, columns);
 
-                //Data Row
                 for (int r = 0; r < rows; r++)
                 {
                     TableRow DataRow = table.Rows[r];
@@ -380,10 +373,8 @@ namespace SpecificationsTesting.UserControls
                 Table table = section.AddTable(true);
                 var rows = 8;
                 var columns = 3;
-                //Add Cells
                 table.ResetCells(rows, columns);
 
-                //Data Row
                 for (int r = 0; r < rows; r++)
                 {
                     TableRow DataRow = table.Rows[r];
@@ -433,10 +424,8 @@ namespace SpecificationsTesting.UserControls
                 Table table = section.AddTable(true);
                 var rows = 7;
                 var columns = 3;
-                //Add Cells
                 table.ResetCells(rows, columns);
 
-                //Data Row
                 for (int r = 0; r < rows; r++)
                 {
                     TableRow DataRow = table.Rows[r];
@@ -483,12 +472,9 @@ namespace SpecificationsTesting.UserControls
                 DataRow.Height = TableRowHeight;
                 for (int i = 0; i < values.Count; i++)
                 {
-                    //Cell Alignment
                     DataRow.Cells[i].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    //Fill Data in Rows
                     Paragraph p2 = DataRow.Cells[i].AddParagraph();
                     TextRange TR2 = p2.AppendText(values[i]);
-                    //Format Cells
                     p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
                     TR2.CharacterFormat.FontName = "Calibri";
                     TR2.CharacterFormat.FontSize = TableFontSize;

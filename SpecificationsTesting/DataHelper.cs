@@ -51,8 +51,7 @@ namespace SpecificationsTesting
             }
 
             return type.GetProperties()
-                 .Where(p => p.IsDefined(typeof(DisplayAttribute), false) && p.GetCustomAttributes(typeof(DisplayAttribute), false).Cast<DisplayAttribute>().Single().Name == attributeName)
-                 .FirstOrDefault();
+                 .FirstOrDefault(p => p.IsDefined(typeof(DisplayAttribute), false) && p.GetCustomAttributes(typeof(DisplayAttribute), false).Cast<DisplayAttribute>().Single().Name == attributeName);
         }
 
         public static object ChangeType(object value, Type type)

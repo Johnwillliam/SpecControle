@@ -55,7 +55,7 @@ namespace SpecificationsTesting.UserControls
                 cmbUser.ValueMember = "ID";
                 cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbUser.DataSource = dbContext.Users.ToList();
-                var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
+                var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
                 Show_Combobox(cell, cmbUser);
             }
         }
@@ -431,7 +431,6 @@ namespace SpecificationsTesting.UserControls
             }
             if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 
@@ -450,7 +449,6 @@ namespace SpecificationsTesting.UserControls
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             if (string.IsNullOrEmpty(ventilator.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 

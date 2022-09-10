@@ -9,18 +9,18 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrderVentilator
     {
-        private static readonly List<string> orderDisplayPropertyNames = new List<string>
+        protected static readonly List<string> orderDisplayPropertyNames = new List<string>
         {
             "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
             "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
         };
 
-        private static readonly List<string> controleDisplayPropertyNames = new List<string>
+        protected static readonly List<string> controleDisplayPropertyNames = new List<string>
         {
             "Name", "HighRPM", "LowRPM", "BladeAngle"
         };
 
-        private static readonly List<string> configurationDisplayPropertyNames = new List<string>
+        protected static readonly List<string> configurationDisplayPropertyNames = new List<string>
         {
             "Atex", "GroupTypeID", "TemperatureClassID", "CatID", "CatOutID"
         };
@@ -221,7 +221,7 @@ namespace SpecificationsTesting.Business
 
         public static int CalculateVBeltLowRPM(double motorConstant, int?highRPM)
         {
-            return (int)Math.Round((double)motorConstant * (int)highRPM);
+            return (int)Math.Round(motorConstant * (int)highRPM);
         }
 
         public static double CalculateMotorConstant(int? lowRPM, int? highRPM)

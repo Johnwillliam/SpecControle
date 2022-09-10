@@ -106,16 +106,12 @@ namespace SpecificationsTesting.Forms
                     imageHeight = SmallImageHeight;
                     break;
                 case ImageSize.Medium:
-                    imageWidth = NormalImageWidth;
-                    imageHeight = NormalImageHeight;
-                    break;
                 default:
                     imageWidth = NormalImageWidth;
                     imageHeight = NormalImageHeight;
                     break;
             }
-            var image = GenerateTable(imageWidth, imageHeight);
-            MotorTypePlateImage.Image = (Image)image;
+            MotorTypePlateImage.Image = GenerateTable(imageWidth, imageHeight);
             MotorTypePlateImage.Width = imageWidth;
             MotorTypePlateImage.Height = imageHeight;
         }
@@ -135,8 +131,6 @@ namespace SpecificationsTesting.Forms
             var rowHeight = 20;
             var startX = 40;
             var startY = 80;
-            var pen = new Pen(Color.Black, 2.0F);
-            var font = new Font("Tahoma", 8, FontStyle.Bold);
 
             var logoFile = (FileInfo)LogosListBox.SelectedItem;
             var logo = Image.FromFile(logoFile.FullName);

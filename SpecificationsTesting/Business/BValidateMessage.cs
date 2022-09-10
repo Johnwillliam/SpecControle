@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace SpecificationsTesting.Business
 {
-    internal class BValidateMessage
+    public static class BValidateMessage
     {
         public static bool ValidateForPrinting(CustomOrderVentilator ventilator)
         {
@@ -52,32 +52,26 @@ namespace SpecificationsTesting.Business
             if (test.CustomOrderVentilator.BladeAngle == null)
             {
                 MessageBox.Show("Ventilator blade angle not filled in.");
-                //return false;
             }
             if (test.MeasuredBladeAngle == null)
             {
                 MessageBox.Show("Measured blade angle not filled in.");
-                //return false;
             }
             if (test.CustomOrderVentilator.BladeAngle != null && test.MeasuredBladeAngle != null && test.CustomOrderVentilator.BladeAngle.Value != test.MeasuredBladeAngle.Value)
             {
                 MessageBox.Show("Measured blade angle does not correspond the ventilator data. Please check.");
-                //return false;
             }
             if (test.MotorNumber == null)
             {
                 MessageBox.Show("Motornumber not filled in.");
-                //return false;
             }
             if (test.MeasuredMotorHighRPM == null)
             {
                 MessageBox.Show("Motor High RPM not filled in.");
-                //return false;
             }
             if (test.MeasuredVentilatorHighRPM == null)
             {
                 MessageBox.Show("Ventilator High RPM not filled in.");
-                //return false;
             }
 
             return true;
