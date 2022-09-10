@@ -185,7 +185,6 @@ namespace SpecificationsTesting.UserControls
         {
             if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
-                //MessageBox.Show("Not all steps have been completed to be able to print this order.");
                 return;
             }
 

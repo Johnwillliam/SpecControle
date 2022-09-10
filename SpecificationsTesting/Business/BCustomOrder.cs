@@ -7,7 +7,7 @@ using EntityFrameworkModel;
 
 namespace SpecificationsTesting.Business
 {
-    public class BCustomOrder
+    public static class BCustomOrder
     {
         protected static readonly List<string> orderDisplayPropertyNames = new List<string>
         {

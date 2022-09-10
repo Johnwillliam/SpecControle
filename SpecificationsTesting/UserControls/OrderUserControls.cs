@@ -138,43 +138,43 @@ namespace SpecificationsTesting.UserControls
 
         private void DisableCalculatedRows()
         {
-            var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureDynamic")).Cells["Value"];
+            var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureDynamic")).Cells["Value"];
             pressureDynamic.ReadOnly = true;
             pressureDynamic.Style.BackColor = Color.LightGray;
 
-            pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureDynamic")).Cells["Value"];
+            pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureDynamic")).Cells["Value"];
             pressureDynamic.ReadOnly = true;
             pressureDynamic.Style.BackColor = Color.LightGray;
 
-            var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("HighShaftPower")).Cells["Value"];
+            var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("HighShaftPower")).Cells["Value"];
             shaftPower.ReadOnly = true;
             shaftPower.Style.BackColor = Color.LightGray;
 
-            shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
+            shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
             shaftPower.ReadOnly = true;
             shaftPower.Style.BackColor = Color.LightGray;
 
-            var atex = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("Atex")).Cells["Value"];
+            var atex = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("Atex")).Cells["Value"];
             atex.ReadOnly = true;
             atex.Style.BackColor = Color.LightGray;
 
-            var lowAirvolume = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"];
+            var lowAirvolume = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"];
             lowAirvolume.ReadOnly = true;
             lowAirvolume.Style.BackColor = Color.LightGray;
 
-            var lowPressureTotal = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"];
+            var lowPressureTotal = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"];
             lowPressureTotal.ReadOnly = true;
             lowPressureTotal.Style.BackColor = Color.LightGray;
 
-            var lowPressureStatic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"];
+            var lowPressureStatic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"];
             lowPressureStatic.ReadOnly = true;
             lowPressureStatic.Style.BackColor = Color.LightGray;
 
-            var lowShaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
+            var lowShaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
             lowShaftPower.ReadOnly = true;
             lowShaftPower.Style.BackColor = Color.LightGray;
 
-            var lowRPM = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList().First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"];
+            var lowRPM = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"];
             lowRPM.ReadOnly = true;
             lowRPM.Style.BackColor = Color.LightGray;
         }
@@ -513,8 +513,8 @@ namespace SpecificationsTesting.UserControls
                 {
                     MessageBox.Show($"Data of CustomOrderNumber: {CustomOrder.CustomOrderNumber} copied to new CustomOrderNumber: {customOrder.CustomOrderNumber}.");
                     CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrder.CustomOrderNumber);
+                    SelectedVentilatorID = customOrder.CustomOrderVentilators.First().ID;
                 }
-                SelectedVentilatorID = customOrder.CustomOrderVentilators.First().ID;
                 InitializeGridData();
                 btnCreateCO.Enabled = true;
             }

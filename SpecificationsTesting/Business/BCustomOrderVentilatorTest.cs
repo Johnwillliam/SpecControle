@@ -6,7 +6,7 @@ using EntityFrameworkModel;
 
 namespace SpecificationsTesting.Business
 {
-    public class BCustomOrderVentilatorTest
+    public static class BCustomOrderVentilatorTest
     {
         protected static readonly List<string> controleDisplayPropertyNames = new List<string>
         {

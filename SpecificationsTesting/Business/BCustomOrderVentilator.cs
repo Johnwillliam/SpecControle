@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace SpecificationsTesting.Business
 {
-    public class BCustomOrderVentilator
+    public static class BCustomOrderVentilator
     {
         protected static readonly List<string> orderDisplayPropertyNames = new List<string>
         {
