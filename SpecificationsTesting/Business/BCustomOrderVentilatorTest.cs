@@ -59,7 +59,7 @@ namespace SpecificationsTesting.Business
             }
         }
 
-        public static string ValidateForPrinting(CustomOrderVentilatorTest test)
+        private static string CheckNullableProperties(CustomOrderVentilatorTest test)
         {
             if (test.MeasuredBladeAngle == null)
             {
@@ -81,14 +81,6 @@ namespace SpecificationsTesting.Business
             {
                 return "Measured motor low RPM not filled in.";
             }
-            if (test.MeasuredBladeAngle != test.CustomOrderVentilator.BladeAngle)
-            {
-                return "Measured blade angle does not matched the ordered angle.";
-            }
-            if (test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
-            {
-                return "One of the measured amperages is higher than the nominal amperage.";
-            } 
             if (test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
             {
                 return "Motor high RPM is not filled in.";
@@ -97,15 +89,29 @@ namespace SpecificationsTesting.Business
             {
                 return "Ventilator high RPM is not filled in.";
             }
-            if (test.MeasuredMotorHighRPM == null)
+            return null;
+        }
+
+        public static string ValidateForPrinting(CustomOrderVentilatorTest test)
+        {
+            var nullablePropertiesChecked = CheckNullableProperties(test);
+            if(!string.IsNullOrEmpty(nullablePropertiesChecked))
             {
-                return "Measured motor high RPM not filled in.";
+                return nullablePropertiesChecked;
             }
+            if (test.MeasuredBladeAngle != test.CustomOrderVentilator.BladeAngle)
+            {
+                return "Measured blade angle does not matched the ordered angle.";
+            }
+            if (test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
+            {
+                return "One of the measured amperages is higher than the nominal amperage.";
+            } 
             if (test.MeasuredMotorHighRPM < test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
                 return "The measured motor RPM is lower than the nominal RPM.";
             }
-            if (test.MeasuredMotorHighRPM != null && test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
+            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
             {
                 var syncRPM = CalculateSyncRPM(test.MeasuredMotorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                 if (test.MeasuredMotorHighRPM > syncRPM)
@@ -117,7 +123,7 @@ namespace SpecificationsTesting.Business
                     return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
                 }
             }
-            if (test.MeasuredMotorLowRPM != null && test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
+            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
             {
                 var syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                 if (test.MeasuredMotorLowRPM > syncRPM)
@@ -129,8 +135,7 @@ namespace SpecificationsTesting.Business
                     return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
                 }
             }
-            if (test.MeasuredVentilatorHighRPM != null && 
-                MeasuredVentilatorRPMIsInSpec(test.CustomOrderVentilator.CustomOrderMotor.HighRPM, test.CustomOrderVentilator.HighRPM, test.MeasuredMotorHighRPM, test.MeasuredVentilatorHighRPM))
+            if (!MeasuredVentilatorRPMIsInSpec(test.CustomOrderVentilator.CustomOrderMotor.HighRPM, test.CustomOrderVentilator.HighRPM, test.MeasuredMotorHighRPM, test.MeasuredVentilatorHighRPM))
             {
                 return "The measured ventilator high RPM differs more than 3%.";
             }
