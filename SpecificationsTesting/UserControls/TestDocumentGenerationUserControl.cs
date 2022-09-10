@@ -24,11 +24,11 @@ namespace SpecificationsTesting.UserControls
         public TestDocumentGenerationUserControl()
         {
             InitializeComponent();
-            this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
-            this.CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorTestsDataGrid_RowEnter);
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            this.btnPrintSelectedTest.Click += new System.EventHandler(this.btnPrintSelectedTest_Click);
-            this.btnPrintAll.Click += new System.EventHandler(this.btnPrintAll_Click);
+            CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
+            CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_RowEnter);
+            btnSearch.Click += new System.EventHandler(btnSearch_Click);
+            btnPrintSelectedTest.Click += new System.EventHandler(btnPrintSelectedTest_Click);
+            btnPrintAll.Click += new System.EventHandler(btnPrintAll_Click);
 
             InitializeGridColumns();
             SelectedVentilatorID = 0;

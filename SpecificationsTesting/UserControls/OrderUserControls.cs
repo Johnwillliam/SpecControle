@@ -18,16 +18,16 @@ namespace SpecificationsTesting.UserControls
         public OrderUserControl()
         {
             InitializeComponent();
-            this.btnCreateCO.Click += new System.EventHandler(this.btnCreateCO_Click);
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            this.btnCreateVentilator.Click += new System.EventHandler(this.btnCreateVentilator_Click);
-            this.btnRemoveVentilator.Click += new System.EventHandler(this.btnRemoveVentilator_Click);
-            this.btnSelectTemplateMotor.Click += new System.EventHandler(this.btnSelectTemplateMotor_Click);
-            this.btnCopyOrder.Click += new System.EventHandler(this.btnCopyOrder_Click);
-            this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
-            this.btnAtex.Click += new System.EventHandler(this.btnAtex_Click);
+            btnCreateCO.Click += new System.EventHandler(btnCreateCO_Click);
+            btnSearch.Click += new System.EventHandler(btnSearch_Click);
+            btnClear.Click += new System.EventHandler(btnClear_Click);
+            btnSaveChanges.Click += new System.EventHandler(btnSaveChanges_Click);
+            btnCreateVentilator.Click += new System.EventHandler(btnCreateVentilator_Click);
+            btnRemoveVentilator.Click += new System.EventHandler(btnRemoveVentilator_Click);
+            btnSelectTemplateMotor.Click += new System.EventHandler(btnSelectTemplateMotor_Click);
+            btnCopyOrder.Click += new System.EventHandler(btnCopyOrder_Click);
+            btnMotorTypePlate.Click += new System.EventHandler(btnMotorTypePlate_Click);
+            btnAtex.Click += new System.EventHandler(btnAtex_Click);
 
             InitializeGridColumns();
             InitializeGridData();
@@ -532,7 +532,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            var mainForm = (MainForm)this.ParentForm;
+            var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
             mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
@@ -550,7 +550,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            var mainForm = (MainForm)this.ParentForm;
+            var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 3;
             mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }

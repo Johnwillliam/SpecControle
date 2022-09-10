@@ -37,10 +37,10 @@ namespace SpecificationsTesting.Forms
         public AtexStickerUserControl()
         {
             InitializeComponent();
-            this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
-            this.LogosListBox.SelectedIndexChanged += new System.EventHandler(this.LogosListBox_SelectedIndexChanged);
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
+            LogosListBox.SelectedIndexChanged += new System.EventHandler(LogosListBox_SelectedIndexChanged);
+            btnSearch.Click += new System.EventHandler(btnSearch_Click);
+            btnPrint.Click += new System.EventHandler(btnPrint_Click);
 
             PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
             LogosListBox.SelectedIndex = 0;
@@ -105,7 +105,6 @@ namespace SpecificationsTesting.Forms
                     imageWidth = SmallImageWidth;
                     imageHeight = SmallImageHeight;
                     break;
-                case ImageSize.Medium:
                 default:
                     imageWidth = NormalImageWidth;
                     imageHeight = NormalImageHeight;

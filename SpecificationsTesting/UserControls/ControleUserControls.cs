@@ -23,19 +23,19 @@ namespace SpecificationsTesting.UserControls
         public ControleUserControl()
         {
             InitializeComponent();
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            this.CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorsDataGrid_RowEnter);
-            this.CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.CustomOrderVentilatorTestsDataGrid_RowEnter);
-            this.CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
-            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            this.radioButtonMotorHigh.CheckedChanged += new System.EventHandler(this.radioButtonMotorHigh_CheckedChanged);
-            this.radioButtonMotorLow.CheckedChanged += new System.EventHandler(this.radioButtonMotorLow_CheckedChanged);
-            this.radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorHigh_CheckedChanged);
-            this.radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(this.radioButtonVentilatorLow_CheckedChanged);
-            this.btnReadRPM.Click += new System.EventHandler(this.btnReadRPM_Click);
-            this.btnMotorTypePlate.Click += new System.EventHandler(this.btnMotorTypePlate_Click);
-            this.btnAtex.Click += new System.EventHandler(this.btnAtex_Click);
+            btnSearch.Click += new System.EventHandler(btnSearch_Click);
+            CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
+            CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_RowEnter);
+            CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
+            btnSaveChanges.Click += new System.EventHandler(btnSaveChanges_Click);
+            btnClear.Click += new System.EventHandler(btnClear_Click);
+            radioButtonMotorHigh.CheckedChanged += new System.EventHandler(radioButtonMotorHigh_CheckedChanged);
+            radioButtonMotorLow.CheckedChanged += new System.EventHandler(radioButtonMotorLow_CheckedChanged);
+            radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(radioButtonVentilatorHigh_CheckedChanged);
+            radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(radioButtonVentilatorLow_CheckedChanged);
+            btnReadRPM.Click += new System.EventHandler(btnReadRPM_Click);
+            btnMotorTypePlate.Click += new System.EventHandler(btnMotorTypePlate_Click);
+            btnAtex.Click += new System.EventHandler(btnAtex_Click);
 
             CustomOrder = null;
             SelectedVentilatorID = 0;
@@ -434,7 +434,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            var mainForm = (MainForm)this.ParentForm;
+            var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
             mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
@@ -452,7 +452,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            var mainForm = (MainForm)this.ParentForm;
+            var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
             mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
         }
