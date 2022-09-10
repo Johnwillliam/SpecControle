@@ -9,18 +9,18 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrderVentilator
     {
-        public static List<string> OrderDisplayPropertyNames = new List<string>
+        public readonly static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
             "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
         };
 
-        public static List<string> ControleDisplayPropertyNames = new List<string>
+        public readonly static List<string> ControleDisplayPropertyNames = new List<string>
         {
             "Name", "HighRPM", "LowRPM", "BladeAngle"
         };
 
-        public static List<string> ConfigurationDisplayPropertyNames = new List<string>
+        public readonly static List<string> ConfigurationDisplayPropertyNames = new List<string>
         {
             "Atex", "GroupTypeID", "TemperatureClassID", "CatID", "CatOutID"
         };

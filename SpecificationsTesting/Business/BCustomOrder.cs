@@ -9,12 +9,12 @@ namespace SpecificationsTesting.Business
 {
     public class BCustomOrder
     {
-        public static List<string> OrderDisplayPropertyNames = new List<string>
+        public readonly static List<string> OrderDisplayPropertyNames = new List<string>
         {
             "CustomOrderNumber", "Debtor", "Reference", "Remarks"
         };
 
-        public static List<string> ControleDisplayPropertyNames = new List<string>
+        public readonly static List<string> ControleDisplayPropertyNames = new List<string>
         {
             "CustomOrderNumber", "CreateDate", "Remarks"
         };
