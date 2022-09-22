@@ -1,7 +1,7 @@
 using NUnit.Framework.Internal;
 using SpecificationsTesting.Business;
 
-namespace SpeificationsTestingTests
+namespace SpecificationsTestingTests
 {
     public class CustomOrderVentilatorTestCalculationTests
     {

@@ -1,6 +1,6 @@
 using SpecificationsTesting.Business;
 
-namespace SpeificationsTestingTests
+namespace SpecificationsTestingTests
 {
     public class CustomOrderVentilatorCalculationTests
     {
