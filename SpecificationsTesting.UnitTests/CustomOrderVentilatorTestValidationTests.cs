@@ -13,7 +13,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting()
+        public void TestValidateForPrintingMeasuredBladeAngleEmpty()
         {
             var ventilatorTest = new Mock<CustomOrderVentilatorTest>();
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest.Object);
@@ -22,7 +22,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting12()
+        public void TestValidateForPrintingMeasuredVentilatorHighRPMEmpty()
         {
             var ventilatorTest = new CustomOrderVentilatorTest
             {
@@ -34,7 +34,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting13()
+        public void TestValidateForPrintingMeasuredVentilatorLowRPMEmpty()
         {
             var ventilatorTest = new CustomOrderVentilatorTest
             {
@@ -47,7 +47,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting14()
+        public void TestValidateForPrintingMeasuredMotorHighRPMEmpty()
         {
             var ventilatorTest = new CustomOrderVentilatorTest
             {
@@ -61,7 +61,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting15()
+        public void TestValidateForPrintingMeasuredMotorLowRPMEmpty()
         {
             var ventilatorTest = new CustomOrderVentilatorTest
             {
@@ -76,115 +76,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting1()
-        {
-            var ventilator = new CustomOrderVentilator
-            {
-                BladeAngle = 15
-            };
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                CustomOrderVentilator = ventilator,
-                MeasuredVentilatorHighRPM = 1,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorHighRPM = 1,
-                MeasuredMotorLowRPM = 1,
-                MeasuredBladeAngle = 20
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "Measured blade angle does not matched the ordered angle.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
-
-        [Test]
-        public void TestValidateForPrinting2()
-        {
-            var motor = new CustomOrderMotor
-            {
-                HighAmperage = 15
-            };
-            var ventilator = new CustomOrderVentilator
-            {
-                CustomOrderMotor = motor,
-                BladeAngle = 15
-            };
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                CustomOrderVentilator = ventilator,
-                MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorHighRPM = 1,
-                MeasuredMotorLowRPM = 1,
-                I1High = 20,
-                I2High = 15,
-                I3High = 15
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
-
-        [Test]
-        public void TestValidateForPrinting3()
-        {
-            var motor = new CustomOrderMotor
-            {
-                HighAmperage = 15
-            };
-            var ventilator = new CustomOrderVentilator
-            {
-                CustomOrderMotor = motor,
-                BladeAngle = 15
-            };
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                CustomOrderVentilator = ventilator,
-                MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorHighRPM = 1,
-                MeasuredMotorLowRPM = 1,
-                I1High = 15,
-                I2High = 20,
-                I3High = 15
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
-
-        [Test]
-        public void TestValidateForPrinting4()
-        {
-            var motor = new CustomOrderMotor
-            {
-                HighAmperage = 15
-            };
-            var ventilator = new CustomOrderVentilator
-            {
-                CustomOrderMotor = motor,
-                BladeAngle = 15
-            };
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                CustomOrderVentilator = ventilator,
-                MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorHighRPM = 1,
-                MeasuredMotorLowRPM = 1,
-                I1High = 15,
-                I2High = 15,
-                I3High = 20
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
-
-        [Test]
-        public void TestValidateForPrinting5()
+        public void TestValidateForPrintingMotorHighRpmEmpty()
         {
             var motor = new CustomOrderMotor
             {
@@ -213,7 +105,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting6()
+        public void TestValidateForPrintingVentilatorHighRpmEmpty()
         {
             var motor = new CustomOrderMotor
             {
@@ -243,7 +135,149 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting8()
+        public void TestValidateForPrintingNoMotor()
+        {
+            var ventilator = new CustomOrderVentilator
+            {
+                BladeAngle = 15
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorLowRPM = 1,
+                MeasuredMotorHighRPM = 1,
+                MeasuredMotorLowRPM = 1,
+                MeasuredBladeAngle = 20
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = "No motor found, please check configuration.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [Test]
+        public void TestValidateForPrintingMeasuredBladeDoesNotMatch()
+        {
+            var motor = new CustomOrderMotor
+            {
+                HighAmperage = 15,
+                HighRPM = 10
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorLowRPM = 1,
+                MeasuredMotorHighRPM = 1,
+                MeasuredMotorLowRPM = 1,
+                MeasuredBladeAngle = 20
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = "Measured blade angle does not matched the ordered angle.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [Test]
+        public void TestValidateForPrintingMeasuredAmpI1HigherThanNominal()
+        {
+            var motor = new CustomOrderMotor
+            {
+                HighAmperage = 15,
+                HighRPM = 10
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredBladeAngle = 15,
+                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorLowRPM = 1,
+                MeasuredMotorHighRPM = 1,
+                MeasuredMotorLowRPM = 1,
+                I1High = 20,
+                I2High = 15,
+                I3High = 15
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [Test]
+        public void TestValidateForPrintingMeasuredAmpI2HigherThanNominal()
+        {
+            var motor = new CustomOrderMotor
+            {
+                HighAmperage = 15,
+                HighRPM = 10
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredBladeAngle = 15,
+                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorLowRPM = 1,
+                MeasuredMotorHighRPM = 1,
+                MeasuredMotorLowRPM = 1,
+                I1High = 15,
+                I2High = 20,
+                I3High = 15
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [Test]
+        public void TestValidateForPrintingMeasuredAmpI3HigherThanNominal()
+        {
+            var motor = new CustomOrderMotor
+            {
+                HighAmperage = 15,
+                HighRPM = 10
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredBladeAngle = 15,
+                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorLowRPM = 1,
+                MeasuredMotorHighRPM = 1,
+                MeasuredMotorLowRPM = 1,
+                I1High = 15,
+                I2High = 15,
+                I3High = 20
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = "One of the measured amperages is higher than the nominal amperage.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [Test]
+        public void TestValidateForPrintingMeasuredMotorRpmLowerThanNominal()
         {
             var motor = new CustomOrderMotor
             {
@@ -274,7 +308,7 @@ namespace SpeificationsTestingTests
         }
 
         [Test]
-        public void TestValidateForPrinting9()
+        public void TestValidateForPrintingMeasuredVentilatorHighRpmDiffersMoreThanSpec()
         {
             var motor = new CustomOrderMotor
             {
@@ -292,7 +326,7 @@ namespace SpeificationsTestingTests
             {
                 CustomOrderVentilator = ventilator,
                 MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1,
+                MeasuredVentilatorHighRPM = 10,
                 MeasuredVentilatorLowRPM = 1,
                 MeasuredMotorLowRPM = 1,
                 I1High = 15,

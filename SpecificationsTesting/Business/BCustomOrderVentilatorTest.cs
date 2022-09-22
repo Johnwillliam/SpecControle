@@ -81,6 +81,10 @@ namespace SpecificationsTesting.Business
             {
                 return "Measured motor low RPM not filled in.";
             }
+            if (test.CustomOrderVentilator.CustomOrderMotor == null)
+            {
+                return "No motor found, please check configuration.";
+            }
             if (test.CustomOrderVentilator.CustomOrderMotor.HighRPM == null)
             {
                 return "Motor high RPM is not filled in.";
