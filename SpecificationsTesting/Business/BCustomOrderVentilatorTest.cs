@@ -141,11 +141,10 @@ namespace SpecificationsTesting.Business
             }
             if (test.MeasuredVentilatorHighRPM > test.CustomOrderVentilator.CustomOrderMotor.HighRPM)
             {
-                return $"Measured ventilator high RPM ({test.MeasuredVentilatorHighRPM}) is higher than the motor RPM ({test.CustomOrderVentilator.CustomOrderMotor.HighRPM}), wrong motor?";
-            }
-            if (!MeasuredVentilatorRPMIsInSpec(test.CustomOrderVentilator.CustomOrderMotor.HighRPM, test.CustomOrderVentilator.HighRPM, test.MeasuredMotorHighRPM, test.MeasuredVentilatorHighRPM))
-            {
-                return "The measured ventilator high RPM differs more than 3%.";
+                if (!MeasuredVentilatorRPMIsInSpec(test.CustomOrderVentilator.CustomOrderMotor.HighRPM, test.CustomOrderVentilator.HighRPM, test.MeasuredMotorHighRPM, test.MeasuredVentilatorHighRPM))
+                {
+                    return "The measured ventilator high RPM differs more than 3%.";
+                }
             }
             return string.Empty;
         }

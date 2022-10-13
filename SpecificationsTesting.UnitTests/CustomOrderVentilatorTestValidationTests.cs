@@ -326,13 +326,13 @@ namespace SpecificationsTestingTests
             {
                 CustomOrderVentilator = ventilator,
                 MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 10,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorLowRPM = 1,
+                MeasuredVentilatorHighRPM = 1461,
+                MeasuredVentilatorLowRPM = 738,
+                MeasuredMotorHighRPM = 1461,
+                MeasuredMotorLowRPM = 738,
                 I1High = 15,
                 I2High = 15,
-                I3High = 15,
-                MeasuredMotorHighRPM = 10
+                I3High = 15
             };
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
             var expectedValidationMessage = "The measured ventilator high RPM differs more than 3%.";
