@@ -24,10 +24,10 @@ namespace SpecificationsTestingTests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
-        [TestCase(1420, 1420, 1419, 13, true)]
-        [TestCase(1420, 1420, 1420, 1420, false)]
+        [TestCase(1420, 1420, 1462, 1462, true)]
+        [TestCase(1420, 1420, 1420, 1420, true)]
         [TestCase(1420, 1420, 1463, 1420, false)]
-        public void TestMeasuredVentilatorRPMIsInSpec(int? customOrderMotorHighRPM, int? customOrderVentilatorHighRPM, int measuredMotorHighRPM, int measuredVentilatorHighRPM, bool expectedResult)
+        public void TestMeasuredVentilatorRPMIsInSpec(int? customOrderVentilatorHighRPM, int? customOrderMotorHighRPM, int measuredVentilatorHighRPM, int measuredMotorHighRPM, bool expectedResult)
         {
             var result = BCustomOrderVentilatorTest.MeasuredVentilatorRPMIsInSpec(customOrderMotorHighRPM, customOrderVentilatorHighRPM, measuredMotorHighRPM, measuredVentilatorHighRPM);
             Assert.That(result, Is.EqualTo(expectedResult));

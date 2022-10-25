@@ -33,18 +33,18 @@ namespace SpecificationsTestingTests
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
 
-        [Test]
-        public void TestValidateForPrintingMeasuredVentilatorLowRPMEmpty()
-        {
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                MeasuredBladeAngle = 1,
-                MeasuredVentilatorHighRPM = 1
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "Measured ventilator low RPM not filled in.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
+        //[Test]
+        //public void TestValidateForPrintingMeasuredVentilatorLowRPMEmpty()
+        //{
+        //    var ventilatorTest = new CustomOrderVentilatorTest
+        //    {
+        //        MeasuredBladeAngle = 1,
+        //        MeasuredVentilatorHighRPM = 1
+        //    };
+        //    var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+        //    var expectedValidationMessage = "Measured ventilator low RPM not filled in.";
+        //    Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        //}
 
         [Test]
         public void TestValidateForPrintingMeasuredMotorHighRPMEmpty()
@@ -60,20 +60,20 @@ namespace SpecificationsTestingTests
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
 
-        [Test]
-        public void TestValidateForPrintingMeasuredMotorLowRPMEmpty()
-        {
-            var ventilatorTest = new CustomOrderVentilatorTest
-            {
-                MeasuredBladeAngle = 1,
-                MeasuredVentilatorHighRPM = 1,
-                MeasuredVentilatorLowRPM = 1,
-                MeasuredMotorHighRPM = 1
-            };
-            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-            var expectedValidationMessage = "Measured motor low RPM not filled in.";
-            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        }
+        //[Test]
+        //public void TestValidateForPrintingMeasuredMotorLowRPMEmpty()
+        //{
+        //    var ventilatorTest = new CustomOrderVentilatorTest
+        //    {
+        //        MeasuredBladeAngle = 1,
+        //        MeasuredVentilatorHighRPM = 1,
+        //        MeasuredVentilatorLowRPM = 1,
+        //        MeasuredMotorHighRPM = 1
+        //    };
+        //    var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+        //    var expectedValidationMessage = "Measured motor low RPM not filled in.";
+        //    Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        //}
 
         [Test]
         public void TestValidateForPrintingMotorHighRpmEmpty()
@@ -307,8 +307,8 @@ namespace SpecificationsTestingTests
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
 
-        [Test]
-        public void TestValidateForPrintingMeasuredVentilatorHighRpmDiffersMoreThanSpec()
+        [TestCase(1462, 738, 1419, 738)]
+        public void TestValidateForPrintingMeasuredVentilatorHighRpmDiffersMoreThanSpec(int measuredVentilatorHighRPM, int measuredVentilatorLowRPM, int measuredMotorHighRPM, int measuredMotorLowRPM)
         {
             var motor = new CustomOrderMotor
             {
@@ -326,9 +326,9 @@ namespace SpecificationsTestingTests
             {
                 CustomOrderVentilator = ventilator,
                 MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1461,
+                MeasuredVentilatorHighRPM = 1462,
                 MeasuredVentilatorLowRPM = 738,
-                MeasuredMotorHighRPM = 1461,
+                MeasuredMotorHighRPM = 1419,
                 MeasuredMotorLowRPM = 738,
                 I1High = 15,
                 I2High = 15,
@@ -336,6 +336,39 @@ namespace SpecificationsTestingTests
             };
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
             var expectedValidationMessage = "The measured ventilator high RPM differs more than 3%.";
+            Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
+        }
+
+        [TestCase(1462, 738, 1420, 738)]
+        [TestCase(1462, 700, 1420, 700)]
+        public void TestValidateForPrintingMeasuredVentilatorHighRpmDiffersWithinThanSpec(int measuredVentilatorHighRPM, int measuredVentilatorLowRPM, int measuredMotorHighRPM, int measuredMotorLowRPM)
+        {
+            var motor = new CustomOrderMotor
+            {
+                HighAmperage = 15,
+                HighRPM = 10,
+                Frequency = 50
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                MeasuredBladeAngle = 15,
+                MeasuredVentilatorHighRPM = measuredVentilatorHighRPM,
+                MeasuredVentilatorLowRPM = measuredVentilatorLowRPM,
+                MeasuredMotorHighRPM = measuredMotorHighRPM,
+                MeasuredMotorLowRPM = measuredMotorLowRPM,
+                I1High = 15,
+                I2High = 15,
+                I3High = 15
+            };
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
+            var expectedValidationMessage = string.Empty;
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
     }

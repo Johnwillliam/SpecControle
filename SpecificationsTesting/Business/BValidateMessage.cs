@@ -21,13 +21,13 @@ namespace SpecificationsTesting.Business
 
         public static bool ValidatePrinting(CustomOrderVentilatorTest test)
         {
-            var validationMessage = $"Test ID {test.ID}: {BCustomOrderVentilatorTest.ValidateForPrinting(test)}";
+            var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(test);
             if (string.IsNullOrEmpty(validationMessage))
             {
                 ValidateAmperage(test);
                 return true;
             }
-            MessageBox.Show(validationMessage);
+            MessageBox.Show($"Test ID {test.ID}: {validationMessage}");
             return false;
         }
 

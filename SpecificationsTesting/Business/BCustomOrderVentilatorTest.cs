@@ -69,18 +69,18 @@ namespace SpecificationsTesting.Business
             {
                 return "Measured ventilator high RPM not filled in.";
             }
-            if (test.MeasuredVentilatorLowRPM == null)
-            {
-                return "Measured ventilator low RPM not filled in.";
-            }
+            //if (test.MeasuredVentilatorLowRPM == null)
+            //{
+            //    return "Measured ventilator low RPM not filled in.";
+            //}
             if (test.MeasuredMotorHighRPM == null)
             {
                 return "Measured motor high RPM not filled in.";
             }
-            if (test.MeasuredMotorLowRPM == null)
-            {
-                return "Measured motor low RPM not filled in.";
-            }
+            //if (test.MeasuredMotorLowRPM == null)
+            //{
+            //    return "Measured motor low RPM not filled in.";
+            //}
             if (test.CustomOrderVentilator.CustomOrderMotor == null)
             {
                 return "No motor found, please check configuration.";
@@ -152,7 +152,10 @@ namespace SpecificationsTesting.Business
         public static bool MeasuredVentilatorRPMIsInSpec(int? customOrderMotorHighRPM, int? customOrderVentilatorHighRPM, int? measuredMotorHighRPM, int? measuredVentilatorHighRPM)
         {
             var nv = measuredMotorHighRPM / customOrderMotorHighRPM * customOrderVentilatorHighRPM;
-            return Math.Max((double)customOrderVentilatorHighRPM, (double)measuredVentilatorHighRPM) / Math.Min((double)nv, (double)measuredVentilatorHighRPM) > 1.03;
+            var max = Math.Max((double)customOrderVentilatorHighRPM, (double)measuredVentilatorHighRPM);
+            var min = Math.Min((double)nv, (double)measuredVentilatorHighRPM);
+            var calc = max / min;
+            return calc < 1.03;
         }
 
         public static int CalculateSyncRPM(int measuredMotorHighRPM, int frequency)
