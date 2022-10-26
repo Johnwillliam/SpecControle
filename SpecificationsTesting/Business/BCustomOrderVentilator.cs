@@ -224,29 +224,34 @@ namespace SpecificationsTesting.Business
             return (int)Math.Round(motorConstant * (int)highRPM);
         }
 
-        public static double CalculateMotorConstant(int? lowRPM, int? highRPM)
+        public static double CalculateMotorConstant(int? motorLowRpm, int? motorHighRPM)
         {
-            return (double)lowRPM / (double)highRPM;
+            return motorLowRpm == null ? 0 : (double)motorLowRpm / (double)motorHighRPM;
         }
 
-        public static decimal CalculateLowShaftPower(double motorConstant, decimal? highShaftPower)
+        public static decimal? CalculateLowShaftPower(double motorConstant, decimal? highShaftPower)
         {
-            return (decimal)(Math.Pow(motorConstant, 3) * (int)highShaftPower);
+            return motorConstant != 0 ? (decimal?)Math.Round(Math.Pow(motorConstant, 3) * (double)highShaftPower, 2) : null;
         }
 
-        public static int CalculateLowPressureStatic(double motorConstant, int? highPressureStatic)
+        public static int? CalculateLowPressureStatic(double motorConstant, int? highPressureStatic)
         {
-            return (int)(Math.Pow(motorConstant, 2) * highPressureStatic);
+            return motorConstant != 0 ? (int?)Math.Ceiling((decimal)(Math.Pow(motorConstant, 2) * highPressureStatic)) : null;
         }
 
-        public static int CalculateLowAirVolume(double motorConstant, int? highAirVolume)
+        public static int? CalculateLowAirVolume(double motorConstant, int? highAirVolume)
         {
-            return (int)(motorConstant * highAirVolume);
+            return motorConstant != 0 ? (int?)(motorConstant * highAirVolume) : null;
         }
 
-        public static int CalculateLowPressureTotal(double motorConstant, int? highPressureTotal)
+        public static int? CalculateLowPressureTotal(double motorConstant, int? highPressureTotal)
         {
-            return (int)(Math.Pow(motorConstant, 2) * highPressureTotal);
+            if(motorConstant == 0)
+            {
+                return null;
+            }
+            var result = Math.Pow(motorConstant, 2) * highPressureTotal;
+            return (int)Math.Ceiling((double)result);
         }
 
         public static decimal CalculateAtexValue(int? highRPM, int? frequency)

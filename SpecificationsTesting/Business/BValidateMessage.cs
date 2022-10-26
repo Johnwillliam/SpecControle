@@ -40,9 +40,9 @@ namespace SpecificationsTesting.Business
                 var max = iHighs.Max();
                 var min = iLows.Min();
                 var difference = (decimal)(max / min);
-                if (max != null && min != null && difference > 1.1m)
+                if (max != null && min != null && difference > 1.05m)
                 {
-                    MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 10%.");
+                    MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 5%.");
                 }
             }
         }
