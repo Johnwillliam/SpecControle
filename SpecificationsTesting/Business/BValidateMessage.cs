@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -24,27 +25,39 @@ namespace SpecificationsTesting.Business
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(test);
             if (string.IsNullOrEmpty(validationMessage))
             {
-                ValidateAmperage(test);
+                var amperageValidation = ValidateAmperage(test);
+                if(!amperageValidation)
+                {
+                    MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 5%.");
+                }
                 return true;
             }
             MessageBox.Show($"Test ID {test.ID}: {validationMessage}");
             return false;
         }
 
-        private static void ValidateAmperage(CustomOrderVentilatorTest test)
+        public static bool ValidateAmperage(CustomOrderVentilatorTest test)
         {
             if (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage != null && test.CustomOrderVentilator.CustomOrderMotor.LowAmperage != null)
             {
                 var iLows = new List<decimal?>() { test.I1Low, test.I2Low, test.I3Low };
                 var iHighs = new List<decimal?>() { test.I1High, test.I2High, test.I3High };
-                var max = iHighs.Max();
-                var min = iLows.Min();
-                var difference = (decimal)(max / min);
-                if (max != null && min != null && difference > 1.05m)
+                var maxHighs = iHighs.Max();
+                var minHighs = iHighs.Min();
+                var maxLows = iLows.Max();
+                var minLows = iLows.Min();
+                var differenceHighs = (decimal)((minHighs - maxHighs) / maxHighs) * 100;
+                var differenceLows = (decimal)((minLows - maxLows) / maxLows) * 100;
+                if (maxHighs != null && minHighs != null && Math.Abs(differenceHighs) > 5)
                 {
-                    MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 5%.");
+                    return false;
+                }
+                if (maxLows != null && minLows != null && Math.Abs(differenceLows) > 5)
+                {
+                    return false;
                 }
             }
+            return true;
         }
 
         public static bool Validate(CustomOrderVentilatorTest test)

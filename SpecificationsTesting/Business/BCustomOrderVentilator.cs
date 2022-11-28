@@ -58,6 +58,27 @@ namespace SpecificationsTesting.Business
                 var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
                 if (toUpdate != null)
                 {
+                    var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID).ToList();
+                    if(customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
+                    {
+                        var difference = toUpdate.Amount - customOrderVentilator.Amount;
+                        for (int i = 0; i < difference; i++)
+                        {
+                            var lastTest = tests.Last();
+                            customOrderVentilator.CustomOrderVentilatorTests.Remove(lastTest);
+                            dbContext.CustomOrderVentilatorTests.Remove(lastTest);
+                        }
+                    }
+                    else if(customOrderVentilator.Amount > toUpdate.Amount)
+                    {
+                        var difference = customOrderVentilator.Amount - toUpdate.Amount;
+                        for (int i = 0; i < difference; i++)
+                        {
+                            var newTest = new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID };
+                            dbContext.CustomOrderVentilatorTests.Add(newTest);
+                        }
+                    }
+
                     customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
                     dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
                     dbContext.SaveChanges();
