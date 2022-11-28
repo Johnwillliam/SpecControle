@@ -26,9 +26,13 @@ namespace SpecificationsTesting.Business
             if (string.IsNullOrEmpty(validationMessage))
             {
                 var amperageValidation = ValidateAmperage(test);
-                if(!amperageValidation)
+                if(amperageValidation.HasValue && !amperageValidation.Value)
                 {
                     MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 5%.");
+                }
+                else if(!amperageValidation.HasValue)
+                {
+                    MessageBox.Show($"Test ID {test.ID}: One of the measured amperage is higher than the nominal amperage, overload!");
                 }
                 return true;
             }
@@ -36,7 +40,7 @@ namespace SpecificationsTesting.Business
             return false;
         }
 
-        public static bool ValidateAmperage(CustomOrderVentilatorTest test)
+        public static bool? ValidateAmperage(CustomOrderVentilatorTest test)
         {
             if (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage != null && test.CustomOrderVentilator.CustomOrderMotor.LowAmperage != null)
             {
@@ -55,6 +59,11 @@ namespace SpecificationsTesting.Business
                 if (maxLows != null && minLows != null && Math.Abs(differenceLows) > 5)
                 {
                     return false;
+                }
+
+                if(test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
+                {
+                    return null;
                 }
             }
             return true;

@@ -383,6 +383,36 @@ namespace SpecificationsTestingTests
         {
             var motor = new CustomOrderMotor
             {
+                HighAmperage = 20,
+                LowAmperage = 10
+            };
+            var ventilator = new CustomOrderVentilator
+            {
+                CustomOrderMotor = motor,
+                BladeAngle = 15,
+                HighRPM = 10
+            };
+            var ventilatorTest = new CustomOrderVentilatorTest
+            {
+                CustomOrderVentilator = ventilator,
+                I1High = i1High,
+                I2High = i2High,
+                I3High = i3High,
+                I1Low = i1Low,
+                I2Low = i2Low,
+                I3Low = i3Low
+            };
+
+            var result = BValidateMessage.ValidateAmperage(ventilatorTest);
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [TestCase(10, 10, 10, 10, 10, 10, true)]
+        [TestCase(17.50, 17.50, 17.50, 5.60, 5.60, 5.60, null)]
+        public void TestValidateAmperageOverload(decimal i1High, decimal i2High, decimal i3High, decimal i1Low, decimal i2Low, decimal i3Low, bool? expectedResult)
+        {
+            var motor = new CustomOrderMotor
+            {
                 HighAmperage = 15,
                 LowAmperage = 10
             };
