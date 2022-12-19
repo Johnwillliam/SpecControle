@@ -33,19 +33,6 @@ namespace SpecificationsTestingTests
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
 
-        //[Test]
-        //public void TestValidateForPrintingMeasuredVentilatorLowRPMEmpty()
-        //{
-        //    var ventilatorTest = new CustomOrderVentilatorTest
-        //    {
-        //        MeasuredBladeAngle = 1,
-        //        MeasuredVentilatorHighRPM = 1
-        //    };
-        //    var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-        //    var expectedValidationMessage = "Measured ventilator low RPM not filled in.";
-        //    Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        //}
-
         [Test]
         public void TestValidateForPrintingMeasuredMotorHighRPMEmpty()
         {
@@ -59,21 +46,6 @@ namespace SpecificationsTestingTests
             var expectedValidationMessage = "Measured motor high RPM not filled in.";
             Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
         }
-
-        //[Test]
-        //public void TestValidateForPrintingMeasuredMotorLowRPMEmpty()
-        //{
-        //    var ventilatorTest = new CustomOrderVentilatorTest
-        //    {
-        //        MeasuredBladeAngle = 1,
-        //        MeasuredVentilatorHighRPM = 1,
-        //        MeasuredVentilatorLowRPM = 1,
-        //        MeasuredMotorHighRPM = 1
-        //    };
-        //    var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(ventilatorTest);
-        //    var expectedValidationMessage = "Measured motor low RPM not filled in.";
-        //    Assert.That(validationMessage, Is.EqualTo(expectedValidationMessage));
-        //}
 
         [Test]
         public void TestValidateForPrintingMotorHighRpmEmpty()
@@ -379,6 +351,8 @@ namespace SpecificationsTestingTests
         [TestCase(17.50, 17.50, 17.50, 5.60, 5.60, 5.30, false)]
         [TestCase(17.50, 17.50, 17.50, 5.60, 5.60, 5.315, false)]
         [TestCase(17.50, 17.50, 17.50, 5.60, 5.60, 5.32, true)]
+        [TestCase(17.50, 17.50, 17.50, 0, 0, 0, true)]
+        [TestCase(15, 15, 15, 0, 0, 0, true)]
         public void TestValidateAmperage(decimal i1High, decimal i2High, decimal i3High, decimal i1Low, decimal i2Low, decimal i3Low, bool expectedResult)
         {
             var motor = new CustomOrderMotor

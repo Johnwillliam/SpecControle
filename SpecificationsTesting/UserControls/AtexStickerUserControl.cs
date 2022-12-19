@@ -37,10 +37,10 @@ namespace SpecificationsTesting.Forms
         public AtexStickerUserControl()
         {
             InitializeComponent();
-            CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
-            LogosListBox.SelectedIndexChanged += new System.EventHandler(LogosListBox_SelectedIndexChanged);
-            btnSearch.Click += new System.EventHandler(btnSearch_Click);
-            btnPrint.Click += new System.EventHandler(btnPrint_Click);
+            CustomOrderVentilatorsDataGrid.RowEnter += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
+            LogosListBox.SelectedIndexChanged += new EventHandler(LogosListBox_SelectedIndexChanged);
+            btnSearch.Click += new EventHandler(btnSearch_Click);
+            btnPrint.Click += new EventHandler(btnPrint_Click);
 
             PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
             LogosListBox.SelectedIndex = 0;
@@ -89,9 +89,7 @@ namespace SpecificationsTesting.Forms
             }
             else
             {
-                CustomOrderVentilatorsDataGrid.DataSource = null;
-                CustomOrderVentilatorsDataGrid.Rows.Clear();
-                CustomOrderVentilatorsDataGrid.Refresh();
+                ShowTable(SelectedImageSize);
             }
             InitGrid = false;
         }
@@ -116,7 +114,7 @@ namespace SpecificationsTesting.Forms
         }
 
         private Image GenerateTable(int imageWidth, int imageHeight)
-        {
+       {
             if (LogosListBox.SelectedItem == null)
                 return null;
 
@@ -308,10 +306,14 @@ namespace SpecificationsTesting.Forms
             ShowCustomOrder();
         }
 
-        public void SelectCustomOrder(int customOrderNumber)
+        public void SetSelectedVentilator(int customOrderNumber, int selectedVentilatorID)
         {
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
             ShowCustomOrder();
+            SelectedVentilatorID = selectedVentilatorID;
+            CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+             .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
+            ShowTable(SelectedImageSize);
         }
 
         private void ShowCustomOrder()
@@ -331,7 +333,7 @@ namespace SpecificationsTesting.Forms
             }
 
             var ventilator = CustomOrder.CustomOrderVentilators?.Count > 0 ? CustomOrder.CustomOrderVentilators.First() : null;
-            if (string.IsNullOrEmpty(ventilator?.Atex))
+            if (ventilator != null && !ventilator.IsAtex())
             {
                 MessageBox.Show($"Searched order is not a atex order");
                 CustomOrder = null;
@@ -346,8 +348,17 @@ namespace SpecificationsTesting.Forms
         private void btnPrint_Click(object sender, EventArgs e)
         {
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (CustomOrder == null || string.IsNullOrEmpty(ventilator.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
+            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(ventilator))
+            {
+                MessageBox.Show("No valid order selected.");
                 return;
+            }
+
+            if(!ventilator.IsAtex())
+            {
+                MessageBox.Show("Selected order is not atex.");
+                return;
+            }
 
             PrintDocument pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = PrinterName;
@@ -403,7 +414,7 @@ namespace SpecificationsTesting.Forms
         {
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            TextRange text = paragraph.AppendText($"Datum            {DateTime.Now:MM-dd-yyyy}                                                          Handtekening");
+            TextRange text = paragraph.AppendText($"Datum            {DateTime.Now:dd-MM-yyyy}                                                          Handtekening");
             text.CharacterFormat.TextColor = Color.Black;
             text.CharacterFormat.Bold = true;
             text.CharacterFormat.FontSize = 10;

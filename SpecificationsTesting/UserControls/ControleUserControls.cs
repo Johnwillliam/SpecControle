@@ -429,14 +429,15 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+
+            if (!BValidateMessage.ValidateForPrinting(BCustomOrderVentilatorTest.GetByID(SelectedVentilatorTestID)))
             {
                 return;
             }
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
-            mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+            mainForm.MotorTypePlateUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
         private void btnAtex_Click(object sender, EventArgs e)
@@ -447,14 +448,14 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (string.IsNullOrEmpty(ventilator.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
+            if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 return;
             }
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
-            mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+            mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
         private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)

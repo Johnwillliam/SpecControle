@@ -200,6 +200,7 @@
     <Compile Include="Business\BCustomOrderVentilator.cs" />
     <Compile Include="Business\BCustomOrder.cs" />
     <Compile Include="DataHelper.cs" />
+    <Compile Include="Entities\CustomOrderVentilatorExtensions.cs" />
     <Compile Include="Entities\StickerRowColumn.cs" />
     <Compile Include="Forms\CopyOrderForm.cs">
       <SubType>Form</SubType>

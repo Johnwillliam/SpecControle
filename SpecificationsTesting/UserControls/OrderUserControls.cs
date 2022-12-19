@@ -347,6 +347,7 @@ namespace SpecificationsTesting.UserControls
                 BCustomOrderMotor.Update(customOrderVentilator.CustomOrderMotor);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrder.CustomOrderNumber);
                 InitializeGridData();
+                SearchOrder();
                 MessageBox.Show("Sucessful updated");
             }
             catch (Exception ex)
@@ -422,7 +423,7 @@ namespace SpecificationsTesting.UserControls
             btnCopyOrder.Enabled = true;
 
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (string.IsNullOrEmpty(ventilator.Atex))
+            if (!ventilator.IsAtex())
             {
                 btnAtex.Enabled = false;
             }
@@ -534,7 +535,7 @@ namespace SpecificationsTesting.UserControls
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
-            mainForm.MotorTypePlateUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+            mainForm.MotorTypePlateUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
         private void btnAtex_Click(object sender, EventArgs e)
@@ -545,14 +546,14 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (string.IsNullOrEmpty(ventilator?.Atex) || !BValidateMessage.ValidateForPrinting(ventilator))
+            if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 return;
             }
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 3;
-            mainForm.AtexStickerUserControl.SelectCustomOrder(CustomOrder.CustomOrderNumber);
+            mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
         private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)

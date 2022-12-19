@@ -12,7 +12,7 @@ namespace SpecificationsTesting.Business
         {
             foreach (CustomOrderVentilatorTest test in ventilator.CustomOrderVentilatorTests)
             {
-                if (!ValidatePrinting(test))
+                if (!ValidateForPrinting(test))
                 {
                     return false;
                 }
@@ -20,7 +20,7 @@ namespace SpecificationsTesting.Business
             return true;
         }
 
-        public static bool ValidatePrinting(CustomOrderVentilatorTest test)
+        public static bool ValidateForPrinting(CustomOrderVentilatorTest test)
         {
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(test);
             if (string.IsNullOrEmpty(validationMessage))
@@ -44,21 +44,28 @@ namespace SpecificationsTesting.Business
         {
             if (test.CustomOrderVentilator.CustomOrderMotor.HighAmperage != null && test.CustomOrderVentilator.CustomOrderMotor.LowAmperage != null)
             {
-                var iLows = new List<decimal?>() { test.I1Low, test.I2Low, test.I3Low };
                 var iHighs = new List<decimal?>() { test.I1High, test.I2High, test.I3High };
                 var maxHighs = iHighs.Max();
                 var minHighs = iHighs.Min();
+                if (maxHighs > 0)
+                {
+                    var differenceHighs = (decimal)((minHighs - maxHighs) / maxHighs) * 100;
+                    if (maxHighs != null && minHighs != null && Math.Abs(differenceHighs) > 5)
+                    {
+                        return false;
+                    }
+                }
+
+                var iLows = new List<decimal?>() { test.I1Low, test.I2Low, test.I3Low };
                 var maxLows = iLows.Max();
                 var minLows = iLows.Min();
-                var differenceHighs = (decimal)((minHighs - maxHighs) / maxHighs) * 100;
-                var differenceLows = (decimal)((minLows - maxLows) / maxLows) * 100;
-                if (maxHighs != null && minHighs != null && Math.Abs(differenceHighs) > 5)
+                if (maxLows > 0)
                 {
-                    return false;
-                }
-                if (maxLows != null && minLows != null && Math.Abs(differenceLows) > 5)
-                {
-                    return false;
+                    var differenceLows = (decimal)((minLows - maxLows) / maxLows) * 100;
+                    if (maxLows != null && minLows != null && Math.Abs(differenceLows) > 5)
+                    {
+                        return false;
+                    }
                 }
 
                 if(test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)

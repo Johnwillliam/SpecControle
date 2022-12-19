@@ -26,6 +26,15 @@ namespace SpecificationsTesting.Business
             }
         }
 
+        public static CustomOrderVentilatorTest GetByID(int id)
+        {
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                dbContext.SaveChanges();
+                return dbContext.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == id);
+            }
+        }
+
         public static void Create(CustomOrder customOrder)
         {
             foreach (var ventilator in customOrder.CustomOrderVentilators)
@@ -106,10 +115,13 @@ namespace SpecificationsTesting.Business
                     return $"Measured motor high RPM ({test.MeasuredMotorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
                 }
 
-                syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
-                if (test.MeasuredMotorLowRPM > syncRPM)
+                if(test.MeasuredMotorLowRPM != null)
                 {
-                    return $"Measured motor low RPM ({test.MeasuredMotorLowRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
+                    syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
+                    if (test.MeasuredMotorLowRPM > syncRPM)
+                    {
+                        return $"Measured motor low RPM ({test.MeasuredMotorLowRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
+                    }
                 }
             }
             return null;

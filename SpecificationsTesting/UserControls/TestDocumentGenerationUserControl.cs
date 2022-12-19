@@ -173,7 +173,7 @@ namespace SpecificationsTesting.UserControls
         private void btnPrintSelectedTest_Click(object sender, EventArgs e)
         {
             var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-            if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidatePrinting(selectedTest))
+            if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidateForPrinting(selectedTest))
             {
                 return;
             }

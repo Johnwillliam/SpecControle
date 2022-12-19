@@ -274,13 +274,17 @@ namespace SpecificationsTesting.Forms
             ShowCustomOrder();
         }
 
-        public void SelectCustomOrder(int customOrderNumber)
+        public void SetSelectedVentilator(int customOrderNumber, int selectedVentilatorID)
         {
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
-            ShowCustomOrder();
+            ShowCustomOrder(false);
+            SelectedVentilatorID = selectedVentilatorID;
+            CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+             .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
+            ShowTable(SelectedImageSize);
         }
 
-        private void ShowCustomOrder()
+        private void ShowCustomOrder(bool showTable = true)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
                 return;
@@ -293,7 +297,10 @@ namespace SpecificationsTesting.Forms
                 return;
             }
             InitializeGridData();
-            ShowTable(SelectedImageSize);
+            if(showTable)
+            {
+                ShowTable(SelectedImageSize);
+            }
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
