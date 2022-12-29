@@ -310,6 +310,10 @@ namespace SpecificationsTesting.Forms
         {
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
             ShowCustomOrder();
+            if(CustomOrder == null)
+            {
+                return;
+            }
             SelectedVentilatorID = selectedVentilatorID;
             CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
              .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;

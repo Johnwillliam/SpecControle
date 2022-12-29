@@ -259,6 +259,8 @@ namespace SpecificationsTesting.UserControls
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
+                var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                btnAtex.Enabled = ventilator.IsAtex();
                 InitializeGridData(false, true);
             }
         }

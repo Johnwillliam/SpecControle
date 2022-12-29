@@ -423,14 +423,7 @@ namespace SpecificationsTesting.UserControls
             btnCopyOrder.Enabled = true;
 
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            if (!ventilator.IsAtex())
-            {
-                btnAtex.Enabled = false;
-            }
-            else
-            {
-                btnAtex.Enabled = true;
-            }
+            btnAtex.Enabled = ventilator.IsAtex();
         }
 
         private void cmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -581,9 +574,11 @@ namespace SpecificationsTesting.UserControls
 
         private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
+                var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                btnAtex.Enabled = ventilator.IsAtex();
                 InitializeGridData(false);
             }
         }
