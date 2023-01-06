@@ -37,7 +37,7 @@ namespace SpecificationsTesting.UserControls
             btnRemoveVentilator.Enabled = false;
             btnCopyOrder.Enabled = false;
             btnAtex.Enabled = false;
-            btnMotorTypePlate.Enabled = false;
+            btnMotorTypePlate.Enabled = true;
         }
 
         private void InitializeComboBoxes()
@@ -587,9 +587,7 @@ namespace SpecificationsTesting.UserControls
 
         private void EnableReportButtons(CustomOrderVentilator ventilator)
         {
-            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilator, false);
-            btnAtex.Enabled = ventilator.IsAtex() && validForPrinting;
-            btnMotorTypePlate.Enabled = validForPrinting;
+            btnAtex.Enabled = ventilator.IsAtex();
         }
     }
 }

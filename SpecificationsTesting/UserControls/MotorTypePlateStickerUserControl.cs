@@ -33,8 +33,8 @@ namespace SpecificationsTesting.Forms
         public MotorTypePlateStickerUserControl()
         {
             InitializeComponent();
-            CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
-            CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_RowEnter);
+            CustomOrderVentilatorsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
+            CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
             LogosListBox.SelectedIndexChanged += new System.EventHandler(LogosListBox_SelectedIndexChanged);
             ArrowsListBox.SelectedIndexChanged += new System.EventHandler(ArrowsListBox_SelectedIndexChanged);
             btnSearch.Click += new System.EventHandler(btnSearch_Click);
@@ -75,33 +75,26 @@ namespace SpecificationsTesting.Forms
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
-        private void CustomOrderVentilatorsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                SelectedVentilatorTestID = 0;
+                SelectedVentilatorTestID = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.First().ID;
                 InitializeGridData(false);
                 ShowTable(SelectedImageSize);
             }
         }
 
-        private void CustomOrderVentilatorTestsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void CustomOrderVentilatorTestsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
                 var test = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
-                EnableReportButtons(test);
                 InitializeGridData(false, false); 
                 ShowTable(SelectedImageSize);
             }
-        }
-
-        private void EnableReportButtons(CustomOrderVentilatorTest ventilatorTest)
-        {
-            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilatorTest, false);
-            btnPrint.Enabled = validForPrinting;
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
@@ -320,18 +313,35 @@ namespace SpecificationsTesting.Forms
         public void SetSelectedVentilator(int customOrderNumber, int selectedVentilatorID)
         {
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
-            ShowCustomOrder(false);
             SelectedVentilatorID = selectedVentilatorID;
-            CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+            if (ShowCustomOrder(false))
+            {
+                CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
              .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
-            ShowTable(SelectedImageSize);
+                ShowTable(SelectedImageSize);
+            }
         }
 
-        private void ShowCustomOrder(bool showTable = true)
+        public void SetSelectedVentilatorTest(int customOrderNumber, int selectedVentilatorID, int selectedVentilatorTestID)
+        {
+            txtCustomOrderNumber.Text = customOrderNumber.ToString();
+            SelectedVentilatorID = selectedVentilatorID;
+            SelectedVentilatorTestID = selectedVentilatorTestID;
+            if(ShowCustomOrder(false))
+            {
+                CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+                .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
+                var test = CustomOrderVentilatorTestsDataGrid.Rows.OfType<DataGridViewRow>();
+                ShowTable(SelectedImageSize);
+            }
+        }
+
+
+        private bool ShowCustomOrder(bool showTable = true)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
             {
-                return;
+                return false;
             }
 
             var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
@@ -339,13 +349,23 @@ namespace SpecificationsTesting.Forms
             if (CustomOrder == null)
             {
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
-                return;
+                return false;
             }
+
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            if (!BValidateMessage.ValidateForPrinting(ventilatorTest))
+            {
+                return false;
+            }
+
             InitializeGridData();
             if(showTable)
             {
                 ShowTable(SelectedImageSize);
             }
+
+            return true;
         }
 
         private void btnPrint_Click(object sender, EventArgs e)

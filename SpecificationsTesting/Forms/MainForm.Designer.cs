@@ -54,7 +54,7 @@
             this.tabControl.Location = new System.Drawing.Point(1, 1);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1334, 637);
+            this.tabControl.Size = new System.Drawing.Size(1234, 637);
             this.tabControl.TabIndex = 34;
             // 
             // OrderTabPage
@@ -62,7 +62,7 @@
             this.OrderTabPage.Location = new System.Drawing.Point(4, 22);
             this.OrderTabPage.Name = "OrderTabPage";
             this.OrderTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.OrderTabPage.Size = new System.Drawing.Size(1326, 611);
+            this.OrderTabPage.Size = new System.Drawing.Size(1226, 611);
             this.OrderTabPage.TabIndex = 0;
             this.OrderTabPage.Text = "Invoeren";
             this.OrderTabPage.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@
             this.ControleTabPage.Location = new System.Drawing.Point(4, 22);
             this.ControleTabPage.Name = "ControleTabPage";
             this.ControleTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ControleTabPage.Size = new System.Drawing.Size(1231, 611);
+            this.ControleTabPage.Size = new System.Drawing.Size(1326, 611);
             this.ControleTabPage.TabIndex = 1;
             this.ControleTabPage.Text = "Controle";
             this.ControleTabPage.UseVisualStyleBackColor = true;
@@ -81,7 +81,7 @@
             // 
             this.MotorTypePlateTabPage.Location = new System.Drawing.Point(4, 22);
             this.MotorTypePlateTabPage.Name = "MotorTypePlateTabPage";
-            this.MotorTypePlateTabPage.Size = new System.Drawing.Size(1231, 611);
+            this.MotorTypePlateTabPage.Size = new System.Drawing.Size(1326, 611);
             this.MotorTypePlateTabPage.TabIndex = 2;
             this.MotorTypePlateTabPage.Text = "Typeplate Sticker";
             this.MotorTypePlateTabPage.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
             // 
             this.AtexStickerTabPage.Location = new System.Drawing.Point(4, 22);
             this.AtexStickerTabPage.Name = "AtexStickerTabPage";
-            this.AtexStickerTabPage.Size = new System.Drawing.Size(1231, 611);
+            this.AtexStickerTabPage.Size = new System.Drawing.Size(1326, 611);
             this.AtexStickerTabPage.TabIndex = 4;
             this.AtexStickerTabPage.Text = "Atex Sticker";
             this.AtexStickerTabPage.UseVisualStyleBackColor = true;
@@ -99,7 +99,7 @@
             // 
             this.RunningTestTabPage.Location = new System.Drawing.Point(4, 22);
             this.RunningTestTabPage.Name = "RunningTestTabPage";
-            this.RunningTestTabPage.Size = new System.Drawing.Size(1231, 611);
+            this.RunningTestTabPage.Size = new System.Drawing.Size(1326, 611);
             this.RunningTestTabPage.TabIndex = 5;
             this.RunningTestTabPage.Text = "Test Document";
             this.RunningTestTabPage.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             // 
             this.TemplateMotorTabPage.Location = new System.Drawing.Point(4, 22);
             this.TemplateMotorTabPage.Name = "TemplateMotorTabPage";
-            this.TemplateMotorTabPage.Size = new System.Drawing.Size(1231, 611);
+            this.TemplateMotorTabPage.Size = new System.Drawing.Size(1326, 611);
             this.TemplateMotorTabPage.TabIndex = 3;
             this.TemplateMotorTabPage.Text = "Motor Templates";
             this.TemplateMotorTabPage.UseVisualStyleBackColor = true;
@@ -137,7 +137,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1334, 641);
+            this.ClientSize = new System.Drawing.Size(1234, 641);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmbPrinters);
             this.Controls.Add(this.tabControl);

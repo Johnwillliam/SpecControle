@@ -346,22 +346,26 @@ namespace SpecificationsTesting.Forms
 
         private void EnableReportButtons(CustomOrderVentilator ventilator)
         {
-            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilator, false);
-            btnPrint.Enabled = validForPrinting && ventilator.IsAtex();
+            btnPrint.Enabled = ventilator.IsAtex();
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(ventilator))
+            if (CustomOrder == null)
             {
                 MessageBox.Show("No valid order selected.");
                 return;
             }
 
-            if(!ventilator.IsAtex())
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            if (!ventilator.IsAtex())
             {
                 MessageBox.Show("Selected order is not atex.");
+                return;
+            }
+
+            if(!BValidateMessage.ValidateForPrinting(ventilator))
+            {
                 return;
             }
 
