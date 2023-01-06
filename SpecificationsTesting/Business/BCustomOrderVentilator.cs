@@ -35,7 +35,7 @@ namespace SpecificationsTesting.Business
         {
             using (var dbContext = new SpecificationsDatabaseModel())
             {
-                return dbContext.CustomOrderVentilators.Find(id);
+                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).FirstOrDefault(x => x.ID == id);
             }
         }
 
@@ -93,7 +93,7 @@ namespace SpecificationsTesting.Business
                 var entity = dbContext.CustomOrderVentilators
                           .AsNoTracking()
                           .Include(x => x.CustomOrderMotor)
-                          .FirstOrDefault(x => x.ID == toCopy.ID);
+                          .Single(x => x.ID == toCopy.ID);
 
                 return Create(entity);
             }

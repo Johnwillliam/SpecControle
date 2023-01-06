@@ -72,7 +72,9 @@ namespace SpecificationsTesting.Forms
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                if(!InitGrid)
+                var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                EnableReportButtons(ventilator);
+                if (!InitGrid)
                 {
                     InitializeGridData(false);
                 }
@@ -121,7 +123,7 @@ namespace SpecificationsTesting.Forms
             if (CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
                 return null;
 
-            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
 
             var rows = 20;
             var colWidth = (imageWidth / 2) - 70;
@@ -336,22 +338,21 @@ namespace SpecificationsTesting.Forms
                 return;
             }
 
-            var ventilator = CustomOrder.CustomOrderVentilators?.Count > 0 ? CustomOrder.CustomOrderVentilators.First() : null;
-            if (ventilator != null && !ventilator.IsAtex())
-            {
-                MessageBox.Show($"Searched order is not a atex order");
-                CustomOrder = null;
-                InitializeGridData();
-                ShowTable(SelectedImageSize);
-                return;
-            }
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            EnableReportButtons(ventilator);
             InitializeGridData();
             ShowTable(SelectedImageSize);
         }
 
+        private void EnableReportButtons(CustomOrderVentilator ventilator)
+        {
+            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilator, false);
+            btnPrint.Enabled = validForPrinting && ventilator.IsAtex();
+        }
+
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 MessageBox.Show("No valid order selected.");

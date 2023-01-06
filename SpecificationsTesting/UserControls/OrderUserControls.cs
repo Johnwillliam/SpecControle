@@ -36,6 +36,8 @@ namespace SpecificationsTesting.UserControls
             btnCreateVentilator.Enabled = false;
             btnRemoveVentilator.Enabled = false;
             btnCopyOrder.Enabled = false;
+            btnAtex.Enabled = false;
+            btnMotorTypePlate.Enabled = false;
         }
 
         private void InitializeComboBoxes()
@@ -85,7 +87,7 @@ namespace SpecificationsTesting.UserControls
                 Show_Combobox(cell, cmbCatOutType);
             }
             SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
             cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
             cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
@@ -318,7 +320,7 @@ namespace SpecificationsTesting.UserControls
 
                 customOrder.ID = CustomOrder.ID;
                 SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-                var customOrderVentilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                var customOrderVentilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
 
                 var ventilatorID = customOrderVentilator.ID;
                 var motorID = customOrderVentilator.CustomOrderMotorID;
@@ -423,7 +425,7 @@ namespace SpecificationsTesting.UserControls
             btnCopyOrder.Enabled = true;
 
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            btnAtex.Enabled = ventilator.IsAtex();
+            EnableReportButtons(ventilator);
         }
 
         private void cmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
@@ -444,7 +446,7 @@ namespace SpecificationsTesting.UserControls
 
         private void btnCreateVentilator_Click(object sender, EventArgs e)
         {
-            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             ventilator = BCustomOrderVentilator.Copy(ventilator);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
             SelectedVentilatorID = ventilator.ID;
@@ -480,7 +482,7 @@ namespace SpecificationsTesting.UserControls
                 var templateMotor = BTemplateMotor.GetById(motorTemplateId);
                 if(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID) != null)
                 {
-                    CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
+                    CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
                 }
                 else
                 {
@@ -521,7 +523,7 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID)))
             {
                 return;
             }
@@ -538,7 +540,7 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 return;
@@ -577,10 +579,17 @@ namespace SpecificationsTesting.UserControls
             if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-                btnAtex.Enabled = ventilator.IsAtex();
+                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                EnableReportButtons(ventilator);
                 InitializeGridData(false);
             }
+        }
+
+        private void EnableReportButtons(CustomOrderVentilator ventilator)
+        {
+            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilator, false);
+            btnAtex.Enabled = ventilator.IsAtex() && validForPrinting;
+            btnMotorTypePlate.Enabled = validForPrinting;
         }
     }
 }

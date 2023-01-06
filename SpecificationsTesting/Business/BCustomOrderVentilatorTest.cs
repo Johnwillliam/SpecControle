@@ -28,11 +28,9 @@ namespace SpecificationsTesting.Business
 
         public static CustomOrderVentilatorTest GetByID(int id)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
-            {
-                dbContext.SaveChanges();
-                return dbContext.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == id);
-            }
+            var dbContext = new SpecificationsDatabaseModel();
+            dbContext.SaveChanges();
+            return dbContext.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == id);
         }
 
         public static void Create(CustomOrder customOrder)
@@ -90,6 +88,7 @@ namespace SpecificationsTesting.Business
             //{
             //    return "Measured motor low RPM not filled in.";
             //}
+            test.CustomOrderVentilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
             if (test.CustomOrderVentilator.CustomOrderMotor == null)
             {
                 return "No motor found, please check configuration.";

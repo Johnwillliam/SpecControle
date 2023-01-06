@@ -17,6 +17,8 @@ namespace SpecificationsTesting.Forms
         public int SelectedVentilatorID { get; set; }
         public string PrinterName { get; set; }
         private ImageSize SelectedImageSize { get; set; }
+        public int SelectedVentilatorTestID { get; private set; }
+
         private const int NormalImageWidth = 650;
         private const int NormalImageHeight = 400;
         private const int SmallImageWidth = 580;
@@ -32,6 +34,7 @@ namespace SpecificationsTesting.Forms
         {
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
+            CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_RowEnter);
             LogosListBox.SelectedIndexChanged += new System.EventHandler(LogosListBox_SelectedIndexChanged);
             ArrowsListBox.SelectedIndexChanged += new System.EventHandler(ArrowsListBox_SelectedIndexChanged);
             btnSearch.Click += new System.EventHandler(btnSearch_Click);
@@ -57,6 +60,14 @@ namespace SpecificationsTesting.Forms
             CustomOrderVentilatorsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             CustomOrderVentilatorsDataGrid.MultiSelect = false;
             CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
+
+            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "ID", DataPropertyName = "ID", ReadOnly = true });
+            CustomOrderVentilatorTestsDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Name", DataPropertyName = "Name", ReadOnly = true, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            CustomOrderVentilatorTestsDataGrid.RowHeadersVisible = false;
+            CustomOrderVentilatorTestsDataGrid.AutoGenerateColumns = false;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorTestsDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            CustomOrderVentilatorTestsDataGrid.MultiSelect = false;
         }
 
         private void CustomOrderVentilatorsDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -69,17 +80,48 @@ namespace SpecificationsTesting.Forms
             if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
+                SelectedVentilatorTestID = 0;
                 InitializeGridData(false);
+                ShowTable(SelectedImageSize);
             }
         }
 
-        private void InitializeGridData(bool initVentilatorsGrid = true)
+        private void CustomOrderVentilatorTestsDataGrid_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
+            {
+                SelectedVentilatorTestID = testID;
+                var test = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
+                EnableReportButtons(test);
+                InitializeGridData(false, false); 
+                ShowTable(SelectedImageSize);
+            }
+        }
+
+        private void EnableReportButtons(CustomOrderVentilatorTest ventilatorTest)
+        {
+            var validForPrinting = BValidateMessage.ValidateForPrinting(ventilatorTest, false);
+            btnPrint.Enabled = validForPrinting;
+        }
+
+        private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
         {
             if (CustomOrder != null && initVentilatorsGrid)
             {
                 CustomOrderVentilatorsDataGrid.DataSource = null;
                 CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                 CustomOrderVentilatorsDataGrid.AutoResizeColumns();
+            }
+
+            if (CustomOrder != null && initVentilatorTestsGrid)
+            {
+                CustomOrderVentilatorTestsDataGrid.DataSource = null;
+                var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                if (ventilator.CustomOrderVentilatorTests.Count >= 1 && ventilator.CustomOrderVentilatorTests.First().ID != 0)
+                {
+                    CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { x.ID, x.CustomOrderVentilator.Name }).ToList();
+                }
+                CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
             }
         }
 
@@ -115,7 +157,8 @@ namespace SpecificationsTesting.Forms
                 return null;
 
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-
+            var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            
             var rows = 13;
             var colWidth = (imageWidth / 2) - 70;
             var rowHeight = 15;
@@ -150,7 +193,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 3:
                             columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
-                            columns.Add(new StickerRowColumn() { LeftText = "Gewicht", MiddleText = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.Weight.ToString(), RightText = "kg" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Gewicht", MiddleText = ventilatorTest?.Weight.ToString(), RightText = "kg" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 4:
@@ -195,7 +238,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 12:
                             columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", MiddleText = ventilator.SoundLevel.ToString(), RightText = ventilator.SoundLevelType?.UOM });
-                            columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.MotorNumber });
+                            columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest?.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 13:
@@ -287,7 +330,9 @@ namespace SpecificationsTesting.Forms
         private void ShowCustomOrder(bool showTable = true)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
+            {
                 return;
+            }
 
             var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
@@ -305,7 +350,15 @@ namespace SpecificationsTesting.Forms
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (CustomOrder == null)
+            {
+                MessageBox.Show("Please search a order first.");
+                return;
+            }
+
+            var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            if (!BValidateMessage.ValidateForPrinting(ventilatorTest))
             {
                 return;
             }
@@ -345,15 +398,6 @@ namespace SpecificationsTesting.Forms
             if (e.KeyData == Keys.Enter)
             {
                 ShowCustomOrder();
-            }
-        }
-
-        private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
-            {
-                SelectedVentilatorID = ventilatorID;
-                ShowTable(SelectedImageSize);
             }
         }
     }

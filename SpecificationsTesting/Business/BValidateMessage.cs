@@ -8,11 +8,11 @@ namespace SpecificationsTesting.Business
 {
     public static class BValidateMessage
     {
-        public static bool ValidateForPrinting(CustomOrderVentilator ventilator)
+        public static bool ValidateForPrinting(CustomOrderVentilator ventilator, bool showMessage = true)
         {
             foreach (CustomOrderVentilatorTest test in ventilator.CustomOrderVentilatorTests)
             {
-                if (!ValidateForPrinting(test))
+                if (!ValidateForPrinting(test, showMessage))
                 {
                     return false;
                 }
@@ -20,10 +20,10 @@ namespace SpecificationsTesting.Business
             return true;
         }
 
-        public static bool ValidateForPrinting(CustomOrderVentilatorTest test)
+        public static bool ValidateForPrinting(CustomOrderVentilatorTest test, bool showMessage = true)
         {
             var validationMessage = BCustomOrderVentilatorTest.ValidateForPrinting(test);
-            if (string.IsNullOrEmpty(validationMessage))
+            if (string.IsNullOrEmpty(validationMessage) && showMessage)
             {
                 var amperageValidation = ValidateAmperage(test);
                 if(amperageValidation.HasValue && !amperageValidation.Value)
@@ -36,8 +36,14 @@ namespace SpecificationsTesting.Business
                 }
                 return true;
             }
-            MessageBox.Show($"Test ID {test.ID}: {validationMessage}");
-            return false;
+
+            if(showMessage)
+            {
+                MessageBox.Show($"Test ID {test.ID}: {validationMessage}");
+                return false;
+            }
+
+            return string.IsNullOrEmpty(validationMessage);
         }
 
         public static bool? ValidateAmperage(CustomOrderVentilatorTest test)
