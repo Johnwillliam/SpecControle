@@ -37,9 +37,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.CustomOrderVentilatorsDataGrid = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.CustomOrderVentilatorTestsDataGrid = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // btnPrint
@@ -124,16 +128,55 @@
             this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
             this.CustomOrderVentilatorsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(927, 3);
+            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(935, 22);
             this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
-            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(209, 342);
+            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(147, 394);
             this.CustomOrderVentilatorsDataGrid.TabIndex = 45;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(1085, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(116, 16);
+            this.label7.TabIndex = 63;
+            this.label7.Text = "Ventilator Tests";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(932, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 16);
+            this.label6.TabIndex = 62;
+            this.label6.Text = "Ventilators";
+            // 
+            // CustomOrderVentilatorTestsDataGrid
+            // 
+            this.CustomOrderVentilatorTestsDataGrid.AllowUserToAddRows = false;
+            this.CustomOrderVentilatorTestsDataGrid.AllowUserToDeleteRows = false;
+            this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeColumns = false;
+            this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
+            this.CustomOrderVentilatorTestsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CustomOrderVentilatorTestsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomOrderVentilatorTestsDataGrid.Location = new System.Drawing.Point(1088, 22);
+            this.CustomOrderVentilatorTestsDataGrid.MultiSelect = false;
+            this.CustomOrderVentilatorTestsDataGrid.Name = "CustomOrderVentilatorTestsDataGrid";
+            this.CustomOrderVentilatorTestsDataGrid.Size = new System.Drawing.Size(132, 394);
+            this.CustomOrderVentilatorTestsDataGrid.TabIndex = 61;
             // 
             // AtexStickerUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.CustomOrderVentilatorTestsDataGrid);
             this.Controls.Add(this.CustomOrderVentilatorsDataGrid);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnPrint);
@@ -141,11 +184,12 @@
             this.Controls.Add(this.LogosListBox);
             this.Controls.Add(this.MotorTypePlateImage);
             this.Name = "AtexStickerUserControl";
-            this.Size = new System.Drawing.Size(1139, 627);
+            this.Size = new System.Drawing.Size(1223, 627);
             ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,5 +206,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.DataGridView CustomOrderVentilatorsDataGrid;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridView CustomOrderVentilatorTestsDataGrid;
     }
 }

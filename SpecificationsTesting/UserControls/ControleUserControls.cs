@@ -272,6 +272,7 @@ namespace SpecificationsTesting.UserControls
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
+                EnableReportButtons(ventilator);
                 InitializeGridData(false, true);
             }
         }
@@ -286,7 +287,6 @@ namespace SpecificationsTesting.UserControls
                 {
                     SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
                 }
-                var ventilatorTest = ventilator.CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
                 EnableReportButtons(ventilator);
                 InitializeGridData(false, false);
             }
