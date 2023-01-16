@@ -80,6 +80,7 @@ namespace SpecificationsTesting.UserControls
         private void EnableReportButtons(CustomOrderVentilator ventilator)
         {
             btnAtex.Enabled = ventilator.IsAtex();
+            btnMotorTypePlate.Enabled = !ventilator.IsAtex();
         }
 
         private void InitializeGridColumns()

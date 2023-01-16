@@ -81,6 +81,8 @@ namespace SpecificationsTesting.Forms
             {
                 SelectedVentilatorID = ventilatorID;
                 SelectedVentilatorTestID = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.First().ID;
+                var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+                EnableReportButtons(ventilator);
                 InitializeGridData(false);
                 ShowTable(SelectedImageSize);
             }
@@ -94,6 +96,11 @@ namespace SpecificationsTesting.Forms
                 InitializeGridData(false, false); 
                 ShowTable(SelectedImageSize);
             }
+        }
+
+        private void EnableReportButtons(CustomOrderVentilator ventilator)
+        {
+            btnPrint.Enabled = !ventilator.IsAtex();
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
@@ -351,18 +358,14 @@ namespace SpecificationsTesting.Forms
                 return false;
             }
 
-            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-            if (!BValidateMessage.ValidateForPrinting(ventilatorTest))
-            {
-                return false;
-            }
-
             InitializeGridData();
             if(showTable)
             {
                 ShowTable(SelectedImageSize);
             }
+
+            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            EnableReportButtons(ventilator);
 
             return true;
         }
