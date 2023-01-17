@@ -399,7 +399,8 @@ namespace SpecificationsTesting.Forms
                 return;
             }
 
-            if(!BValidateMessage.ValidateForPrinting(ventilator))
+            var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            if (!BValidateMessage.ValidateForPrinting(ventilatorTest))
             {
                 return;
             }
@@ -416,7 +417,7 @@ namespace SpecificationsTesting.Forms
                 {
                     var fileName = $"ATEX-{CustomOrder.CustomOrderNumber}_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
                     var fullPath = $"{fbd.SelectedPath}\\{fileName}";
-                    CreateTableInWordDocument(ventilator.CustomOrderVentilatorTests.ToList(), fullPath);
+                    CreateTableInWordDocument(new List<CustomOrderVentilatorTest> { ventilatorTest }, fullPath);
                 }
             }
         }
