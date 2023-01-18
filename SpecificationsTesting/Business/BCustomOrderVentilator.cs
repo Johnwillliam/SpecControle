@@ -35,7 +35,7 @@ namespace SpecificationsTesting.Business
         {
             using (var dbContext = new SpecificationsDatabaseModel())
             {
-                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).FirstOrDefault(x => x.ID == id);
+                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(z => z.TemperatureClass).FirstOrDefault(x => x.ID == id);
             }
         }
 

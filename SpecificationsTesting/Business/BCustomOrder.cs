@@ -81,6 +81,12 @@ namespace SpecificationsTesting.Business
             return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators.Select(y => y.CustomOrderVentilatorTests)).Single(z => z.CustomOrderNumber == customOrderNumber) : null;
         }
 
+        public static CustomOrder ByID(int id)
+        {
+            var dbContext = new SpecificationsDatabaseModel();
+            return dbContext.CustomOrders.Any(x => x.ID == id) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators.Select(y => y.CustomOrderVentilatorTests)).Single(z => z.ID == id) : null;
+        }
+
         public static CustomOrder Copy(int id, int customOrderNumber)
         {
             using (var dbContext = new SpecificationsDatabaseModel())
