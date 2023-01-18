@@ -346,21 +346,36 @@ namespace SpecificationsTesting.Forms
         public void SetSelectedVentilator(int customOrderNumber, int selectedVentilatorID)
         {
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
-            ShowCustomOrder();
-            if(CustomOrder == null)
-            {
-                return;
-            }
             SelectedVentilatorID = selectedVentilatorID;
-            CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+            if (ShowCustomOrder(false))
+            {
+                CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
              .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
-            ShowTable(SelectedImageSize);
+                ShowTable(SelectedImageSize);
+            }
         }
 
-        private void ShowCustomOrder()
+        public void SetSelectedVentilatorTest(int customOrderNumber, int selectedVentilatorID, int selectedVentilatorTestID)
+        {
+            txtCustomOrderNumber.Text = customOrderNumber.ToString();
+            SelectedVentilatorID = selectedVentilatorID;
+            SelectedVentilatorTestID = selectedVentilatorTestID;
+            if (ShowCustomOrder(false))
+            {
+                CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
+                .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
+                CustomOrderVentilatorTestsDataGrid.Rows.OfType<DataGridViewRow>()
+                .Where(x => (int)x.Cells[0].Value == selectedVentilatorTestID).First().Selected = true;
+                ShowTable(SelectedImageSize);
+            }
+        }
+
+        private bool ShowCustomOrder(bool showTable = true)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
-                return;
+            {
+                return false;
+            }
 
             var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
@@ -370,13 +385,18 @@ namespace SpecificationsTesting.Forms
                 CustomOrder = null;
                 InitializeGridData();
                 ShowTable(SelectedImageSize);
-                return;
+                return false;
+            }
+        
+            InitializeGridData();
+            if (showTable)
+            {
+                ShowTable(SelectedImageSize);
             }
 
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             EnableReportButtons(ventilator);
-            InitializeGridData();
-            ShowTable(SelectedImageSize);
+            return true;
         }
 
         private void EnableReportButtons(CustomOrderVentilator ventilator)

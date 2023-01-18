@@ -337,7 +337,8 @@ namespace SpecificationsTesting.Forms
             {
                 CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
                 .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
-                var test = CustomOrderVentilatorTestsDataGrid.Rows.OfType<DataGridViewRow>();
+                CustomOrderVentilatorTestsDataGrid.Rows.OfType<DataGridViewRow>()
+                .Where(x => (int)x.Cells[0].Value == selectedVentilatorTestID).First().Selected = true;
                 ShowTable(SelectedImageSize);
             }
         }
@@ -355,6 +356,9 @@ namespace SpecificationsTesting.Forms
             if (CustomOrder == null)
             {
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
+                CustomOrder = null;
+                InitializeGridData();
+                ShowTable(SelectedImageSize);
                 return false;
             }
 
@@ -366,7 +370,6 @@ namespace SpecificationsTesting.Forms
 
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             EnableReportButtons(ventilator);
-
             return true;
         }
 

@@ -218,11 +218,12 @@ namespace SpecificationsTesting.UserControls
                 ClearDataGrids();
                 return;
             }
-            SelectedVentilatorID = 0;
-            SelectedVentilatorTestID = 0;
+            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault();
+
+            SelectedVentilatorID = ventilator.ID;
+            SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault().ID;
             InitializeGridData();
 
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault();
             EnableReportButtons(ventilator);
             if (ventilator.LowRPM == null)
             {
@@ -448,7 +449,8 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            if (!BValidateMessage.ValidateForPrinting(BCustomOrderVentilatorTest.GetByID(SelectedVentilatorTestID)))
+            var test = BCustomOrderVentilatorTest.GetByID(SelectedVentilatorTestID);
+            if (test == null || !BValidateMessage.ValidateForPrinting(test))
             {
                 return;
             }
@@ -466,14 +468,15 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
             var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
+            var test = BCustomOrderVentilatorTest.GetByID(SelectedVentilatorTestID);
+            if (!ventilator.IsAtex() || test == null || !BValidateMessage.ValidateForPrinting(test))
             {
                 return;
             }
 
             var mainForm = (MainForm)ParentForm;
-            mainForm.TabControl.SelectedIndex = 2;
-            mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
+            mainForm.TabControl.SelectedIndex = 3;
+            mainForm.AtexStickerUserControl.SetSelectedVentilatorTest(CustomOrder.CustomOrderNumber, SelectedVentilatorID, SelectedVentilatorTestID);
         }
 
         private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
