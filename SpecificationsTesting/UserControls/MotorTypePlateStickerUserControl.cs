@@ -15,7 +15,7 @@ namespace SpecificationsTesting.Forms
     {
         private CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
-        public string PrinterName { get; set; }
+        public string StickerPrinterName { get; set; }
         private ImageSize SelectedImageSize { get; set; }
         public int SelectedVentilatorTestID { get; private set; }
 
@@ -389,7 +389,7 @@ namespace SpecificationsTesting.Forms
             }
 
             var pd = new PrintDocument();
-            pd.PrinterSettings.PrinterName = PrinterName;
+            pd.PrinterSettings.PrinterName = StickerPrinterName;
             pd.PrintPage += PrintPage;
             pd.Print();
         }
@@ -400,6 +400,7 @@ namespace SpecificationsTesting.Forms
             var imageHeight = 340;
             var image = GenerateTable(imageWidth, imageHeight);
             Point loc = new Point(0, 0);
+            image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             e.Graphics.DrawImage(image, loc);
         }
 

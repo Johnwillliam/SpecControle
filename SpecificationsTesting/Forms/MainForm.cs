@@ -35,11 +35,16 @@ namespace SpecificationsTesting.Forms
             var defaultPrinter = prtdoc.PrinterSettings.PrinterName;
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
+                cmbStickerPrinters.Items.Add(printer);
                 cmbPrinters.Items.Add(printer);
                 if (printer == defaultPrinter)
-                    cmbPrinters.SelectedIndex = cmbPrinters.Items.IndexOf(printer);
+                {
+                    cmbStickerPrinters.SelectedIndex = cmbStickerPrinters.Items.IndexOf(printer);
+                }
             }
-            MotorTypePlateUserControl.PrinterName = cmbPrinters.SelectedItem.ToString();
+            cmbPrinters.SelectedIndex = 0;
+            SetPrinter();
+            SetStickerPrinter();
         }
 
         private void TestDatabase()
@@ -109,10 +114,50 @@ namespace SpecificationsTesting.Forms
             RunningTestTabPage.Controls.Add(TestDocumentGenerationUserControl);
         }
 
+        private void cmbStickerPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            SetStickerPrinter();
+        }
+
+        private void SetStickerPrinter()
+        {
+            if(cmbStickerPrinters.SelectedItem == null)
+            {
+                return;
+            }
+
+            if (MotorTypePlateUserControl != null)
+            {
+                MotorTypePlateUserControl.StickerPrinterName = cmbStickerPrinters.SelectedItem.ToString();
+            }
+
+            if (AtexStickerUserControl != null)
+            {
+                AtexStickerUserControl.StickerPrinterName = cmbStickerPrinters.SelectedItem.ToString();
+            }
+        }
+
+        private void SetPrinter()
+        {
+            if(cmbPrinters.SelectedItem == null)
+            {
+                return;
+            }
+
+            if (AtexStickerUserControl != null)
+            {
+                AtexStickerUserControl.PrinterName = cmbPrinters.SelectedItem.ToString();
+            }
+
+            if (TestDocumentGenerationUserControl != null)
+            {
+                TestDocumentGenerationUserControl.PrinterName = cmbPrinters.SelectedItem.ToString();
+            }
+        }
+
         private void cmbPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            if(MotorTypePlateUserControl != null)
-                MotorTypePlateUserControl.PrinterName = cmbPrinters.SelectedItem.ToString();
+            SetPrinter();
         }
     }
 }

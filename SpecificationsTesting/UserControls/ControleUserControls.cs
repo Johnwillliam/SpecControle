@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SpecificationsTesting.UserControls
@@ -24,7 +25,7 @@ namespace SpecificationsTesting.UserControls
         {
             InitializeComponent();
             btnSearch.Click += new System.EventHandler(btnSearch_Click);
-            CustomOrderVentilatorsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
+            CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
             CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
             CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
             btnSaveChanges.Click += new System.EventHandler(btnSaveChanges_Click);
@@ -405,34 +406,33 @@ namespace SpecificationsTesting.UserControls
             {
                 var serialPort = (SerialPort)sender;
                 var value = serialPort.ReadExisting();
-                if (value.Length < 3)
+                value = new string(Array.FindAll(value.ToCharArray(), c => char.IsLetterOrDigit(c) || c == '.' || c == ',')).Replace('.', ',');
+                if (!double.TryParse(value, out double rpm))
                 {
-                    MessageBox.Show("No valid value read, please try again.");
+                    MessageBox.Show($"No valid value '{value}' read, please try again.");
                     serialPort.Close();
                     return;
                 }
 
-                value = value.Substring(1, value.Length - 2);
-                if (!int.TryParse(value, out int rpm))
-                {
-                    MessageBox.Show("No valid value read, please try again.");
-                    serialPort.Close();
-                    return;
-                }
-
-                var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
+                var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                var selectedTest = SelectedVentilatorTestID == 0 || SelectedVentilatorTestID == -1 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
                 if (radioButtonMotorHigh.Checked)
-                    selectedTest.MeasuredMotorHighRPM = rpm;
+                    selectedTest.MeasuredMotorHighRPM = (int)rpm;
                 else if (radioButtonMotorLow.Checked)
-                    selectedTest.MeasuredMotorLowRPM = rpm;
+                    selectedTest.MeasuredMotorLowRPM = (int)rpm;
                 else if (radioButtonVentilatorHigh.Checked)
-                    selectedTest.MeasuredVentilatorHighRPM = rpm;
+                    selectedTest.MeasuredVentilatorHighRPM = (int)rpm;
                 else if (radioButtonVentilatorLow.Checked)
-                    selectedTest.MeasuredVentilatorLowRPM = rpm;
+                    selectedTest.MeasuredVentilatorLowRPM = (int)rpm;
 
-                serialPort.Close();
-                InitializeGridData();
+                if(serialPort.IsOpen)
+                {
+                    serialPort.Close();
+                }
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    InitializeGridData();
+                }));
             }
             catch (Exception ex)
             {

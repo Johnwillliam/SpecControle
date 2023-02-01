@@ -18,9 +18,10 @@ namespace SpecificationsTesting.Forms
     {
         private CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
-        public string PrinterName { get; set; }
+        public string StickerPrinterName { get; set; }
         private ImageSize SelectedImageSize { get; set; }
         public int SelectedVentilatorTestID { get; private set; }
+        public string PrinterName { get; set; }
 
         private const int NormalImageWidth = 500;
         private const int NormalImageHeight = 700;
@@ -426,20 +427,18 @@ namespace SpecificationsTesting.Forms
             }
 
             PrintDocument pd = new PrintDocument();
-            pd.PrinterSettings.PrinterName = PrinterName;
+            pd.PrinterSettings.PrinterName = StickerPrinterName;
             pd.PrintPage += PrintSticker;
             pd.Print();
 
-            using (var fbd = new FolderBrowserDialog())
+            var document = CreateTableInWordDocument(new List<CustomOrderVentilatorTest> { ventilatorTest });
+            if (document == null)
             {
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    var fileName = $"ATEX-{CustomOrder.CustomOrderNumber}_{DateTime.Now:yyyy-dd-M--HH-mm-ss}.docx";
-                    var fullPath = $"{fbd.SelectedPath}\\{fileName}";
-                    CreateTableInWordDocument(new List<CustomOrderVentilatorTest> { ventilatorTest }, fullPath);
-                }
+                return;
             }
+
+            document.PrinterSettings.PrinterName = PrinterName;
+            document.Print();
         }
 
         private void PrintSticker(object o, PrintPageEventArgs e)
@@ -449,7 +448,7 @@ namespace SpecificationsTesting.Forms
             e.Graphics.DrawImage(image, loc);
         }
 
-        private void CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests, string fullPath)
+        private PrintDocument CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests)
         {
             try
             {
@@ -458,7 +457,7 @@ namespace SpecificationsTesting.Forms
                 {
                     Section section = doc.AddSection();
                     Paragraph paragraph = section.AddParagraph();
-                    paragraph.AppendPicture(SpecificationsTesting.Properties.Resources.AtexDocumentHeader);
+                    paragraph.AppendPicture(Properties.Resources.AtexDocumentHeader);
 
                     AddSpecificationText(section);
                     CreateOrderTable(section, test);
@@ -467,11 +466,12 @@ namespace SpecificationsTesting.Forms
                     AddDateAndSignature(section);
                 }
 
-                doc.SaveToFile(fullPath, FileFormat.Docx);
+                return doc.PrintDocument;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return null;
             }
         }
 

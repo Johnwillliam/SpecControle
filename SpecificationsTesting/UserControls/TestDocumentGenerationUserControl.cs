@@ -10,6 +10,7 @@ using Spire.Doc;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -18,6 +19,8 @@ namespace SpecificationsTesting.UserControls
         private CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
+        public string PrinterName { get; set; }
+
         const int TableFontSize = 8;
         const int TableRowHeight = 10;
 
@@ -193,19 +196,17 @@ namespace SpecificationsTesting.UserControls
 
         private void Print(List<CustomOrderVentilatorTest> tests)
         {
-            using (var fbd = new FolderBrowserDialog())
-            {
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    var fileName = $"Running test-{CustomOrder.CustomOrderNumber}_{DateTime.Now:yyyy-dd-MM--HH-mm-ss}.docx";
-                    var fullPath = $"{fbd.SelectedPath}\\{fileName}";
-                    CreateTableInWordDocument(tests, fullPath);
-                }
+            var document = CreateTableInWordDocument(tests);
+            if(document == null)
+            { 
+                return;
             }
+
+            document.PrinterSettings.PrinterName = PrinterName;
+            document.Print();
         }
 
-        private void CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests, string fullPath)
+        private PrintDocument CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests)
         {
             try
             {
@@ -221,11 +222,12 @@ namespace SpecificationsTesting.UserControls
                     AddFooterText(section, test);
                 }
 
-                doc.SaveToFile(fullPath, FileFormat.Docx);
+                return doc.PrintDocument;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                return null;
             }
         }
 
@@ -296,6 +298,8 @@ namespace SpecificationsTesting.UserControls
                 //Add Cells
                 table.ResetCells(rows, columns);
 
+                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
+                var customOrder = BCustomOrder.ByID(ventilator.CustomOrderID);
                 //Data Row
                 for (int r = 0; r < rows; r++)
                 {
@@ -304,16 +308,16 @@ namespace SpecificationsTesting.UserControls
                     {
                         
                         case 0:
-                            AddDataRow(DataRow, new List<string>() { "Systemair order", test.CustomOrderVentilator.CustomOrder.CustomOrderNumber.ToString() });
+                            AddDataRow(DataRow, new List<string>() { "Systemair order", customOrder.CustomOrderNumber.ToString() });
                             break;
                         case 1:
-                            AddDataRow(DataRow, new List<string>() { "Referentie", test.CustomOrderVentilator.CustomOrder.Reference });
+                            AddDataRow(DataRow, new List<string>() { "Referentie", customOrder.Reference });
                             break;
                         case 2:
-                            AddDataRow(DataRow, new List<string>() { "Serienummer", test.CustomOrderVentilator.CustomOrder.CustomOrderNumber.ToString() });
+                            AddDataRow(DataRow, new List<string>() { "Serienummer", customOrder.CustomOrderNumber.ToString() });
                             break;
                         case 3:
-                            AddDataRow(DataRow, new List<string>() { "Motornummer", test.CustomOrderVentilator.CustomOrderMotor.Type });
+                            AddDataRow(DataRow, new List<string>() { "Motornummer", ventilator.CustomOrderMotor.Type });
                             break;
                         default:
                             break;
@@ -336,6 +340,7 @@ namespace SpecificationsTesting.UserControls
                 var columns = 3;
                 table.ResetCells(rows, columns);
 
+                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
                 for (int r = 0; r < rows; r++)
                 {
                     TableRow DataRow = table.Rows[r];
@@ -345,13 +350,13 @@ namespace SpecificationsTesting.UserControls
                             AddDataRow(DataRow, new List<string>() { "VENTILATOR GEGEVENS" });
                             break;
                         case 1:
-                            AddDataRow(DataRow, new List<string>() { "Type", test.CustomOrderVentilator.Name, "DUMMY" });
+                            AddDataRow(DataRow, new List<string>() { "Type", ventilator.Name, "DUMMY" });
                             break;
                         case 2:
-                            AddDataRow(DataRow, new List<string>() { "Toerental", test.CustomOrderVentilator.HighRPM.ToString(), "rpm" });
+                            AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.HighRPM.ToString(), "rpm" });
                             break;
                         case 3:
-                            AddDataRow(DataRow, new List<string>() { "Schoephoek", test.CustomOrderVentilator.BladeAngle.ToString(), "°" });
+                            AddDataRow(DataRow, new List<string>() { "Schoephoek", ventilator.BladeAngle.ToString(), "°" });
                             break;
                         default:
                             break;
@@ -374,6 +379,7 @@ namespace SpecificationsTesting.UserControls
                 var columns = 3;
                 table.ResetCells(rows, columns);
 
+                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
                 for (int r = 0; r < rows; r++)
                 {
                     TableRow DataRow = table.Rows[r];
@@ -383,25 +389,25 @@ namespace SpecificationsTesting.UserControls
                             AddDataRow(DataRow, new List<string>() { "MOTOR GEGEVENS" });
                             break;
                         case 1:
-                            AddDataRow(DataRow, new List<string>() { "Fabrikaat", test.CustomOrderVentilator.CustomOrderMotor.Name, "DUMMY" });
+                            AddDataRow(DataRow, new List<string>() { "Fabrikaat", ventilator.CustomOrderMotor.Name, "DUMMY" });
                             break;
                         case 2:
-                            AddDataRow(DataRow, new List<string>() { "Type", test.CustomOrderVentilator.CustomOrderMotor.Type, "DUMMY" });
+                            AddDataRow(DataRow, new List<string>() { "Type", ventilator.CustomOrderMotor.Type, "DUMMY" });
                             break;
                         case 3:
                             AddDataRow(DataRow, new List<string>() { "Bouwgrootte", test.BuildSize.ToString(), "DUMMY" });
                             break;
                         case 4:
-                            AddDataRow(DataRow, new List<string>() { "Nominaal vermogen", test.CustomOrderVentilator.CustomOrderMotor.HighPower.ToString(), "kW" });
+                            AddDataRow(DataRow, new List<string>() { "Nominaal vermogen", ventilator.CustomOrderMotor.HighPower.ToString(), "kW" });
                             break;
                         case 5:
-                            AddDataRow(DataRow, new List<string>() { "Toerental", test.CustomOrderVentilator.CustomOrderMotor.HighRPM.ToString(), "rpm" });
+                            AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.CustomOrderMotor.HighRPM.ToString(), "rpm" });
                             break;
                         case 6:
-                            AddDataRow(DataRow, new List<string>() { "Stroomsterkte", test.CustomOrderVentilator.CustomOrderMotor.HighAmperage.ToString(), "A" });
+                            AddDataRow(DataRow, new List<string>() { "Stroomsterkte", ventilator.CustomOrderMotor.HighAmperage.ToString(), "A" });
                             break;
                         case 7:
-                            AddDataRow(DataRow, new List<string>() { "Frequentie", test.CustomOrderVentilator.CustomOrderMotor.Frequency.ToString(), "Hz" });
+                            AddDataRow(DataRow, new List<string>() { "Frequentie", ventilator.CustomOrderMotor.Frequency.ToString(), "Hz" });
                             break;
                         default:
                             break;
