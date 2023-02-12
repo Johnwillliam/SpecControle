@@ -165,7 +165,7 @@ namespace SpecificationsTesting.Forms
             var colWidth = (imageWidth / 2) - 20;
             var rowHeight = 20;
             var startX = 20;
-            var startY = 80;
+            var startY = 100;
 
             var logoFile = (FileInfo)LogosListBox.SelectedItem;
             var logo = Image.FromFile(logoFile.FullName);
@@ -174,7 +174,7 @@ namespace SpecificationsTesting.Forms
             using (Graphics graph = Graphics.FromImage(image))
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
-                graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, 70));
+                graph.DrawImage(logo, new Rectangle(startX, startY - 70, colWidth * 2, 70));
 
                 for (int row = 0; row < rows + 1; row++)
                 {
