@@ -162,9 +162,9 @@ namespace SpecificationsTesting.Forms
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
             var rows = 20;
-            var colWidth = (imageWidth / 2) - 70;
+            var colWidth = (imageWidth / 2) - 20;
             var rowHeight = 20;
-            var startX = 40;
+            var startX = 20;
             var startY = 80;
 
             var logoFile = (FileInfo)LogosListBox.SelectedItem;
@@ -443,7 +443,11 @@ namespace SpecificationsTesting.Forms
 
         private void PrintSticker(object o, PrintPageEventArgs e)
         {
-            var image = GenerateTable(NormalImageWidth, NormalImageHeight);
+            var imageWidth = 100;
+            var imageHeight = 150;
+            var widthPixels = (int)(imageWidth * 3.7795275591);
+            var heightPixels = (int)(imageHeight * 3.7795275591);
+            var image = GenerateTable(widthPixels, heightPixels);
             Point loc = new Point(0, 0);
             e.Graphics.DrawImage(image, loc);
         }

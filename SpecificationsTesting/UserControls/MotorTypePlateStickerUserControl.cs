@@ -157,7 +157,7 @@ namespace SpecificationsTesting.Forms
 
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-            
+
             var rows = 13;
             var colWidth = (imageWidth / 2) - 70;
             var rowHeight = 15;
@@ -252,7 +252,7 @@ namespace SpecificationsTesting.Forms
                     }
                 }
             }
-            return (Image)image;
+            return image;
         }
 
         private void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
@@ -390,15 +390,19 @@ namespace SpecificationsTesting.Forms
 
             var pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = StickerPrinterName;
+            pd.PrinterSettings.DefaultPageSettings.PrinterResolution.X = 300;
+            pd.PrinterSettings.DefaultPageSettings.PrinterResolution.Y = 300;
             pd.PrintPage += PrintPage;
             pd.Print();
         }
 
         private void PrintPage(object o, PrintPageEventArgs e)
         {
-            var imageWidth = 650;
-            var imageHeight = 340;
-            var image = GenerateTable(imageWidth, imageHeight);
+            var imageWidth = 150;
+            var imageHeight = 100;
+            var widthPixels = (int)(imageWidth * 3.7795275591);
+            var heightPixels = (int)(imageHeight * 3.7795275591);
+            var image = GenerateTable(widthPixels, heightPixels);
             Point loc = new Point(0, 0);
             image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             e.Graphics.DrawImage(image, loc);
