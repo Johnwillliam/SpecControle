@@ -49,7 +49,7 @@
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(3, 564);
+            this.btnPrint.Location = new System.Drawing.Point(662, 369);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(157, 47);
             this.btnPrint.TabIndex = 11;
@@ -71,14 +71,14 @@
             this.LogosListBox.FormattingEnabled = true;
             this.LogosListBox.Location = new System.Drawing.Point(662, 120);
             this.LogosListBox.Name = "LogosListBox";
-            this.LogosListBox.Size = new System.Drawing.Size(130, 225);
+            this.LogosListBox.Size = new System.Drawing.Size(130, 238);
             this.LogosListBox.TabIndex = 7;
             // 
             // MotorTypePlateImage
             // 
             this.MotorTypePlateImage.Location = new System.Drawing.Point(3, 3);
             this.MotorTypePlateImage.Name = "MotorTypePlateImage";
-            this.MotorTypePlateImage.Size = new System.Drawing.Size(650, 557);
+            this.MotorTypePlateImage.Size = new System.Drawing.Size(650, 621);
             this.MotorTypePlateImage.TabIndex = 6;
             this.MotorTypePlateImage.TabStop = false;
             // 

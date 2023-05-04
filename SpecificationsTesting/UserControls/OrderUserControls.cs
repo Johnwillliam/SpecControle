@@ -40,6 +40,16 @@ namespace SpecificationsTesting.UserControls
             btnMotorTypePlate.Enabled = true;
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (Visible && !Disposing)
+            {
+                InitializeComboBoxes();
+            }
+        }
+
         private void InitializeComboBoxes()
         {
             using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
@@ -48,6 +58,7 @@ namespace SpecificationsTesting.UserControls
                 cmbSoundLevelType.ValueMember = "ID";
                 cmbSoundLevelType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbSoundLevelType.DataSource = dbContext.SoundLevelTypes.ToList();
+                cmbSoundLevelType.SelectedIndex = -1;
                 var cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevelTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbSoundLevelType);
 
@@ -55,6 +66,7 @@ namespace SpecificationsTesting.UserControls
                 cmbVentilatorType.ValueMember = "ID";
                 cmbVentilatorType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbVentilatorType.DataSource = dbContext.VentilatorTypes.ToList();
+                cmbVentilatorType.SelectedIndex = -1;
                 cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("VentilatorTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbVentilatorType);
 
@@ -62,6 +74,7 @@ namespace SpecificationsTesting.UserControls
                 cmbGroupType.ValueMember = "ID";
                 cmbGroupType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbGroupType.DataSource = dbContext.GroupTypes.ToList();
+                cmbGroupType.SelectedIndex = -1;
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("GroupTypeID")).Cells["Value"];
                 Show_Combobox(cell, cmbGroupType);
 
@@ -69,6 +82,7 @@ namespace SpecificationsTesting.UserControls
                 cmbTemperatureClassType.ValueMember = "ID";
                 cmbTemperatureClassType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbTemperatureClassType.DataSource = dbContext.TemperatureClasses.ToList();
+                cmbTemperatureClassType.SelectedIndex = -1;
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("TemperatureClassID")).Cells["Value"];
                 Show_Combobox(cell, cmbTemperatureClassType);
 
@@ -76,6 +90,7 @@ namespace SpecificationsTesting.UserControls
                 cmbCatType.ValueMember = "ID";
                 cmbCatType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbCatType.DataSource = dbContext.CatTypes.ToList();
+                cmbCatType.SelectedIndex = -1;
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatType);
 
@@ -83,17 +98,18 @@ namespace SpecificationsTesting.UserControls
                 cmbCatOutType.ValueMember = "ID";
                 cmbCatOutType.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
+                cmbCatOutType.SelectedIndex = -1;
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
             }
-            SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
-            cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
-            cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
-            cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
-            cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
-            cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
+                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
+                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
+                cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
+                cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
+                cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
+                cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
+                cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
         }
 
         private void InitializeGridColumns()
@@ -305,7 +321,6 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show(ex.Message);
             }
         }
-
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {

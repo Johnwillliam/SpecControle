@@ -24,11 +24,11 @@ namespace SpecificationsTesting.Forms
         public string PrinterName { get; set; }
 
         private const int NormalImageWidth = 500;
-        private const int NormalImageHeight = 700;
+        private const int NormalImageHeight = 500;
         private const int SmallImageWidth = 580;
         private const int SmallImageHeight = 400;
         private bool InitGrid = false;
-        const int TableFontSize = 8;
+        private int tableFontSize = 8;
         const int TableRowHeight = 10;
 
         private enum ImageSize
@@ -81,7 +81,7 @@ namespace SpecificationsTesting.Forms
 
         private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
@@ -145,13 +145,15 @@ namespace SpecificationsTesting.Forms
                     imageHeight = NormalImageHeight;
                     break;
             }
+
+            tableFontSize = 8;
             MotorTypePlateImage.Image = GenerateTable(imageWidth, imageHeight);
             MotorTypePlateImage.Width = imageWidth;
             MotorTypePlateImage.Height = imageHeight;
         }
 
-        private Image GenerateTable(int imageWidth, int imageHeight)
-       {
+        private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
+        {
             if (LogosListBox.SelectedItem == null)
                 return null;
 
@@ -162,19 +164,23 @@ namespace SpecificationsTesting.Forms
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
             var rows = 20;
-            var colWidth = (imageWidth / 2) - 20;
-            var rowHeight = 20;
-            var startX = 20;
-            var startY = 100;
+            var colWidth = (int)((imageWidth * 0.9) / 2);
+            var rowHeight = (imageHeight / 25);
+            var startX = 40;
+            var startY = rowHeight * 5;
 
             var logoFile = (FileInfo)LogosListBox.SelectedItem;
             var logo = Image.FromFile(logoFile.FullName);
 
             var image = new Bitmap(imageWidth, imageHeight);
+            if (printerGraphics != null)
+            {
+                image.SetResolution(printerGraphics.DpiX, printerGraphics.DpiY);
+            }
             using (Graphics graph = Graphics.FromImage(image))
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
-                graph.DrawImage(logo, new Rectangle(startX, startY - 70, colWidth * 2, 70));
+                graph.DrawImage(logo, new Rectangle(startX, rowHeight, colWidth * 2, rowHeight * 4));
 
                 for (int row = 0; row < rows + 1; row++)
                 {
@@ -280,14 +286,15 @@ namespace SpecificationsTesting.Forms
                     }
                 }
             }
-            return (Image)image;
+            return image;
         }
 
         private void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
         {
             var pen = new Pen(Color.Black, 2.0F);
-            var font = new Font("Tahoma", 8, FontStyle.Bold);
-            var columnStart = startX;
+            var fontPoints = (double)tableFontSize / 72;
+            var sizeInPixels = (float)(fontPoints * graph.DpiX);
+            var font = new Font("Tahoma", sizeInPixels, FontStyle.Bold, GraphicsUnit.Pixel); var columnStart = startX;
             for (int i = 0; i < columnCount; i++)
             {
                 var row = new Rectangle(columnStart, startY, columnWidth, rowHeight);
@@ -445,9 +452,11 @@ namespace SpecificationsTesting.Forms
         {
             var imageWidth = 100;
             var imageHeight = 150;
-            var widthPixels = (int)(imageWidth * 3.7795275591);
-            var heightPixels = (int)(imageHeight * 3.7795275591);
-            var image = GenerateTable(widthPixels, heightPixels);
+            //pixel = dpi * mm / 25.4 mm (1 in)
+            var widthPixels = (int)((e.Graphics.DpiX / 25.4) * imageWidth);
+            var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
+            tableFontSize = 8;
+            var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
             Point loc = new Point(0, 0);
             e.Graphics.DrawImage(image, loc);
         }
@@ -722,7 +731,7 @@ namespace SpecificationsTesting.Forms
                     //Format Cells
                     p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
                     TR2.CharacterFormat.FontName = "Calibri";
-                    TR2.CharacterFormat.FontSize = TableFontSize;
+                    TR2.CharacterFormat.FontSize = tableFontSize;
                     TR2.CharacterFormat.Bold = true;
                     if (values[i] != "DUMMY")
                         TR2.CharacterFormat.TextColor = Color.Black;

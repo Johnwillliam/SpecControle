@@ -77,7 +77,7 @@ namespace SpecificationsTesting.Forms
 
         private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
                 SelectedVentilatorTestID = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.First().ID;
@@ -147,7 +147,7 @@ namespace SpecificationsTesting.Forms
             }
         }
 
-        private Image GenerateTable(int imageWidth, int imageHeight)
+        private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
         {
             if (LogosListBox.SelectedItem == null || ArrowsListBox.SelectedItem == null)
                 return null;
@@ -159,10 +159,10 @@ namespace SpecificationsTesting.Forms
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
             var rows = 13;
-            var colWidth = (imageWidth / 2) - 70;
-            var rowHeight = 15;
-            var startX = 40;
-            var startY = 100;
+            var colWidth = (int)((imageWidth * 0.9) / 2);
+            var rowHeight = (imageHeight / 21);
+            var startX = 30;
+            var startY = rowHeight * 4;
 
             var logoFile = (FileInfo)LogosListBox.SelectedItem;
             var logo = Image.FromFile(logoFile.FullName);
@@ -170,12 +170,16 @@ namespace SpecificationsTesting.Forms
             var arrowFile = (FileInfo)ArrowsListBox.SelectedItem;
             var arrows = Image.FromFile(arrowFile.FullName);
 
-            var image = new Bitmap(imageWidth, imageHeight);
+            var image = new Bitmap(imageWidth, imageHeight); 
+            if (printerGraphics != null)
+            {
+                image.SetResolution(printerGraphics.DpiX, printerGraphics.DpiY);
+            }
             using (Graphics graph = Graphics.FromImage(image))
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
-                graph.DrawImage(arrows, new Rectangle(startX / 2, startY - 20, imageWidth - 90, (rowHeight * rows) + startX));
-                graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, 85));
+                graph.DrawImage(arrows, new Rectangle(0, startY, imageWidth, (rowHeight * rows) + startX + rowHeight));
+                graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, rowHeight * 4));
 
                 for (int row = 0; row < rows + 1; row++)
                 {
@@ -258,7 +262,9 @@ namespace SpecificationsTesting.Forms
         private void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
         {
             var pen = new Pen(Color.Black, 2.0F);
-            var font = new Font("Tahoma", 8, FontStyle.Bold);
+            var fontPoints = (double)8 / 72;
+            var sizeInPixels = (float)(fontPoints * graph.DpiX);
+            var font = new Font("Tahoma", sizeInPixels, FontStyle.Bold, GraphicsUnit.Pixel);
             var columnStart = startX;
             for (int i = 0; i < columnCount; i++)
             {
@@ -400,9 +406,10 @@ namespace SpecificationsTesting.Forms
         {
             var imageWidth = 150;
             var imageHeight = 100;
-            var widthPixels = (int)(imageWidth * 3.7795275591);
-            var heightPixels = (int)(imageHeight * 3.7795275591);
-            var image = GenerateTable(widthPixels, heightPixels);
+            //pixel = dpi * mm / 25.4 mm (1 in)
+            var widthPixels = (int)((e.Graphics.DpiX / 25.4) * imageWidth);
+            var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
+            var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
             Point loc = new Point(0, 0);
             image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             e.Graphics.DrawImage(image, loc);
