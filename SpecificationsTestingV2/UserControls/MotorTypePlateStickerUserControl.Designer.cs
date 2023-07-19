@@ -121,7 +121,7 @@
             this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
             this.txtCustomOrderNumber.TabIndex = 1;
-            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCustomOrderNumber_KeyDown);
             // 
             // label5
             // 
@@ -165,7 +165,7 @@
             this.btnSize.Text = "Small";
             this.btnSize.UseVisualStyleBackColor = true;
             this.btnSize.Visible = false;
-            this.btnSize.Click += new System.EventHandler(this.btnSize_Click);
+            this.btnSize.Click += new System.EventHandler(this.BtnSize_Click);
             // 
             // CustomOrderVentilatorTestsDataGrid
             // 

@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using EntityFrameworkModel;
+﻿using EntityFrameworkModelV2.Context;
+using EntityFrameworkModelV2.Models;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BTemplateMotor
     {

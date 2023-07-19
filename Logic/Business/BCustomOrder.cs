@@ -1,23 +1,24 @@
 ﻿using EntityFrameworkModelV2.Context;
 using EntityFrameworkModelV2.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Forms;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BCustomOrder
     {
-        private static readonly List<string> orderDisplayPropertyNames = new List<string>
+        private static readonly List<string> _orderDisplayPropertyNames = new List<string>
         {
             "CustomOrderNumber", "Debtor", "Reference", "Remarks"
         };
-        public static readonly List<string> OrderDisplayPropertyNames = orderDisplayPropertyNames;
+        public static readonly List<string> OrderDisplayPropertyNames = _orderDisplayPropertyNames;
 
-        private static readonly List<string> controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
         {
             "CustomOrderNumber", "CreateDate", "Remarks"
         };
 
-        public static List<string> ControleDisplayPropertyNames => controleDisplayPropertyNames;
+        public static List<string> ControleDisplayPropertyNames => _controleDisplayPropertyNames;
 
         public static CustomOrder Create(int customOrderNumber, string debtor = "", string reference = "", string remarks = "")
         {
@@ -28,8 +29,9 @@ namespace SpecificationsTesting.Business
                     CustomOrderNumber = customOrderNumber,
                     Debtor = debtor,
                     Reference = reference,
-                    Remarks = remarks
-                };
+                    Remarks = remarks,
+                    CreateDate = DateTime.Now
+            };
                 dbContext.CustomOrders.Add(newCO);
                 dbContext.SaveChanges();
                 return newCO;
@@ -44,8 +46,7 @@ namespace SpecificationsTesting.Business
                 return null;
             }
 
-            if (customOrder.CreateDate == null)
-                customOrder.CreateDate = DateTime.Now;
+            customOrder.CreateDate = DateTime.Now;
 
             using (var dbContext = new SpecificationsDatabaseModel())
             {
@@ -75,25 +76,32 @@ namespace SpecificationsTesting.Business
         public static CustomOrder ByCustomOrderNumber(int customOrderNumber)
         {
             var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators.Select(y => y.CustomOrderVentilatorTests)).Single(z => z.CustomOrderNumber == customOrderNumber) : null;
+            return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderVentilatorTests)
+                                                                                                                        .Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderMotor)
+                                                                                                                            .Single(z => z.CustomOrderNumber == customOrderNumber) : null;
         }
 
         public static CustomOrder ByID(int id)
         {
             var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrders.Any(x => x.ID == id) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators.Select(y => y.CustomOrderVentilatorTests)).Single(z => z.ID == id) : null;
+            return dbContext.CustomOrders.Any(x => x.ID == id) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderVentilatorTests)
+                                                                                         .Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderMotor)
+                                                                                            .Single(z => z.ID == id) : null;
         }
 
         public static CustomOrder Copy(int id, int customOrderNumber)
         {
             using (var dbContext = new SpecificationsDatabaseModel())
             {
-                var entity = dbContext.CustomOrders
-                          .AsNoTracking()
+                var entity = dbContext.CustomOrders.AsNoTracking()
                           .Include(x => x.CustomOrderVentilators)
+                          .ThenInclude(x => x.CustomOrderMotor)
                           .FirstOrDefault(x => x.ID == id);
 
                 entity.CustomOrderNumber = customOrderNumber;
+                entity.ID = 0;
+                entity.CustomOrderVentilators.ToList().ForEach(c => c.ID = 0);
+                entity.CustomOrderVentilators.Select(x => x.CustomOrderMotor).ToList().ForEach(c => c.ID = 0);
                 var copiedCustomOrder = Create(entity);
                 if (copiedCustomOrder != null)
                     BCustomOrderVentilatorTest.Create(copiedCustomOrder);

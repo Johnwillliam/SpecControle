@@ -1,18 +1,18 @@
 ﻿using EntityFrameworkModelV2.Context;
+using EntityFrameworkModelV2.Extensions;
 using EntityFrameworkModelV2.Models;
-using SpecificationsTesting.Entities;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BCustomOrderVentilatorTest
     {
-        private static readonly List<string> controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
         {
             "MeasuredVentilatorHighRPM", "MeasuredVentilatorLowRPM", "MeasuredMotorHighRPM", "MeasuredMotorLowRPM", "MeasuredBladeAngle", "Cover",
             "I1High", "I1Low", "I2High", "I2Low", "I3High", "I3Low", "MotorNumber", "Weight", "Date", "UserID", "MotorNumber", "BuildSize"
         };
 
-        public static List<string> ControleDisplayPropertyNames => controleDisplayPropertyNames;
+        public static List<string> ControleDisplayPropertyNames => _controleDisplayPropertyNames;
 
         public static CustomOrderVentilatorTest Create(CustomOrderVentilatorTest customOrderVentilatorTest)
         {
@@ -104,7 +104,7 @@ namespace SpecificationsTesting.Business
 
         private static string ValidateSyncRPM(CustomOrderVentilatorTest test)
         {
-            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency != null)
+            if (test.CustomOrderVentilator.CustomOrderMotor.Frequency.HasValue)
             {
                 var syncRPM = CalculateSyncRPM(test.MeasuredMotorHighRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                 if (test.MeasuredMotorHighRPM > syncRPM)
@@ -112,7 +112,7 @@ namespace SpecificationsTesting.Business
                     return $"Measured motor high RPM ({test.MeasuredMotorHighRPM}) is higher than the synchronous rpm ({syncRPM}). This is not possible.";
                 }
 
-                if(test.MeasuredMotorLowRPM != null)
+                if (test.MeasuredMotorLowRPM.HasValue)
                 {
                     syncRPM = CalculateSyncRPM(test.MeasuredMotorLowRPM.Value, test.CustomOrderVentilator.CustomOrderMotor.Frequency.Value);
                     if (test.MeasuredMotorLowRPM > syncRPM)
@@ -127,7 +127,7 @@ namespace SpecificationsTesting.Business
         public static string ValidateForPrinting(CustomOrderVentilatorTest test)
         {
             var nullablePropertiesChecked = CheckNullableProperties(test);
-            if(!string.IsNullOrEmpty(nullablePropertiesChecked))
+            if (!string.IsNullOrEmpty(nullablePropertiesChecked))
             {
                 return nullablePropertiesChecked;
             }
@@ -138,9 +138,9 @@ namespace SpecificationsTesting.Business
             if (test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
             {
                 return "One of the measured amperages is higher than the nominal amperage.";
-            } 
+            }
             var syncRPMChecked = ValidateSyncRPM(test);
-            if(!string.IsNullOrEmpty(syncRPMChecked))
+            if (!string.IsNullOrEmpty(syncRPMChecked))
             {
                 return syncRPMChecked;
             }
@@ -165,24 +165,25 @@ namespace SpecificationsTesting.Business
             var max = Math.Max((double)customOrderVentilatorHighRPM, (double)measuredVentilatorHighRPM);
             var min = Math.Min((double)nv, (double)measuredVentilatorHighRPM);
             var calc = max / min;
-            return calc < 1 + (double)(percentage / 100);
+            var perc = ((double)percentage / (double)100) + 1;
+            return calc < perc;
         }
 
         public static int CalculateSyncRPM(int measuredMotorHighRPM, int frequency)
         {
-            var syncRPM = (double)measuredMotorHighRPM / (double)frequency;
+            var syncRPM = measuredMotorHighRPM / (double)frequency;
 
             switch (syncRPM)
             {
-                case double n when (n <= 10):
+                case double n when n <= 10:
                     return frequency * 10;
-                case double n when (n <= 15):
+                case double n when n <= 15:
                     return frequency * 15;
-                case double n when (n <= 20):
+                case double n when n <= 20:
                     return frequency * 20;
-                case double n when (n <= 30):
+                case double n when n <= 30:
                     return frequency * 30;
-                case double n when (n <= 60):
+                case double n when n <= 60:
                     return frequency * 60;
             }
             return 0;

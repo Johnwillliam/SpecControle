@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkModelV2.Models;
-using SpecificationsTesting.Business;
+using Logic;
+using Logic.Business;
 using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
 
@@ -13,10 +14,10 @@ namespace SpecificationsTesting.Forms
         private ImageSize SelectedImageSize { get; set; }
         public int SelectedVentilatorTestID { get; private set; }
 
-        private const int NormalImageWidth = 650;
-        private const int NormalImageHeight = 400;
-        private const int SmallImageWidth = 580;
-        private const int SmallImageHeight = 400;
+        private const int _normalImageWidth = 650;
+        private const int _normalImageHeight = 400;
+        private const int _smallImageWidth = 580;
+        private const int _smallImageHeight = 400;
 
         private enum ImageSize
         {
@@ -31,8 +32,8 @@ namespace SpecificationsTesting.Forms
             CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
             LogosListBox.SelectedIndexChanged += new System.EventHandler(LogosListBox_SelectedIndexChanged);
             ArrowsListBox.SelectedIndexChanged += new System.EventHandler(ArrowsListBox_SelectedIndexChanged);
-            btnSearch.Click += new System.EventHandler(btnSearch_Click);
-            btnPrint.Click += new System.EventHandler(btnPrint_Click);
+            btnSearch.Click += new System.EventHandler(BtnSearch_Click);
+            btnPrint.Click += new System.EventHandler(BtnPrint_Click);
 
             PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
             PopulateListBox(ArrowsListBox, Environment.CurrentDirectory + "\\Resources\\Arrows", "*.jpg");
@@ -76,7 +77,10 @@ namespace SpecificationsTesting.Forms
                 SelectedVentilatorID = ventilatorID;
                 SelectedVentilatorTestID = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.First().ID;
                 var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-                EnableReportButtons(ventilator);
+                if (ventilator != null)
+                {
+                    EnableReportButtons(ventilator);
+                }
                 InitializeGridData(false);
                 ShowTable(SelectedImageSize);
             }
@@ -84,7 +88,7 @@ namespace SpecificationsTesting.Forms
 
         private void CustomOrderVentilatorTestsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
+            if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
                 InitializeGridData(false, false); 
@@ -124,12 +128,12 @@ namespace SpecificationsTesting.Forms
             switch (imageSize)
             {
                 case ImageSize.Small:
-                    imageWidth = SmallImageWidth;
-                    imageHeight = SmallImageHeight;
+                    imageWidth = _smallImageWidth;
+                    imageHeight = _smallImageHeight;
                     break;
                 default:
-                    imageWidth = NormalImageWidth;
-                    imageHeight = NormalImageHeight;
+                    imageWidth = _normalImageWidth;
+                    imageHeight = _normalImageHeight;
                     break;
             }
             var image = GenerateTable(imageWidth, imageHeight);
@@ -225,7 +229,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 10:
                             columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = ventilator.CustomOrderMotor.StartupAmperage.ToString(), RightText = "A" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), ventilator.CustomOrderMotor.LowStartupAmperage.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 11:
@@ -311,7 +315,7 @@ namespace SpecificationsTesting.Forms
             ShowTable(SelectedImageSize);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             ShowCustomOrder();
         }
@@ -369,11 +373,14 @@ namespace SpecificationsTesting.Forms
             }
 
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            EnableReportButtons(ventilator);
+            if (ventilator != null)
+            {
+                EnableReportButtons(ventilator);
+            }
             return true;
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
+        private void BtnPrint_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null)
             {
@@ -409,7 +416,7 @@ namespace SpecificationsTesting.Forms
             e.Graphics.DrawImage(image, loc);
         }
 
-        private void btnSize_Click(object sender, EventArgs e)
+        private void BtnSize_Click(object sender, EventArgs e)
         {
             if (btnSize.Text == "Small")
             {
@@ -424,7 +431,7 @@ namespace SpecificationsTesting.Forms
             ShowTable(SelectedImageSize);
         }
 
-        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {

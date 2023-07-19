@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModelV2.Context;
 using EntityFrameworkModelV2.Models;
-using SpecificationsTesting.Business;
+using Logic;
+using Logic.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using System.Data;
@@ -14,16 +15,16 @@ namespace SpecificationsTesting.UserControls
         public OrderUserControl()
         {
             InitializeComponent();
-            btnCreateCO.Click += new System.EventHandler(btnCreateCO_Click);
-            btnSearch.Click += new System.EventHandler(btnSearch_Click);
-            btnClear.Click += new System.EventHandler(btnClear_Click);
-            btnSaveChanges.Click += new System.EventHandler(btnSaveChanges_Click);
-            btnCreateVentilator.Click += new System.EventHandler(btnCreateVentilator_Click);
-            btnRemoveVentilator.Click += new System.EventHandler(btnRemoveVentilator_Click);
-            btnSelectTemplateMotor.Click += new System.EventHandler(btnSelectTemplateMotor_Click);
-            btnCopyOrder.Click += new System.EventHandler(btnCopyOrder_Click);
-            btnMotorTypePlate.Click += new System.EventHandler(btnMotorTypePlate_Click);
-            btnAtex.Click += new System.EventHandler(btnAtex_Click);
+            btnCreateCO.Click += new System.EventHandler(BtnCreateCO_Click);
+            btnSearch.Click += new System.EventHandler(BtnSearch_Click);
+            btnClear.Click += new System.EventHandler(BtnClear_Click);
+            btnSaveChanges.Click += new System.EventHandler(BtnSaveChanges_Click);
+            btnCreateVentilator.Click += new System.EventHandler(BtnCreateVentilator_Click);
+            btnRemoveVentilator.Click += new System.EventHandler(BtnRemoveVentilator_Click);
+            btnSelectTemplateMotor.Click += new System.EventHandler(BtnSelectTemplateMotor_Click);
+            btnCopyOrder.Click += new System.EventHandler(BtnCopyOrder_Click);
+            btnMotorTypePlate.Click += new System.EventHandler(BtnMotorTypePlate_Click);
+            btnAtex.Click += new System.EventHandler(BtnAtex_Click);
 
             InitializeGridColumns();
             InitializeGridData();
@@ -219,7 +220,9 @@ namespace SpecificationsTesting.UserControls
                 }
 
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
+                {
                     CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
+                }
 
                 SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
@@ -259,11 +262,11 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
-        private void btnCreateCO_Click(object sender, EventArgs e)
+        private void BtnCreateCO_Click(object sender, EventArgs e)
         {
             try
             {
@@ -314,11 +317,11 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
-        private void btnSaveChanges_Click(object sender, EventArgs e)
+        private void BtnSaveChanges_Click(object sender, EventArgs e)
         {
             try
             {
@@ -365,12 +368,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                if (ex.InnerException == null)
-                    MessageBox.Show(ex.Message);
-                else if (ex.InnerException.InnerException == null)
-                    MessageBox.Show(ex.InnerException.Message);
-                else
-                    MessageBox.Show(ex.InnerException.InnerException.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -414,7 +412,7 @@ namespace SpecificationsTesting.UserControls
             return BCustomOrderMotor.CreateObject(rows);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             SearchOrder();
         }
@@ -436,15 +434,18 @@ namespace SpecificationsTesting.UserControls
             btnCopyOrder.Enabled = true;
 
             var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            EnableReportButtons(ventilator);
+            if (ventilator != null)
+            {
+                EnableReportButtons(ventilator);
+            }
         }
 
-        private void cmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
+        private void CmbMotorFilter_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void BtnClear_Click(object sender, EventArgs e)
         {
             CustomOrder = null;
             SelectedVentilatorID = -1;
@@ -455,7 +456,7 @@ namespace SpecificationsTesting.UserControls
             InitializeGridData();
         }
 
-        private void btnCreateVentilator_Click(object sender, EventArgs e)
+        private void BtnCreateVentilator_Click(object sender, EventArgs e)
         {
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             ventilator = BCustomOrderVentilator.Copy(ventilator);
@@ -464,7 +465,7 @@ namespace SpecificationsTesting.UserControls
             InitializeGridData();
         }
 
-        private void btnRemoveVentilator_Click(object sender, EventArgs e)
+        private void BtnRemoveVentilator_Click(object sender, EventArgs e)
         {
             if (CustomOrderVentilatorsDataGrid.SelectedRows.Count == 0)
                 return;
@@ -481,7 +482,7 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void btnSelectTemplateMotor_Click(object sender, EventArgs e)
+        private void BtnSelectTemplateMotor_Click(object sender, EventArgs e)
         {
             var templateMotorSelectionDialog = new MotorTemplateSelection();
             templateMotorSelectionDialog.ShowDialog();
@@ -491,19 +492,19 @@ namespace SpecificationsTesting.UserControls
             if (int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
             {
                 var templateMotor = BTemplateMotor.GetById(motorTemplateId);
-                if(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID) != null)
+                var ventilator = CustomOrder.CustomOrderVentilators.First();
+                if (CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID) != null)
                 {
-                    CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
+                    ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 }
-                else
-                {
-                    CustomOrder.CustomOrderVentilators.First().CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
-                }
+
+                ventilator = ReadCustomOrderVentilatorDataGrid();
+                ventilator.CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
                 InitializeGridData();
             }
         }
 
-        private void btnCopyOrder_Click(object sender, EventArgs e)
+        private void BtnCopyOrder_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null && CustomOrder.ID == -1)
             {
@@ -527,13 +528,14 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void btnMotorTypePlate_Click(object sender, EventArgs e)
+        private void BtnMotorTypePlate_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
+
             if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID)))
             {
                 return;
@@ -544,13 +546,14 @@ namespace SpecificationsTesting.UserControls
             mainForm.MotorTypePlateUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
-        private void btnAtex_Click(object sender, EventArgs e)
+        private void BtnAtex_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
             }
+
             var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
             {
@@ -577,7 +580,7 @@ namespace SpecificationsTesting.UserControls
             DisableCalculatedRows();
         }
 
-        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {
@@ -591,8 +594,11 @@ namespace SpecificationsTesting.UserControls
             {
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                EnableReportButtons(ventilator);
-                InitializeGridData(false);
+                if (ventilator != null)
+                {
+                    EnableReportButtons(ventilator);
+                    InitializeGridData(false);
+                }
             }
         }
 

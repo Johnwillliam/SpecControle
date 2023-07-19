@@ -1,7 +1,7 @@
-using EntityFrameworkModel;
+using EntityFrameworkModelV2.Models;
+using Logic.Business;
 using Moq;
 using NUnit.Framework.Internal;
-using SpecificationsTesting.Business;
 
 namespace SpecificationsTestingTests
 {

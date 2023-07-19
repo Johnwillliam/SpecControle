@@ -2,9 +2,13 @@ namespace EntityFrameworkModelV2.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class CustomOrderVentilatorTest
     {
+        [Key, Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int CustomOrderVentilatorID { get; set; }
         public int? MeasuredVentilatorHighRPM { get; set; }
@@ -13,7 +17,7 @@ namespace EntityFrameworkModelV2.Models
         public int? MeasuredMotorLowRPM { get; set; }
         public int? MeasuredBladeAngle { get; set; }
         public int? Cover { get; set; }
-        public string MotorNumber { get; set; }
+        public string? MotorNumber { get; set; }
         public int? Weight { get; set; }
         public DateTime? Date { get; set; }
         public int? UserID { get; set; }

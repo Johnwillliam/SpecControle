@@ -4,9 +4,7 @@
 	{
 		public static string EmptyIfNull(this object value)
 		{
-			if (value == null)
-				return "";
-			return value.ToString();
+            return value != null ? value.ToString() : string.Empty;
 		}
 	}
 }

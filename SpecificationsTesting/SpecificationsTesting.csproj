@@ -192,14 +192,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\BCustomOrderVentilatorTest.cs" />
-    <Compile Include="Business\BCustomOrderMotor.cs" />
-    <Compile Include="Business\BCustomOrderVentilatorTestUI.cs" />
-    <Compile Include="Business\BValidateMessage.cs" />
-    <Compile Include="Business\BTemplateMotor.cs" />
-    <Compile Include="Business\BCustomOrderVentilator.cs" />
-    <Compile Include="Business\BCustomOrder.cs" />
-    <Compile Include="DataHelper.cs" />
     <Compile Include="Entities\CustomOrderVentilatorExtensions.cs" />
     <Compile Include="Entities\StickerRowColumn.cs" />
     <Compile Include="Forms\CopyOrderForm.cs">
@@ -345,9 +337,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EntityFrameworkModel\EntityFrameworkModel.csproj">
-      <Project>{B8A94058-37F0-4EF9-B928-56B24488F6EE}</Project>
-      <Name>EntityFrameworkModel</Name>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{8edad195-49f5-45f6-8255-fb624e845534}</Project>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

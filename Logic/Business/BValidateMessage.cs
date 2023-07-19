@@ -1,10 +1,7 @@
-﻿using EntityFrameworkModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
+﻿using EntityFrameworkModelV2.Models;
+using System.Windows.Forms;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BValidateMessage
     {
@@ -26,18 +23,18 @@ namespace SpecificationsTesting.Business
             if (string.IsNullOrEmpty(validationMessage) && showMessage)
             {
                 var amperageValidation = ValidateAmperage(test);
-                if(amperageValidation.HasValue && !amperageValidation.Value)
+                if (amperageValidation.HasValue && !amperageValidation.Value)
                 {
                     MessageBox.Show($"Test ID {test.ID}: The difference between the highest and lowest amperage is more than 5%.");
                 }
-                else if(!amperageValidation.HasValue)
+                else if (!amperageValidation.HasValue)
                 {
                     MessageBox.Show($"Test ID {test.ID}: One of the measured amperage is higher than the nominal amperage, overload!");
                 }
                 return true;
             }
 
-            if(showMessage)
+            if (showMessage)
             {
                 MessageBox.Show($"Test ID {test.ID}: {validationMessage}");
                 return false;
@@ -74,7 +71,7 @@ namespace SpecificationsTesting.Business
                     }
                 }
 
-                if(test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
+                if (test.I1High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I2High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage || test.I3High > test.CustomOrderVentilator.CustomOrderMotor.HighAmperage)
                 {
                     return null;
                 }

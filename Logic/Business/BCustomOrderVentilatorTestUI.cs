@@ -1,10 +1,7 @@
-﻿using EntityFrameworkModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EntityFrameworkModelV2.Models;
 using System.Windows.Forms;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BCustomOrderVentilatorTestUI
     {
@@ -70,7 +67,7 @@ namespace SpecificationsTesting.Business
 
                 return newCustomOrderVentilatorTest;
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 return null;
             }

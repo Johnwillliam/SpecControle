@@ -1,16 +1,16 @@
 ﻿using EntityFrameworkModelV2.Context;
 using EntityFrameworkModelV2.Models;
-using SpecificationsTesting.Business;
+using Logic.Business;
 using System.Data;
 
 namespace SpecificationsTesting.UserControls
 {
-	public partial class MotorTemplateUserControl : UserControl
+    public partial class MotorTemplateUserControl : UserControl
 	{
 		public MotorTemplateUserControl()
 		{
 			InitializeComponent();
-			btnSave.Click += new System.EventHandler(btnSave_Click);
+			btnSave.Click += new System.EventHandler(BtnSave_Click);
 			Load += new System.EventHandler(MotorTemplateSelection_Load);
 		}
 
@@ -22,7 +22,7 @@ namespace SpecificationsTesting.UserControls
 			MotorTemplatesDataGrid.Columns[0].Visible = false;
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
 		{
 			foreach (DataGridViewRow row in MotorTemplatesDataGrid.Rows)
 			{
@@ -53,7 +53,9 @@ namespace SpecificationsTesting.UserControls
 					var properties = typeof(TemplateMotor).GetProperties();
 					var types = properties.Select(property => property.PropertyType).ToList();
 					var type = types[e.ColumnIndex];
-					if (IsNumericType(type) && !e.FormattedValue.ToString().All(char.IsDigit))
+					var value = e.FormattedValue?.ToString();
+
+					if(CellValidation.CheckValue(value, type) && CellValidation.ValidateNumber(value, type))
 					{
 						MotorTemplatesDataGrid.Rows[e.RowIndex].ErrorText = $"{cell.OwningColumn.Name} should be a number.";
 						e.Cancel = true;
@@ -63,32 +65,6 @@ namespace SpecificationsTesting.UserControls
 						MotorTemplatesDataGrid.Rows[e.RowIndex].ErrorText = string.Empty;
 					}
 				}
-			}
-		}
-
-		private bool IsNumericType(Type type)
-		{
-			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-			{
-				return IsNumericType(Nullable.GetUnderlyingType(type));
-			}
-
-			switch (Type.GetTypeCode(type))
-			{
-				case TypeCode.Byte:
-				case TypeCode.SByte:
-				case TypeCode.UInt16:
-				case TypeCode.UInt32:
-				case TypeCode.UInt64:
-				case TypeCode.Int16:
-				case TypeCode.Int32:
-				case TypeCode.Int64:
-				case TypeCode.Decimal:
-				case TypeCode.Double:
-				case TypeCode.Single:
-					return true;
-				default:
-					return false;
 			}
 		}
 

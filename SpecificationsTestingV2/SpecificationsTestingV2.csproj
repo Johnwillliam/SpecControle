@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EntityFrameworkModelV2\EntityFrameworkModelV2.csproj" />
+    <ProjectReference Include="..\Logic\Logic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

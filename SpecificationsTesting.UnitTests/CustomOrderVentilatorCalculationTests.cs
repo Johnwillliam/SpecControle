@@ -1,4 +1,4 @@
-using SpecificationsTesting.Business;
+using Logic.Business;
 
 namespace SpecificationsTestingTests
 {

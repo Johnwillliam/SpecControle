@@ -1,39 +1,40 @@
 using EntityFrameworkModelV2.Models;
 using EntityFrameworkModelV2.Context;
 using Microsoft.EntityFrameworkCore;
-using SpecificationsTesting.Entities;
+using System.Windows.Forms;
+using EntityFrameworkModelV2.Extensions;
 
-namespace SpecificationsTesting.Business
+namespace Logic.Business
 {
     public static class BCustomOrderVentilator
     {
-        private static readonly List<string> orderDisplayPropertyNames = new List<string>
+        private static readonly List<string> _orderDisplayPropertyNames = new List<string>
         {
             "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
             "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
         };
 
-        private static readonly List<string> controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
         {
             "Name", "HighRPM", "LowRPM", "BladeAngle"
         };
 
-        private static readonly List<string> configurationDisplayPropertyNames = new List<string>
+        private static readonly List<string> _configurationDisplayPropertyNames = new List<string>
         {
             "Atex", "GroupTypeID", "TemperatureClassID", "CatID", "CatOutID"
         };
 
-        public static List<string> OrderDisplayPropertyNames => orderDisplayPropertyNames;
+        public static List<string> OrderDisplayPropertyNames => _orderDisplayPropertyNames;
 
-        public static List<string> ControleDisplayPropertyNames => controleDisplayPropertyNames;
+        public static List<string> ControleDisplayPropertyNames => _controleDisplayPropertyNames;
 
-        public static List<string> ConfigurationDisplayPropertyNames => configurationDisplayPropertyNames;
+        public static List<string> ConfigurationDisplayPropertyNames => _configurationDisplayPropertyNames;
 
         public static CustomOrderVentilator GetById(int id)
         {
             using (var dbContext = new SpecificationsDatabaseModel())
             {
-                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(z => z.TemperatureClass).FirstOrDefault(x => x.ID == id);
+                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(x => x.CustomOrderVentilatorTests).Include(x => x.TemperatureClass).FirstOrDefault(x => x.ID == id);
             }
         }
 
@@ -44,7 +45,7 @@ namespace SpecificationsTesting.Business
                 dbContext.CustomOrderVentilators.Add(customOrderVentilator);
                 dbContext.SaveChanges();
             }
-            
+
             BCustomOrderVentilatorTest.Create(customOrderVentilator);
             return customOrderVentilator;
         }
@@ -57,7 +58,7 @@ namespace SpecificationsTesting.Business
                 if (toUpdate != null)
                 {
                     var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID).ToList();
-                    if(customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
+                    if (customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
                     {
                         var difference = toUpdate.Amount - customOrderVentilator.Amount;
                         for (int i = 0; i < difference; i++)
@@ -67,7 +68,7 @@ namespace SpecificationsTesting.Business
                             dbContext.CustomOrderVentilatorTests.Remove(lastTest);
                         }
                     }
-                    else if(customOrderVentilator.Amount > toUpdate.Amount)
+                    else if (customOrderVentilator.Amount > toUpdate.Amount)
                     {
                         var difference = customOrderVentilator.Amount - toUpdate.Amount;
                         for (int i = 0; i < difference; i++)
@@ -93,6 +94,8 @@ namespace SpecificationsTesting.Business
                           .Include(x => x.CustomOrderMotor)
                           .Single(x => x.ID == toCopy.ID);
 
+                entity.ID = 0;
+                entity.CustomOrderMotor.ID = 0;
                 return Create(entity);
             }
         }
@@ -108,7 +111,8 @@ namespace SpecificationsTesting.Business
                     {
                         dbContext.CustomOrderVentilatorTests.Remove(test);
                     }
-                    dbContext.CustomOrderMotors.Remove(customOrderVentilator.CustomOrderMotor);
+                    var motor = dbContext.CustomOrderMotors.Find(customOrderVentilator.CustomOrderMotorID);
+                    dbContext.CustomOrderMotors.Remove(motor);
                     dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
                     dbContext.SaveChanges();
                 }
@@ -175,7 +179,7 @@ namespace SpecificationsTesting.Business
         {
             int press = pressureTotal == null ? 1 : (int)pressureTotal;
             decimal eff = efficiency == null ? 1 : (decimal)efficiency / 100;
-            return (airVolume * press / 3600 / (eff * 10)) / 100;
+            return airVolume * press / 3600 / (eff * 10) / 100;
         }
 
         public static void Calculate(CustomOrderVentilator customOrderVentilator)
@@ -216,10 +220,10 @@ namespace SpecificationsTesting.Business
             customOrderVentilator.HighPressureDynamic = customOrderVentilator.HighPressureTotal - customOrderVentilator.HighPressureStatic;
             customOrderVentilator.LowPressureDynamic = customOrderVentilator.LowPressureTotal - customOrderVentilator.LowPressureStatic;
 
-            if(customOrderVentilator.VentilatorType == null && customOrderVentilator.VentilatorTypeID != null)
+            if (customOrderVentilator.VentilatorType == null && customOrderVentilator.VentilatorTypeID != null)
             {
                 customOrderVentilator.VentilatorType = new SpecificationsDatabaseModel().VentilatorTypes.FirstOrDefault(x => x.ID == customOrderVentilator.VentilatorTypeID);
-            }    
+            }
 
             if (customOrderVentilator.VentilatorType != null && !customOrderVentilator.IsDirectBelt())
             {
@@ -238,7 +242,7 @@ namespace SpecificationsTesting.Business
             }
         }
 
-        public static int CalculateVBeltLowRPM(double motorConstant, int?highRPM)
+        public static int CalculateVBeltLowRPM(double motorConstant, int? highRPM)
         {
             return (int)Math.Round(motorConstant * (int)highRPM);
         }
@@ -265,7 +269,7 @@ namespace SpecificationsTesting.Business
 
         public static int? CalculateLowPressureTotal(double motorConstant, int? highPressureTotal)
         {
-            if(motorConstant == 0)
+            if (motorConstant == 0)
             {
                 return null;
             }
@@ -278,19 +282,19 @@ namespace SpecificationsTesting.Business
             var value = (decimal)(highRPM / frequency);
             switch (value)
             {
-                case decimal n when (n >= 5 && n <= 7.5m):
+                case decimal n when n >= 5 && n <= 7.5m:
                     value = 7.5m;
                     break;
-                case decimal n when (n >= 7.5m && n <= 10):
+                case decimal n when n >= 7.5m && n <= 10:
                     value = 10;
                     break;
-                case decimal n when (n >= 10 && n <= 15):
+                case decimal n when n >= 10 && n <= 15:
                     value = 15;
                     break;
-                case decimal n when (n >= 15 && n <= 30):
+                case decimal n when n >= 15 && n <= 30:
                     value = 30;
                     break;
-                case decimal n when (n >= 30 && n <= 60):
+                case decimal n when n >= 30 && n <= 60:
                     value = 60;
                     break;
                 default:

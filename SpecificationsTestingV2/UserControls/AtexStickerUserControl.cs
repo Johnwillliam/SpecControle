@@ -1,10 +1,12 @@
-﻿using SpecificationsTesting.Business;
-using SpecificationsTesting.Entities;
+﻿using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
 using Spire.Doc;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using EntityFrameworkModelV2.Models;
+using Logic.Business;
+using Logic;
+using EntityFrameworkModelV2.Extensions;
 
 namespace SpecificationsTesting.Forms
 {
@@ -17,13 +19,13 @@ namespace SpecificationsTesting.Forms
         public int SelectedVentilatorTestID { get; private set; }
         public string PrinterName { get; set; }
 
-        private const int NormalImageWidth = 500;
-        private const int NormalImageHeight = 500;
-        private const int SmallImageWidth = 580;
-        private const int SmallImageHeight = 400;
-        private bool InitGrid = false;
-        private int tableFontSize = 8;
-        const int TableRowHeight = 10;
+        private const int _normalImageWidth = 500;
+        private const int _normalImageHeight = 500;
+        private const int _smallImageWidth = 580;
+        private const int _smallImageHeight = 400;
+        private bool _initGrid = false;
+        private int _tableFontSize = 8;
+        const int _tableRowHeight = 10;
 
         private enum ImageSize
         {
@@ -37,8 +39,8 @@ namespace SpecificationsTesting.Forms
             CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
             CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
             LogosListBox.SelectedIndexChanged += new EventHandler(LogosListBox_SelectedIndexChanged);
-            btnSearch.Click += new EventHandler(btnSearch_Click);
-            btnPrint.Click += new EventHandler(btnPrint_Click);
+            btnSearch.Click += new EventHandler(BtnSearch_Click);
+            btnPrint.Click += new EventHandler(BtnPrint_Click);
 
             PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
             LogosListBox.SelectedIndex = 0;
@@ -80,8 +82,11 @@ namespace SpecificationsTesting.Forms
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
-                EnableReportButtons(ventilator);
-                if (!InitGrid)
+                if(ventilator != null)
+                {
+                    EnableReportButtons(ventilator);
+                }
+                if (!_initGrid)
                 {
                     InitializeGridData(false);
                 }
@@ -90,7 +95,7 @@ namespace SpecificationsTesting.Forms
 
         private void CustomOrderVentilatorTestsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
+            if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
                 var test = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
@@ -101,7 +106,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
         {
-            InitGrid = true;
+            _initGrid = true;
             if (CustomOrder != null && initVentilatorsGrid)
             {
                 CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
@@ -122,7 +127,7 @@ namespace SpecificationsTesting.Forms
                 }
                 CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
             }
-            InitGrid = false;
+            _initGrid = false;
         }
 
         private void ShowTable(ImageSize imageSize)
@@ -131,28 +136,27 @@ namespace SpecificationsTesting.Forms
             switch (imageSize)
             {
                 case ImageSize.Small:
-                    imageWidth = SmallImageWidth;
-                    imageHeight = SmallImageHeight;
+                    imageWidth = _smallImageWidth;
+                    imageHeight = _smallImageHeight;
                     break;
                 default:
-                    imageWidth = NormalImageWidth;
-                    imageHeight = NormalImageHeight;
+                    imageWidth = _normalImageWidth;
+                    imageHeight = _normalImageHeight;
                     break;
             }
 
-            tableFontSize = 8;
+            _tableFontSize = 8;
             MotorTypePlateImage.Image = GenerateTable(imageWidth, imageHeight);
             MotorTypePlateImage.Width = imageWidth;
             MotorTypePlateImage.Height = imageHeight;
         }
 
-        private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
+        private Bitmap? GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
         {
-            if (LogosListBox.SelectedItem == null)
+            if (LogosListBox.SelectedItem == null || CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
+            {
                 return null;
-
-            if (CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
-                return null;
+            }
 
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
@@ -231,7 +235,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 11:
                             columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = ventilator.CustomOrderMotor.StartupAmperage.ToString(), RightText = "A" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), ventilator.CustomOrderMotor.LowStartupAmperage.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 12:
@@ -286,7 +290,7 @@ namespace SpecificationsTesting.Forms
         private void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
         {
             var pen = new Pen(Color.Black, 2.0F);
-            var fontPoints = (double)tableFontSize / 72;
+            var fontPoints = (double)_tableFontSize / 72;
             var sizeInPixels = (float)(fontPoints * graph.DpiX);
             var font = new Font("Tahoma", sizeInPixels, FontStyle.Bold, GraphicsUnit.Pixel); var columnStart = startX;
             for (int i = 0; i < columnCount; i++)
@@ -340,7 +344,7 @@ namespace SpecificationsTesting.Forms
             ShowTable(SelectedImageSize);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             ShowCustomOrder();
         }
@@ -397,7 +401,10 @@ namespace SpecificationsTesting.Forms
             }
 
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            EnableReportButtons(ventilator);
+            if (ventilator != null)
+            {
+                EnableReportButtons(ventilator);
+            }
             return true;
         }
 
@@ -406,7 +413,7 @@ namespace SpecificationsTesting.Forms
             btnPrint.Enabled = ventilator.IsAtex();
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
+        private void BtnPrint_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null)
             {
@@ -449,7 +456,7 @@ namespace SpecificationsTesting.Forms
             //pixel = dpi * mm / 25.4 mm (1 in)
             var widthPixels = (int)((e.Graphics.DpiX / 25.4) * imageWidth);
             var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
-            tableFontSize = 8;
+            _tableFontSize = 8;
             var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
             Point loc = new Point(0, 0);
             e.Graphics.DrawImage(image, loc);
@@ -477,7 +484,7 @@ namespace SpecificationsTesting.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
                 return null;
             }
         }
@@ -530,6 +537,12 @@ namespace SpecificationsTesting.Forms
                 table.ResetCells(rows, columns);
 
                 var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
+                if(ventilator == null)
+                {
+                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                    return;
+                }
+
                 var order = BCustomOrder.ByID(ventilator.CustomOrderID);
                 //Data Row
                 for (int r = 0; r < rows; r++)
@@ -541,7 +554,7 @@ namespace SpecificationsTesting.Forms
                             AddDataRow(DataRow, new List<string>() { "Serienummer", order.CustomOrderNumber.ToString() });
                             break;
                         case 1:
-                            AddDataRow(DataRow, new List<string>() { "Motornummer", ventilator.CustomOrderMotor.Type });
+                            AddDataRow(DataRow, new List<string>() { "Motornummer", ventilator.CustomOrderMotor?.Type });
                             break;
                         case 2:
                             AddDataRow(DataRow, new List<string>() { "Systemair order", order.CustomOrderNumber.ToString() });
@@ -556,7 +569,7 @@ namespace SpecificationsTesting.Forms
                             AddDataRow(DataRow, new List<string>() { "Temperatuur bereik", "-20 - +40 °C" });
                             break;
                         case 6:
-                            AddDataRow(DataRow, new List<string>() { "Temperatuurklasse", ventilator.TemperatureClass.Description });
+                            AddDataRow(DataRow, new List<string>() { "Temperatuurklasse", ventilator.TemperatureClass?.Description });
                             break;
                         case 7:
                             AddDataRow(DataRow, new List<string>() { "Referentie", order.Reference });
@@ -569,7 +582,7 @@ namespace SpecificationsTesting.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -584,6 +597,12 @@ namespace SpecificationsTesting.Forms
                 table.ResetCells(rows, columns);
 
                 var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
+                if (ventilator == null)
+                {
+                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateVentilatorTable."));
+                    return;
+                }
+
                 //Data Row
                 for (int r = 0; r < rows; r++)
                 {
@@ -631,7 +650,7 @@ namespace SpecificationsTesting.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -646,6 +665,12 @@ namespace SpecificationsTesting.Forms
                 table.ResetCells(rows, columns);
 
                 var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
+                if (ventilator == null)
+                {
+                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateMotorTable."));
+                    return;
+                }
+
                 //Data Row
                 for (int r = 0; r < rows; r++)
                 {
@@ -689,7 +714,7 @@ namespace SpecificationsTesting.Forms
                             AddDataRow(DataRow, new List<string>() { "Arbeidsfactor", ventilator.CustomOrderMotor.PowerFactor.ToString() });
                             break;
                         case 12:
-                            AddDataRow(DataRow, new List<string>() { "Aanloopstroom", ventilator.CustomOrderMotor.StartupAmperage.ToString(), "A" });
+                            AddDataRow(DataRow, new List<string>() { "Aanloopstroom", ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), "A" });
                             break;
                         case 13:
                             AddDataRow(DataRow, new List<string>() { "Aansluitspanning", ventilator.CustomOrderMotor.VoltageType, "V" });
@@ -706,7 +731,7 @@ namespace SpecificationsTesting.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -714,7 +739,7 @@ namespace SpecificationsTesting.Forms
         {
             try
             {
-                DataRow.Height = TableRowHeight;
+                DataRow.Height = _tableRowHeight;
                 for (int i = 0; i < values.Count; i++)
                 {
                     //Cell Alignment
@@ -725,7 +750,7 @@ namespace SpecificationsTesting.Forms
                     //Format Cells
                     p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
                     TR2.CharacterFormat.FontName = "Calibri";
-                    TR2.CharacterFormat.FontSize = tableFontSize;
+                    TR2.CharacterFormat.FontSize = _tableFontSize;
                     TR2.CharacterFormat.Bold = true;
                     if (values[i] != "DUMMY")
                         TR2.CharacterFormat.TextColor = Color.Black;
@@ -735,12 +760,12 @@ namespace SpecificationsTesting.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
 
         }
 
-        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {

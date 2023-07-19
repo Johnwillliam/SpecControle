@@ -1,5 +1,4 @@
-using NUnit.Framework.Internal;
-using SpecificationsTesting.Business;
+using Logic.Business;
 
 namespace SpecificationsTestingTests
 {
@@ -18,6 +17,9 @@ namespace SpecificationsTestingTests
         [TestCase(750, 50, 750)]
         [TestCase(751, 50, 1000)]
         [TestCase(738, 50, 750)]
+
+        //to fix
+        [TestCase(3015, 50, 0)]
         public void TestCalculateSyncRPM(int measuredMotorHighRPM, int customOrderMotorFrequency, decimal? expectedResult)
         {
             var result = BCustomOrderVentilatorTest.CalculateSyncRPM(measuredMotorHighRPM, customOrderMotorFrequency);
@@ -29,7 +31,7 @@ namespace SpecificationsTestingTests
         [TestCase(1420, 1420, 1463, 1420, false)]
         public void TestMeasuredVentilatorRPMIsInSpec(int? customOrderVentilatorHighRPM, int? customOrderMotorHighRPM, int measuredVentilatorHighRPM, int measuredMotorHighRPM, bool expectedResult)
         {
-            var result = BCustomOrderVentilatorTest.MeasuredVentilatorRPMIsInSpec(customOrderMotorHighRPM, customOrderVentilatorHighRPM, measuredMotorHighRPM, measuredVentilatorHighRPM);
+            var result = BCustomOrderVentilatorTest.MeasuredVentilatorRPMIsInSpec(customOrderMotorHighRPM, customOrderVentilatorHighRPM, measuredMotorHighRPM, measuredVentilatorHighRPM, 3);
             Assert.That(result, Is.EqualTo(expectedResult));
         }
     }

@@ -1,11 +1,12 @@
-﻿using SpecificationsTesting.Business;
-using System.Data;
+﻿using System.Data;
 using SpecificationsTesting.Entities;
 using Spire.Doc;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using System.Drawing.Printing;
 using EntityFrameworkModelV2.Models;
+using Logic.Business;
+using Logic;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -16,17 +17,17 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorTestID { get; set; }
         public string PrinterName { get; set; }
 
-        const int TableFontSize = 8;
-        const int TableRowHeight = 10;
+        const int _tableFontSize = 8;
+        const int _tableRowHeight = 10;
 
         public TestDocumentGenerationUserControl()
         {
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
             CustomOrderVentilatorTestsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_RowEnter);
-            btnSearch.Click += new System.EventHandler(btnSearch_Click);
-            btnPrintSelectedTest.Click += new System.EventHandler(btnPrintSelectedTest_Click);
-            btnPrintAll.Click += new System.EventHandler(btnPrintAll_Click);
+            btnSearch.Click += new System.EventHandler(BtnSearch_Click);
+            btnPrintSelectedTest.Click += new System.EventHandler(BtnPrintSelectedTest_Click);
+            btnPrintAll.Click += new System.EventHandler(BtnPrintAll_Click);
 
             InitializeGridColumns();
             SelectedVentilatorID = 0;
@@ -163,12 +164,12 @@ namespace SpecificationsTesting.UserControls
             InitializeGridData();
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             ShowCustomOrder();
         }
 
-        private void btnPrintSelectedTest_Click(object sender, EventArgs e)
+        private void BtnPrintSelectedTest_Click(object sender, EventArgs e)
         {
             var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidateForPrinting(selectedTest))
@@ -179,7 +180,7 @@ namespace SpecificationsTesting.UserControls
             Print(new List<CustomOrderVentilatorTest>() { selectedTest, selectedTest });
         }
 
-        private void btnPrintAll_Click(object sender, EventArgs e)
+        private void BtnPrintAll_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
             {
@@ -221,7 +222,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
                 return null;
             }
         }
@@ -322,7 +323,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -361,7 +362,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -413,7 +414,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -461,7 +462,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -469,7 +470,7 @@ namespace SpecificationsTesting.UserControls
         {
             try
             {
-                DataRow.Height = TableRowHeight;
+                DataRow.Height = _tableRowHeight;
                 for (int i = 0; i < values.Count; i++)
                 {
                     DataRow.Cells[i].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
@@ -477,7 +478,7 @@ namespace SpecificationsTesting.UserControls
                     TextRange TR2 = p2.AppendText(values[i]);
                     p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
                     TR2.CharacterFormat.FontName = "Calibri";
-                    TR2.CharacterFormat.FontSize = TableFontSize;
+                    TR2.CharacterFormat.FontSize = _tableFontSize;
                     TR2.CharacterFormat.Bold = true;
                     if (values[i] != "DUMMY")
                         TR2.CharacterFormat.TextColor = Color.Black;
@@ -487,12 +488,11 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
-
         }
 
-        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {

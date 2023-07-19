@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModelV2.Context;
 using EntityFrameworkModelV2.Models;
-using SpecificationsTesting.Business;
+using Logic;
+using Logic.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using System.Configuration;
@@ -15,24 +16,24 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
-        private readonly SerialPort SerialPort = new SerialPort(ConfigurationManager.AppSettings.Get("SerialPortName"), int.Parse(ConfigurationManager.AppSettings.Get("SerialPortBaudRate")), Parity.None, 8, StopBits.One);
+        private readonly SerialPort _serialPort = new SerialPort(ConfigurationManager.AppSettings.Get("SerialPortName"), int.Parse(ConfigurationManager.AppSettings.Get("SerialPortBaudRate")), Parity.None, 8, StopBits.One);
 
         public ControleUserControl()
         {
             InitializeComponent();
-            btnSearch.Click += new System.EventHandler(btnSearch_Click);
+            btnSearch.Click += new System.EventHandler(BtnSearch_Click);
             CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
             CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
             CustomOrderVentilatorsDataGrid.RowPrePaint += new DataGridViewRowPrePaintEventHandler(CustomOrderVentilatorsDataGrid_RowPrePaint);
-            btnSaveChanges.Click += new System.EventHandler(btnSaveChanges_Click);
-            btnClear.Click += new System.EventHandler(btnClear_Click);
-            radioButtonMotorHigh.CheckedChanged += new System.EventHandler(radioButtonMotorHigh_CheckedChanged);
-            radioButtonMotorLow.CheckedChanged += new System.EventHandler(radioButtonMotorLow_CheckedChanged);
-            radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(radioButtonVentilatorHigh_CheckedChanged);
-            radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(radioButtonVentilatorLow_CheckedChanged);
-            btnReadRPM.Click += new System.EventHandler(btnReadRPM_Click);
-            btnMotorTypePlate.Click += new System.EventHandler(btnMotorTypePlate_Click);
-            btnAtex.Click += new System.EventHandler(btnAtex_Click);
+            btnSaveChanges.Click += new System.EventHandler(BtnSaveChanges_Click);
+            btnClear.Click += new System.EventHandler(BtnClear_Click);
+            radioButtonMotorHigh.CheckedChanged += new System.EventHandler(RadioButtonMotorHigh_CheckedChanged);
+            radioButtonMotorLow.CheckedChanged += new System.EventHandler(RadioButtonMotorLow_CheckedChanged);
+            radioButtonVentilatorHigh.CheckedChanged += new System.EventHandler(RadioButtonVentilatorHigh_CheckedChanged);
+            radioButtonVentilatorLow.CheckedChanged += new System.EventHandler(RadioButtonVentilatorLow_CheckedChanged);
+            btnReadRPM.Click += new System.EventHandler(BtnReadRPM_Click);
+            btnMotorTypePlate.Click += new System.EventHandler(BtnMotorTypePlate_Click);
+            btnAtex.Click += new System.EventHandler(BtnAtex_Click);
 
             CustomOrder = null;
             SelectedVentilatorID = 0;
@@ -41,7 +42,7 @@ namespace SpecificationsTesting.UserControls
 
             InitializeGridColumns();
             InitializeComboBoxes();
-            SerialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
+            _serialPort.DataReceived += new SerialDataReceivedEventHandler(Port_DataReceived);
         }
 
         private void InitializeComboBoxes()
@@ -187,11 +188,11 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             ShowCustomOrder();
         }
@@ -221,7 +222,10 @@ namespace SpecificationsTesting.UserControls
             SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault().ID;
             InitializeGridData();
 
-            EnableReportButtons(ventilator);
+            if (ventilator != null)
+            {
+                EnableReportButtons(ventilator);
+            }
             if (ventilator.LowRPM == null)
             {
                 ShowSingleRPMSelection();
@@ -250,7 +254,7 @@ namespace SpecificationsTesting.UserControls
             radioButtonVentilatorHigh.Text = "Ventilator High RPM";
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
+        private void BtnClear_Click(object sender, EventArgs e)
         {
             ClearDataGrids();
         }
@@ -266,32 +270,38 @@ namespace SpecificationsTesting.UserControls
 
         private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
+            if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
-                EnableReportButtons(ventilator);
+                if (ventilator != null)
+                {
+                    EnableReportButtons(ventilator);
+                }
                 InitializeGridData(false, true);
             }
         }
 
         private void CustomOrderVentilatorTestsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
+            if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                if(!ventilator.CustomOrderVentilatorTests.Any(x => x.ID == SelectedVentilatorTestID))
+                if (!ventilator.CustomOrderVentilatorTests.Any(x => x.ID == SelectedVentilatorTestID))
                 {
                     SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
                 }
-                EnableReportButtons(ventilator);
+                if (ventilator != null)
+                {
+                    EnableReportButtons(ventilator);
+                }
                 InitializeGridData(false, false);
             }
         }
 
-        private void btnSaveChanges_Click(object sender, EventArgs e)
+        private void BtnSaveChanges_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text) || CustomOrder == null)
                 return;
@@ -325,7 +335,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -337,7 +347,7 @@ namespace SpecificationsTesting.UserControls
             return test;
         }
 
-        private void radioButtonMotorHigh_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonMotorHigh_CheckedChanged(object sender, EventArgs e)
         {
             var radioButton = (RadioButton)sender;
             if (radioButton.Checked)
@@ -348,7 +358,7 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void radioButtonMotorLow_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonMotorLow_CheckedChanged(object sender, EventArgs e)
         {
             var radioButton = (RadioButton)sender;
             if (radioButton.Checked)
@@ -359,7 +369,7 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void radioButtonVentilatorHigh_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonVentilatorHigh_CheckedChanged(object sender, EventArgs e)
         {
             var radioButton = (RadioButton)sender;
             if (radioButton.Checked)
@@ -370,7 +380,7 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void radioButtonVentilatorLow_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonVentilatorLow_CheckedChanged(object sender, EventArgs e)
         {
             var radioButton = (RadioButton)sender;
             if (radioButton.Checked)
@@ -381,18 +391,18 @@ namespace SpecificationsTesting.UserControls
             }
         }
 
-        private void btnReadRPM_Click(object sender, EventArgs e)
+        private void BtnReadRPM_Click(object sender, EventArgs e)
         {
             try
             {
-                SerialPort.Open();
+                _serialPort.Open();
                 var bytess = new byte[13] { 0x81, 0x4D, 0x45, 0x41, 0x20, 0x43, 0x48, 0x20, 0x31, 0x20, 0x3F, 0x03, 0x6F };
-                SerialPort.Write(bytess, 0, bytess.Length);
+                _serialPort.Write(bytess, 0, bytess.Length);
             }
             catch (Exception ex)
             {
-                SerialPort.Close();
-                MessageBox.Show(ex.Message);
+                _serialPort.Close();
+                ExceptionHandler.HandleException(ex);
             }
         }
 
@@ -421,7 +431,7 @@ namespace SpecificationsTesting.UserControls
                 else if (radioButtonVentilatorLow.Checked)
                     selectedTest.MeasuredVentilatorLowRPM = (int)rpm;
 
-                if(serialPort.IsOpen)
+                if (serialPort.IsOpen)
                 {
                     serialPort.Close();
                 }
@@ -432,12 +442,12 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                SerialPort.Close();
-                MessageBox.Show(ex.Message);
+                _serialPort.Close();
+                ExceptionHandler.HandleException(ex);
             }
         }
 
-        private void btnMotorTypePlate_Click(object sender, EventArgs e)
+        private void BtnMotorTypePlate_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
@@ -456,7 +466,7 @@ namespace SpecificationsTesting.UserControls
             mainForm.MotorTypePlateUserControl.SetSelectedVentilatorTest(CustomOrder.CustomOrderNumber, SelectedVentilatorID, SelectedVentilatorTestID);
         }
 
-        private void btnAtex_Click(object sender, EventArgs e)
+        private void BtnAtex_Click(object sender, EventArgs e)
         {
             if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
             {
@@ -475,7 +485,7 @@ namespace SpecificationsTesting.UserControls
             mainForm.AtexStickerUserControl.SetSelectedVentilatorTest(CustomOrder.CustomOrderNumber, SelectedVentilatorID, SelectedVentilatorTestID);
         }
 
-        private void txtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
             {

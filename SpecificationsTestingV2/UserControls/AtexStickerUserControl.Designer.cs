@@ -100,7 +100,7 @@
             this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
             this.txtCustomOrderNumber.TabIndex = 1;
-            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCustomOrderNumber_KeyDown);
             // 
             // label5
             // 
