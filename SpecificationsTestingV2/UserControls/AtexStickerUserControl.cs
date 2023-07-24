@@ -82,7 +82,7 @@ namespace SpecificationsTesting.Forms
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
-                if(ventilator != null)
+                if (ventilator != null)
                 {
                     EnableReportButtons(ventilator);
                 }
@@ -205,7 +205,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 5:
                             columns.Add(new StickerRowColumn() { LeftText = "VENTILATOR" });
-                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = ventilator.CustomOrderMotor.Name});
+                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = ventilator.CustomOrderMotor.Name });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 6:
@@ -299,7 +299,7 @@ namespace SpecificationsTesting.Forms
                 graph.DrawRectangle(pen, row);
 
                 StringFormat stringFormat = new StringFormat();
-                if(!string.IsNullOrEmpty(columns[i].LeftText))
+                if (!string.IsNullOrEmpty(columns[i].LeftText))
                 {
                     stringFormat.Alignment = StringAlignment.Near;
                     stringFormat.LineAlignment = StringAlignment.Far;
@@ -393,7 +393,7 @@ namespace SpecificationsTesting.Forms
                 ShowTable(SelectedImageSize);
                 return false;
             }
-        
+
             InitializeGridData();
             if (showTable)
             {
@@ -537,7 +537,7 @@ namespace SpecificationsTesting.Forms
                 table.ResetCells(rows, columns);
 
                 var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
-                if(ventilator == null)
+                if (ventilator == null)
                 {
                     ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
                     return;

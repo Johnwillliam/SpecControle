@@ -28,226 +28,244 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnPrint = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.ArrowsListBox = new System.Windows.Forms.ListBox();
-            this.LogosListBox = new System.Windows.Forms.ListBox();
-            this.MotorTypePlateImage = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtCustomOrderNumber = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.CustomOrderVentilatorsDataGrid = new System.Windows.Forms.DataGridView();
-            this.btnSize = new System.Windows.Forms.Button();
-            this.CustomOrderVentilatorTestsDataGrid = new System.Windows.Forms.DataGridView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).BeginInit();
-            this.SuspendLayout();
+            btnPrint = new Button();
+            label2 = new Label();
+            label1 = new Label();
+            ArrowsListBox = new ListBox();
+            LogosListBox = new ListBox();
+            MotorTypePlateImage = new PictureBox();
+            groupBox1 = new GroupBox();
+            txtCustomOrderNumber = new TextBox();
+            label5 = new Label();
+            btnSearch = new Button();
+            CustomOrderVentilatorsDataGrid = new DataGridView();
+            btnSize = new Button();
+            CustomOrderVentilatorTestsDataGrid = new DataGridView();
+            label7 = new Label();
+            label6 = new Label();
+            ((System.ComponentModel.ISupportInitialize)MotorTypePlateImage).BeginInit();
+            groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorTestsDataGrid).BeginInit();
+            SuspendLayout();
             // 
             // btnPrint
             // 
-            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(3, 422);
-            this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(157, 47);
-            this.btnPrint.TabIndex = 11;
-            this.btnPrint.Text = "Print";
-            this.btnPrint.UseVisualStyleBackColor = true;
+            btnPrint.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnPrint.Location = new Point(4, 487);
+            btnPrint.Margin = new Padding(4, 3, 4, 3);
+            btnPrint.Name = "btnPrint";
+            btnPrint.Size = new Size(183, 54);
+            btnPrint.TabIndex = 11;
+            btnPrint.Text = "Print";
+            btnPrint.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(662, 106);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Arrows";
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(772, 122);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(45, 13);
+            label2.TabIndex = 10;
+            label2.Text = "Arrows";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(788, 106);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Logo\'s";
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(919, 122);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(44, 13);
+            label1.TabIndex = 9;
+            label1.Text = "Logo's";
             // 
             // ArrowsListBox
             // 
-            this.ArrowsListBox.FormattingEnabled = true;
-            this.ArrowsListBox.Location = new System.Drawing.Point(662, 120);
-            this.ArrowsListBox.Name = "ArrowsListBox";
-            this.ArrowsListBox.Size = new System.Drawing.Size(116, 225);
-            this.ArrowsListBox.TabIndex = 8;
+            ArrowsListBox.FormattingEnabled = true;
+            ArrowsListBox.ItemHeight = 15;
+            ArrowsListBox.Location = new Point(772, 138);
+            ArrowsListBox.Margin = new Padding(4, 3, 4, 3);
+            ArrowsListBox.Name = "ArrowsListBox";
+            ArrowsListBox.Size = new Size(135, 259);
+            ArrowsListBox.TabIndex = 8;
             // 
             // LogosListBox
             // 
-            this.LogosListBox.FormattingEnabled = true;
-            this.LogosListBox.Location = new System.Drawing.Point(791, 120);
-            this.LogosListBox.Name = "LogosListBox";
-            this.LogosListBox.Size = new System.Drawing.Size(130, 225);
-            this.LogosListBox.TabIndex = 7;
+            LogosListBox.FormattingEnabled = true;
+            LogosListBox.ItemHeight = 15;
+            LogosListBox.Location = new Point(923, 138);
+            LogosListBox.Margin = new Padding(4, 3, 4, 3);
+            LogosListBox.Name = "LogosListBox";
+            LogosListBox.Size = new Size(151, 259);
+            LogosListBox.TabIndex = 7;
             // 
             // MotorTypePlateImage
             // 
-            this.MotorTypePlateImage.Location = new System.Drawing.Point(3, 3);
-            this.MotorTypePlateImage.Name = "MotorTypePlateImage";
-            this.MotorTypePlateImage.Size = new System.Drawing.Size(650, 413);
-            this.MotorTypePlateImage.TabIndex = 6;
-            this.MotorTypePlateImage.TabStop = false;
+            MotorTypePlateImage.Location = new Point(4, 3);
+            MotorTypePlateImage.Margin = new Padding(4, 3, 4, 3);
+            MotorTypePlateImage.Name = "MotorTypePlateImage";
+            MotorTypePlateImage.Size = new Size(760, 480);
+            MotorTypePlateImage.TabIndex = 6;
+            MotorTypePlateImage.TabStop = false;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.txtCustomOrderNumber);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.btnSearch);
-            this.groupBox1.Location = new System.Drawing.Point(662, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(259, 100);
-            this.groupBox1.TabIndex = 44;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Search";
+            groupBox1.Controls.Add(txtCustomOrderNumber);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(btnSearch);
+            groupBox1.Location = new Point(772, 3);
+            groupBox1.Margin = new Padding(4, 3, 4, 3);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Padding = new Padding(4, 3, 4, 3);
+            groupBox1.Size = new Size(302, 115);
+            groupBox1.TabIndex = 44;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Search";
             // 
             // txtCustomOrderNumber
             // 
-            this.txtCustomOrderNumber.Location = new System.Drawing.Point(6, 35);
-            this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
-            this.txtCustomOrderNumber.Size = new System.Drawing.Size(247, 20);
-            this.txtCustomOrderNumber.TabIndex = 1;
-            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCustomOrderNumber_KeyDown);
+            txtCustomOrderNumber.Location = new Point(7, 40);
+            txtCustomOrderNumber.Margin = new Padding(4, 3, 4, 3);
+            txtCustomOrderNumber.Name = "txtCustomOrderNumber";
+            txtCustomOrderNumber.Size = new Size(288, 23);
+            txtCustomOrderNumber.TabIndex = 1;
+            txtCustomOrderNumber.KeyDown += TxtCustomOrderNumber_KeyDown;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(22, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "CO";
+            label5.AutoSize = true;
+            label5.Location = new Point(7, 22);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(24, 15);
+            label5.TabIndex = 13;
+            label5.Text = "CO";
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(6, 61);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(247, 23);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Location = new Point(7, 70);
+            btnSearch.Margin = new Padding(4, 3, 4, 3);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(288, 27);
+            btnSearch.TabIndex = 2;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
             // 
             // CustomOrderVentilatorsDataGrid
             // 
-            this.CustomOrderVentilatorsDataGrid.AllowUserToAddRows = false;
-            this.CustomOrderVentilatorsDataGrid.AllowUserToDeleteRows = false;
-            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeColumns = false;
-            this.CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
-            this.CustomOrderVentilatorsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomOrderVentilatorsDataGrid.Location = new System.Drawing.Point(931, 22);
-            this.CustomOrderVentilatorsDataGrid.MultiSelect = false;
-            this.CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
-            this.CustomOrderVentilatorsDataGrid.Size = new System.Drawing.Size(147, 394);
-            this.CustomOrderVentilatorsDataGrid.TabIndex = 45;
+            CustomOrderVentilatorsDataGrid.AllowUserToAddRows = false;
+            CustomOrderVentilatorsDataGrid.AllowUserToDeleteRows = false;
+            CustomOrderVentilatorsDataGrid.AllowUserToResizeColumns = false;
+            CustomOrderVentilatorsDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorsDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CustomOrderVentilatorsDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            CustomOrderVentilatorsDataGrid.Location = new Point(1090, 25);
+            CustomOrderVentilatorsDataGrid.Margin = new Padding(4, 3, 4, 3);
+            CustomOrderVentilatorsDataGrid.MultiSelect = false;
+            CustomOrderVentilatorsDataGrid.Name = "CustomOrderVentilatorsDataGrid";
+            CustomOrderVentilatorsDataGrid.Size = new Size(170, 455);
+            CustomOrderVentilatorsDataGrid.TabIndex = 45;
             // 
             // btnSize
             // 
-            this.btnSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSize.Location = new System.Drawing.Point(166, 422);
-            this.btnSize.Name = "btnSize";
-            this.btnSize.Size = new System.Drawing.Size(157, 47);
-            this.btnSize.TabIndex = 46;
-            this.btnSize.Text = "Small";
-            this.btnSize.UseVisualStyleBackColor = true;
-            this.btnSize.Visible = false;
-            this.btnSize.Click += new System.EventHandler(this.BtnSize_Click);
+            btnSize.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSize.Location = new Point(194, 487);
+            btnSize.Margin = new Padding(4, 3, 4, 3);
+            btnSize.Name = "btnSize";
+            btnSize.Size = new Size(183, 54);
+            btnSize.TabIndex = 46;
+            btnSize.Text = "Small";
+            btnSize.UseVisualStyleBackColor = true;
+            btnSize.Visible = false;
+            btnSize.Click += BtnSize_Click;
             // 
             // CustomOrderVentilatorTestsDataGrid
             // 
-            this.CustomOrderVentilatorTestsDataGrid.AllowUserToAddRows = false;
-            this.CustomOrderVentilatorTestsDataGrid.AllowUserToDeleteRows = false;
-            this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeColumns = false;
-            this.CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
-            this.CustomOrderVentilatorTestsDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CustomOrderVentilatorTestsDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomOrderVentilatorTestsDataGrid.Location = new System.Drawing.Point(1087, 22);
-            this.CustomOrderVentilatorTestsDataGrid.MultiSelect = false;
-            this.CustomOrderVentilatorTestsDataGrid.Name = "CustomOrderVentilatorTestsDataGrid";
-            this.CustomOrderVentilatorTestsDataGrid.Size = new System.Drawing.Size(132, 394);
-            this.CustomOrderVentilatorTestsDataGrid.TabIndex = 47;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToAddRows = false;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToDeleteRows = false;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToResizeColumns = false;
+            CustomOrderVentilatorTestsDataGrid.AllowUserToResizeRows = false;
+            CustomOrderVentilatorTestsDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CustomOrderVentilatorTestsDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            CustomOrderVentilatorTestsDataGrid.Location = new Point(1267, 25);
+            CustomOrderVentilatorTestsDataGrid.Margin = new Padding(4, 3, 4, 3);
+            CustomOrderVentilatorTestsDataGrid.MultiSelect = false;
+            CustomOrderVentilatorTestsDataGrid.Name = "CustomOrderVentilatorTestsDataGrid";
+            CustomOrderVentilatorTestsDataGrid.Size = new Size(154, 455);
+            CustomOrderVentilatorTestsDataGrid.TabIndex = 47;
             // 
             // label7
             // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(1084, 3);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(116, 16);
-            this.label7.TabIndex = 60;
-            this.label7.Text = "Ventilator Tests";
+            label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label7.AutoSize = true;
+            label7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Location = new Point(1264, 3);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(116, 16);
+            label7.TabIndex = 60;
+            label7.Text = "Ventilator Tests";
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(931, 3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 16);
-            this.label6.TabIndex = 59;
-            this.label6.Text = "Ventilators";
+            label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label6.AutoSize = true;
+            label6.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(1085, 3);
+            label6.Margin = new Padding(4, 0, 4, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(81, 16);
+            label6.TabIndex = 59;
+            label6.Text = "Ventilators";
             // 
             // MotorTypePlateStickerUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.CustomOrderVentilatorTestsDataGrid);
-            this.Controls.Add(this.btnSize);
-            this.Controls.Add(this.CustomOrderVentilatorsDataGrid);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnPrint);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.ArrowsListBox);
-            this.Controls.Add(this.LogosListBox);
-            this.Controls.Add(this.MotorTypePlateImage);
-            this.Name = "MotorTypePlateStickerUserControl";
-            this.Size = new System.Drawing.Size(1222, 472);
-            ((System.ComponentModel.ISupportInitialize)(this.MotorTypePlateImage)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorsDataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.CustomOrderVentilatorTestsDataGrid)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(CustomOrderVentilatorTestsDataGrid);
+            Controls.Add(btnSize);
+            Controls.Add(CustomOrderVentilatorsDataGrid);
+            Controls.Add(groupBox1);
+            Controls.Add(btnPrint);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(ArrowsListBox);
+            Controls.Add(LogosListBox);
+            Controls.Add(MotorTypePlateImage);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "MotorTypePlateStickerUserControl";
+            Size = new Size(1425, 730);
+            ((System.ComponentModel.ISupportInitialize)MotorTypePlateImage).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorTestsDataGrid).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListBox ArrowsListBox;
-        private System.Windows.Forms.ListBox LogosListBox;
-        private System.Windows.Forms.PictureBox MotorTypePlateImage;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtCustomOrderNumber;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.DataGridView CustomOrderVentilatorsDataGrid;
-        private System.Windows.Forms.Button btnSize;
-        private System.Windows.Forms.DataGridView CustomOrderVentilatorTestsDataGrid;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private Button btnPrint;
+        private Label label2;
+        private Label label1;
+        private ListBox ArrowsListBox;
+        private ListBox LogosListBox;
+        private PictureBox MotorTypePlateImage;
+        private GroupBox groupBox1;
+        private TextBox txtCustomOrderNumber;
+        private Label label5;
+        private Button btnSearch;
+        private DataGridView CustomOrderVentilatorsDataGrid;
+        private Button btnSize;
+        private DataGridView CustomOrderVentilatorTestsDataGrid;
+        private Label label7;
+        private Label label6;
     }
 }

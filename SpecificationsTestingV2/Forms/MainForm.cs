@@ -18,20 +18,20 @@ namespace SpecificationsTesting.Forms
             this.Width = 1400;
             this.Height = 700;
             InitializeComponent();
-            if(DatabaseIsAvailable())
+            if (DatabaseIsAvailable())
             {
-				InitializeOrderUserControls();
-				InitializeControleUserControls();
-				InitializeMotorTypePlateUserControl();
-				InitializeAtexStickerUserControl();
-				InitializeMotorTemplateUserControl();
-				InitializeTestDocumentGenerationUserControl();
-				InitializePrinters();
-			}
+                InitializeOrderUserControls();
+                InitializeControleUserControls();
+                InitializeMotorTypePlateUserControl();
+                InitializeAtexStickerUserControl();
+                InitializeMotorTemplateUserControl();
+                InitializeTestDocumentGenerationUserControl();
+                InitializePrinters();
+            }
             else
             {
-				Environment.Exit(1);
-			}
+                Environment.Exit(1);
+            }
         }
 
         private void InitializePrinters()
@@ -56,26 +56,26 @@ namespace SpecificationsTesting.Forms
         {
             try
             {
-				if (!new SpecificationsDatabaseModel().Database.CanConnect())
-				{
-					DatabaseOffline();
-					return false;
-				}
-			}
+                if (!new SpecificationsDatabaseModel().Database.CanConnect())
+                {
+                    DatabaseOffline();
+                    return false;
+                }
+            }
             catch (Exception)
             {
                 DatabaseOffline();
-				return false;
-			}
+                return false;
+            }
             return true;
         }
 
         private void DatabaseOffline()
         {
-			MessageBox.Show("Database cannot be reached, please check if the SQL server is running.");
-		}
+            MessageBox.Show("Database cannot be reached, please check if the SQL server is running.");
+        }
 
-		private void InitializeOrderUserControls()
+        private void InitializeOrderUserControls()
         {
             OrderUserControl = new OrderUserControl
             {
@@ -115,7 +115,8 @@ namespace SpecificationsTesting.Forms
         {
             MotorTemplateUserControl = new MotorTemplateUserControl
             {
-                AutoSize = true, AutoSizeMode = AutoSizeMode.GrowOnly
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowOnly
             };
             TemplateMotorTabPage.Controls.Add(MotorTemplateUserControl);
         }
@@ -137,7 +138,7 @@ namespace SpecificationsTesting.Forms
 
         private void SetStickerPrinter()
         {
-            if(cmbStickerPrinters.SelectedItem == null)
+            if (cmbStickerPrinters.SelectedItem == null)
             {
                 return;
             }
@@ -155,7 +156,7 @@ namespace SpecificationsTesting.Forms
 
         private void SetPrinter()
         {
-            if(cmbPrinters.SelectedItem == null)
+            if (cmbPrinters.SelectedItem == null)
             {
                 return;
             }

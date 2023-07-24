@@ -99,14 +99,14 @@ namespace SpecificationsTesting.UserControls
                 cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
                 Show_Combobox(cell, cmbCatOutType);
             }
-                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
-                cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
-                cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
-                cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
-                cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
-                cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
+            SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
+            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
+            cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
+            cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
+            cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
+            cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
+            cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
         }
 
         private void InitializeGridColumns()
@@ -247,7 +247,7 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = null;
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
-                    if(SelectedVentilatorID > 0)
+                    if (SelectedVentilatorID > 0)
                     {
                         CustomOrderVentilatorsDataGrid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => (int)x.Cells[0].Value == SelectedVentilatorID).Selected = true;
                     }
@@ -255,7 +255,7 @@ namespace SpecificationsTesting.UserControls
 
                 InitializeComboBoxes();
                 DisableCalculatedRows();
-                if(validateVentilator)
+                if (validateVentilator)
                 {
                     BCustomOrderVentilator.Validate(ventilator);
                 }
@@ -492,21 +492,20 @@ namespace SpecificationsTesting.UserControls
             if (int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
             {
                 var templateMotor = BTemplateMotor.GetById(motorTemplateId);
-                var ventilator = CustomOrder.CustomOrderVentilators.First();
-                if (CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID) != null)
+                var existingVentilator = CustomOrder.CustomOrderVentilators.First();
+                if (CustomOrder.CustomOrderVentilators.Any(x => x.ID == SelectedVentilatorID))
                 {
-                    ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                    existingVentilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
                 }
 
-                ventilator = ReadCustomOrderVentilatorDataGrid();
-                ventilator.CustomOrderMotor = BCustomOrderMotor.CreateFromTemplate(templateMotor);
+                BCustomOrderMotor.UpdateFromTemplate(existingVentilator.CustomOrderMotor, templateMotor);
                 InitializeGridData();
             }
         }
 
         private void BtnCopyOrder_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null && CustomOrder.ID == -1)
+            if (CustomOrder?.ID == -1)
             {
                 MessageBox.Show("Please search the order to copy first before copying.");
                 return;

@@ -9,15 +9,15 @@ namespace Logic.Business
         private static readonly List<string> _orderDisplayPropertyNames = new List<string>
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
-            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage", 
-            "LowAmperage", "HighStartupAmperage", "LowStartupAmperage", "Frequency", 
+            "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage",
+            "LowAmperage", "HighStartupAmperage", "LowStartupAmperage", "Frequency",
             "PowerFactor", "VoltageType", "HighBearings", "LowBearings"
         };
 
         private static readonly List<string> _controleDisplayPropertyNames = new List<string>
         {
-            "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM", 
-            "HighAmperage", "LowAmperage", "HighStartupAmperage", "LowStartupAmperage", 
+            "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM",
+            "HighAmperage", "LowAmperage", "HighStartupAmperage", "LowStartupAmperage",
             "Frequency", "HighBearings", "LowBearings"
         };
 
@@ -92,8 +92,34 @@ namespace Logic.Business
                 LowStartupAmperage = templateMotor.LowStartupAmperage,
                 Type = templateMotor.Type,
                 Version = templateMotor.Version,
-                VoltageType = templateMotor.VoltageType
+                VoltageType = templateMotor.VoltageType,
+                HighBearings = templateMotor.HighBearings,
+                LowBearings = templateMotor.LowBearings
             };
+        }
+
+        public static void UpdateFromTemplate(CustomOrderMotor customOrderMotor, TemplateMotor templateMotor)
+        {
+            customOrderMotor.Name = templateMotor.Name;
+            customOrderMotor.HighAmperage = templateMotor.HighAmperage;
+            customOrderMotor.LowAmperage = templateMotor.LowAmperage;
+            customOrderMotor.BuildingType = templateMotor.BuildingType;
+            customOrderMotor.Frequency = templateMotor.Frequency;
+            customOrderMotor.IEC = templateMotor.IEC;
+            customOrderMotor.IP = templateMotor.IP;
+            customOrderMotor.ISO = templateMotor.ISO;
+            customOrderMotor.HighPower = templateMotor.HighPower;
+            customOrderMotor.LowPower = templateMotor.LowPower;
+            customOrderMotor.PowerFactor = templateMotor.PowerFactor;
+            customOrderMotor.HighRPM = templateMotor.HighRPM;
+            customOrderMotor.LowRPM = templateMotor.LowRPM;
+            customOrderMotor.HighStartupAmperage = templateMotor.HighStartupAmperage;
+            customOrderMotor.LowStartupAmperage = templateMotor.LowStartupAmperage;
+            customOrderMotor.Type = templateMotor.Type;
+            customOrderMotor.Version = templateMotor.Version;
+            customOrderMotor.VoltageType = templateMotor.VoltageType;
+            customOrderMotor.HighBearings = templateMotor.HighBearings;
+            customOrderMotor.LowBearings = templateMotor.LowBearings;
         }
 
         public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)

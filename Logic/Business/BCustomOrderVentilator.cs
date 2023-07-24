@@ -124,14 +124,12 @@ namespace Logic.Business
             try
             {
                 var amount = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Amount")).Cells["Value"].Value;
-                if (!int.TryParse(amount?.ToString(), out int value))
-                    return null;
-
-                newCustomOrderVentilator.Amount = value;
+                if (int.TryParse(amount?.ToString(), out int value))
+                {
+                    newCustomOrderVentilator.Amount = value;
+                }
 
                 var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
-                if (name == null)
-                    return null;
                 newCustomOrderVentilator.Name = name.ToString();
 
                 var highAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighAirVolume")).Cells["Value"].Value;

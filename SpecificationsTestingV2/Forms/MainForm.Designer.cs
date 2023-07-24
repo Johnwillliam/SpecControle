@@ -28,162 +28,171 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl = new System.Windows.Forms.TabControl();
-            this.OrderTabPage = new System.Windows.Forms.TabPage();
-            this.ControleTabPage = new System.Windows.Forms.TabPage();
-            this.MotorTypePlateTabPage = new System.Windows.Forms.TabPage();
-            this.AtexStickerTabPage = new System.Windows.Forms.TabPage();
-            this.RunningTestTabPage = new System.Windows.Forms.TabPage();
-            this.TemplateMotorTabPage = new System.Windows.Forms.TabPage();
-            this.cmbStickerPrinters = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cmbPrinters = new System.Windows.Forms.ComboBox();
-            this.tabControl.SuspendLayout();
-            this.SuspendLayout();
+            tabControl = new TabControl();
+            OrderTabPage = new TabPage();
+            ControleTabPage = new TabPage();
+            MotorTypePlateTabPage = new TabPage();
+            AtexStickerTabPage = new TabPage();
+            RunningTestTabPage = new TabPage();
+            TemplateMotorTabPage = new TabPage();
+            cmbStickerPrinters = new ComboBox();
+            label1 = new Label();
+            label2 = new Label();
+            cmbPrinters = new ComboBox();
+            tabControl.SuspendLayout();
+            SuspendLayout();
             // 
             // tabControl
             // 
-            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl.Controls.Add(this.OrderTabPage);
-            this.tabControl.Controls.Add(this.ControleTabPage);
-            this.tabControl.Controls.Add(this.MotorTypePlateTabPage);
-            this.tabControl.Controls.Add(this.AtexStickerTabPage);
-            this.tabControl.Controls.Add(this.RunningTestTabPage);
-            this.tabControl.Controls.Add(this.TemplateMotorTabPage);
-            this.tabControl.Location = new System.Drawing.Point(1, 1);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1234, 637);
-            this.tabControl.TabIndex = 34;
+            tabControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControl.Controls.Add(OrderTabPage);
+            tabControl.Controls.Add(ControleTabPage);
+            tabControl.Controls.Add(MotorTypePlateTabPage);
+            tabControl.Controls.Add(AtexStickerTabPage);
+            tabControl.Controls.Add(RunningTestTabPage);
+            tabControl.Controls.Add(TemplateMotorTabPage);
+            tabControl.Location = new Point(1, 1);
+            tabControl.Margin = new Padding(4, 3, 4, 3);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new Size(1440, 756);
+            tabControl.TabIndex = 34;
             // 
             // OrderTabPage
             // 
-            this.OrderTabPage.Location = new System.Drawing.Point(4, 22);
-            this.OrderTabPage.Name = "OrderTabPage";
-            this.OrderTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.OrderTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.OrderTabPage.TabIndex = 0;
-            this.OrderTabPage.Text = "Invoeren";
-            this.OrderTabPage.UseVisualStyleBackColor = true;
+            OrderTabPage.Location = new Point(4, 24);
+            OrderTabPage.Margin = new Padding(4, 3, 4, 3);
+            OrderTabPage.Name = "OrderTabPage";
+            OrderTabPage.Padding = new Padding(4, 3, 4, 3);
+            OrderTabPage.Size = new Size(1432, 728);
+            OrderTabPage.TabIndex = 0;
+            OrderTabPage.Text = "Invoeren";
+            OrderTabPage.UseVisualStyleBackColor = true;
             // 
             // ControleTabPage
             // 
-            this.ControleTabPage.Location = new System.Drawing.Point(4, 22);
-            this.ControleTabPage.Name = "ControleTabPage";
-            this.ControleTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.ControleTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.ControleTabPage.TabIndex = 1;
-            this.ControleTabPage.Text = "Controle";
-            this.ControleTabPage.UseVisualStyleBackColor = true;
+            ControleTabPage.Location = new Point(4, 24);
+            ControleTabPage.Margin = new Padding(4, 3, 4, 3);
+            ControleTabPage.Name = "ControleTabPage";
+            ControleTabPage.Padding = new Padding(4, 3, 4, 3);
+            ControleTabPage.Size = new Size(1432, 707);
+            ControleTabPage.TabIndex = 1;
+            ControleTabPage.Text = "Controle";
+            ControleTabPage.UseVisualStyleBackColor = true;
             // 
             // MotorTypePlateTabPage
             // 
-            this.MotorTypePlateTabPage.Location = new System.Drawing.Point(4, 22);
-            this.MotorTypePlateTabPage.Name = "MotorTypePlateTabPage";
-            this.MotorTypePlateTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.MotorTypePlateTabPage.TabIndex = 2;
-            this.MotorTypePlateTabPage.Text = "Typeplate Sticker";
-            this.MotorTypePlateTabPage.UseVisualStyleBackColor = true;
+            MotorTypePlateTabPage.Location = new Point(4, 24);
+            MotorTypePlateTabPage.Margin = new Padding(4, 3, 4, 3);
+            MotorTypePlateTabPage.Name = "MotorTypePlateTabPage";
+            MotorTypePlateTabPage.Size = new Size(1432, 707);
+            MotorTypePlateTabPage.TabIndex = 2;
+            MotorTypePlateTabPage.Text = "Typeplate Sticker";
+            MotorTypePlateTabPage.UseVisualStyleBackColor = true;
             // 
             // AtexStickerTabPage
             // 
-            this.AtexStickerTabPage.Location = new System.Drawing.Point(4, 22);
-            this.AtexStickerTabPage.Name = "AtexStickerTabPage";
-            this.AtexStickerTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.AtexStickerTabPage.TabIndex = 4;
-            this.AtexStickerTabPage.Text = "Atex Sticker";
-            this.AtexStickerTabPage.UseVisualStyleBackColor = true;
+            AtexStickerTabPage.Location = new Point(4, 24);
+            AtexStickerTabPage.Margin = new Padding(4, 3, 4, 3);
+            AtexStickerTabPage.Name = "AtexStickerTabPage";
+            AtexStickerTabPage.Size = new Size(1432, 707);
+            AtexStickerTabPage.TabIndex = 4;
+            AtexStickerTabPage.Text = "Atex Sticker";
+            AtexStickerTabPage.UseVisualStyleBackColor = true;
             // 
             // RunningTestTabPage
             // 
-            this.RunningTestTabPage.Location = new System.Drawing.Point(4, 22);
-            this.RunningTestTabPage.Name = "RunningTestTabPage";
-            this.RunningTestTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.RunningTestTabPage.TabIndex = 5;
-            this.RunningTestTabPage.Text = "Test Document";
-            this.RunningTestTabPage.UseVisualStyleBackColor = true;
+            RunningTestTabPage.Location = new Point(4, 24);
+            RunningTestTabPage.Margin = new Padding(4, 3, 4, 3);
+            RunningTestTabPage.Name = "RunningTestTabPage";
+            RunningTestTabPage.Size = new Size(1432, 707);
+            RunningTestTabPage.TabIndex = 5;
+            RunningTestTabPage.Text = "Test Document";
+            RunningTestTabPage.UseVisualStyleBackColor = true;
             // 
             // TemplateMotorTabPage
             // 
-            this.TemplateMotorTabPage.Location = new System.Drawing.Point(4, 22);
-            this.TemplateMotorTabPage.Name = "TemplateMotorTabPage";
-            this.TemplateMotorTabPage.Size = new System.Drawing.Size(1226, 611);
-            this.TemplateMotorTabPage.TabIndex = 3;
-            this.TemplateMotorTabPage.Text = "Motor Templates";
-            this.TemplateMotorTabPage.UseVisualStyleBackColor = true;
+            TemplateMotorTabPage.Location = new Point(4, 24);
+            TemplateMotorTabPage.Margin = new Padding(4, 3, 4, 3);
+            TemplateMotorTabPage.Name = "TemplateMotorTabPage";
+            TemplateMotorTabPage.Size = new Size(1432, 707);
+            TemplateMotorTabPage.TabIndex = 3;
+            TemplateMotorTabPage.Text = "Motor Templates";
+            TemplateMotorTabPage.UseVisualStyleBackColor = true;
             // 
             // cmbStickerPrinters
             // 
-            this.cmbStickerPrinters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbStickerPrinters.FormattingEnabled = true;
-            this.cmbStickerPrinters.Location = new System.Drawing.Point(645, 1);
-            this.cmbStickerPrinters.Name = "cmbStickerPrinters";
-            this.cmbStickerPrinters.Size = new System.Drawing.Size(240, 21);
-            this.cmbStickerPrinters.TabIndex = 0;
-            this.cmbStickerPrinters.SelectedIndexChanged += new System.EventHandler(this.cmbStickerPrinters_SelectedIndexChanged);
+            cmbStickerPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbStickerPrinters.FormattingEnabled = true;
+            cmbStickerPrinters.Location = new Point(752, 1);
+            cmbStickerPrinters.Margin = new Padding(4, 3, 4, 3);
+            cmbStickerPrinters.Name = "cmbStickerPrinters";
+            cmbStickerPrinters.Size = new Size(279, 23);
+            cmbStickerPrinters.TabIndex = 0;
+            cmbStickerPrinters.SelectedIndexChanged += cmbStickerPrinters_SelectedIndexChanged;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(532, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Select Sticker Printer:";
+            label1.AutoSize = true;
+            label1.Location = new Point(621, 6);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(117, 15);
+            label1.TabIndex = 0;
+            label1.Text = "Select Sticker Printer:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(909, 5);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 13);
-            this.label2.TabIndex = 35;
-            this.label2.Text = "Select Printer:";
+            label2.AutoSize = true;
+            label2.Location = new Point(1060, 6);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(79, 15);
+            label2.TabIndex = 35;
+            label2.Text = "Select Printer:";
             // 
             // cmbPrinters
             // 
-            this.cmbPrinters.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPrinters.FormattingEnabled = true;
-            this.cmbPrinters.Location = new System.Drawing.Point(985, 1);
-            this.cmbPrinters.Name = "cmbPrinters";
-            this.cmbPrinters.Size = new System.Drawing.Size(240, 21);
-            this.cmbPrinters.TabIndex = 36;
-            this.cmbPrinters.SelectedIndexChanged += new System.EventHandler(this.cmbPrinters_SelectedIndexChanged);
+            cmbPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbPrinters.FormattingEnabled = true;
+            cmbPrinters.Location = new Point(1149, 1);
+            cmbPrinters.Margin = new Padding(4, 3, 4, 3);
+            cmbPrinters.Name = "cmbPrinters";
+            cmbPrinters.Size = new Size(279, 23);
+            cmbPrinters.TabIndex = 36;
+            cmbPrinters.SelectedIndexChanged += cmbPrinters_SelectedIndexChanged;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1234, 641);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.cmbStickerPrinters);
-            this.Controls.Add(this.cmbPrinters);
-            this.Controls.Add(this.tabControl);
-            this.Name = "MainForm";
-            this.Text = "MainForm";
-            this.tabControl.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            ClientSize = new Size(1440, 761);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(cmbStickerPrinters);
+            Controls.Add(cmbPrinters);
+            Controls.Add(tabControl);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "MainForm";
+            Text = "MainForm";
+            tabControl.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage OrderTabPage;
-        private System.Windows.Forms.TabPage ControleTabPage;
-        private System.Windows.Forms.TabPage MotorTypePlateTabPage;
-        private System.Windows.Forms.ComboBox cmbStickerPrinters;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabPage TemplateMotorTabPage;
-        private System.Windows.Forms.TabPage AtexStickerTabPage;
-        private System.Windows.Forms.TabPage RunningTestTabPage;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbPrinters;
+        private TabControl tabControl;
+        private TabPage OrderTabPage;
+        private TabPage ControleTabPage;
+        private TabPage MotorTypePlateTabPage;
+        private ComboBox cmbStickerPrinters;
+        private Label label1;
+        private TabPage TemplateMotorTabPage;
+        private TabPage AtexStickerTabPage;
+        private TabPage RunningTestTabPage;
+        private Label label2;
+        private ComboBox cmbPrinters;
     }
 }

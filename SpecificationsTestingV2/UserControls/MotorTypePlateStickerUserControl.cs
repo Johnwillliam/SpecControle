@@ -91,7 +91,7 @@ namespace SpecificationsTesting.Forms
             if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
-                InitializeGridData(false, false); 
+                InitializeGridData(false, false);
                 ShowTable(SelectedImageSize);
             }
         }
@@ -168,7 +168,7 @@ namespace SpecificationsTesting.Forms
             var arrowFile = (FileInfo)ArrowsListBox.SelectedItem;
             var arrows = Image.FromFile(arrowFile.FullName);
 
-            var image = new Bitmap(imageWidth, imageHeight); 
+            var image = new Bitmap(imageWidth, imageHeight);
             if (printerGraphics != null)
             {
                 image.SetResolution(printerGraphics.DpiX, printerGraphics.DpiY);
@@ -270,7 +270,7 @@ namespace SpecificationsTesting.Forms
                 graph.DrawRectangle(pen, row);
 
                 StringFormat stringFormat = new StringFormat();
-                if(!string.IsNullOrEmpty(columns[i].LeftText))
+                if (!string.IsNullOrEmpty(columns[i].LeftText))
                 {
                     stringFormat.Alignment = StringAlignment.Near;
                     stringFormat.LineAlignment = StringAlignment.Far;
@@ -337,7 +337,7 @@ namespace SpecificationsTesting.Forms
             txtCustomOrderNumber.Text = customOrderNumber.ToString();
             SelectedVentilatorID = selectedVentilatorID;
             SelectedVentilatorTestID = selectedVentilatorTestID;
-            if(ShowCustomOrder(false))
+            if (ShowCustomOrder(false))
             {
                 CustomOrderVentilatorsDataGrid.Rows.OfType<DataGridViewRow>()
                 .Where(x => (int)x.Cells[0].Value == selectedVentilatorID).First().Selected = true;
@@ -367,7 +367,7 @@ namespace SpecificationsTesting.Forms
             }
 
             InitializeGridData();
-            if(showTable)
+            if (showTable)
             {
                 ShowTable(SelectedImageSize);
             }
