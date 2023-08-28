@@ -215,7 +215,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 7:
                             columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = DataHelper.CreateHighLowText(ventilator.HighAirVolume.ToString(), ventilator.LowAirVolume.ToString()), RightText = "m3/h" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Type });
+                            columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Version });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 8:
@@ -230,7 +230,7 @@ namespace SpecificationsTesting.Forms
                             break;
                         case 10:
                             columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureDynamic.ToString(), ventilator.LowPressureDynamic.ToString()), RightText = "Pa" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "A" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighAmperage.ToString(), ventilator.CustomOrderMotor.LowAmperage.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 11:
@@ -244,7 +244,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 13:
-                            columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
+                            columns.Add(new StickerRowColumn() { LeftText = ventilator.SoundLevelType.Description, RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
@@ -256,7 +256,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
                             break;
                         case 15:
-                            columns.Add(new StickerRowColumn() { LeftText = "Maximum toerental", RightText = $"{ventilator.HighRPM} rpm" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Maximum toerental", RightText = $"{ventilator.Atex} rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 16:
@@ -272,7 +272,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 19:
-                            columns.Add(new StickerRowColumn() { LeftText = "ATEX markering", RightText = ventilator.Atex });
+                            columns.Add(new StickerRowColumn() { LeftText = "ATEX markering", RightText = ventilator.CatType?.Description });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 20:
@@ -543,7 +543,7 @@ namespace SpecificationsTesting.Forms
                     return;
                 }
 
-                var order = BCustomOrder.ByID(ventilator.CustomOrderID);
+                var order = BCustomOrder.ById(ventilator.CustomOrderID);
                 //Data Row
                 for (int r = 0; r < rows; r++)
                 {

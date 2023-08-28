@@ -21,7 +21,7 @@ namespace Logic.Business
 
         private static readonly List<string> _configurationDisplayPropertyNames = new List<string>
         {
-            "Atex", "GroupTypeID", "TemperatureClassID", "CatID", "CatOutID"
+            "Atex", "GroupTypeID", "TemperatureClassID", "CatTypeID", "CatOutID"
         };
 
         public static List<string> OrderDisplayPropertyNames => _orderDisplayPropertyNames;
@@ -123,47 +123,24 @@ namespace Logic.Business
         {
             try
             {
-                var amount = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Amount")).Cells["Value"].Value;
-                if (int.TryParse(amount?.ToString(), out int value))
+                var amount = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.Amount));
+                if (amount.HasValue)
                 {
-                    newCustomOrderVentilator.Amount = value;
+                    newCustomOrderVentilator.Amount = amount.Value;
                 }
 
-                var name = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Name")).Cells["Value"].Value;
-                newCustomOrderVentilator.Name = name.ToString();
-
-                var highAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighAirVolume")).Cells["Value"].Value;
-                newCustomOrderVentilator.HighAirVolume = DataHelper.ToNullableInt(highAirVolume?.ToString());
-
-                var lowAirVolume = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"].Value;
-                newCustomOrderVentilator.LowAirVolume = DataHelper.ToNullableInt(lowAirVolume?.ToString());
-
-                var highPressureTotal = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureTotal")).Cells["Value"].Value;
-                newCustomOrderVentilator.HighPressureTotal = DataHelper.ToNullableInt(highPressureTotal?.ToString());
-
-                var lowPressureTotal = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"].Value;
-                newCustomOrderVentilator.LowPressureTotal = DataHelper.ToNullableInt(lowPressureTotal?.ToString());
-
-                var highPressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureStatic")).Cells["Value"].Value;
-                newCustomOrderVentilator.HighPressureStatic = DataHelper.ToNullableInt(highPressureStatic?.ToString());
-
-                var lowPressureStatic = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"].Value;
-                newCustomOrderVentilator.LowPressureStatic = DataHelper.ToNullableInt(lowPressureStatic?.ToString());
-
-                var efficiency = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Efficiency")).Cells["Value"].Value;
-                newCustomOrderVentilator.Efficiency = DataHelper.ToNullableInt(efficiency?.ToString());
-
-                var highRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("HighRPM")).Cells["Value"].Value;
-                newCustomOrderVentilator.HighRPM = DataHelper.ToNullableInt(highRPM?.ToString());
-
-                var lowRPM = rows.First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"].Value;
-                newCustomOrderVentilator.LowRPM = DataHelper.ToNullableInt(lowRPM?.ToString());
-
-                var soundLevel = rows.First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevel")).Cells["Value"].Value;
-                newCustomOrderVentilator.SoundLevel = DataHelper.ToNullableInt(soundLevel?.ToString());
-
-                var bladeAngle = rows.First(x => x.Cells["Description"].Value.ToString().Equals("BladeAngle")).Cells["Value"].Value;
-                newCustomOrderVentilator.BladeAngle = DataHelper.ToNullableInt(bladeAngle?.ToString());
+                newCustomOrderVentilator.Name = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderVentilator.Name));
+                newCustomOrderVentilator.HighAirVolume = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.HighAirVolume));
+                newCustomOrderVentilator.LowAirVolume = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.LowAirVolume));
+                newCustomOrderVentilator.HighPressureTotal = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.HighPressureTotal));
+                newCustomOrderVentilator.LowPressureTotal = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.LowPressureTotal));
+                newCustomOrderVentilator.HighPressureStatic = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.HighPressureStatic));
+                newCustomOrderVentilator.LowPressureStatic = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.LowPressureStatic));
+                newCustomOrderVentilator.Efficiency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.Efficiency));
+                newCustomOrderVentilator.HighRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.HighRPM));
+                newCustomOrderVentilator.LowRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.LowRPM));
+                newCustomOrderVentilator.SoundLevel = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.SoundLevel));
+                newCustomOrderVentilator.BladeAngle = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilator.BladeAngle));
 
                 return newCustomOrderVentilator;
             }

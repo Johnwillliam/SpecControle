@@ -126,68 +126,29 @@ namespace Logic.Business
         {
             try
             {
-                var cellColumnName = "Description";
-                var cellValueColumnName = "Value";
-                var newCustomOrderMotor = new CustomOrderMotor();
-                var name = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("Name")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.Name = name.ToString();
-
-                var type = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("Type")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.Type = type == null ? "" : type.ToString();
-
-                var version = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("Version")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.Version = version == null ? "" : version.ToString();
-
-                var iec = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("IEC")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.IEC = DataHelper.ToNullableInt(iec?.ToString());
-
-                var ip = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("IP")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.IP = DataHelper.ToNullableInt(ip?.ToString());
-
-                var buildingType = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("BuildingType")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.BuildingType = buildingType == null ? "" : buildingType.ToString();
-
-                var iso = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("ISO")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.ISO = iso == null ? "" : iso.ToString();
-
-                var highPower = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("HighPower")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.HighPower = DataHelper.ToNullableDecimal(highPower?.ToString());
-
-                var lowPower = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("LowPower")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.LowPower = DataHelper.ToNullableDecimal(lowPower?.ToString());
-
-                var highRPM = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("HighRPM")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.HighRPM = DataHelper.ToNullableInt(highRPM?.ToString());
-
-                var lowRPM = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("LowRPM")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.LowRPM = DataHelper.ToNullableInt(lowRPM?.ToString());
-
-                var highAmperage = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("HighAmperage")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.HighAmperage = DataHelper.ToNullableDecimal(highAmperage?.ToString());
-
-                var lowAmperage = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("LowAmperage")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.LowAmperage = DataHelper.ToNullableDecimal(lowAmperage?.ToString());
-
-                var highStartupAmperage = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("HighStartupAmperage")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.HighStartupAmperage = DataHelper.ToNullableDecimal(highStartupAmperage?.ToString());
-
-                var lowStartupAmperage = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("LowStartupAmperage")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.LowStartupAmperage = DataHelper.ToNullableDecimal(lowStartupAmperage?.ToString());
-
-                var frequency = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("Frequency")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.Frequency = DataHelper.ToNullableInt(frequency?.ToString());
-
-                var powerFactor = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("PowerFactor")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.PowerFactor = DataHelper.ToNullableDecimal(powerFactor?.ToString());
-
-                var voltageType = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("VoltageType")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.VoltageType = voltageType?.ToString();
-
-                var highBearings = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("HighBearings")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.HighBearings = DataHelper.ToNullableInt(highBearings?.ToString());
-
-                var lowBearings = rows.First(x => x.Cells[cellColumnName].Value.ToString().Equals("LowBearings")).Cells[cellValueColumnName].Value;
-                newCustomOrderMotor.LowBearings = DataHelper.ToNullableInt(lowBearings?.ToString());
+                var newCustomOrderMotor = new CustomOrderMotor
+                {
+                    Name = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Name)),
+                    Type = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Type)),
+                    Version = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Version)),
+                    IEC = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IEC)),
+                    IP = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IP)),
+                    BuildingType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.BuildingType)),
+                    ISO = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.ISO)),
+                    HighPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighPower)),
+                    LowPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowPower)),
+                    HighRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighRPM)),
+                    LowRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowRPM)),
+                    HighAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighAmperage)),
+                    LowAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowAmperage)),
+                    HighStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighStartupAmperage)),
+                    LowStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowStartupAmperage)),
+                    Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency)),
+                    PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor)),
+                    VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType)),
+                    HighBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighBearings)),
+                    LowBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowBearings))
+                };
 
                 return newCustomOrderMotor;
             }

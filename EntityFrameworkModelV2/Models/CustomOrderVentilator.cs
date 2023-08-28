@@ -41,7 +41,7 @@ namespace EntityFrameworkModelV2.Models
         public string? Atex { get; set; }
         public int? GroupTypeID { get; set; }
         public int? TemperatureClassID { get; set; }
-        public int? CatID { get; set; }
+        public int? CatTypeID { get; set; }
         public int? CatOutID { get; set; }
         public virtual CatType? CatType { get; set; }
         public virtual CustomOrderMotor CustomOrderMotor { get; set; }

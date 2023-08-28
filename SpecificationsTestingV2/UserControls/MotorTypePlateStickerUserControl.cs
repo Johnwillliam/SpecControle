@@ -147,11 +147,10 @@ namespace SpecificationsTesting.Forms
 
         private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
         {
-            if (LogosListBox.SelectedItem == null || ArrowsListBox.SelectedItem == null)
+            if (LogosListBox.SelectedItem == null || ArrowsListBox.SelectedItem == null || CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
+            {
                 return null;
-
-            if (CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
-                return null;
+            }
 
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
@@ -189,7 +188,8 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 2:
-                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = CustomOrder?.CustomOrderNumber.ToString() });
+                            var indexNumber = CustomOrder.CustomOrderVentilators.ToList().IndexOf(ventilator) + 1;
+                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = $"{CustomOrder.CustomOrderNumber}/{indexNumber:000}/{CustomOrder.CreateDate.GetValueOrDefault().Year}" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 3:

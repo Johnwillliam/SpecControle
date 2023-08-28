@@ -40,7 +40,7 @@ namespace Logic.Business
 
         public static CustomOrder Create(CustomOrder customOrder)
         {
-            if (BCustomOrder.ByCustomOrderNumber(customOrder.CustomOrderNumber) != null)
+            if (ByCustomOrderNumber(customOrder.CustomOrderNumber) != null)
             {
                 MessageBox.Show("Creation failed. Order number already exists.");
                 return null;
@@ -71,23 +71,40 @@ namespace Logic.Business
                     dbContext.SaveChanges();
                 }
             }
-        }
+        }   
 
         public static CustomOrder ByCustomOrderNumber(int customOrderNumber)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrders.Any(x => x.CustomOrderNumber == customOrderNumber) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderVentilatorTests)
-                                                                                                                        .Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderMotor)
-                                                                                                                            .Single(z => z.CustomOrderNumber == customOrderNumber) : null;
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                return dbContext.CustomOrders
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.CustomOrderVentilatorTests)
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(z => z.CustomOrderMotor)
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.SoundLevelType)
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.TemperatureClass)
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.CatType)
+                    .SingleOrDefault(x => x.CustomOrderNumber == customOrderNumber);
+            }
         }
 
-        public static CustomOrder ByID(int id)
+        public static CustomOrder ById(int id)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrders.Any(x => x.ID == id) ? dbContext.CustomOrders.Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderVentilatorTests)
-                                                                                         .Include(x => x.CustomOrderVentilators).ThenInclude(y => y.CustomOrderMotor)
-                                                                                            .Single(z => z.ID == id) : null;
+            using (var dbContext = new SpecificationsDatabaseModel())
+            {
+                return dbContext.CustomOrders
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.CustomOrderVentilatorTests)
+                    .Include(x => x.CustomOrderVentilators)
+                        .ThenInclude(y => y.CustomOrderMotor)
+                    .FirstOrDefault(x => x.ID == id);
+            }
         }
+
 
         public static CustomOrder Copy(int id, int customOrderNumber)
         {
@@ -120,24 +137,15 @@ namespace Logic.Business
             return true;
         }
 
-        public static CustomOrder CreateObject(List<DataGridViewRow> rows)
+        public static CustomOrder CreateCustomOrderObject(List<DataGridViewRow> rows)
         {
-            var customOrder = new CustomOrder();
-
-            var customOrderNumber = rows.First(x => x.Cells["Description"].Value.ToString().Equals("CustomOrderNumber")).Cells["Value"].Value;
-            if (!int.TryParse(customOrderNumber?.ToString(), out int value))
-                return null;
-
-            customOrder.CustomOrderNumber = value;
-
-            var debtor = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Debtor")).Cells["Value"].Value;
-            customOrder.Debtor = debtor == null ? "" : debtor.ToString();
-
-            var reference = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Reference")).Cells["Value"].Value;
-            customOrder.Reference = reference == null ? "" : reference.ToString();
-
-            var remarks = rows.First(x => x.Cells["Description"].Value.ToString().Equals("Remarks")).Cells["Value"].Value;
-            customOrder.Remarks = remarks == null ? "" : remarks.ToString();
+            var customOrder = new CustomOrder
+            {
+                CustomOrderNumber = DataGridObjectsUtility.ParseIntValue(rows, nameof(CustomOrder.CustomOrderNumber)),
+                Debtor = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrder.Debtor)),
+                Reference = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrder.Reference)),
+                Remarks = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrder.Remarks))
+            };
 
             return customOrder;
         }

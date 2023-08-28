@@ -31,7 +31,7 @@ namespace EntityFrameworkModelV2.Models
             LowStartupAmperage = (decimal?)dataRow.Cells["LowStartupAmperage"].Value;
             VoltageType = dataRow.Cells["VoltageType"].Value.EmptyIfNull();
             Frequency = (int?)dataRow.Cells["Frequency"].Value;
-            PowerFactor = (int?)dataRow.Cells["PowerFactor"].Value;
+            PowerFactor = (decimal?)dataRow.Cells["PowerFactor"].Value;
             HighBearings = (int?)dataRow.Cells["HighBearings"].Value;
             LowBearings = (int?)dataRow.Cells["LowBearings"].Value;
         }

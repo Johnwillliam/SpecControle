@@ -81,29 +81,37 @@ namespace Logic.Business
 
         public static bool Validate(CustomOrderVentilatorTest test)
         {
+            var validationErrors = new List<string>();
+
             if (test.CustomOrderVentilator.BladeAngle == null)
             {
-                MessageBox.Show("Ventilator blade angle not filled in.");
+                validationErrors.Add("Ventilator blade angle not filled in.");
             }
             if (test.MeasuredBladeAngle == null)
             {
-                MessageBox.Show("Measured blade angle not filled in.");
+                validationErrors.Add("Measured blade angle not filled in.");
             }
             if (test.CustomOrderVentilator.BladeAngle != null && test.MeasuredBladeAngle != null && test.CustomOrderVentilator.BladeAngle.Value != test.MeasuredBladeAngle.Value)
             {
-                MessageBox.Show("Measured blade angle does not correspond the ventilator data. Please check.");
+                validationErrors.Add("Measured blade angle does not correspond to the ventilator data. Please check.");
             }
-            if (test.MotorNumber == null)
+            if (string.IsNullOrWhiteSpace(test.MotorNumber))
             {
-                MessageBox.Show("Motornumber not filled in.");
+                validationErrors.Add("Motornumber not filled in.");
             }
             if (test.MeasuredMotorHighRPM == null)
             {
-                MessageBox.Show("Motor High RPM not filled in.");
+                validationErrors.Add("Motor High RPM not filled in.");
             }
             if (test.MeasuredVentilatorHighRPM == null)
             {
-                MessageBox.Show("Ventilator High RPM not filled in.");
+                validationErrors.Add("Ventilator High RPM not filled in.");
+            }
+
+            if (validationErrors.Any())
+            {
+                MessageBox.Show(string.Join("\n", validationErrors), "Validation Errors", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
 
             return true;

@@ -295,7 +295,7 @@ namespace SpecificationsTesting.UserControls
                 table.ResetCells(rows, columns);
 
                 var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
-                var customOrder = BCustomOrder.ByID(ventilator.CustomOrderID);
+                var customOrder = BCustomOrder.ById(ventilator.CustomOrderID);
                 //Data Row
                 for (int r = 0; r < rows; r++)
                 {

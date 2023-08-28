@@ -51,62 +51,40 @@ namespace SpecificationsTesting.UserControls
         {
             using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
             {
-                cmbSoundLevelType.DisplayMember = "Description";
-                cmbSoundLevelType.ValueMember = "ID";
-                cmbSoundLevelType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbSoundLevelType.DataSource = dbContext.SoundLevelTypes.ToList();
-                cmbSoundLevelType.SelectedIndex = -1;
-                var cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("SoundLevelTypeID")).Cells["Value"];
-                Show_Combobox(cell, cmbSoundLevelType);
+                InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "Value", "Description", VentilatorDataGrid);
+                InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "Value", "Description", VentilatorDataGrid);
+                InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "Value", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "Value", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "Value", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "Value", "Description", ConfigDataGrid);
 
-                cmbVentilatorType.DisplayMember = "Description";
-                cmbVentilatorType.ValueMember = "ID";
-                cmbVentilatorType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbVentilatorType.DataSource = dbContext.VentilatorTypes.ToList();
-                cmbVentilatorType.SelectedIndex = -1;
-                cell = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("VentilatorTypeID")).Cells["Value"];
-                Show_Combobox(cell, cmbVentilatorType);
+                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
+                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
 
-                cmbGroupType.DisplayMember = "Description";
-                cmbGroupType.ValueMember = "ID";
-                cmbGroupType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbGroupType.DataSource = dbContext.GroupTypes.ToList();
-                cmbGroupType.SelectedIndex = -1;
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("GroupTypeID")).Cells["Value"];
-                Show_Combobox(cell, cmbGroupType);
-
-                cmbTemperatureClassType.DisplayMember = "Description";
-                cmbTemperatureClassType.ValueMember = "ID";
-                cmbTemperatureClassType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbTemperatureClassType.DataSource = dbContext.TemperatureClasses.ToList();
-                cmbTemperatureClassType.SelectedIndex = -1;
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("TemperatureClassID")).Cells["Value"];
-                Show_Combobox(cell, cmbTemperatureClassType);
-
-                cmbCatType.DisplayMember = "Description";
-                cmbCatType.ValueMember = "ID";
-                cmbCatType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbCatType.DataSource = dbContext.CatTypes.ToList();
-                cmbCatType.SelectedIndex = -1;
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatID")).Cells["Value"];
-                Show_Combobox(cell, cmbCatType);
-
-                cmbCatOutType.DisplayMember = "Description";
-                cmbCatOutType.ValueMember = "ID";
-                cmbCatOutType.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbCatOutType.DataSource = dbContext.CatTypes.ToList();
-                cmbCatOutType.SelectedIndex = -1;
-                cell = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("CatOutID")).Cells["Value"];
-                Show_Combobox(cell, cmbCatOutType);
+                SetComboBoxValue(cmbSoundLevelType, ventilator.SoundLevelTypeID);
+                SetComboBoxValue(cmbVentilatorType, ventilator.VentilatorTypeID);
+                SetComboBoxValue(cmbGroupType, ventilator.GroupTypeID);
+                SetComboBoxValue(cmbCatType, ventilator.CatTypeID);
+                SetComboBoxValue(cmbCatOutType, ventilator.CatOutID);
+                SetComboBoxValue(cmbTemperatureClassType, ventilator.TemperatureClassID);
             }
-            SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-            cmbSoundLevelType.SelectedValue = ventilator.SoundLevelTypeID == null ? -1 : ventilator.SoundLevelTypeID;
-            cmbVentilatorType.SelectedValue = ventilator.VentilatorTypeID == null ? -1 : ventilator.VentilatorTypeID;
-            cmbGroupType.SelectedValue = ventilator.GroupTypeID == null ? -1 : ventilator.GroupTypeID;
-            cmbCatType.SelectedValue = ventilator.CatID == null ? -1 : ventilator.CatID;
-            cmbCatOutType.SelectedValue = ventilator.CatOutID == null ? -1 : ventilator.CatOutID;
-            cmbTemperatureClassType.SelectedValue = ventilator.TemperatureClassID == null ? -1 : ventilator.TemperatureClassID;
+        }
+
+        private void InitializeComboBox<T>(ComboBox comboBox, IQueryable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
+        {
+            comboBox.DisplayMember = displayMember;
+            comboBox.ValueMember = valueMember;
+            comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox.DataSource = dataSource.ToList();
+            comboBox.SelectedIndex = -1;
+
+            var cell = dataGridView.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals(cellDescription)).Cells["Value"];
+            Show_Combobox(cell, comboBox);
+        }
+
+        private void SetComboBoxValue(ComboBox comboBox, int? value)
+        {
+            comboBox.SelectedValue = value ?? -1;
         }
 
         private void InitializeGridColumns()
@@ -151,47 +129,41 @@ namespace SpecificationsTesting.UserControls
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
+        private void SetRowReadOnlyAndColor(DataGridViewRow row, bool isReadOnly)
+        {
+            foreach (DataGridViewCell cell in row.Cells)
+            {
+                cell.ReadOnly = isReadOnly;
+                cell.Style.BackColor = isReadOnly ? Color.LightGray : Color.White;
+            }
+        }
+
         private void DisableCalculatedRows()
         {
-            var pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("HighPressureDynamic")).Cells["Value"];
-            pressureDynamic.ReadOnly = true;
-            pressureDynamic.Style.BackColor = Color.LightGray;
+            var ventilatorDataGridRows = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+            var configDataGridRows = ConfigDataGrid.Rows.Cast<DataGridViewRow>().ToList();
 
-            pressureDynamic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureDynamic")).Cells["Value"];
-            pressureDynamic.ReadOnly = true;
-            pressureDynamic.Style.BackColor = Color.LightGray;
+            var rowsToDisable = new List<string>
+            {
+                nameof(CustomOrderVentilator.HighPressureDynamic), nameof(CustomOrderVentilator.LowPressureDynamic), nameof(CustomOrderVentilator.HighShaftPower),
+                nameof(CustomOrderVentilator.LowShaftPower), nameof(CustomOrderVentilator.LowAirVolume), nameof(CustomOrderVentilator.LowPressureTotal),
+                nameof(CustomOrderVentilator.LowPressureStatic), nameof(CustomOrderVentilator.LowRPM), nameof(CustomOrderVentilator.Atex)
+            };
 
-            var shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("HighShaftPower")).Cells["Value"];
-            shaftPower.ReadOnly = true;
-            shaftPower.Style.BackColor = Color.LightGray;
+            foreach (var rowName in rowsToDisable)
+            {
+                var ventilatorRow = ventilatorDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
+                if (ventilatorRow != null)
+                {
+                    SetRowReadOnlyAndColor(ventilatorRow, true);
+                }
 
-            shaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
-            shaftPower.ReadOnly = true;
-            shaftPower.Style.BackColor = Color.LightGray;
-
-            var atex = ConfigDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("Atex")).Cells["Value"];
-            atex.ReadOnly = true;
-            atex.Style.BackColor = Color.LightGray;
-
-            var lowAirvolume = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowAirVolume")).Cells["Value"];
-            lowAirvolume.ReadOnly = true;
-            lowAirvolume.Style.BackColor = Color.LightGray;
-
-            var lowPressureTotal = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureTotal")).Cells["Value"];
-            lowPressureTotal.ReadOnly = true;
-            lowPressureTotal.Style.BackColor = Color.LightGray;
-
-            var lowPressureStatic = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowPressureStatic")).Cells["Value"];
-            lowPressureStatic.ReadOnly = true;
-            lowPressureStatic.Style.BackColor = Color.LightGray;
-
-            var lowShaftPower = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowShaftPower")).Cells["Value"];
-            lowShaftPower.ReadOnly = true;
-            lowShaftPower.Style.BackColor = Color.LightGray;
-
-            var lowRPM = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("LowRPM")).Cells["Value"];
-            lowRPM.ReadOnly = true;
-            lowRPM.Style.BackColor = Color.LightGray;
+                var configRow = configDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
+                if (configRow != null)
+                {
+                    SetRowReadOnlyAndColor(configRow, true);
+                }
+            }
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool validateVentilator = false)
@@ -375,7 +347,7 @@ namespace SpecificationsTesting.UserControls
         private CustomOrder ReadCustomOrderDataGrid()
         {
             var rows = CustomOrderDataGrid.Rows.Cast<DataGridViewRow>().ToList();
-            return BCustomOrder.CreateObject(rows);
+            return BCustomOrder.CreateCustomOrderObject(rows);
         }
 
         private CustomOrderVentilator ReadCustomOrderVentilatorDataGrid()
@@ -401,7 +373,7 @@ namespace SpecificationsTesting.UserControls
                 VentilatorTypeID = (int?)cmbVentilatorType.SelectedValue,
                 GroupTypeID = (int?)cmbGroupType.SelectedValue,
                 TemperatureClassID = (int?)cmbTemperatureClassType.SelectedValue,
-                CatID = (int?)cmbCatType.SelectedValue,
+                CatTypeID = (int?)cmbCatType.SelectedValue,
                 CatOutID = (int?)cmbCatOutType.SelectedValue
             };
         }
@@ -472,7 +444,7 @@ namespace SpecificationsTesting.UserControls
 
             if ((MessageBox.Show("Are you sure you want to remove this ventilator?", "Confirm Deletion",
               MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-              MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes))
+              MessageBoxDefaultButton.Button1) == DialogResult.Yes))
             {
                 var customOrderVentilatorId = int.Parse(CustomOrderVentilatorsDataGrid.SelectedRows[0].Cells[0].Value.ToString());
                 BCustomOrderVentilator.DeleteById(customOrderVentilatorId);
