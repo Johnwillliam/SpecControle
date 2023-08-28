@@ -17,7 +17,7 @@ namespace EntityFrameworkModelV2.Context
             ExecuteSqlRaw(context, entityType, value);
         }
 
-        private static void ExecuteSqlRaw(SpecificationsDatabaseModel context, IEntityType? entityType, string? value)
+        private static void ExecuteSqlRaw(SpecificationsDatabaseModel context, IEntityType entityType, string value)
         {
             context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType?.GetSchema()}.{entityType?.GetTableName()} {value}");
         }

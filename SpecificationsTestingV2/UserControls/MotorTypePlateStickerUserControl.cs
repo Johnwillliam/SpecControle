@@ -257,7 +257,7 @@ namespace SpecificationsTesting.Forms
             return image;
         }
 
-        private void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
+        private static void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
         {
             var pen = new Pen(Color.Black, 2.0F);
             var fontPoints = (double)8 / 72;
@@ -269,7 +269,7 @@ namespace SpecificationsTesting.Forms
                 var row = new Rectangle(columnStart, startY, columnWidth, rowHeight);
                 graph.DrawRectangle(pen, row);
 
-                StringFormat stringFormat = new StringFormat();
+                var stringFormat = new StringFormat();
                 if (!string.IsNullOrEmpty(columns[i].LeftText))
                 {
                     stringFormat.Alignment = StringAlignment.Near;
@@ -294,10 +294,10 @@ namespace SpecificationsTesting.Forms
             startY += rowHeight;
         }
 
-        private void PopulateListBox(ListBox lsb, string Folder, string FileType)
+        private static void PopulateListBox(ListBox lsb, string Folder, string FileType)
         {
-            DirectoryInfo dinfo = new DirectoryInfo(Folder);
-            FileInfo[] Files = dinfo.GetFiles(FileType);
+            var dinfo = new DirectoryInfo(Folder);
+            var Files = dinfo.GetFiles(FileType);
             lsb.DisplayMember = "Name";
             foreach (FileInfo file in Files)
             {
@@ -411,7 +411,7 @@ namespace SpecificationsTesting.Forms
             var widthPixels = (int)((e.Graphics.DpiX / 25.4) * imageWidth);
             var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
             var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
-            Point loc = new Point(0, 0);
+            var loc = new Point(0, 0);
             image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             e.Graphics.DrawImage(image, loc);
         }

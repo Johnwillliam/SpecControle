@@ -151,7 +151,7 @@ namespace SpecificationsTesting.Forms
             MotorTypePlateImage.Height = imageHeight;
         }
 
-        private Bitmap? GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
+        private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
         {
             if (LogosListBox.SelectedItem == null || CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
             {
@@ -298,7 +298,7 @@ namespace SpecificationsTesting.Forms
                 var row = new Rectangle(columnStart, startY, columnWidth, rowHeight);
                 graph.DrawRectangle(pen, row);
 
-                StringFormat stringFormat = new StringFormat();
+                var stringFormat = new StringFormat();
                 if (!string.IsNullOrEmpty(columns[i].LeftText))
                 {
                     stringFormat.Alignment = StringAlignment.Near;
@@ -323,10 +323,10 @@ namespace SpecificationsTesting.Forms
             startY += rowHeight;
         }
 
-        private void PopulateListBox(ListBox lsb, string Folder, string FileType)
+        private static void PopulateListBox(ListBox lsb, string Folder, string FileType)
         {
-            DirectoryInfo dinfo = new DirectoryInfo(Folder);
-            FileInfo[] Files = dinfo.GetFiles(FileType);
+            var dinfo = new DirectoryInfo(Folder);
+            var Files = dinfo.GetFiles(FileType);
             lsb.DisplayMember = "Name";
             foreach (FileInfo file in Files)
             {
@@ -434,7 +434,7 @@ namespace SpecificationsTesting.Forms
                 return;
             }
 
-            PrintDocument pd = new PrintDocument();
+            var pd = new PrintDocument();
             pd.PrinterSettings.PrinterName = StickerPrinterName;
             pd.PrintPage += PrintSticker;
             pd.Print();
@@ -458,7 +458,7 @@ namespace SpecificationsTesting.Forms
             var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
             _tableFontSize = 8;
             var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
-            Point loc = new Point(0, 0);
+            var loc = new Point(0, 0);
             e.Graphics.DrawImage(image, loc);
         }
 
@@ -466,7 +466,7 @@ namespace SpecificationsTesting.Forms
         {
             try
             {
-                Document doc = new Document();
+                var doc = new Document();
                 foreach (var test in tests)
                 {
                     Section section = doc.AddSection();
@@ -489,7 +489,7 @@ namespace SpecificationsTesting.Forms
             }
         }
 
-        private void AddDateAndSignature(Section section)
+        private static void AddDateAndSignature(Section section)
         {
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
@@ -502,7 +502,7 @@ namespace SpecificationsTesting.Forms
             section.Body.ChildObjects.Insert(count, paragraph);
         }
 
-        private void AddSpecificationText(Section section)
+        private static void AddSpecificationText(Section section)
         {
             Paragraph paragraph = section.AddParagraph();
             paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
@@ -515,7 +515,7 @@ namespace SpecificationsTesting.Forms
             section.Body.ChildObjects.Insert(count, paragraph);
         }
 
-        private void AddEmptyParagraph(Section section)
+        private static void AddEmptyParagraph(Section section)
         {
             Paragraph paragraph = section.AddParagraph();
             TextRange text = paragraph.AppendText("");

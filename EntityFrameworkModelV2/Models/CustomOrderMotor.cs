@@ -16,13 +16,13 @@ namespace EntityFrameworkModelV2.Models
         [Key, Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public string? Name { get; set; }
-        public string? Type { get; set; }
-        public string? Version { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Version { get; set; }
         public int? IEC { get; set; }
         public int? IP { get; set; }
-        public string? BuildingType { get; set; }
-        public string? ISO { get; set; }
+        public string BuildingType { get; set; }
+        public string ISO { get; set; }
         public decimal? HighPower { get; set; }
         public decimal? LowPower { get; set; }
         public int? HighRPM { get; set; }
@@ -31,7 +31,7 @@ namespace EntityFrameworkModelV2.Models
         public decimal? LowAmperage { get; set; }
         public decimal? HighStartupAmperage { get; set; }
         public decimal? LowStartupAmperage { get; set; }
-        public string? VoltageType { get; set; }
+        public string VoltageType { get; set; }
         public int? Frequency { get; set; }
         public decimal? PowerFactor { get; set; }
         public int? HighBearings { get; set; }

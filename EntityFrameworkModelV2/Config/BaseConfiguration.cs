@@ -8,9 +8,9 @@ namespace EntityFrameworkModelV2.Config
         {
         }
 
-        protected static object? GetAppSetting(Type expectedType, string key)
+        protected static object GetAppSetting(Type expectedType, string key)
         {
-            string? value = ConfigurationManager.AppSettings?.Get(key);
+            string value = ConfigurationManager.AppSettings?.Get(key);
             try
             {
                 return ConvertValue(expectedType, value);
@@ -22,9 +22,9 @@ namespace EntityFrameworkModelV2.Config
             }
         }
 
-        protected static object? GetConnectionString(Type expectedType, string key)
+        protected static object GetConnectionString(Type expectedType, string key)
         {
-            string? value = ConfigurationManager.ConnectionStrings?.Cast<ConnectionStringSettings>()?.FirstOrDefault(x => x.Name == key)?.ConnectionString;
+            string value = ConfigurationManager.ConnectionStrings?.Cast<ConnectionStringSettings>()?.FirstOrDefault(x => x.Name == key)?.ConnectionString;
             try
             {
                 return ConvertValue(expectedType, value);
@@ -36,7 +36,7 @@ namespace EntityFrameworkModelV2.Config
             }
         }
 
-        private static object? ConvertValue(Type expectedType, string? value)
+        private static object ConvertValue(Type expectedType, string value)
         {
             if (value == null)
             {

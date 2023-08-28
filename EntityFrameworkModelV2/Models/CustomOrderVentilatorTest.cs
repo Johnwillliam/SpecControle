@@ -17,7 +17,7 @@ namespace EntityFrameworkModelV2.Models
         public int? MeasuredMotorLowRPM { get; set; }
         public int? MeasuredBladeAngle { get; set; }
         public int? Cover { get; set; }
-        public string? MotorNumber { get; set; }
+        public string MotorNumber { get; set; }
         public int? Weight { get; set; }
         public DateTime? Date { get; set; }
         public int? UserID { get; set; }

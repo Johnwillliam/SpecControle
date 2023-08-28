@@ -18,7 +18,7 @@ namespace SpecificationsTesting
             DataGridViewTemplateMotor.DataSource = templates.Any() ? templates : new List<TemplateMotor>();
         }
 
-        private void btnSelectTemplateMotor_Click(object sender, EventArgs e)
+        private void BtnSelectTemplateMotor_Click(object sender, EventArgs e)
         {
             if (DataGridViewTemplateMotor.Rows.Count == 0 && DataGridViewTemplateMotor.SelectedRows.Count == 0)
                 DataGridViewTemplateMotor.Rows[0].Selected = true;

@@ -6,7 +6,7 @@ namespace Logic.Business
 {
     public static class BCustomOrderMotor
     {
-        private static readonly List<string> _orderDisplayPropertyNames = new List<string>
+        private static readonly List<string> _orderDisplayPropertyNames = new()
         {
             "Name", "Type", "Version", "IEC", "IP", "BuildingType",
             "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage",
@@ -14,14 +14,14 @@ namespace Logic.Business
             "PowerFactor", "VoltageType", "HighBearings", "LowBearings"
         };
 
-        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new()
         {
             "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM",
             "HighAmperage", "LowAmperage", "HighStartupAmperage", "LowStartupAmperage",
             "Frequency", "HighBearings", "LowBearings"
         };
 
-        private static readonly List<string> _selectDisplayPropertyNames = new List<string>
+        private static readonly List<string> _selectDisplayPropertyNames = new()
         {
             "ID", "Name"
         };
@@ -34,24 +34,20 @@ namespace Logic.Business
 
         public static CustomOrderMotor Create(CustomOrderMotor customOrderMotor)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
-            {
-                dbContext.CustomOrderMotors.Add(customOrderMotor);
-                dbContext.SaveChanges();
-                return customOrderMotor;
-            }
+            using var dbContext = new SpecificationsDatabaseModel();
+            dbContext.CustomOrderMotors.Add(customOrderMotor);
+            dbContext.SaveChanges();
+            return customOrderMotor;
         }
 
         public static void Update(CustomOrderMotor customOrderMotor)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
+            using var dbContext = new SpecificationsDatabaseModel();
+            var toUpdate = dbContext.CustomOrderMotors.Find(customOrderMotor.ID);
+            if (toUpdate != null)
             {
-                var toUpdate = dbContext.CustomOrderMotors.Find(customOrderMotor.ID);
-                if (toUpdate != null)
-                {
-                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderMotor);
-                    dbContext.SaveChanges();
-                }
+                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderMotor);
+                dbContext.SaveChanges();
             }
         }
 

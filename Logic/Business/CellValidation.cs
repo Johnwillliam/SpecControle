@@ -2,14 +2,14 @@
 {
     public static class CellValidation
     {
-        public static bool ValidateNumber(string? value, Type type)
+        public static bool ValidateNumber(string value, Type type)
         {
             return (IsDecimalNumber(type) && !double.TryParse(value, out _)) ||
                         (!IsDecimalNumber(type) && IsNumericType(type) && !value.All(char.IsDigit));
 
         }
 
-        public static bool CheckValue(string? value, Type type)
+        public static bool CheckValue(string value, Type type)
         {
             //always check non nullable properties, check value if not empty
             return !IsNullable(type) || !string.IsNullOrEmpty(value);
