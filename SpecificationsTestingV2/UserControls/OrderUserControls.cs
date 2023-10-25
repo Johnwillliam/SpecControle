@@ -51,12 +51,12 @@ namespace SpecificationsTesting.UserControls
         {
             using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
             {
-                InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "Value", "Description", VentilatorDataGrid);
-                InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "Value", "Description", VentilatorDataGrid);
-                InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "Value", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "Value", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "Value", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "Value", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
+                InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
+                InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
+                InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
 
                 SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
