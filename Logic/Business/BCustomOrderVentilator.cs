@@ -1,25 +1,24 @@
-using EntityFrameworkModelV2.Models;
 using EntityFrameworkModelV2.Context;
+using EntityFrameworkModelV2.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Forms;
-using EntityFrameworkModelV2.Extensions;
 
 namespace Logic.Business
 {
     public static class BCustomOrderVentilator
     {
-        private static readonly List<string> _orderDisplayPropertyNames = new List<string>
+        private static readonly List<string> _orderDisplayPropertyNames = new()
         {
             "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
             "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
         };
 
-        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new()
         {
             "Name", "HighRPM", "LowRPM", "BladeAngle"
         };
 
-        private static readonly List<string> _configurationDisplayPropertyNames = new List<string>
+        private static readonly List<string> _configurationDisplayPropertyNames = new()
         {
             "Atex", "GroupTypeID", "TemperatureClassID", "CatTypeID", "CatOutID"
         };
@@ -32,10 +31,8 @@ namespace Logic.Business
 
         public static CustomOrderVentilator GetById(int id)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
-            {
-                return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(x => x.CustomOrderVentilatorTests).Include(x => x.TemperatureClass).FirstOrDefault(x => x.ID == id);
-            }
+            using var dbContext = new SpecificationsDatabaseModel();
+            return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(x => x.CustomOrderVentilatorTests).Include(x => x.TemperatureClass).FirstOrDefault(x => x.ID == id);
         }
 
         public static CustomOrderVentilator Create(CustomOrderVentilator customOrderVentilator)
@@ -52,70 +49,64 @@ namespace Logic.Business
 
         public static void Update(CustomOrderVentilator customOrderVentilator)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
+            using var dbContext = new SpecificationsDatabaseModel();
+            var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
+            if (toUpdate != null)
             {
-                var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
-                if (toUpdate != null)
+                var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID).ToList();
+                if (customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
                 {
-                    var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID).ToList();
-                    if (customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
+                    var difference = toUpdate.Amount - customOrderVentilator.Amount;
+                    for (int i = 0; i < difference; i++)
                     {
-                        var difference = toUpdate.Amount - customOrderVentilator.Amount;
-                        for (int i = 0; i < difference; i++)
-                        {
-                            var lastTest = tests.Last();
-                            customOrderVentilator.CustomOrderVentilatorTests.Remove(lastTest);
-                            dbContext.CustomOrderVentilatorTests.Remove(lastTest);
-                        }
+                        var lastTest = tests.Last();
+                        customOrderVentilator.CustomOrderVentilatorTests.Remove(lastTest);
+                        dbContext.CustomOrderVentilatorTests.Remove(lastTest);
                     }
-                    else if (customOrderVentilator.Amount > toUpdate.Amount)
-                    {
-                        var difference = customOrderVentilator.Amount - toUpdate.Amount;
-                        for (int i = 0; i < difference; i++)
-                        {
-                            var newTest = new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID };
-                            dbContext.CustomOrderVentilatorTests.Add(newTest);
-                        }
-                    }
-
-                    customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
-                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
-                    dbContext.SaveChanges();
                 }
+                else if (customOrderVentilator.Amount > toUpdate.Amount)
+                {
+                    var difference = customOrderVentilator.Amount - toUpdate.Amount;
+                    for (int i = 0; i < difference; i++)
+                    {
+                        var newTest = new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID };
+                        dbContext.CustomOrderVentilatorTests.Add(newTest);
+                    }
+                }
+
+                customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
+                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
+                dbContext.SaveChanges();
             }
         }
 
         public static CustomOrderVentilator Copy(CustomOrderVentilator toCopy)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
-            {
-                var entity = dbContext.CustomOrderVentilators
-                          .AsNoTracking()
-                          .Include(x => x.CustomOrderMotor)
-                          .Single(x => x.ID == toCopy.ID);
+            using var dbContext = new SpecificationsDatabaseModel();
+            var entity = dbContext.CustomOrderVentilators
+                      .AsNoTracking()
+                      .Include(x => x.CustomOrderMotor)
+                      .Single(x => x.ID == toCopy.ID);
 
-                entity.ID = 0;
-                entity.CustomOrderMotor.ID = 0;
-                return Create(entity);
-            }
+            entity.ID = 0;
+            entity.CustomOrderMotor.ID = 0;
+            return Create(entity);
         }
 
         public static void DeleteById(int id)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
+            using var dbContext = new SpecificationsDatabaseModel();
+            var customOrderVentilator = dbContext.CustomOrderVentilators.Find(id);
+            if (customOrderVentilator != null)
             {
-                var customOrderVentilator = dbContext.CustomOrderVentilators.Find(id);
-                if (customOrderVentilator != null)
+                foreach (CustomOrderVentilatorTest test in dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID))
                 {
-                    foreach (CustomOrderVentilatorTest test in dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID))
-                    {
-                        dbContext.CustomOrderVentilatorTests.Remove(test);
-                    }
-                    var motor = dbContext.CustomOrderMotors.Find(customOrderVentilator.CustomOrderMotorID);
-                    dbContext.CustomOrderMotors.Remove(motor);
-                    dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
-                    dbContext.SaveChanges();
+                    dbContext.CustomOrderVentilatorTests.Remove(test);
                 }
+                var motor = dbContext.CustomOrderMotors.Find(customOrderVentilator.CustomOrderMotorID);
+                dbContext.CustomOrderMotors.Remove(motor);
+                dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
+                dbContext.SaveChanges();
             }
         }
 
@@ -260,18 +251,23 @@ namespace Logic.Business
                 case decimal n when n >= 5 && n <= 7.5m:
                     value = 7.5m;
                     break;
+
                 case decimal n when n >= 7.5m && n <= 10:
                     value = 10;
                     break;
+
                 case decimal n when n >= 10 && n <= 15:
                     value = 15;
                     break;
+
                 case decimal n when n >= 15 && n <= 30:
                     value = 30;
                     break;
+
                 case decimal n when n >= 30 && n <= 60:
                     value = 60;
                     break;
+
                 default:
                     break;
             }
@@ -315,6 +311,5 @@ namespace Logic.Business
 
             return true;
         }
-
     }
 }

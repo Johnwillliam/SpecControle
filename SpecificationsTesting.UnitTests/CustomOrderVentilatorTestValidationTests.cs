@@ -298,10 +298,10 @@ namespace SpecificationsTestingTests
             {
                 CustomOrderVentilator = ventilator,
                 MeasuredBladeAngle = 15,
-                MeasuredVentilatorHighRPM = 1462,
-                MeasuredVentilatorLowRPM = 738,
-                MeasuredMotorHighRPM = 1419,
-                MeasuredMotorLowRPM = 738,
+                MeasuredVentilatorHighRPM = measuredVentilatorHighRPM,
+                MeasuredVentilatorLowRPM = measuredVentilatorLowRPM,
+                MeasuredMotorHighRPM = measuredMotorHighRPM,
+                MeasuredMotorLowRPM = measuredMotorLowRPM,
                 I1High = 15,
                 I2High = 15,
                 I3High = 15

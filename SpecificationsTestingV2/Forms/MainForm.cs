@@ -53,7 +53,7 @@ namespace SpecificationsTesting.Forms
             SetStickerPrinter();
         }
 
-        private bool DatabaseIsAvailable()
+        private static bool DatabaseIsAvailable()
         {
             try
             {
@@ -71,7 +71,7 @@ namespace SpecificationsTesting.Forms
             return true;
         }
 
-        private void DatabaseOffline()
+        private static void DatabaseOffline()
         {
             MessageBox.Show("Database cannot be reached, please check if the SQL server is running.");
         }
@@ -132,7 +132,7 @@ namespace SpecificationsTesting.Forms
             RunningTestTabPage.Controls.Add(TestDocumentGenerationUserControl);
         }
 
-        private void cmbStickerPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void CmbStickerPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             SetStickerPrinter();
         }
@@ -173,7 +173,7 @@ namespace SpecificationsTesting.Forms
             }
         }
 
-        private void cmbPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
+        private void CmbPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             SetPrinter();
         }

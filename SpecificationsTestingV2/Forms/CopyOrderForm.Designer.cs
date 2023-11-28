@@ -40,7 +40,7 @@ namespace SpecificationsTesting.Forms
             this.txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             this.txtCustomOrderNumber.Size = new System.Drawing.Size(241, 20);
             this.txtCustomOrderNumber.TabIndex = 0;
-            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCustomOrderNumber_KeyDown);
+            this.txtCustomOrderNumber.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtCustomOrderNumber_KeyDown);
             // 
             // label1
             // 
@@ -59,7 +59,7 @@ namespace SpecificationsTesting.Forms
             this.btnCopy.TabIndex = 2;
             this.btnCopy.Text = "Copy";
             this.btnCopy.UseVisualStyleBackColor = true;
-            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+            this.btnCopy.Click += new System.EventHandler(this.BtnCopy_Click);
             // 
             // CopyOrderForm
             // 

@@ -6,7 +6,6 @@ namespace EntityFrameworkModelV2.Models
 
     public class SoundLevelType
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SoundLevelType()
         {
             CustomOrderVentilators = new HashSet<CustomOrderVentilator>();
@@ -20,10 +19,8 @@ namespace EntityFrameworkModelV2.Models
         public string Description { get; set; }
         public string UOM { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TemplateVentilator> TemplateVentilators { get; set; }
     }
 }

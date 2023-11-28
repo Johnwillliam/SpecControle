@@ -1,12 +1,11 @@
 ﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Extensions;
 using EntityFrameworkModelV2.Models;
 
 namespace Logic.Business
 {
     public static class BCustomOrderVentilatorTest
     {
-        private static readonly List<string> _controleDisplayPropertyNames = new List<string>
+        private static readonly List<string> _controleDisplayPropertyNames = new()
         {
             "MeasuredVentilatorHighRPM", "MeasuredVentilatorLowRPM", "MeasuredMotorHighRPM", "MeasuredMotorLowRPM", "MeasuredBladeAngle", "Cover",
             "I1High", "I1Low", "I2High", "I2Low", "I3High", "I3Low", "MotorNumber", "Weight", "Date", "UserID", "MotorNumber", "BuildSize"
@@ -16,12 +15,10 @@ namespace Logic.Business
 
         public static CustomOrderVentilatorTest Create(CustomOrderVentilatorTest customOrderVentilatorTest)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
-            {
-                dbContext.CustomOrderVentilatorTests.Add(customOrderVentilatorTest);
-                dbContext.SaveChanges();
-                return customOrderVentilatorTest;
-            }
+            using var dbContext = new SpecificationsDatabaseModel();
+            dbContext.CustomOrderVentilatorTests.Add(customOrderVentilatorTest);
+            dbContext.SaveChanges();
+            return customOrderVentilatorTest;
         }
 
         public static CustomOrderVentilatorTest GetByID(int id)
@@ -52,15 +49,13 @@ namespace Logic.Business
 
         public static void Update(CustomOrderVentilatorTest customOrderVentilatorTest)
         {
-            using (var dbContext = new SpecificationsDatabaseModel())
+            using var dbContext = new SpecificationsDatabaseModel();
+            var toUpdate = dbContext.CustomOrderVentilatorTests.Find(customOrderVentilatorTest.ID);
+            if (toUpdate != null)
             {
-                var toUpdate = dbContext.CustomOrderVentilatorTests.Find(customOrderVentilatorTest.ID);
-                if (toUpdate != null)
-                {
-                    dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilatorTest);
-                    dbContext.SaveChanges();
-                    Thread.Sleep(300);
-                }
+                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilatorTest);
+                dbContext.SaveChanges();
+                Thread.Sleep(300);
             }
         }
 
@@ -86,7 +81,7 @@ namespace Logic.Business
             //{
             //    return "Measured motor low RPM not filled in.";
             //}
-            test.CustomOrderVentilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
+            test.CustomOrderVentilator ??= BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
             if (test.CustomOrderVentilator.CustomOrderMotor == null)
             {
                 return "No motor found, please check configuration.";
@@ -177,14 +172,21 @@ namespace Logic.Business
             {
                 case double n when n <= 10:
                     return frequency * 10;
+
                 case double n when n <= 15:
                     return frequency * 15;
+
                 case double n when n <= 20:
                     return frequency * 20;
+
                 case double n when n <= 30:
                     return frequency * 30;
+
                 case double n when n <= 60:
                     return frequency * 60;
+
+                default:
+                    break;
             }
             return 0;
         }

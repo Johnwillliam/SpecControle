@@ -129,7 +129,7 @@
             cmbStickerPrinters.Name = "cmbStickerPrinters";
             cmbStickerPrinters.Size = new Size(279, 23);
             cmbStickerPrinters.TabIndex = 0;
-            cmbStickerPrinters.SelectedIndexChanged += cmbStickerPrinters_SelectedIndexChanged;
+            cmbStickerPrinters.SelectedIndexChanged += CmbStickerPrinters_SelectedIndexChanged;
             // 
             // label1
             // 
@@ -160,7 +160,7 @@
             cmbPrinters.Name = "cmbPrinters";
             cmbPrinters.Size = new Size(279, 23);
             cmbPrinters.TabIndex = 36;
-            cmbPrinters.SelectedIndexChanged += cmbPrinters_SelectedIndexChanged;
+            cmbPrinters.SelectedIndexChanged += CmbPrinters_SelectedIndexChanged;
             // 
             // MainForm
             // 

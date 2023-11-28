@@ -72,7 +72,7 @@ namespace SpecificationsTesting.UserControls
 
         private void InitializeComboBoxes()
         {
-            using SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel();
+            using SpecificationsDatabaseModel dbContext = new();
             InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
             InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
             InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
@@ -158,7 +158,7 @@ namespace SpecificationsTesting.UserControls
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
-        private void SetRowReadOnlyAndColor(DataGridViewRow row, bool isReadOnly)
+        private static void SetRowReadOnlyAndColor(DataGridViewRow row, bool isReadOnly)
         {
             foreach (DataGridViewCell cell in row.Cells)
             {

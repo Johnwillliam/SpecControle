@@ -6,7 +6,6 @@ namespace EntityFrameworkModelV2.Models
 
     public class CustomOrderMotor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CustomOrderMotor()
         {
             CustomOrderVentilators = new HashSet<CustomOrderVentilator>();
@@ -39,7 +38,6 @@ namespace EntityFrameworkModelV2.Models
         public int? HighBearings { get; set; }
         public int? LowBearings { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }
 }
