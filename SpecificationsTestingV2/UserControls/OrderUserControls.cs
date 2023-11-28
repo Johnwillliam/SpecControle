@@ -480,7 +480,9 @@ namespace SpecificationsTesting.UserControls
         private void BtnRemoveVentilator_Click(object sender, EventArgs e)
         {
             if (CustomOrderVentilatorsDataGrid.SelectedRows.Count == 0)
+            {
                 return;
+            }
 
             if ((MessageBox.Show("Are you sure you want to remove this ventilator?", "Confirm Deletion",
               MessageBoxButtons.YesNo, MessageBoxIcon.Question,

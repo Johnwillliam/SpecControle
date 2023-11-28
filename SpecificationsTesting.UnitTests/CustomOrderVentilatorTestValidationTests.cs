@@ -3,7 +3,7 @@ using Logic.Business;
 using Moq;
 using NUnit.Framework.Internal;
 
-namespace SpecificationsTestingTests
+namespace SpecificationsTesting.UnitTests
 {
     public class CustomOrderVentilatorTestValidationTests
     {
