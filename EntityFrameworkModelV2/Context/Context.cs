@@ -29,20 +29,6 @@
         {
             modelBuilder.Entity<CustomOrder>().Property(p => p.ID).ValueGeneratedOnAdd();
             modelBuilder.Entity<CustomOrderVentilator>().Property(p => p.ID).ValueGeneratedOnAdd();
-            //modelBuilder.Entity<CustomOrder>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<CustomOrderVentilator>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<CustomOrderMotor>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<CustomOrderVentilatorTest>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<ATEXType>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<CatType>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<GroupType>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<SoundLevelType>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<TemplateMotor>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<TemperatureClass>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<TemplateVentilator>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<User>(entity => entity.HasKey(ent => ent.ID));
-            //modelBuilder.Entity<VentilatorType>(entity => entity.HasKey(ent => ent.ID));
-
             base.OnModelCreating(modelBuilder);
         }
     }
