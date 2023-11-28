@@ -1,14 +1,14 @@
+using EntityFrameworkModelV2.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Windows.Forms;
-using EntityFrameworkModelV2.Extensions;
 
 namespace EntityFrameworkModelV2.Models
 {
     public class TemplateMotor
-	{
-		public TemplateMotor()
-		{ 
+    {
+        public TemplateMotor()
+        {
         }
 
         public TemplateMotor(DataGridViewRow dataRow)
@@ -61,9 +61,10 @@ namespace EntityFrameworkModelV2.Models
             LowBearings = lowBearings;
         }
 
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Key, Column(Order = 0)]
-		public int ID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
+        public int ID { get; set; }
+
         public string Name { get; set; }
         public string Type { get; set; }
         public string Version { get; set; }

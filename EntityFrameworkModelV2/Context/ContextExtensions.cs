@@ -1,12 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EntityFrameworkModelV2.Context
 {
     public static class ContextExtensions
     {
         public static void EnableIdentityInsert<T>(this SpecificationsDatabaseModel context) => SetIdentityInsert<T>(context, true);
+
         public static void DisableIdentityInsert<T>(this SpecificationsDatabaseModel context) => SetIdentityInsert<T>(context, false);
 
         private static void SetIdentityInsert<T>([NotNull] SpecificationsDatabaseModel context, bool enable)

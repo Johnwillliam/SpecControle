@@ -25,7 +25,6 @@ namespace SpecificationsTesting.Entities
                     displayValue.DisplayValue = displayValue.Value?.ToString();
 
                 valuesToDisplay.Add(displayValue);
-
             }
             return valuesToDisplay;
         }

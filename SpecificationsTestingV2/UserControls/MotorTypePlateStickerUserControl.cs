@@ -188,8 +188,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 2:
-                            var indexNumber = CustomOrder.CustomOrderVentilators.ToList().IndexOf(ventilator) + 1;
-                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = $"{CustomOrder.CustomOrderNumber}/{indexNumber:000}/{CustomOrder.CreateDate.GetValueOrDefault().Year}" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilatorTest.SerialNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 3:

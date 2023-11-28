@@ -13,6 +13,7 @@ namespace SpecificationsTesting.Forms
         public ControleUserControl ControleUserControl { get; set; }
         public TestDocumentGenerationUserControl TestDocumentGenerationUserControl { get; set; }
         public TabControl TabControl { get => tabControl; }
+
         public MainForm()
         {
             this.Width = 1400;

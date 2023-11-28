@@ -333,7 +333,6 @@
             txtCustomOrderNumber.Name = "txtCustomOrderNumber";
             txtCustomOrderNumber.Size = new Size(288, 23);
             txtCustomOrderNumber.TabIndex = 1;
-            txtCustomOrderNumber.KeyDown += TxtCustomOrderNumber_KeyDown;
             // 
             // label5
             // 

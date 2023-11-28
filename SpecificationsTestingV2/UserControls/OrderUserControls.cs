@@ -12,19 +12,11 @@ namespace SpecificationsTesting.UserControls
     {
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
+
         public OrderUserControl()
         {
             InitializeComponent();
-            btnCreateCO.Click += new System.EventHandler(BtnCreateCO_Click);
-            btnSearch.Click += new System.EventHandler(BtnSearch_Click);
-            btnClear.Click += new System.EventHandler(BtnClear_Click);
-            btnSaveChanges.Click += new System.EventHandler(BtnSaveChanges_Click);
-            btnCreateVentilator.Click += new System.EventHandler(BtnCreateVentilator_Click);
-            btnRemoveVentilator.Click += new System.EventHandler(BtnRemoveVentilator_Click);
-            btnSelectTemplateMotor.Click += new System.EventHandler(BtnSelectTemplateMotor_Click);
-            btnCopyOrder.Click += new System.EventHandler(BtnCopyOrder_Click);
-            btnMotorTypePlate.Click += new System.EventHandler(BtnMotorTypePlate_Click);
-            btnAtex.Click += new System.EventHandler(BtnAtex_Click);
+            AttachEventHandlers();
 
             InitializeGridColumns();
             InitializeGridData();
@@ -35,6 +27,28 @@ namespace SpecificationsTesting.UserControls
             btnCopyOrder.Enabled = false;
             btnAtex.Enabled = false;
             btnMotorTypePlate.Enabled = true;
+        }
+
+        private void AttachEventHandlers()
+        {
+            btnCreateCO.Click += (s, e) => BtnCreateCO_Click(s, e);
+            btnSearch.Click += (s, e) => BtnSearch_Click(s, e);
+            btnClear.Click += (s, e) => BtnClear_Click(s, e);
+            btnSaveChanges.Click += (s, e) => BtnSaveChanges_Click(s, e);
+            btnCreateVentilator.Click += (s, e) => BtnCreateVentilator_Click(s, e);
+            btnRemoveVentilator.Click += (s, e) => BtnRemoveVentilator_Click(s, e);
+            btnSelectTemplateMotor.Click += (s, e) => BtnSelectTemplateMotor_Click(s, e);
+            btnCopyOrder.Click += (s, e) => BtnCopyOrder_Click(s, e);
+            btnMotorTypePlate.Click += (s, e) => BtnMotorTypePlate_Click(s, e);
+            btnAtex.Click += (s, e) => BtnAtex_Click(s, e);
+
+            txtCustomOrderNumber.KeyDown += (s, e) =>
+            {
+                if (e.KeyData == Keys.Enter)
+                {
+                    SearchOrder();
+                }
+            };
         }
 
         protected override void OnVisibleChanged(EventArgs e)
@@ -58,7 +72,7 @@ namespace SpecificationsTesting.UserControls
                 InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
                 InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
 
-                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
+                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
 
                 SetComboBoxValue(cmbSoundLevelType, ventilator.SoundLevelTypeID);
@@ -174,7 +188,7 @@ namespace SpecificationsTesting.UserControls
                 CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.OrderDisplayPropertyNames);
                 CustomOrderDataGrid.AutoResizeColumns();
 
-                if (CustomOrder == null)
+                if (CustomOrder is null)
                 {
                     CustomOrder = new CustomOrder { ID = -1 };
                     btnSaveChanges.Enabled = false;
@@ -207,7 +221,7 @@ namespace SpecificationsTesting.UserControls
                 ConfigDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ConfigurationDisplayPropertyNames);
                 ConfigDataGrid.AutoResizeColumns();
 
-                if (ventilator.CustomOrderMotor == null)
+                if (ventilator.CustomOrderMotor is null)
                     ventilator.CustomOrderMotor = new CustomOrderMotor();
 
                 MotorDataGrid.DataSource = null;
@@ -250,7 +264,7 @@ namespace SpecificationsTesting.UserControls
                 }
 
                 var customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
-                if (customOrderVentilator == null)
+                if (customOrderVentilator is null)
                 {
                     MessageBox.Show("Please check the filled in ventilator data. Order is not saved.");
                     return;
@@ -396,7 +410,7 @@ namespace SpecificationsTesting.UserControls
 
             var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
-            if (CustomOrder == null)
+            if (CustomOrder is null)
             {
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
@@ -458,7 +472,7 @@ namespace SpecificationsTesting.UserControls
         {
             var templateMotorSelectionDialog = new MotorTemplateSelection();
             templateMotorSelectionDialog.ShowDialog();
-            if (templateMotorSelectionDialog.SelectedRow == null)
+            if (templateMotorSelectionDialog.SelectedRow is null)
                 return;
 
             if (int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
@@ -501,7 +515,7 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnMotorTypePlate_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
+            if (CustomOrder is null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
@@ -519,7 +533,7 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnAtex_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || CustomOrder.CustomOrderNumber == 0)
+            if (CustomOrder is null || CustomOrder.CustomOrderNumber == 0)
             {
                 MessageBox.Show("Please search a order first.");
                 return;
@@ -549,14 +563,6 @@ namespace SpecificationsTesting.UserControls
         private void OrderUserControl_Load(object sender, EventArgs e)
         {
             DisableCalculatedRows();
-        }
-
-        private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyData == Keys.Enter)
-            {
-                SearchOrder();
-            }
         }
 
         private void CustomOrderVentilatorsDataGrid_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -194,7 +194,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 3:
-                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = CustomOrder.CustomOrderNumber.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilatorTest.SerialNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
                         case 4:
@@ -244,7 +244,7 @@ namespace SpecificationsTesting.Forms
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
                         case 13:
-                            columns.Add(new StickerRowColumn() { LeftText = ventilator.SoundLevelType.Description, RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
+                            columns.Add(new StickerRowColumn() { LeftText = ventilator.SoundLevelType?.Description, RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;

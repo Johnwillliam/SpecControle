@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace SpecificationsTesting.Forms
+﻿namespace SpecificationsTesting.Forms
 {
     public partial class CopyOrderForm : Form
     {

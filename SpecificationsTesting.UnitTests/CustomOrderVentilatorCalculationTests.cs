@@ -10,10 +10,8 @@ namespace SpecificationsTestingTests
         }
 
         [TestCase(3000, 4000, 60, 5.56)]
-
         [TestCase(29182, 578, 75, 6.25)]
         [TestCase(14388, 141, 75, 0.75)]
-
         [TestCase(44825, 488, 74, 8.21)]
         [TestCase(22213, 120, 74, 1.0)]
         public void TestCalculateShaftPower(decimal airVolume, int? pressureTotal, int? efficiency, decimal? expectedResult)
@@ -75,7 +73,6 @@ namespace SpecificationsTestingTests
         }
 
         [TestCase(1420, 50, 1500)]
-
         [TestCase(1463, 50, 1500)]
         [TestCase(2790, 50, 3000)]
         [TestCase(1440, 50, 1500)]

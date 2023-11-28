@@ -16,6 +16,7 @@ namespace EntityFrameworkModelV2.Models
         [Key, Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+
         public int CustomOrderNumber { get; set; }
         public string Debtor { get; set; }
         public string Reference { get; set; }

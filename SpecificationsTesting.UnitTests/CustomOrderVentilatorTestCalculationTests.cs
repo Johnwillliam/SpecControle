@@ -13,7 +13,6 @@ namespace SpecificationsTestingTests
         [TestCase(1501, 50, 3000)]
         [TestCase(1462, 50, 1500)]
         [TestCase(1420, 50, 1500)]
-
         [TestCase(750, 50, 750)]
         [TestCase(751, 50, 1000)]
         [TestCase(738, 50, 750)]

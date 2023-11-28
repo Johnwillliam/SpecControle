@@ -110,5 +110,4 @@ namespace SpecificationsTestingTests
             Assert.IsFalse(result);
         }
     }
-
 }

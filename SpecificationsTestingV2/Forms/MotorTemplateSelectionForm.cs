@@ -6,6 +6,7 @@ namespace SpecificationsTesting
     public partial class MotorTemplateSelection : Form
     {
         public DataGridViewRow SelectedRow { get; set; }
+
         public MotorTemplateSelection()
         {
             InitializeComponent();

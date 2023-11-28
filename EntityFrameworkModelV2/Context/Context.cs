@@ -11,7 +11,7 @@
         public DbSet<CustomOrderMotor> CustomOrderMotors { get; set; }
         public DbSet<CustomOrder> CustomOrders { get; set; }
         public DbSet<CustomOrderVentilator> CustomOrderVentilators { get; set; }
-        public DbSet<CustomOrderVentilatorTest> CustomOrderVentilatorTests { get; set; } 
+        public DbSet<CustomOrderVentilatorTest> CustomOrderVentilatorTests { get; set; }
         public DbSet<GroupType> GroupTypes { get; set; }
         public DbSet<SoundLevelType> SoundLevelTypes { get; set; }
         public DbSet<TemperatureClass> TemperatureClasses { get; set; }
