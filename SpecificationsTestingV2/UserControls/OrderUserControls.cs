@@ -13,13 +13,21 @@ namespace SpecificationsTesting.UserControls
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
 
+        private CustomOrderVentilator SelectedVentilator => CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();
+
+        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
+
         public OrderUserControl()
         {
             InitializeComponent();
             AttachEventHandlers();
-
             InitializeGridColumns();
             InitializeGridData();
+            InitializeDefaultValues();
+        }
+
+        private void InitializeDefaultValues()
+        {
             SelectedVentilatorID = -1;
             btnSaveChanges.Enabled = false;
             btnCreateVentilator.Enabled = false;
@@ -63,28 +71,24 @@ namespace SpecificationsTesting.UserControls
 
         private void InitializeComboBoxes()
         {
-            using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
-            {
-                InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
-                InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
-                InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
-                InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
+            using SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel();
+            InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
+            InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
+            InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
 
-                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-
-                SetComboBoxValue(cmbSoundLevelType, ventilator.SoundLevelTypeID);
-                SetComboBoxValue(cmbVentilatorType, ventilator.VentilatorTypeID);
-                SetComboBoxValue(cmbGroupType, ventilator.GroupTypeID);
-                SetComboBoxValue(cmbCatType, ventilator.CatTypeID);
-                SetComboBoxValue(cmbCatOutType, ventilator.CatOutID);
-                SetComboBoxValue(cmbTemperatureClassType, ventilator.TemperatureClassID);
-            }
+            var ventilator = SelectedVentilator;
+            SetComboBoxValue(cmbSoundLevelType, ventilator.SoundLevelTypeID);
+            SetComboBoxValue(cmbVentilatorType, ventilator.VentilatorTypeID);
+            SetComboBoxValue(cmbGroupType, ventilator.GroupTypeID);
+            SetComboBoxValue(cmbCatType, ventilator.CatTypeID);
+            SetComboBoxValue(cmbCatOutType, ventilator.CatOutID);
+            SetComboBoxValue(cmbTemperatureClassType, ventilator.TemperatureClassID);
         }
 
-        private void InitializeComboBox<T>(ComboBox comboBox, IQueryable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
+        private static void InitializeComboBox<T>(ComboBox comboBox, IQueryable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
         {
             comboBox.DisplayMember = displayMember;
             comboBox.ValueMember = valueMember;
@@ -96,7 +100,7 @@ namespace SpecificationsTesting.UserControls
             Show_Combobox(cell, comboBox);
         }
 
-        private void SetComboBoxValue(ComboBox comboBox, int? value)
+        private static void SetComboBoxValue(ComboBox comboBox, int? value)
         {
             comboBox.SelectedValue = value ?? -1;
         }
@@ -210,9 +214,7 @@ namespace SpecificationsTesting.UserControls
                     CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
                 }
 
-                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-
+                var ventilator = SelectedVentilator;
                 VentilatorDataGrid.DataSource = null;
                 VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.OrderDisplayPropertyNames);
                 VentilatorDataGrid.AutoResizeColumns();
@@ -221,9 +223,7 @@ namespace SpecificationsTesting.UserControls
                 ConfigDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ConfigurationDisplayPropertyNames);
                 ConfigDataGrid.AutoResizeColumns();
 
-                if (ventilator.CustomOrderMotor is null)
-                    ventilator.CustomOrderMotor = new CustomOrderMotor();
-
+                ventilator.CustomOrderMotor ??= new CustomOrderMotor();
                 MotorDataGrid.DataSource = null;
                 MotorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderMotor), ventilator.CustomOrderMotor, BCustomOrderMotor.OrderDisplayPropertyNames);
                 MotorDataGrid.AutoResizeColumns();
@@ -253,6 +253,11 @@ namespace SpecificationsTesting.UserControls
         }
 
         private void BtnCreateCO_Click(object sender, EventArgs e)
+        {
+            CreateOrder();
+        }
+
+        private void CreateOrder()
         {
             try
             {
@@ -419,7 +424,7 @@ namespace SpecificationsTesting.UserControls
             InitializeGridData(validateVentilator: true);
             btnCopyOrder.Enabled = true;
 
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilator;
             if (ventilator != null)
             {
                 EnableReportButtons(ventilator);
@@ -444,7 +449,7 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnCreateVentilator_Click(object sender, EventArgs e)
         {
-            var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilator;
             ventilator = BCustomOrderVentilator.Copy(ventilator);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
             SelectedVentilatorID = ventilator.ID;
@@ -473,7 +478,9 @@ namespace SpecificationsTesting.UserControls
             var templateMotorSelectionDialog = new MotorTemplateSelection();
             templateMotorSelectionDialog.ShowDialog();
             if (templateMotorSelectionDialog.SelectedRow is null)
+            {
                 return;
+            }
 
             if (int.TryParse(templateMotorSelectionDialog.SelectedRow.Cells[0].Value.ToString(), out int motorTemplateId))
             {
@@ -539,7 +546,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            var ventilator = SelectedVentilator;
             if (!ventilator.IsAtex() || !BValidateMessage.ValidateForPrinting(ventilator))
             {
                 return;
@@ -550,7 +557,7 @@ namespace SpecificationsTesting.UserControls
             mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
         }
 
-        private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
+        private static void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
         {
             Rectangle rect = cell.DataGridView.GetCellDisplayRectangle(cell.ColumnIndex, cell.RowIndex, false);
             int x = rect.X + cell.DataGridView.Left;
@@ -570,7 +577,7 @@ namespace SpecificationsTesting.UserControls
             if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                var ventilator = SelectedVentilator;
                 if (ventilator != null)
                 {
                     EnableReportButtons(ventilator);
