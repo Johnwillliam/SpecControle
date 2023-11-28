@@ -8,7 +8,7 @@ namespace Logic.Business
     {
         private static readonly List<string> _orderDisplayPropertyNames = new()
         {
-            "Name", "Type", "Version", "IEC", "IP", "BuildingType",
+            "Name", "Type", "Version", "IEC", "IP", "PTC", "HT", "BuildingType",
             "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage",
             "LowAmperage", "HighStartupAmperage", "LowStartupAmperage", "Frequency",
             "PowerFactor", "VoltageType", "HighBearings", "LowBearings"
@@ -118,35 +118,31 @@ namespace Logic.Business
             customOrderMotor.LowBearings = templateMotor.LowBearings;
         }
 
-        public static CustomOrderMotor CreateObject(List<DataGridViewRow> rows)
+        public static CustomOrderMotor CreateObject(CustomOrderMotor customOrderMotor, List<DataGridViewRow> rows)
         {
             try
             {
-                var newCustomOrderMotor = new CustomOrderMotor
-                {
-                    Name = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Name)),
-                    Type = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Type)),
-                    Version = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Version)),
-                    IEC = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IEC)),
-                    IP = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IP)),
-                    BuildingType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.BuildingType)),
-                    ISO = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.ISO)),
-                    HighPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighPower)),
-                    LowPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowPower)),
-                    HighRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighRPM)),
-                    LowRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowRPM)),
-                    HighAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighAmperage)),
-                    LowAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowAmperage)),
-                    HighStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighStartupAmperage)),
-                    LowStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowStartupAmperage)),
-                    Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency)),
-                    PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor)),
-                    VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType)),
-                    HighBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighBearings)),
-                    LowBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowBearings))
-                };
-
-                return newCustomOrderMotor;
+                customOrderMotor.Name = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Name));
+                customOrderMotor.Type = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Type));
+                customOrderMotor.Version = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Version));
+                customOrderMotor.IEC = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IEC));
+                customOrderMotor.IP = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.IP));
+                customOrderMotor.BuildingType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.BuildingType));
+                customOrderMotor.ISO = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.ISO));
+                customOrderMotor.HighPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighPower));
+                customOrderMotor.LowPower = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowPower));
+                customOrderMotor.HighRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighRPM));
+                customOrderMotor.LowRPM = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowRPM));
+                customOrderMotor.HighAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighAmperage));
+                customOrderMotor.LowAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowAmperage));
+                customOrderMotor.HighStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.HighStartupAmperage));
+                customOrderMotor.LowStartupAmperage = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.LowStartupAmperage));
+                customOrderMotor.Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency));
+                customOrderMotor.PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor));
+                customOrderMotor.VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType));
+                customOrderMotor.HighBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighBearings));
+                customOrderMotor.LowBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowBearings));
+                return customOrderMotor;
             }
             catch (Exception)
             {

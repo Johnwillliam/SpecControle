@@ -4,6 +4,7 @@ using Logic;
 using Logic.Business;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
+using SpecificationsTestingV2.Entities;
 using System.Data;
 
 namespace SpecificationsTesting.UserControls
@@ -79,6 +80,14 @@ namespace SpecificationsTesting.UserControls
             InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
             InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
 
+            var yesNoDataSource = new List<YesNoItem>
+            {
+                new YesNoItem { Value = true, DisplayText = "Yes" },
+                new YesNoItem { Value = false, DisplayText = "No" }
+            }.AsQueryable();
+            InitializeComboBox(cmbPTC, yesNoDataSource, nameof(CustomOrderMotor.PTC), nameof(YesNoItem.Value), nameof(YesNoItem.DisplayText), MotorDataGrid);
+            InitializeComboBox(cmbHT, yesNoDataSource, nameof(CustomOrderMotor.HT), nameof(YesNoItem.Value), nameof(YesNoItem.DisplayText), MotorDataGrid);
+
             var ventilator = SelectedVentilator;
             SetComboBoxValue(cmbSoundLevelType, ventilator.SoundLevelTypeID);
             SetComboBoxValue(cmbVentilatorType, ventilator.VentilatorTypeID);
@@ -86,6 +95,8 @@ namespace SpecificationsTesting.UserControls
             SetComboBoxValue(cmbCatType, ventilator.CatTypeID);
             SetComboBoxValue(cmbCatOutType, ventilator.CatOutID);
             SetComboBoxValue(cmbTemperatureClassType, ventilator.TemperatureClassID);
+            SetComboBoxValue(cmbPTC, ventilator.CustomOrderMotor.PTC);
+            SetComboBoxValue(cmbHT, ventilator.CustomOrderMotor.HT);
         }
 
         private static void InitializeComboBox<T>(ComboBox comboBox, IQueryable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
@@ -100,9 +111,9 @@ namespace SpecificationsTesting.UserControls
             Show_Combobox(cell, comboBox);
         }
 
-        private static void SetComboBoxValue(ComboBox comboBox, int? value)
+        private static void SetComboBoxValue<T>(ComboBox comboBox, T value)
         {
-            comboBox.SelectedValue = value ?? -1;
+            comboBox.SelectedValue = object.Equals(value, default(T)) ? -1 : value;
         }
 
         private void InitializeGridColumns()
@@ -400,7 +411,17 @@ namespace SpecificationsTesting.UserControls
         private CustomOrderMotor ReadCustomOrderMotorDataGrid()
         {
             var rows = MotorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
-            return BCustomOrderMotor.CreateObject(rows);
+            var customOrderMotor = ReadCustomOrderMotorComboboxes();
+            return BCustomOrderMotor.CreateObject(customOrderMotor, rows);
+        }
+
+        private CustomOrderMotor ReadCustomOrderMotorComboboxes()
+        {
+            return new CustomOrderMotor
+            {
+                PTC = (bool?)cmbPTC.SelectedValue,
+                HT = (bool?)cmbHT.SelectedValue,
+            };
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)

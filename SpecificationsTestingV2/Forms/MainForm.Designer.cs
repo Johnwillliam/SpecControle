@@ -55,7 +55,7 @@
             tabControl.Margin = new Padding(4, 3, 4, 3);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1440, 756);
+            tabControl.Size = new Size(1440, 814);
             tabControl.TabIndex = 34;
             // 
             // OrderTabPage
@@ -64,7 +64,7 @@
             OrderTabPage.Margin = new Padding(4, 3, 4, 3);
             OrderTabPage.Name = "OrderTabPage";
             OrderTabPage.Padding = new Padding(4, 3, 4, 3);
-            OrderTabPage.Size = new Size(1432, 728);
+            OrderTabPage.Size = new Size(1432, 786);
             OrderTabPage.TabIndex = 0;
             OrderTabPage.Text = "Invoeren";
             OrderTabPage.UseVisualStyleBackColor = true;
@@ -75,7 +75,7 @@
             ControleTabPage.Margin = new Padding(4, 3, 4, 3);
             ControleTabPage.Name = "ControleTabPage";
             ControleTabPage.Padding = new Padding(4, 3, 4, 3);
-            ControleTabPage.Size = new Size(1432, 707);
+            ControleTabPage.Size = new Size(1432, 728);
             ControleTabPage.TabIndex = 1;
             ControleTabPage.Text = "Controle";
             ControleTabPage.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             MotorTypePlateTabPage.Location = new Point(4, 24);
             MotorTypePlateTabPage.Margin = new Padding(4, 3, 4, 3);
             MotorTypePlateTabPage.Name = "MotorTypePlateTabPage";
-            MotorTypePlateTabPage.Size = new Size(1432, 707);
+            MotorTypePlateTabPage.Size = new Size(1432, 728);
             MotorTypePlateTabPage.TabIndex = 2;
             MotorTypePlateTabPage.Text = "Typeplate Sticker";
             MotorTypePlateTabPage.UseVisualStyleBackColor = true;
@@ -95,7 +95,7 @@
             AtexStickerTabPage.Location = new Point(4, 24);
             AtexStickerTabPage.Margin = new Padding(4, 3, 4, 3);
             AtexStickerTabPage.Name = "AtexStickerTabPage";
-            AtexStickerTabPage.Size = new Size(1432, 707);
+            AtexStickerTabPage.Size = new Size(1432, 728);
             AtexStickerTabPage.TabIndex = 4;
             AtexStickerTabPage.Text = "Atex Sticker";
             AtexStickerTabPage.UseVisualStyleBackColor = true;
@@ -105,7 +105,7 @@
             RunningTestTabPage.Location = new Point(4, 24);
             RunningTestTabPage.Margin = new Padding(4, 3, 4, 3);
             RunningTestTabPage.Name = "RunningTestTabPage";
-            RunningTestTabPage.Size = new Size(1432, 707);
+            RunningTestTabPage.Size = new Size(1432, 728);
             RunningTestTabPage.TabIndex = 5;
             RunningTestTabPage.Text = "Test Document";
             RunningTestTabPage.UseVisualStyleBackColor = true;
@@ -115,7 +115,7 @@
             TemplateMotorTabPage.Location = new Point(4, 24);
             TemplateMotorTabPage.Margin = new Padding(4, 3, 4, 3);
             TemplateMotorTabPage.Name = "TemplateMotorTabPage";
-            TemplateMotorTabPage.Size = new Size(1432, 707);
+            TemplateMotorTabPage.Size = new Size(1432, 728);
             TemplateMotorTabPage.TabIndex = 3;
             TemplateMotorTabPage.Text = "Motor Templates";
             TemplateMotorTabPage.UseVisualStyleBackColor = true;
@@ -167,7 +167,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            ClientSize = new Size(1440, 761);
+            ClientSize = new Size(1440, 819);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(cmbStickerPrinters);

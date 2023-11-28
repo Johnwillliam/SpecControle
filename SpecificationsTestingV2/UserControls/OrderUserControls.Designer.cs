@@ -58,6 +58,8 @@
             btnClear = new Button();
             btnMotorTypePlate = new Button();
             btnAtex = new Button();
+            cmbPTC = new ComboBox();
+            cmbHT = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)CustomOrderDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)VentilatorDataGrid).BeginInit();
@@ -96,7 +98,7 @@
             // cmbCatOutType
             // 
             cmbCatOutType.FormattingEnabled = true;
-            cmbCatOutType.Location = new Point(632, 679);
+            cmbCatOutType.Location = new Point(634, 728);
             cmbCatOutType.Margin = new Padding(4, 3, 4, 3);
             cmbCatOutType.Name = "cmbCatOutType";
             cmbCatOutType.Size = new Size(140, 23);
@@ -105,7 +107,7 @@
             // cmbCatType
             // 
             cmbCatType.FormattingEnabled = true;
-            cmbCatType.Location = new Point(632, 648);
+            cmbCatType.Location = new Point(634, 697);
             cmbCatType.Margin = new Padding(4, 3, 4, 3);
             cmbCatType.Name = "cmbCatType";
             cmbCatType.Size = new Size(140, 23);
@@ -141,13 +143,13 @@
             VentilatorDataGrid.Location = new Point(4, 179);
             VentilatorDataGrid.Margin = new Padding(4, 3, 4, 3);
             VentilatorDataGrid.Name = "VentilatorDataGrid";
-            VentilatorDataGrid.Size = new Size(382, 546);
+            VentilatorDataGrid.Size = new Size(382, 595);
             VentilatorDataGrid.TabIndex = 35;
             // 
             // cmbTemperatureClassType
             // 
             cmbTemperatureClassType.FormattingEnabled = true;
-            cmbTemperatureClassType.Location = new Point(632, 617);
+            cmbTemperatureClassType.Location = new Point(634, 666);
             cmbTemperatureClassType.Margin = new Padding(4, 3, 4, 3);
             cmbTemperatureClassType.Name = "cmbTemperatureClassType";
             cmbTemperatureClassType.Size = new Size(140, 23);
@@ -167,7 +169,7 @@
             // cmbGroupType
             // 
             cmbGroupType.FormattingEnabled = true;
-            cmbGroupType.Location = new Point(632, 586);
+            cmbGroupType.Location = new Point(634, 635);
             cmbGroupType.Margin = new Padding(4, 3, 4, 3);
             cmbGroupType.Name = "cmbGroupType";
             cmbGroupType.Size = new Size(140, 23);
@@ -190,7 +192,7 @@
             MotorDataGrid.Location = new Point(392, 25);
             MotorDataGrid.Margin = new Padding(4, 3, 4, 3);
             MotorDataGrid.Name = "MotorDataGrid";
-            MotorDataGrid.Size = new Size(382, 526);
+            MotorDataGrid.Size = new Size(382, 575);
             MotorDataGrid.TabIndex = 38;
             // 
             // label3
@@ -251,7 +253,7 @@
             // ConfigDataGrid
             // 
             ConfigDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            ConfigDataGrid.Location = new Point(390, 573);
+            ConfigDataGrid.Location = new Point(392, 622);
             ConfigDataGrid.Margin = new Padding(4, 3, 4, 3);
             ConfigDataGrid.Name = "ConfigDataGrid";
             ConfigDataGrid.Size = new Size(382, 152);
@@ -305,7 +307,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.Location = new Point(393, 554);
+            label4.Location = new Point(395, 603);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
             label4.Size = new Size(86, 16);
@@ -384,10 +386,30 @@
             btnAtex.Text = "Atex Sticker";
             btnAtex.UseVisualStyleBackColor = true;
             // 
+            // cmbPTC
+            // 
+            cmbPTC.FormattingEnabled = true;
+            cmbPTC.Location = new Point(634, 221);
+            cmbPTC.Margin = new Padding(4, 3, 4, 3);
+            cmbPTC.Name = "cmbPTC";
+            cmbPTC.Size = new Size(140, 23);
+            cmbPTC.TabIndex = 58;
+            // 
+            // cmbHT
+            // 
+            cmbHT.FormattingEnabled = true;
+            cmbHT.Location = new Point(634, 250);
+            cmbHT.Margin = new Padding(4, 3, 4, 3);
+            cmbHT.Name = "cmbHT";
+            cmbHT.Size = new Size(140, 23);
+            cmbHT.TabIndex = 59;
+            // 
             // OrderUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cmbHT);
+            Controls.Add(cmbPTC);
             Controls.Add(btnAtex);
             Controls.Add(btnMotorTypePlate);
             Controls.Add(CustomOrderDataGrid);
@@ -411,7 +433,7 @@
             Controls.Add(btnClear);
             Margin = new Padding(4, 3, 4, 3);
             Name = "OrderUserControl";
-            Size = new Size(1424, 730);
+            Size = new Size(1424, 780);
             Load += OrderUserControl_Load;
             ((System.ComponentModel.ISupportInitialize)CustomOrderDataGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).EndInit();
@@ -458,5 +480,7 @@
         private Button btnClear;
         private Button btnMotorTypePlate;
         private Button btnAtex;
+        private ComboBox cmbPTC;
+        private ComboBox cmbHT;
     }
 }

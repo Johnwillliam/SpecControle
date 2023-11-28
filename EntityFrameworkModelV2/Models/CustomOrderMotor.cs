@@ -21,6 +21,8 @@ namespace EntityFrameworkModelV2.Models
         public string Version { get; set; }
         public int? IEC { get; set; }
         public int? IP { get; set; }
+        public bool? PTC { get; set; }
+        public bool? HT { get; set; }
         public string BuildingType { get; set; }
         public string ISO { get; set; }
         public decimal? HighPower { get; set; }

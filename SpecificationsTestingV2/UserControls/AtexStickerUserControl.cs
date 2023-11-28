@@ -1,12 +1,11 @@
-﻿using SpecificationsTesting.Entities;
-using System.Drawing.Printing;
+﻿using EntityFrameworkModelV2.Models;
+using Logic;
+using Logic.Business;
+using SpecificationsTesting.Entities;
 using Spire.Doc;
 using Spire.Doc.Documents;
 using Spire.Doc.Fields;
-using EntityFrameworkModelV2.Models;
-using Logic.Business;
-using Logic;
-using EntityFrameworkModelV2.Extensions;
+using System.Drawing.Printing;
 
 namespace SpecificationsTesting.Forms
 {
@@ -25,7 +24,7 @@ namespace SpecificationsTesting.Forms
         private const int _smallImageHeight = 400;
         private bool _initGrid = false;
         private int _tableFontSize = 8;
-        const int _tableRowHeight = 10;
+        private const int _tableRowHeight = 10;
 
         private enum ImageSize
         {
@@ -33,6 +32,7 @@ namespace SpecificationsTesting.Forms
             Medium = 1,
             Large = 2
         }
+
         public AtexStickerUserControl()
         {
             InitializeComponent();
@@ -139,6 +139,7 @@ namespace SpecificationsTesting.Forms
                     imageWidth = _smallImageWidth;
                     imageHeight = _smallImageHeight;
                     break;
+
                 default:
                     imageWidth = _normalImageWidth;
                     imageHeight = _normalImageHeight;
@@ -161,7 +162,7 @@ namespace SpecificationsTesting.Forms
             var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
-            var rows = 20;
+            var rows = 21;
             var colWidth = (int)((imageWidth * 0.9) / 2);
             var rowHeight = (imageHeight / 25);
             var startX = 40;
@@ -189,65 +190,78 @@ namespace SpecificationsTesting.Forms
                             columns.Add(new StickerRowColumn() { LeftText = CustomOrder.Reference });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
+
                         case 2:
                             columns.Add(new StickerRowColumn() { LeftText = "Order", MiddleText = CustomOrder.CustomOrderNumber.ToString() });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
+
                         case 3:
                             columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilatorTest.SerialNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
+
                         case 4:
                             columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
                             //TODO: get selected test
                             columns.Add(new StickerRowColumn() { LeftText = "Weight", MiddleText = ventilatorTest.Weight.ToString() });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 5:
                             columns.Add(new StickerRowColumn() { LeftText = "VENTILATOR" });
                             columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = ventilator.CustomOrderMotor.Name });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 6:
                             columns.Add(new StickerRowColumn() { LeftText = "Type", MiddleText = ventilator.Name });
                             columns.Add(new StickerRowColumn() { LeftText = "Frequentie", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString() });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 7:
                             columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = DataHelper.CreateHighLowText(ventilator.HighAirVolume.ToString(), ventilator.LowAirVolume.ToString()), RightText = "m3/h" });
                             columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Version });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 8:
                             columns.Add(new StickerRowColumn() { LeftText = "Ptot", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureTotal.ToString(), ventilator.LowPressureTotal.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "P", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "kW" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 9:
                             columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureStatic.ToString(), ventilator.LowPressureStatic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType, RightText = "V" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 10:
                             columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureDynamic.ToString(), ventilator.LowPressureDynamic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighAmperage.ToString(), ventilator.CustomOrderMotor.LowAmperage.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 11:
                             columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
                             columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), ventilator.CustomOrderMotor.LowStartupAmperage.ToString()), RightText = "A" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 12:
                             columns.Add(new StickerRowColumn() { LeftText = "Schoephoek", RightText = $"{ventilator.BladeAngle}°" });
                             columns.Add(new StickerRowColumn() { LeftText = "Nmotor", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighRPM.ToString(), ventilator.CustomOrderMotor.LowRPM.ToString()), RightText = "rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 13:
                             columns.Add(new StickerRowColumn() { LeftText = ventilator.SoundLevelType?.Description, RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
                             break;
+
                         case 14:
                             columns.Add(new StickerRowColumn() { LeftText = "T", MiddleText = ventilator.TemperatureClass?.Description, RightText = "°C" });
                             columns.Add(new StickerRowColumn() { LeftText = "ρ", RightText = "1,20 kg/m3" });
@@ -255,30 +269,45 @@ namespace SpecificationsTesting.Forms
                             columns.Add(new StickerRowColumn() { LeftText = $"ISO {ventilator.CustomOrderMotor.ISO}" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
                             break;
+
                         case 15:
+                            columns.Add(new StickerRowColumn());
+                            columns.Add(new StickerRowColumn());
+                            columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = ventilator.CustomOrderMotor.PTC.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = ventilator.CustomOrderMotor.HT.ToString() });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
+                            break;
+
+                        case 16:
                             columns.Add(new StickerRowColumn() { LeftText = "Maximum toerental", RightText = $"{ventilator.Atex} rpm" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
-                        case 16:
+
+                        case 17:
                             columns.Add(new StickerRowColumn() { LeftText = "Maximum Inlaattemperatuur", RightText = "40 °C" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
-                        case 17:
+
+                        case 18:
                             columns.Add(new StickerRowColumn() { LeftText = "Temperatureklasse", RightText = ventilator.TemperatureClass?.Description });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
-                        case 18:
+
+                        case 19:
                             columns.Add(new StickerRowColumn());
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
-                        case 19:
+
+                        case 20:
                             columns.Add(new StickerRowColumn() { LeftText = "ATEX markering", RightText = ventilator.CatType?.Description });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
-                        case 20:
+
+                        case 21:
                             columns.Add(new StickerRowColumn() { LeftText = "Omgevingstemperatuurbereik", RightText = "-20 - +40 °C" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
                             break;
+
                         default:
                             break;
                     }
@@ -553,27 +582,35 @@ namespace SpecificationsTesting.Forms
                         case 0:
                             AddDataRow(DataRow, new List<string>() { "Serienummer", order.CustomOrderNumber.ToString() });
                             break;
+
                         case 1:
                             AddDataRow(DataRow, new List<string>() { "Motornummer", ventilator.CustomOrderMotor?.Type });
                             break;
+
                         case 2:
                             AddDataRow(DataRow, new List<string>() { "Systemair order", order.CustomOrderNumber.ToString() });
                             break;
+
                         case 3:
                             AddDataRow(DataRow, new List<string>() { "Bouwjaar", test.Date.GetValueOrDefault().Year.ToString() });
                             break;
+
                         case 4:
                             AddDataRow(DataRow, new List<string>() { "ATEX Markering", ventilator.Atex });
                             break;
+
                         case 5:
                             AddDataRow(DataRow, new List<string>() { "Temperatuur bereik", "-20 - +40 °C" });
                             break;
+
                         case 6:
                             AddDataRow(DataRow, new List<string>() { "Temperatuurklasse", ventilator.TemperatureClass?.Description });
                             break;
+
                         case 7:
                             AddDataRow(DataRow, new List<string>() { "Referentie", order.Reference });
                             break;
+
                         default:
                             break;
                     }
@@ -612,36 +649,47 @@ namespace SpecificationsTesting.Forms
                         case 0:
                             AddDataRow(DataRow, new List<string>() { "VENTILATOR GEGEVENS" });
                             break;
+
                         case 1:
                             AddDataRow(DataRow, new List<string>() { "Type", ventilator.Name, "DUMMY" });
                             break;
+
                         case 2:
                             AddDataRow(DataRow, new List<string>() { "Luchthoeveelheid", ventilator.HighAirVolume.ToString(), "m3/h" });
                             break;
+
                         case 3:
                             AddDataRow(DataRow, new List<string>() { "Opvoerhoogte totaal", ventilator.HighPressureTotal.ToString(), "Pa" });
                             break;
+
                         case 4:
                             AddDataRow(DataRow, new List<string>() { "Opvoerhoogte statisch", ventilator.HighPressureStatic.ToString(), "Pa" });
                             break;
+
                         case 5:
                             AddDataRow(DataRow, new List<string>() { "Opvoerhoogte dynamisch", ventilator.HighPressureDynamic.ToString(), "Pa" });
                             break;
+
                         case 6:
                             AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.HighRPM.ToString(), "rpm" });
                             break;
+
                         case 7:
                             AddDataRow(DataRow, new List<string>() { "Rendement", ventilator.Efficiency.ToString(), "%" });
                             break;
+
                         case 8:
                             AddDataRow(DataRow, new List<string>() { "Asvermogen", ventilator.HighShaftPower.ToString(), "kW" });
                             break;
+
                         case 9:
                             AddDataRow(DataRow, new List<string>() { "Geluidsvermogen", ventilator.SoundLevel.ToString(), "dB" });
                             break;
+
                         case 10:
                             AddDataRow(DataRow, new List<string>() { "Schoephoek", ventilator.BladeAngle.ToString(), "°" });
                             break;
+
                         default:
                             break;
                     }
@@ -680,48 +728,63 @@ namespace SpecificationsTesting.Forms
                         case 0:
                             AddDataRow(DataRow, new List<string>() { "MOTOR GEGEVENS" });
                             break;
+
                         case 1:
                             AddDataRow(DataRow, new List<string>() { "Fabrikaat", ventilator.CustomOrderMotor.Name, "DUMMY" });
                             break;
+
                         case 2:
                             AddDataRow(DataRow, new List<string>() { "Type", ventilator.CustomOrderMotor.Type, "DUMMY" });
                             break;
+
                         case 3:
                             AddDataRow(DataRow, new List<string>() { "Uitvoering", ventilator.CustomOrderMotor.Version, "DUMMY" });
                             break;
+
                         case 4:
                             AddDataRow(DataRow, new List<string>() { "Bouwgrootte", test.BuildSize.ToString(), "DUMMY" });
                             break;
+
                         case 5:
                             AddDataRow(DataRow, new List<string>() { "Bouwvorm", ventilator.CustomOrderMotor.BuildingType, "DUMMY" });
                             break;
+
                         case 6:
                             AddDataRow(DataRow, new List<string>() { "Beschermklasse", "55", "DUMMY" });
                             break;
+
                         case 7:
                             AddDataRow(DataRow, new List<string>() { "Isolatieklasse", "F", "DUMMY" });
                             break;
+
                         case 8:
                             AddDataRow(DataRow, new List<string>() { "Nominaal vermogen", ventilator.CustomOrderMotor.HighPower.ToString(), "kW" });
                             break;
+
                         case 9:
                             AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.CustomOrderMotor.HighRPM.ToString(), "rpm" });
                             break;
+
                         case 10:
                             AddDataRow(DataRow, new List<string>() { "Nominaal stroom", ventilator.CustomOrderMotor.HighAmperage.ToString(), "A" });
                             break;
+
                         case 11:
                             AddDataRow(DataRow, new List<string>() { "Arbeidsfactor", ventilator.CustomOrderMotor.PowerFactor.ToString() });
                             break;
+
                         case 12:
                             AddDataRow(DataRow, new List<string>() { "Aanloopstroom", ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), "A" });
                             break;
+
                         case 13:
                             AddDataRow(DataRow, new List<string>() { "Aansluitspanning", ventilator.CustomOrderMotor.VoltageType, "V" });
                             break;
+
                         case 14:
                             AddDataRow(DataRow, new List<string>() { "Frequentie", ventilator.CustomOrderMotor.Frequency.ToString(), "Hz" });
                             break;
+
                         default:
                             break;
                     }
@@ -762,7 +825,6 @@ namespace SpecificationsTesting.Forms
             {
                 ExceptionHandler.HandleException(ex);
             }
-
         }
 
         private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
