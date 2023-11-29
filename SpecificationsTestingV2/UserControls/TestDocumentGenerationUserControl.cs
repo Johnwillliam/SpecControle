@@ -1,12 +1,8 @@
-﻿using System.Data;
-using SpecificationsTesting.Entities;
-using Spire.Doc;
-using Spire.Doc.Documents;
-using Spire.Doc.Fields;
-using System.Drawing.Printing;
-using EntityFrameworkModelV2.Models;
+﻿using EntityFrameworkModelV2.Models;
 using Logic.Business;
-using Logic;
+using Logic.PdfGenerators;
+using SpecificationsTesting.Entities;
+using System.Data;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -16,9 +12,9 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
         public string PrinterName { get; set; }
+        private CustomOrderVentilator SelectedVentilator => CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();
 
-        const int _tableFontSize = 8;
-        const int _tableRowHeight = 10;
+        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
 
         public TestDocumentGenerationUserControl()
         {
@@ -36,7 +32,6 @@ namespace SpecificationsTesting.UserControls
 
         private void InitializeGridColumns()
         {
-
             CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
             CustomOrderDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             CustomOrderDataGrid.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
@@ -79,8 +74,7 @@ namespace SpecificationsTesting.UserControls
             CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.ControleDisplayPropertyNames);
             CustomOrderDataGrid.AutoResizeColumns();
 
-            if (CustomOrder == null)
-                CustomOrder = new CustomOrder { ID = -1 };
+            CustomOrder ??= new CustomOrder { ID = -1 };
 
             if (CustomOrder.CustomOrderVentilators.Count == 0)
                 CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
@@ -94,8 +88,7 @@ namespace SpecificationsTesting.UserControls
             if (selectedTest != null && selectedTest.Date == null)
                 selectedTest.Date = DateTime.Now.Date;
 
-            if (ventilator.CustomOrderMotor == null)
-                ventilator.CustomOrderMotor = new CustomOrderMotor();
+            ventilator.CustomOrderMotor ??= new CustomOrderMotor();
 
             MotorDataGrid.DataSource = null;
             MotorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderMotor), ventilator.CustomOrderMotor, BCustomOrderMotor.ControleDisplayPropertyNames);
@@ -156,7 +149,8 @@ namespace SpecificationsTesting.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
-            if (SelectedVentilatorID > 0 && !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+
+            if (!BValidateMessage.ValidateForPrinting(SelectedVentilator))
             {
                 return;
             }
@@ -177,7 +171,7 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            Print(new List<CustomOrderVentilatorTest>() { selectedTest, selectedTest });
+            Print(new List<CustomOrderVentilatorTest>() { selectedTest });
         }
 
         private void BtnPrintAll_Click(object sender, EventArgs e)
@@ -192,304 +186,16 @@ namespace SpecificationsTesting.UserControls
 
         private void Print(List<CustomOrderVentilatorTest> tests)
         {
-            var document = CreateTableInWordDocument(tests);
-            if(document == null)
-            { 
-                return;
-            }
-
-            document.PrinterSettings.PrinterName = PrinterName;
-            document.Print();
-        }
-
-        private PrintDocument CreateTableInWordDocument(List<CustomOrderVentilatorTest> tests)
-        {
-            try
+            var generator = new TestDocumentPdfDocumentGenerator(tests);
+            var stream = new MemoryStream();
+            generator.Generate(stream);
+            var document = PdfiumViewer.PdfDocument.Load(stream);
+            var printdoc = document.CreatePrintDocument();
+            printdoc.PrinterSettings = new System.Drawing.Printing.PrinterSettings()
             {
-                Document doc = new Document();
-                foreach (var test in tests)
-                {
-                    Section section = doc.AddSection();
-                    AddHeaderText(section);
-                    CreateOrderTable(section, test);
-                    CreateVentilatorTable(section, test);
-                    CreateMotorTable(section, test);
-                    CreateTestTable(section, test);
-                    AddFooterText(section, test);
-                }
-
-                return doc.PrintDocument;
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-                return null;
-            }
-        }
-
-        private void AddHeaderText(Section section)
-        {
-            var paragraph = section.AddParagraph();
-            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
-            var text = paragraph.AppendText("RUNNING TEST");
-            text.CharacterFormat.TextColor = Color.Black;
-            text.CharacterFormat.Bold = true;
-            text.CharacterFormat.FontSize = 15;
-            text.CharacterFormat.FontName = "Calibri";
-            var count = section.Body.ChildObjects.Count - 1;
-            section.Body.ChildObjects.Insert(count, paragraph);
-
-            paragraph = section.AddParagraph();
-            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
-            text = paragraph.AppendText("Axiaal ventilator direct gedreven");
-            text.CharacterFormat.TextColor = Color.Black;
-            text.CharacterFormat.Bold = true;
-            text.CharacterFormat.FontSize = 15;
-            text.CharacterFormat.FontName = "Calibri";
-            count = section.Body.ChildObjects.Count - 1;
-            section.Body.ChildObjects.Insert(count, paragraph);
-        }
-
-        private void AddFooterText(Section section, CustomOrderVentilatorTest test)
-        {
-            var paragraph = section.AddParagraph();
-            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            var text = paragraph.AppendText($"Datum assemblage             {test.Date:yyyy-dd-MM}");
-            text.CharacterFormat.TextColor = Color.Black;
-            text.CharacterFormat.Bold = true;
-            text.CharacterFormat.FontSize = 10;
-            text.CharacterFormat.FontName = "Calibri";
-            var count = section.Body.ChildObjects.Count - 1;
-            section.Body.ChildObjects.Insert(count, paragraph);
-
-            paragraph = section.AddParagraph();
-            paragraph.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-            text = paragraph.AppendText($"Uitgevoerd door                  {test.User?.Name}");
-            text.CharacterFormat.TextColor = Color.Black;
-            text.CharacterFormat.Bold = true;
-            text.CharacterFormat.FontSize = 10;
-            text.CharacterFormat.FontName = "Calibri";
-            count = section.Body.ChildObjects.Count - 1;
-            section.Body.ChildObjects.Insert(count, paragraph);
-        }
-
-        private void AddEmptyParagraph(Section section)
-        {
-            Paragraph paragraph = section.AddParagraph();
-            TextRange text = paragraph.AppendText("");
-            text.CharacterFormat.TextColor = Color.Blue;
-            text.CharacterFormat.FontSize = 15;
-            text.CharacterFormat.UnderlineStyle = UnderlineStyle.Dash;
-            var count = section.Body.ChildObjects.Count - 1;
-            section.Body.ChildObjects.Insert(count, paragraph);
-        }
-
-        private void CreateOrderTable(Section section, CustomOrderVentilatorTest test)
-        {
-            try
-            {
-                Table table = section.AddTable(true);
-                var rows = 4;
-                var columns = 2;
-                //Add Cells
-                table.ResetCells(rows, columns);
-
-                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
-                var customOrder = BCustomOrder.ById(ventilator.CustomOrderID);
-                //Data Row
-                for (int r = 0; r < rows; r++)
-                {
-                    TableRow DataRow = table.Rows[r];
-                    switch (r)
-                    {
-                        
-                        case 0:
-                            AddDataRow(DataRow, new List<string>() { "Systemair order", customOrder.CustomOrderNumber.ToString() });
-                            break;
-                        case 1:
-                            AddDataRow(DataRow, new List<string>() { "Referentie", customOrder.Reference });
-                            break;
-                        case 2:
-                            AddDataRow(DataRow, new List<string>() { "Serienummer", customOrder.CustomOrderNumber.ToString() });
-                            break;
-                        case 3:
-                            AddDataRow(DataRow, new List<string>() { "Motornummer", ventilator.CustomOrderMotor.Type });
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                AddEmptyParagraph(section);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void CreateVentilatorTable(Section section, CustomOrderVentilatorTest test)
-        {
-            try
-            {
-                Table table = section.AddTable(true);
-                var rows = 4;
-                var columns = 3;
-                table.ResetCells(rows, columns);
-
-                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
-                for (int r = 0; r < rows; r++)
-                {
-                    TableRow DataRow = table.Rows[r];
-                    switch (r)
-                    {
-                        case 0:
-                            AddDataRow(DataRow, new List<string>() { "VENTILATOR GEGEVENS" });
-                            break;
-                        case 1:
-                            AddDataRow(DataRow, new List<string>() { "Type", ventilator.Name, "DUMMY" });
-                            break;
-                        case 2:
-                            AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.HighRPM.ToString(), "rpm" });
-                            break;
-                        case 3:
-                            AddDataRow(DataRow, new List<string>() { "Schoephoek", ventilator.BladeAngle.ToString(), "°" });
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                AddEmptyParagraph(section);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void CreateMotorTable(Section section, CustomOrderVentilatorTest test)
-        {
-            try
-            {
-                Table table = section.AddTable(true);
-                var rows = 8;
-                var columns = 3;
-                table.ResetCells(rows, columns);
-
-                var ventilator = BCustomOrderVentilator.GetById(test.CustomOrderVentilatorID);
-                for (int r = 0; r < rows; r++)
-                {
-                    TableRow DataRow = table.Rows[r];
-                    switch (r)
-                    {
-                        case 0:
-                            AddDataRow(DataRow, new List<string>() { "MOTOR GEGEVENS" });
-                            break;
-                        case 1:
-                            AddDataRow(DataRow, new List<string>() { "Fabrikaat", ventilator.CustomOrderMotor.Name, "DUMMY" });
-                            break;
-                        case 2:
-                            AddDataRow(DataRow, new List<string>() { "Type", ventilator.CustomOrderMotor.Type, "DUMMY" });
-                            break;
-                        case 3:
-                            AddDataRow(DataRow, new List<string>() { "Bouwgrootte", test.BuildSize.ToString(), "DUMMY" });
-                            break;
-                        case 4:
-                            AddDataRow(DataRow, new List<string>() { "Nominaal vermogen", ventilator.CustomOrderMotor.HighPower.ToString(), "kW" });
-                            break;
-                        case 5:
-                            AddDataRow(DataRow, new List<string>() { "Toerental", ventilator.CustomOrderMotor.HighRPM.ToString(), "rpm" });
-                            break;
-                        case 6:
-                            AddDataRow(DataRow, new List<string>() { "Stroomsterkte", ventilator.CustomOrderMotor.HighAmperage.ToString(), "A" });
-                            break;
-                        case 7:
-                            AddDataRow(DataRow, new List<string>() { "Frequentie", ventilator.CustomOrderMotor.Frequency.ToString(), "Hz" });
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                AddEmptyParagraph(section);
-                AddEmptyParagraph(section);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void CreateTestTable(Section section, CustomOrderVentilatorTest test)
-        {
-            try
-            {
-                Table table = section.AddTable(true);
-                var rows = 7;
-                var columns = 3;
-                table.ResetCells(rows, columns);
-
-                for (int r = 0; r < rows; r++)
-                {
-                    TableRow DataRow = table.Rows[r];
-                    switch (r)
-                    {
-
-                        case 0:
-                            AddDataRow(DataRow, new List<string>() { "MEETGEGEVENS"});
-                            break;
-                        case 1:
-                            AddDataRow(DataRow, new List<string>() { "Stroom I1", test.I1High.ToString(), "A" });
-                            break;
-                        case 2:
-                            AddDataRow(DataRow, new List<string>() { "Stroom I2", test.I2High.ToString(), "A" });
-                            break;
-                        case 3:
-                            AddDataRow(DataRow, new List<string>() { "Stroom I3", test.I3High.ToString(), "A" });
-                            break;
-                        case 4:
-                            AddDataRow(DataRow, new List<string>() { "Toerental motor", test.MeasuredMotorHighRPM.ToString(), "rpm" });
-                            break;
-                        case 5:
-                            AddDataRow(DataRow, new List<string>() { "Toerental ventilator", test.MeasuredVentilatorHighRPM.ToString(), "rpm" });
-                            break;
-                        case 6:
-                            AddDataRow(DataRow, new List<string>() { "Schoephoek", test.MeasuredBladeAngle.ToString(), "°" });
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                AddEmptyParagraph(section);
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
-        }
-
-        private void AddDataRow(TableRow DataRow, List<string> values)
-        {
-            try
-            {
-                DataRow.Height = _tableRowHeight;
-                for (int i = 0; i < values.Count; i++)
-                {
-                    DataRow.Cells[i].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    Paragraph p2 = DataRow.Cells[i].AddParagraph();
-                    TextRange TR2 = p2.AppendText(values[i]);
-                    p2.Format.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Left;
-                    TR2.CharacterFormat.FontName = "Calibri";
-                    TR2.CharacterFormat.FontSize = _tableFontSize;
-                    TR2.CharacterFormat.Bold = true;
-                    if (values[i] != "DUMMY")
-                        TR2.CharacterFormat.TextColor = Color.Black;
-                    else
-                        TR2.CharacterFormat.TextColor = Color.White;
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(ex);
-            }
+                PrinterName = PrinterName
+            };
+            printdoc.Print();
         }
 
         private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)

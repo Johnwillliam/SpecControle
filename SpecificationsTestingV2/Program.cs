@@ -1,4 +1,5 @@
 using EntityFrameworkModelV2.Context;
+using QuestPDF.Infrastructure;
 using SpecificationsTesting.Forms;
 
 namespace SpecificationsTestingV2
@@ -15,6 +16,7 @@ namespace SpecificationsTestingV2
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             new SpecificationsDatabaseModel().Database.EnsureCreated();
+            QuestPDF.Settings.License = LicenseType.Community;
             Application.Run(new MainForm());
         }
     }

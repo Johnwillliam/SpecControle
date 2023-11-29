@@ -32,7 +32,12 @@ namespace Logic.Business
         public static CustomOrderVentilator GetById(int id)
         {
             using var dbContext = new SpecificationsDatabaseModel();
-            return dbContext.CustomOrderVentilators.Include(x => x.CustomOrderMotor).Include(x => x.CustomOrderVentilatorTests).Include(x => x.TemperatureClass).FirstOrDefault(x => x.ID == id);
+            return dbContext.CustomOrderVentilators
+                .Include(x => x.CustomOrderMotor)
+                .Include(x => x.CustomOrderVentilatorTests)
+                .Include(x => x.TemperatureClass)
+                .Include(x => x.VentilatorType)
+                .FirstOrDefault(x => x.ID == id);
         }
 
         public static CustomOrderVentilator Create(CustomOrderVentilator customOrderVentilator)
