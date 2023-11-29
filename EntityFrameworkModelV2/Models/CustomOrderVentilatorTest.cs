@@ -28,6 +28,7 @@ namespace EntityFrameworkModelV2.Models
         public decimal? I3High { get; set; }
         public decimal? I3Low { get; set; }
         public int? BuildSize { get; set; }
+        public bool Locked { get; set; }
 
         public virtual int IndexNumber => CustomOrderVentilator.CustomOrder.CustomOrderVentilators.SelectMany(x => x.CustomOrderVentilatorTests).ToList().IndexOf(this) + 1;
         public virtual string SerialNumber => $"{CustomOrderVentilator.CustomOrder.CustomOrderNumber}/{IndexNumber:000}/{CustomOrderVentilator.CustomOrder.CreateDate.GetValueOrDefault().Year}";

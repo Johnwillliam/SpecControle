@@ -484,11 +484,17 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
+            var customOrderVentilatorId = int.Parse(CustomOrderVentilatorsDataGrid.SelectedRows[0].Cells[0].Value.ToString());
+            if (CustomOrder.CustomOrderVentilators.Single(x => x.ID == customOrderVentilatorId).CustomOrderVentilatorTests.Any(x => x.Locked))
+            {
+                MessageBox.Show("One of the tests of the selected ventilator is locked and therefore the ventilator cannot be removed. \n\nPlease contact IT support if changes has to be done.");
+                return;
+            }
+
             if ((MessageBox.Show("Are you sure you want to remove this ventilator?", "Confirm Deletion",
               MessageBoxButtons.YesNo, MessageBoxIcon.Question,
               MessageBoxDefaultButton.Button1) == DialogResult.Yes))
             {
-                var customOrderVentilatorId = int.Parse(CustomOrderVentilatorsDataGrid.SelectedRows[0].Cells[0].Value.ToString());
                 BCustomOrderVentilator.DeleteById(customOrderVentilatorId);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
                 SelectedVentilatorID = CustomOrder.CustomOrderVentilators.First().ID;

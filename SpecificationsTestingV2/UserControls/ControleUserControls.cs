@@ -304,12 +304,21 @@ namespace SpecificationsTesting.UserControls
         private void BtnSaveChanges_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text) || CustomOrder == null)
+            {
                 return;
+            }
 
             try
             {
                 var customOrderVentilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
                 var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                var lockedTest = customOrderVentilatorTest.Locked;
+                if (lockedTest)
+                {
+                    MessageBox.Show("This test is locked and cannot be changed, please contact IT support if changes has to be done.");
+                    return;
+                }
+
                 var customOrderVentilatorID = customOrderVentilatorTest.CustomOrderVentilatorID;
                 customOrderVentilatorTest = ReadCustomOrderVentilatorTestDataGrid();
                 if (customOrderVentilatorTest == null)
@@ -328,6 +337,15 @@ namespace SpecificationsTesting.UserControls
                     return;
                 }
 
+                if (!lockedTest)
+                {
+                    var result = MessageBox.Show("Do you want to lock this test?", "Confirm",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+
+                    lockedTest = result == DialogResult.Yes;
+                }
+
+                customOrderVentilatorTest.Locked = lockedTest;
                 BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
                 InitializeGridData();
