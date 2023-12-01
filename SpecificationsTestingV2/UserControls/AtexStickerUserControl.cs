@@ -1,7 +1,6 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic;
 using Logic.Business;
-using Logic.PdfGenerators;
 using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
 
@@ -270,8 +269,8 @@ namespace SpecificationsTesting.Forms
                         case 15:
                             columns.Add(new StickerRowColumn());
                             columns.Add(new StickerRowColumn());
-                            columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = ventilator.CustomOrderMotor.PTC.ToString() });
-                            columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = ventilator.CustomOrderMotor.HT.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.PTC) });
+                            columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.HT) });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
                             break;
 

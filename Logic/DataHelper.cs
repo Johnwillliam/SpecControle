@@ -75,5 +75,7 @@ namespace Logic
 
             return "";
         }
+
+        public static string NullableBooleanToYesNo(bool? value) => value.HasValue && value.Value ? "Yes" : "No";
     }
 }
