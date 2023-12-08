@@ -94,7 +94,8 @@ namespace SpecificationsTesting.Forms
             if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
-                var test = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
+                var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                var test = ventilator.CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
                 InitializeGridData(false, false);
                 ShowTable(SelectedImageSize);
             }

@@ -150,11 +150,6 @@ namespace SpecificationsTesting.UserControls
                 return;
             }
 
-            if (!BValidateMessage.ValidateForPrinting(SelectedVentilator))
-            {
-                return;
-            }
-
             InitializeGridData();
         }
 

@@ -52,11 +52,34 @@ namespace Logic.Business
             return customOrderVentilator;
         }
 
+        public static bool ShouldAdjustTests(CustomOrderVentilator customOrderVentilator)
+        {
+            using var dbContext = new SpecificationsDatabaseModel();
+            var existing = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
+
+            return existing.Amount != customOrderVentilator.Amount;
+        }
+
+        public static bool CanAdjustTests(CustomOrderVentilator customOrderVentilator)
+        {
+            using var dbContext = new SpecificationsDatabaseModel();
+            var existing = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
+            var difference = existing.Amount - customOrderVentilator.Amount;
+            if (difference <= 0)
+            {
+                return true;
+            }
+
+            //should remove a test
+            var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID);
+            return tests.Count(x => !x.Locked) >= difference;
+        }
+
         public static void Update(CustomOrderVentilator customOrderVentilator)
         {
             using var dbContext = new SpecificationsDatabaseModel();
             var toUpdate = dbContext.CustomOrderVentilators.Find(customOrderVentilator.ID);
-            if (toUpdate != null)
+            if (toUpdate != null && ShouldAdjustTests(customOrderVentilator))
             {
                 var tests = dbContext.CustomOrderVentilatorTests.Where(x => x.CustomOrderVentilatorID == customOrderVentilator.ID).ToList();
                 if (customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
@@ -64,7 +87,7 @@ namespace Logic.Business
                     var difference = toUpdate.Amount - customOrderVentilator.Amount;
                     for (int i = 0; i < difference; i++)
                     {
-                        var lastTest = tests.Last();
+                        var lastTest = tests.Last(x => !x.Locked);
                         customOrderVentilator.CustomOrderVentilatorTests.Remove(lastTest);
                         dbContext.CustomOrderVentilatorTests.Remove(lastTest);
                     }

@@ -335,12 +335,12 @@ namespace SpecificationsTesting.UserControls
                 }
 
                 customOrder.ID = CustomOrder.ID;
-                SelectedVentilatorID = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First().ID : SelectedVentilatorID;
-                var customOrderVentilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                var customOrderVentilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == GetSelectedVentilatorID());
 
                 var ventilatorID = customOrderVentilator.ID;
                 var motorID = customOrderVentilator.CustomOrderMotorID;
                 customOrderVentilator = ReadCustomOrderVentilatorDataGrid();
+                customOrderVentilator.ID = ventilatorID;
                 var motor = ReadCustomOrderMotorDataGrid();
                 motor.ID = motorID;
                 customOrderVentilator.CustomOrderMotorID = motorID;
@@ -359,7 +359,12 @@ namespace SpecificationsTesting.UserControls
                     return;
                 }
 
-                customOrderVentilator.ID = ventilatorID;
+                if (BCustomOrderVentilator.ShouldAdjustTests(customOrderVentilator) && !BCustomOrderVentilator.CanAdjustTests(customOrderVentilator))
+                {
+                    MessageBox.Show("Ventilator tests are locked and cannot be changed, please adjust the amount of ventilators or reload the page. Order is not saved.");
+                    return;
+                }
+
                 BCustomOrder.Update(customOrder);
                 BCustomOrderVentilator.Update(customOrderVentilator);
                 BCustomOrderMotor.Update(customOrderVentilator.CustomOrderMotor);
