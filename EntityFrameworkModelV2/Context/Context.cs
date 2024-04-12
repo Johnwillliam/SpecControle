@@ -47,6 +47,5 @@ namespace EntityFrameworkModelV2.Context
         }
 
         private static IEnumerable<int> Parse(string value) => value.Split(',').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
-
     }
 }

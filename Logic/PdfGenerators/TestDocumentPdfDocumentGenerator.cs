@@ -45,7 +45,7 @@ namespace Logic.PdfGenerators
             {
                 foreach (var test in _tests)
                 {
-                    if(_tests.IndexOf(test) > 0)
+                    if (_tests.IndexOf(test) > 0)
                     {
                         column.Item().PageBreak();
                     }

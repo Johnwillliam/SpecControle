@@ -195,7 +195,7 @@ namespace SpecificationsTesting.UserControls
 
             var rowsToDisable = new List<string>
             {
-                nameof(CustomOrderVentilatorTest.I2High), nameof(CustomOrderVentilatorTest.I2Low), 
+                nameof(CustomOrderVentilatorTest.I2High), nameof(CustomOrderVentilatorTest.I2Low),
                 nameof(CustomOrderVentilatorTest.I3High), nameof(CustomOrderVentilatorTest.I3Low)
             };
 

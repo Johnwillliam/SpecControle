@@ -6,7 +6,6 @@
         {
             return (IsDecimalNumber(type) && !double.TryParse(value, out _)) ||
                         (!IsDecimalNumber(type) && IsNumericType(type) && !value.All(char.IsDigit));
-
         }
 
         public static bool CheckValue(string value, Type type)
@@ -34,6 +33,7 @@
                 case TypeCode.Decimal:
                 case TypeCode.Double:
                     return true;
+
                 default:
                     return false;
             }
@@ -60,6 +60,7 @@
                 case TypeCode.Double:
                 case TypeCode.Single:
                     return true;
+
                 default:
                     return false;
             }

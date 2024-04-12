@@ -11,6 +11,7 @@ namespace Logic.Business
         {
             "CustomOrderNumber", "Debtor", "Reference", "Remarks"
         };
+
         public static readonly List<string> OrderDisplayPropertyNames = _orderDisplayPropertyNames;
 
         private static readonly List<string> _controleDisplayPropertyNames = new()
@@ -67,7 +68,7 @@ namespace Logic.Business
                 dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrder);
                 dbContext.SaveChanges();
             }
-        }   
+        }
 
         public static CustomOrder ByCustomOrderNumber(int customOrderNumber)
         {
@@ -96,7 +97,6 @@ namespace Logic.Business
                     .ThenInclude(y => y.CustomOrderMotor)
                 .FirstOrDefault(x => x.ID == id);
         }
-
 
         public static CustomOrder Copy(int id, int customOrderNumber)
         {

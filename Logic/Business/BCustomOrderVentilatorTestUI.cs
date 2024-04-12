@@ -43,6 +43,5 @@ namespace Logic.Business
                 return null;
             }
         }
-
     }
 }
