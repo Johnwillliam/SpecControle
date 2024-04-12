@@ -11,14 +11,14 @@ namespace Logic.Business
             "Name", "Type", "Version", "IEC", "IP", "PTC", "HT", "BuildingType",
             "ISO", "HighPower", "LowPower", "HighRPM", "LowRPM", "HighAmperage",
             "LowAmperage", "HighStartupAmperage", "LowStartupAmperage", "Frequency",
-            "PowerFactor", "VoltageType", "HighBearings", "LowBearings"
+            "PowerFactor", "VoltageType", "Bearings"
         };
 
         private static readonly List<string> _controleDisplayPropertyNames = new()
         {
             "Name", "Type", "Version", "HighPower", "LowPower", "HighRPM", "LowRPM",
             "HighAmperage", "LowAmperage", "HighStartupAmperage", "LowStartupAmperage",
-            "Frequency", "HighBearings", "LowBearings"
+            "Frequency", "Bearings"
         };
 
         private static readonly List<string> _selectDisplayPropertyNames = new()
@@ -89,8 +89,7 @@ namespace Logic.Business
                 Type = templateMotor.Type,
                 Version = templateMotor.Version,
                 VoltageType = templateMotor.VoltageType,
-                HighBearings = templateMotor.HighBearings,
-                LowBearings = templateMotor.LowBearings
+                Bearings = templateMotor.Bearings
             };
         }
 
@@ -114,8 +113,7 @@ namespace Logic.Business
             customOrderMotor.Type = templateMotor.Type;
             customOrderMotor.Version = templateMotor.Version;
             customOrderMotor.VoltageType = templateMotor.VoltageType;
-            customOrderMotor.HighBearings = templateMotor.HighBearings;
-            customOrderMotor.LowBearings = templateMotor.LowBearings;
+            customOrderMotor.Bearings = templateMotor.Bearings;
         }
 
         public static CustomOrderMotor CreateObject(CustomOrderMotor customOrderMotor, List<DataGridViewRow> rows)
@@ -140,8 +138,7 @@ namespace Logic.Business
                 customOrderMotor.Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency));
                 customOrderMotor.PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor));
                 customOrderMotor.VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType));
-                customOrderMotor.HighBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.HighBearings));
-                customOrderMotor.LowBearings = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.LowBearings));
+                customOrderMotor.Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValues(rows, nameof(CustomOrderMotor.Bearings));
                 return customOrderMotor;
             }
             catch (Exception)

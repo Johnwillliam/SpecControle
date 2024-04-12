@@ -47,15 +47,13 @@ namespace SpecificationsTesting.UserControls
 
         private void InitializeComboBoxes()
         {
-            using (SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel())
-            {
-                cmbUser.DisplayMember = "Name";
-                cmbUser.ValueMember = "ID";
-                cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbUser.DataSource = dbContext.Users.ToList();
-                var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
-                Show_Combobox(cell, cmbUser);
-            }
+            using SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel();
+            cmbUser.DisplayMember = "Name";
+            cmbUser.ValueMember = "ID";
+            cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbUser.DataSource = dbContext.Users.ToList();
+            var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
+            Show_Combobox(cell, cmbUser);
         }
 
         private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
@@ -138,8 +136,7 @@ namespace SpecificationsTesting.UserControls
                 CustomOrderDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrder), CustomOrder, BCustomOrder.ControleDisplayPropertyNames);
                 CustomOrderDataGrid.AutoResizeColumns();
 
-                if (CustomOrder == null)
-                    CustomOrder = new CustomOrder { ID = -1 };
+                CustomOrder ??= new CustomOrder { ID = -1 };
 
                 if (CustomOrder.CustomOrderVentilators.Count == 0)
                 {
@@ -161,8 +158,7 @@ namespace SpecificationsTesting.UserControls
                 SelectedVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), selectedTest, BCustomOrderVentilatorTest.ControleDisplayPropertyNames);
                 SelectedVentilatorTestDataGrid.AutoResizeColumns();
 
-                if (ventilator.CustomOrderMotor == null)
-                    ventilator.CustomOrderMotor = new CustomOrderMotor();
+                ventilator.CustomOrderMotor ??= new CustomOrderMotor();
 
                 MotorDataGrid.DataSource = null;
                 MotorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderMotor), ventilator.CustomOrderMotor, BCustomOrderMotor.ControleDisplayPropertyNames);
@@ -185,10 +181,31 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
                 }
                 InitializeComboBoxes();
+                DisableCalculatedRows();
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(ex);
+            }
+        }
+
+        private void DisableCalculatedRows()
+        {
+            var selectedVentilatorTestDataGridDataGridRows = SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+
+            var rowsToDisable = new List<string>
+            {
+                nameof(CustomOrderVentilatorTest.I2High), nameof(CustomOrderVentilatorTest.I2Low), 
+                nameof(CustomOrderVentilatorTest.I3High), nameof(CustomOrderVentilatorTest.I3Low)
+            };
+
+            foreach (var rowName in rowsToDisable)
+            {
+                var ventilatorTestsRow = selectedVentilatorTestDataGridDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
+                if (ventilatorTestsRow != null)
+                {
+                    DataGridObjectsUtility.SetRowReadOnlyAndColor(ventilatorTestsRow, true);
+                }
             }
         }
 

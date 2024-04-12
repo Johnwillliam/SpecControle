@@ -1,4 +1,5 @@
 ﻿using EntityFrameworkModelV2.Context;
+using EntityFrameworkModelV2.Extensions;
 using EntityFrameworkModelV2.Models;
 using Logic.Business;
 using System.Data;
@@ -26,7 +27,7 @@ namespace SpecificationsTesting.UserControls
 		{
 			foreach (DataGridViewRow row in MotorTemplatesDataGrid.Rows)
 			{
-				var motorTemplate = new TemplateMotor(row);
+				var motorTemplate = CreateTemplateMotorByDataGridViewRow(row);
 				if (motorTemplate.ID == 0)
 				{
 					BTemplateMotor.Create(motorTemplate);
@@ -41,7 +42,37 @@ namespace SpecificationsTesting.UserControls
 			MotorTemplatesDataGrid.DataSource = templates;
 		}
 
-		private void MotorTemplatesDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+		private TemplateMotor CreateTemplateMotorByDataGridViewRow(DataGridViewRow dataRow)
+		{
+			var rows = new List<DataGridViewRow> { dataRow };
+			return new TemplateMotor
+			{
+				ID = (int)dataRow.Cells[nameof(TemplateMotor.ID)].Value,
+				Name = dataRow.Cells[nameof(TemplateMotor.Name)].Value.EmptyIfNull(),
+				Type = dataRow.Cells[nameof(TemplateMotor.Type)].Value.EmptyIfNull(),
+				Version = dataRow.Cells[nameof(TemplateMotor.Version)].Value.EmptyIfNull(),
+				IEC = (int?)dataRow.Cells[nameof(TemplateMotor.IEC)].Value,
+				IP = (int?)dataRow.Cells[nameof(TemplateMotor.IP)].Value,
+				PTC = (bool?)dataRow.Cells[nameof(TemplateMotor.PTC)].Value,
+				HT = (bool?)dataRow.Cells[nameof(TemplateMotor.HT)].Value,
+				BuildingType = dataRow.Cells[nameof(TemplateMotor.BuildingType)].Value.EmptyIfNull(),
+				ISO = dataRow.Cells[nameof(TemplateMotor.ISO)].Value.EmptyIfNull(),
+				HighPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighPower)].Value,
+				LowPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowPower)].Value,
+				HighRPM = (int?)dataRow.Cells[nameof(TemplateMotor.HighRPM)].Value,
+				LowRPM = (int?)dataRow.Cells[nameof(TemplateMotor.LowRPM)].Value,
+				HighAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighAmperage)].Value,
+				LowAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowAmperage)].Value,
+				HighStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighStartupAmperage)].Value,
+				LowStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowStartupAmperage)].Value,
+				VoltageType = dataRow.Cells[nameof(TemplateMotor.VoltageType)].Value.EmptyIfNull(),
+				Frequency = (int?)dataRow.Cells[nameof(TemplateMotor.Frequency)].Value,
+				PowerFactor = (decimal?)dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value,
+				Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValues(rows, nameof(CustomOrderMotor.Bearings))
+			};
+		}
+
+        private void MotorTemplatesDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
 		{
 			var row = MotorTemplatesDataGrid.Rows[e.RowIndex];
 			if (row != null)

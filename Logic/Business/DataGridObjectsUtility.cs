@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Logic.Business
 {
@@ -43,6 +44,25 @@ namespace Logic.Business
         public static DataGridViewCell GetCellByDescription(List<DataGridViewRow> rows, string description)
         {
             return rows.FirstOrDefault(x => x.Cells["Description"].Value.ToString().Equals(description))?.Cells["Value"];
+        }
+
+        public static void SetRowReadOnlyAndColor(DataGridViewRow row, bool isReadOnly)
+        {
+            foreach (DataGridViewCell cell in row.Cells)
+            {
+                cell.ReadOnly = isReadOnly;
+                cell.Style.BackColor = isReadOnly ? Color.LightGray : Color.White;
+            }
+        }
+
+        public static int[] ParseSlashSeparatedIntValues(List<DataGridViewRow> rows, string fieldName)
+        {
+            var cell = GetCellByDescription(rows, fieldName);
+            if (cell?.Value != null)
+            {
+                return cell.Value.ToString().Split('/').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToArray();
+            }
+            return Array.Empty<int>();
         }
     }
 }

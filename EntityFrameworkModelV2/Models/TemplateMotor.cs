@@ -1,7 +1,5 @@
-using EntityFrameworkModelV2.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Windows.Forms;
 
 namespace EntityFrameworkModelV2.Models
 {
@@ -11,34 +9,7 @@ namespace EntityFrameworkModelV2.Models
         {
         }
 
-        public TemplateMotor(DataGridViewRow dataRow)
-        {
-            ID = (int)dataRow.Cells[nameof(TemplateMotor.ID)].Value;
-            Name = dataRow.Cells[nameof(TemplateMotor.Name)].Value.EmptyIfNull();
-            Type = dataRow.Cells[nameof(TemplateMotor.Type)].Value.EmptyIfNull();
-            Version = dataRow.Cells[nameof(TemplateMotor.Version)].Value.EmptyIfNull();
-            IEC = (int?)dataRow.Cells[nameof(TemplateMotor.IEC)].Value;
-            IP = (int?)dataRow.Cells[nameof(TemplateMotor.IP)].Value;
-            PTC = (bool?)dataRow.Cells[nameof(TemplateMotor.PTC)].Value;
-            HT = (bool?)dataRow.Cells[nameof(TemplateMotor.HT)].Value;
-            BuildingType = dataRow.Cells[nameof(TemplateMotor.BuildingType)].Value.EmptyIfNull();
-            ISO = dataRow.Cells[nameof(TemplateMotor.ISO)].Value.EmptyIfNull();
-            HighPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighPower)].Value;
-            LowPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowPower)].Value;
-            HighRPM = (int?)dataRow.Cells[nameof(TemplateMotor.HighRPM)].Value;
-            LowRPM = (int?)dataRow.Cells[nameof(TemplateMotor.LowRPM)].Value;
-            HighAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighAmperage)].Value;
-            LowAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowAmperage)].Value;
-            HighStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighStartupAmperage)].Value;
-            LowStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowStartupAmperage)].Value;
-            VoltageType = dataRow.Cells[nameof(TemplateMotor.VoltageType)].Value.EmptyIfNull();
-            Frequency = (int?)dataRow.Cells[nameof(TemplateMotor.Frequency)].Value;
-            PowerFactor = (decimal?)dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value;
-            HighBearings = (int?)dataRow.Cells[nameof(TemplateMotor.HighBearings)].Value;
-            LowBearings = (int?)dataRow.Cells[nameof(TemplateMotor.LowBearings)].Value;
-        }
-
-        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, int? highBearings, int? lowBearings)
+        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, int[] bearings)
         {
             ID = iD;
             Name = name;
@@ -61,8 +32,7 @@ namespace EntityFrameworkModelV2.Models
             VoltageType = voltageType;
             Frequency = frequency;
             PowerFactor = powerFactor;
-            HighBearings = highBearings;
-            LowBearings = lowBearings;
+            Bearings = bearings;
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -89,7 +59,6 @@ namespace EntityFrameworkModelV2.Models
         public string VoltageType { get; set; }
         public int? Frequency { get; set; }
         public decimal? PowerFactor { get; set; }
-        public int? HighBearings { get; set; }
-        public int? LowBearings { get; set; }
+        public IEnumerable<int> Bearings { get; set; }
     }
 }

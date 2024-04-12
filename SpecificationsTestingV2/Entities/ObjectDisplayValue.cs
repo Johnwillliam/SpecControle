@@ -20,7 +20,13 @@ namespace SpecificationsTesting.Entities
                     Value = displayObject == null ? "" : property.GetValue(displayObject),
                 };
                 if (displayValue.Value?.GetType() == typeof(DateTime))
+                {
                     displayValue.DisplayValue = ((DateTime?)displayValue.Value)?.ToString("dd-MM-yyyy");
+                }
+                else if (displayValue.Value?.GetType() == typeof(List<int>))
+                {
+                    displayValue.DisplayValue = string.Join("/", (IEnumerable<int>)displayValue.Value);
+                }
                 else
                     displayValue.DisplayValue = displayValue.Value?.ToString();
 

@@ -82,8 +82,8 @@ namespace SpecificationsTesting.UserControls
 
             var yesNoDataSource = new List<YesNoItem>
             {
-                new YesNoItem { Value = true, DisplayText = "Yes" },
-                new YesNoItem { Value = false, DisplayText = "No" }
+                new() { Value = true, DisplayText = "Yes" },
+                new() { Value = false, DisplayText = "No" }
             }.AsQueryable();
             InitializeComboBox(cmbPTC, yesNoDataSource, nameof(CustomOrderMotor.PTC), nameof(YesNoItem.Value), nameof(YesNoItem.DisplayText), MotorDataGrid);
             InitializeComboBox(cmbHT, yesNoDataSource, nameof(CustomOrderMotor.HT), nameof(YesNoItem.Value), nameof(YesNoItem.DisplayText), MotorDataGrid);
@@ -158,15 +158,6 @@ namespace SpecificationsTesting.UserControls
             e.PaintParts &= ~DataGridViewPaintParts.Focus;
         }
 
-        private static void SetRowReadOnlyAndColor(DataGridViewRow row, bool isReadOnly)
-        {
-            foreach (DataGridViewCell cell in row.Cells)
-            {
-                cell.ReadOnly = isReadOnly;
-                cell.Style.BackColor = isReadOnly ? Color.LightGray : Color.White;
-            }
-        }
-
         private void DisableCalculatedRows()
         {
             var ventilatorDataGridRows = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
@@ -184,13 +175,13 @@ namespace SpecificationsTesting.UserControls
                 var ventilatorRow = ventilatorDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
                 if (ventilatorRow != null)
                 {
-                    SetRowReadOnlyAndColor(ventilatorRow, true);
+                    DataGridObjectsUtility.SetRowReadOnlyAndColor(ventilatorRow, true);
                 }
 
                 var configRow = configDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
                 if (configRow != null)
                 {
-                    SetRowReadOnlyAndColor(configRow, true);
+                    DataGridObjectsUtility.SetRowReadOnlyAndColor(configRow, true);
                 }
             }
         }

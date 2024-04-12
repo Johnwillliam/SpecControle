@@ -1,9 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace EntityFrameworkModelV2.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     public class CustomOrderMotor
     {
         public CustomOrderMotor()
@@ -35,9 +36,7 @@ namespace EntityFrameworkModelV2.Models
         public string VoltageType { get; set; }
         public int? Frequency { get; set; }
         public decimal? PowerFactor { get; set; }
-        public int? HighBearings { get; set; }
-        public int? LowBearings { get; set; }
-
+        public IEnumerable<int> Bearings { get; set; }
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }
 }
