@@ -27,6 +27,11 @@ namespace SpecificationsTesting.UserControls
         {
             foreach (DataGridViewRow row in MotorTemplatesDataGrid.Rows)
             {
+                if (row.Cells[nameof(TemplateMotor.Name)].Value is null)
+                {
+                    continue;
+                }
+
                 var motorTemplate = CreateTemplateMotorByDataGridViewRow(row);
                 if (motorTemplate.ID == 0)
                 {
@@ -42,9 +47,8 @@ namespace SpecificationsTesting.UserControls
             MotorTemplatesDataGrid.DataSource = templates;
         }
 
-        private TemplateMotor CreateTemplateMotorByDataGridViewRow(DataGridViewRow dataRow)
+        private static TemplateMotor CreateTemplateMotorByDataGridViewRow(DataGridViewRow dataRow)
         {
-            var rows = new List<DataGridViewRow> { dataRow };
             return new TemplateMotor
             {
                 ID = (int)dataRow.Cells[nameof(TemplateMotor.ID)].Value,
@@ -68,7 +72,7 @@ namespace SpecificationsTesting.UserControls
                 VoltageType = dataRow.Cells[nameof(TemplateMotor.VoltageType)].Value.EmptyIfNull(),
                 Frequency = (int?)dataRow.Cells[nameof(TemplateMotor.Frequency)].Value,
                 PowerFactor = (decimal?)dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value,
-                Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValues(rows, nameof(CustomOrderMotor.Bearings))
+                Bearings = dataRow.Cells[nameof(TemplateMotor.Bearings)].Value is null ? new List<int>() : (List<int>)dataRow.Cells[nameof(TemplateMotor.Bearings)].Value
             };
         }
 
@@ -102,6 +106,24 @@ namespace SpecificationsTesting.UserControls
         private void MotorTemplateDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             MessageBox.Show(e.Exception.Message);
+        }
+
+        private void MotorTemplatesDataGrid_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
+        {
+            if (e.DesiredType == typeof(IEnumerable<int>))
+            {
+                e.Value = e.Value.ToString().Split('/').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
+            }
+            e.ParsingApplied = true;
+        }
+
+        private void MotorTemplatesDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value is not null && e.Value.GetType() == typeof(List<int>))
+            {
+                var list = (List<int>)e.Value;
+                e.Value = string.Join("/", list);
+            }
         }
     }
 }

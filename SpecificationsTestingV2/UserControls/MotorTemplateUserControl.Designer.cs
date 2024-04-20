@@ -20,62 +20,64 @@
 			base.Dispose(disposing);
 		}
 
-		#region Component Designer generated code
+        #region Component Designer generated code
 
-		/// <summary> 
-		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
-			btnSave = new Button();
-			MotorTemplatesDataGrid = new Zuby.ADGV.AdvancedDataGridView();
-			((System.ComponentModel.ISupportInitialize)MotorTemplatesDataGrid).BeginInit();
-			SuspendLayout();
-			// 
-			// btnSave
-			// 
-			btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-			btnSave.Location = new Point(589, 482);
-			btnSave.Margin = new Padding(4, 3, 4, 3);
-			btnSave.Name = "btnSave";
-			btnSave.Size = new Size(270, 43);
-			btnSave.TabIndex = 1;
-			btnSave.Text = "Save";
-			btnSave.UseVisualStyleBackColor = true;
-			// 
-			// MotorTemplatesDataGrid
-			// 
-			MotorTemplatesDataGrid.AllowUserToAddRows = false;
-			MotorTemplatesDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			MotorTemplatesDataGrid.FilterAndSortEnabled = true;
-			MotorTemplatesDataGrid.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
-			MotorTemplatesDataGrid.Location = new Point(4, 3);
-			MotorTemplatesDataGrid.Margin = new Padding(4, 3, 4, 3);
-			MotorTemplatesDataGrid.Name = "MotorTemplatesDataGrid";
-			MotorTemplatesDataGrid.RightToLeft = RightToLeft.No;
-			MotorTemplatesDataGrid.SelectionMode = DataGridViewSelectionMode.CellSelect;
-			MotorTemplatesDataGrid.Size = new Size(1377, 472);
-			MotorTemplatesDataGrid.SortStringChangedInvokeBeforeDatasourceUpdate = true;
-			MotorTemplatesDataGrid.TabIndex = 2;
-			MotorTemplatesDataGrid.CellValidating += MotorTemplatesDataGrid_CellValidating;
-			// 
-			// MotorTemplateUserControl
-			// 
-			AutoScaleDimensions = new SizeF(7F, 15F);
-			AutoScaleMode = AutoScaleMode.Font;
-			AutoSize = true;
-			Controls.Add(MotorTemplatesDataGrid);
-			Controls.Add(btnSave);
-			Margin = new Padding(4, 3, 4, 3);
-			Name = "MotorTemplateUserControl";
-			Size = new Size(1385, 539);
-			((System.ComponentModel.ISupportInitialize)MotorTemplatesDataGrid).EndInit();
-			ResumeLayout(false);
-		}
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            btnSave = new Button();
+            MotorTemplatesDataGrid = new Zuby.ADGV.AdvancedDataGridView();
+            ((System.ComponentModel.ISupportInitialize)MotorTemplatesDataGrid).BeginInit();
+            SuspendLayout();
+            // 
+            // btnSave
+            // 
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnSave.Location = new Point(589, 482);
+            btnSave.Margin = new Padding(4, 3, 4, 3);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(270, 43);
+            btnSave.TabIndex = 1;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            // 
+            // MotorTemplatesDataGrid
+            // 
+            MotorTemplatesDataGrid.AllowUserToAddRows = false;
+            MotorTemplatesDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            MotorTemplatesDataGrid.FilterAndSortEnabled = true;
+            MotorTemplatesDataGrid.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
+            MotorTemplatesDataGrid.Location = new Point(4, 3);
+            MotorTemplatesDataGrid.Margin = new Padding(4, 3, 4, 3);
+            MotorTemplatesDataGrid.Name = "MotorTemplatesDataGrid";
+            MotorTemplatesDataGrid.RightToLeft = RightToLeft.No;
+            MotorTemplatesDataGrid.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            MotorTemplatesDataGrid.Size = new Size(1377, 472);
+            MotorTemplatesDataGrid.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            MotorTemplatesDataGrid.TabIndex = 2;
+            MotorTemplatesDataGrid.CellFormatting += MotorTemplatesDataGrid_CellFormatting;
+            MotorTemplatesDataGrid.CellParsing += MotorTemplatesDataGrid_CellParsing;
+            MotorTemplatesDataGrid.CellValidating += MotorTemplatesDataGrid_CellValidating;
+            // 
+            // MotorTemplateUserControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
+            Controls.Add(MotorTemplatesDataGrid);
+            Controls.Add(btnSave);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "MotorTemplateUserControl";
+            Size = new Size(1385, 539);
+            ((System.ComponentModel.ISupportInitialize)MotorTemplatesDataGrid).EndInit();
+            ResumeLayout(false);
+        }
 
-		#endregion
-		private System.Windows.Forms.Button btnSave;
+        #endregion
+        private System.Windows.Forms.Button btnSave;
 		private Zuby.ADGV.AdvancedDataGridView MotorTemplatesDataGrid;
 	}
 }

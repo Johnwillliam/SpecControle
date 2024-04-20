@@ -55,14 +55,19 @@ namespace Logic.Business
             }
         }
 
-        public static int[] ParseSlashSeparatedIntValues(List<DataGridViewRow> rows, string fieldName)
+        public static List<int> ParseSlashSeparatedIntValuesByDataGridViewRows(List<DataGridViewRow> rows, string fieldName)
         {
             var cell = GetCellByDescription(rows, fieldName);
-            if (cell?.Value != null)
+            return ParseSlashSeparatedIntValuesByString(cell?.Value?.ToString());
+        }
+
+        public static List<int> ParseSlashSeparatedIntValuesByString(string value)
+        {
+            if (value != null)
             {
-                return cell.Value.ToString().Split('/').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToArray();
+                return value.Split('/').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
             }
-            return Array.Empty<int>();
+            return new List<int>();
         }
     }
 }

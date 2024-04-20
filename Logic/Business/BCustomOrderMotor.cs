@@ -138,7 +138,7 @@ namespace Logic.Business
                 customOrderMotor.Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency));
                 customOrderMotor.PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor));
                 customOrderMotor.VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType));
-                customOrderMotor.Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValues(rows, nameof(CustomOrderMotor.Bearings));
+                customOrderMotor.Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValuesByDataGridViewRows(rows, nameof(CustomOrderMotor.Bearings));
                 return customOrderMotor;
             }
             catch (Exception)

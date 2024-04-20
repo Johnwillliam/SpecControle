@@ -9,7 +9,7 @@ namespace EntityFrameworkModelV2.Models
         {
         }
 
-        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, int[] bearings)
+        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, List<int> bearings)
         {
             ID = iD;
             Name = name;
@@ -58,6 +58,7 @@ namespace EntityFrameworkModelV2.Models
         public decimal? LowStartupAmperage { get; set; }
         public string VoltageType { get; set; }
         public int? Frequency { get; set; }
+        public int? Poles { get; set; }
         public decimal? PowerFactor { get; set; }
         public IEnumerable<int> Bearings { get; set; }
     }
