@@ -12,7 +12,6 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
         public string PrinterName { get; set; }
-        private CustomOrderVentilator SelectedVentilator => CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();
 
         private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
 

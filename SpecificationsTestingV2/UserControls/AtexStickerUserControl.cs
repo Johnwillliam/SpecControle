@@ -16,7 +16,7 @@ namespace SpecificationsTesting.Forms
         public string PrinterName { get; set; }
 
         private const int _normalImageWidth = 500;
-        private const int _normalImageHeight = 500;
+        private const int _normalImageHeight = 520;
         private const int _smallImageWidth = 580;
         private const int _smallImageHeight = 400;
         private bool _initGrid = false;
@@ -161,7 +161,7 @@ namespace SpecificationsTesting.Forms
 
             var rows = 21;
             var colWidth = (int)((imageWidth * 0.9) / 2);
-            var rowHeight = (imageHeight / 25);
+            var rowHeight = (imageHeight / 30);
             var startX = 40;
             var startY = rowHeight * 5;
 
@@ -479,16 +479,13 @@ namespace SpecificationsTesting.Forms
         {
             try
             {
-                using PrintDocument printDocument = new PrintDocument();
-                printDocument.PrinterSettings.PrinterName = printerName;
-                printDocument.PrintPage += (sender, e) =>
+                var document = PdfiumViewer.PdfDocument.Load(new MemoryStream(byteArray));
+                var printdoc = document.CreatePrintDocument();
+                printdoc.PrinterSettings = new PrinterSettings()
                 {
-                    using MemoryStream stream = new MemoryStream(byteArray);
-                    var image = System.Drawing.Image.FromStream(stream);
-                    e.Graphics.DrawImage(image, new Rectangle(e.PageBounds.Left, e.PageBounds.Top, e.PageBounds.Width, e.PageBounds.Height));
+                    PrinterName = printerName
                 };
-
-                printDocument.Print();
+                printdoc.Print();
             }
             catch (Exception ex)
             {

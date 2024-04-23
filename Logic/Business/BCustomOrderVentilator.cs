@@ -100,12 +100,11 @@ namespace Logic.Business
                         var newTest = new CustomOrderVentilatorTest() { CustomOrderVentilatorID = customOrderVentilator.ID };
                         dbContext.CustomOrderVentilatorTests.Add(newTest);
                     }
-                }
-
-                customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
-                dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
-                dbContext.SaveChanges();
+                }    
             }
+            customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
+            dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
+            dbContext.SaveChanges();
         }
 
         public static CustomOrderVentilator Copy(CustomOrderVentilator toCopy)
