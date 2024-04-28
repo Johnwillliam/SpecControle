@@ -14,14 +14,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="Application Files\SpecificationsTestingV2_1_0_0_6\SpecificationsTestingV2.dll.manifest" size="213555">
+    <dependentAssembly dependencyType="install" codebase="Application Files\SpecificationsTestingV2_1_0_0_6\SpecificationsTestingV2.dll.manifest" size="23976">
       <assemblyIdentity name="SpecificationsTestingV2.exe" version="1.0.0.6" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>9MCSjmWUIbpQZ5cAdhILbtp4SZ+d5D7JPDShK+hbTrQ=</dsig:DigestValue>
+        <dsig:DigestValue>DZc99YnwTAPA+qLmChQh6v61KmxaLMNDE/2EKwfzIeU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
