@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkModelV2.Context;
 using SpecificationsTesting.UserControls;
+using System.Diagnostics;
 using System.Drawing.Printing;
 
 namespace SpecificationsTesting.Forms
@@ -31,6 +32,7 @@ namespace SpecificationsTesting.Forms
             }
             else
             {
+                Trace.TraceError("Database is not available.");
                 Environment.Exit(1);
             }
         }
