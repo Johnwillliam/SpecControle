@@ -1,11 +1,12 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v7.0",
+    "name": ".NETCoreApp,Version=v7.0/win-x64",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v7.0": {
+    ".NETCoreApp,Version=v7.0": {},
+    ".NETCoreApp,Version=v7.0/win-x64": {
       "SpecificationsTestingV2/1.0.0": {
         "dependencies": {
           "DG.AdvancedDataGridView": "1.2.28103.10",
@@ -75,30 +76,10 @@
           }
         }
       },
-      "HarfBuzzSharp.NativeAssets.macOS/7.3.0": {
-        "runtimeTargets": {
-          "runtimes/osx/native/libHarfBuzzSharp.dylib": {
-            "rid": "osx",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
+      "HarfBuzzSharp.NativeAssets.macOS/7.3.0": {},
       "HarfBuzzSharp.NativeAssets.Win32/7.3.0": {
-        "runtimeTargets": {
-          "runtimes/win-arm64/native/libHarfBuzzSharp.dll": {
-            "rid": "win-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
+        "native": {
           "runtimes/win-x64/native/libHarfBuzzSharp.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x86/native/libHarfBuzzSharp.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -133,46 +114,15 @@
           "System.Text.Encodings.Web": "4.7.2"
         },
         "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.0.0"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "rid": "unix",
-            "assetType": "runtime",
-            "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.0.0"
-          },
           "runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll": {
-            "rid": "win",
-            "assetType": "runtime",
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.0.0"
           }
         }
       },
       "Microsoft.Data.SqlClient.SNI.runtime/5.0.1": {
-        "runtimeTargets": {
-          "runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll": {
-            "rid": "win-arm",
-            "assetType": "native",
-            "fileVersion": "5.0.1.0"
-          },
-          "runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll": {
-            "rid": "win-arm64",
-            "assetType": "native",
-            "fileVersion": "5.0.1.0"
-          },
+        "native": {
           "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "5.0.1.0"
-          },
-          "runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
             "fileVersion": "5.0.1.0"
           }
         }
@@ -457,33 +407,21 @@
           }
         }
       },
-      "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
-        "runtimeTargets": {
-          "runtimes/linux-arm/native/libSystem.IO.Ports.Native.so": {
-            "rid": "linux-arm",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
+      "runtime.any.System.Globalization/4.3.0": {},
+      "runtime.any.System.IO/4.3.0": {},
+      "runtime.any.System.Reflection/4.3.0": {},
+      "runtime.any.System.Reflection.Primitives/4.3.0": {},
+      "runtime.any.System.Resources.ResourceManager/4.3.0": {},
+      "runtime.any.System.Runtime/4.3.0": {
+        "dependencies": {
+          "System.Private.Uri": "4.3.0"
         }
       },
-      "runtime.linux-arm64.runtime.native.System.IO.Ports/7.0.0": {
-        "runtimeTargets": {
-          "runtimes/linux-arm64/native/libSystem.IO.Ports.Native.so": {
-            "rid": "linux-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "runtime.linux-x64.runtime.native.System.IO.Ports/7.0.0": {
-        "runtimeTargets": {
-          "runtimes/linux-x64/native/libSystem.IO.Ports.Native.so": {
-            "rid": "linux-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
+      "runtime.any.System.Text.Encoding/4.3.0": {},
+      "runtime.any.System.Threading.Tasks/4.3.0": {},
+      "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {},
+      "runtime.linux-arm64.runtime.native.System.IO.Ports/7.0.0": {},
+      "runtime.linux-x64.runtime.native.System.IO.Ports/7.0.0": {},
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
         "dependencies": {
           "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
@@ -500,51 +438,17 @@
           "runtime.osx-x64.runtime.native.System.IO.Ports": "7.0.0"
         }
       },
-      "runtime.osx-arm64.runtime.native.System.IO.Ports/7.0.0": {
-        "runtimeTargets": {
-          "runtimes/osx-arm64/native/libSystem.IO.Ports.Native.dylib": {
-            "rid": "osx-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "runtime.osx-x64.runtime.native.System.IO.Ports/7.0.0": {
-        "runtimeTargets": {
-          "runtimes/osx-x64/native/libSystem.IO.Ports.Native.dylib": {
-            "rid": "osx-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
-        "runtimeTargets": {
-          "runtimes/win-arm64/native/sni.dll": {
-            "rid": "win-arm64",
-            "assetType": "native",
-            "fileVersion": "4.6.25512.1"
-          }
-        }
-      },
+      "runtime.osx-arm64.runtime.native.System.IO.Ports/7.0.0": {},
+      "runtime.osx-x64.runtime.native.System.IO.Ports/7.0.0": {},
+      "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {},
       "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
-        "runtimeTargets": {
+        "native": {
           "runtimes/win-x64/native/sni.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
             "fileVersion": "4.6.25512.1"
           }
         }
       },
-      "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
-        "runtimeTargets": {
-          "runtimes/win-x86/native/sni.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "4.6.25512.1"
-          }
-        }
-      },
+      "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {},
       "SkiaSharp/2.88.6": {
         "dependencies": {
           "SkiaSharp.NativeAssets.Win32": "2.88.6",
@@ -569,30 +473,10 @@
           }
         }
       },
-      "SkiaSharp.NativeAssets.macOS/2.88.6": {
-        "runtimeTargets": {
-          "runtimes/osx/native/libSkiaSharp.dylib": {
-            "rid": "osx",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
+      "SkiaSharp.NativeAssets.macOS/2.88.6": {},
       "SkiaSharp.NativeAssets.Win32/2.88.6": {
-        "runtimeTargets": {
-          "runtimes/win-arm64/native/libSkiaSharp.dll": {
-            "rid": "win-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
+        "native": {
           "runtimes/win-x64/native/libSkiaSharp.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-x86/native/libSkiaSharp.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -612,21 +496,7 @@
           "runtime.native.System.Data.SqlClient.sni": "4.7.0"
         },
         "runtime": {
-          "lib/netcoreapp2.1/System.Data.SqlClient.dll": {
-            "assemblyVersion": "4.6.1.5",
-            "fileVersion": "4.700.22.51706"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll": {
-            "rid": "unix",
-            "assetType": "runtime",
-            "assemblyVersion": "4.6.1.5",
-            "fileVersion": "4.700.22.51706"
-          },
           "runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll": {
-            "rid": "win",
-            "assetType": "runtime",
             "assemblyVersion": "4.6.1.5",
             "fileVersion": "4.700.22.51706"
           }
@@ -644,7 +514,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Globalization": "4.3.0"
         }
       },
       "System.IdentityModel.Tokens.Jwt/6.21.0": {
@@ -665,7 +536,8 @@
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0",
-          "System.Threading.Tasks": "4.3.0"
+          "System.Threading.Tasks": "4.3.0",
+          "runtime.any.System.IO": "4.3.0"
         }
       },
       "System.IO.Ports/7.0.0": {
@@ -673,21 +545,7 @@
           "runtime.native.System.IO.Ports": "7.0.0"
         },
         "runtime": {
-          "lib/net7.0/System.IO.Ports.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.22.51805"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/unix/lib/net7.0/System.IO.Ports.dll": {
-            "rid": "unix",
-            "assetType": "runtime",
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.22.51805"
-          },
           "runtimes/win/lib/net7.0/System.IO.Ports.dll": {
-            "rid": "win",
-            "assetType": "runtime",
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.22.51805"
           }
@@ -707,20 +565,28 @@
         }
       },
       "System.Numerics.Vectors/4.5.0": {},
+      "System.Private.Uri/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "5.0.0",
+          "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
       "System.Reflection/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.IO": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Reflection": "4.3.0"
         }
       },
       "System.Reflection.Primitives/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Reflection.Primitives": "4.3.0"
         }
       },
       "System.Resources.ResourceManager/4.3.0": {
@@ -729,13 +595,15 @@
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Globalization": "4.3.0",
           "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Resources.ResourceManager": "4.3.0"
         }
       },
       "System.Runtime/4.3.0": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
-          "Microsoft.NETCore.Targets": "1.1.0"
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "runtime.any.System.Runtime": "4.3.0"
         }
       },
       "System.Runtime.Caching/5.0.0": {
@@ -743,15 +611,7 @@
           "System.Configuration.ConfigurationManager": "7.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/System.Runtime.Caching.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "5.0.20.51904"
-          }
-        },
-        "runtimeTargets": {
           "runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll": {
-            "rid": "win",
-            "assetType": "runtime",
             "assemblyVersion": "4.0.0.0",
             "fileVersion": "5.0.20.51904"
           }
@@ -779,7 +639,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Text.Encoding": "4.3.0"
         }
       },
       "System.Text.Encoding.CodePages/5.0.0": {
@@ -793,7 +654,8 @@
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.0",
           "Microsoft.NETCore.Targets": "1.1.0",
-          "System.Runtime": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "runtime.any.System.Threading.Tasks": "4.3.0"
         }
       },
       "System.Threading.Tasks.Extensions/4.5.4": {},
@@ -1116,6 +978,62 @@
       "path": "questpdf/2023.10.2",
       "hashPath": "questpdf.2023.10.2.nupkg.sha512"
     },
+    "runtime.any.System.Globalization/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sMDBnad4rp4t7GY442Jux0MCUuKL4otn5BK6Ni0ARTXTSpRNBzZ7hpMfKSvnVSED5kYJm96YOWsqV0JH0d2uuw==",
+      "path": "runtime.any.system.globalization/4.3.0",
+      "hashPath": "runtime.any.system.globalization.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.IO/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SDZ5AD1DtyRoxYtEcqQ3HDlcrorMYXZeCt7ZhG9US9I5Vva+gpIWDGMkcwa5XiKL0ceQKRZIX2x0XEjLX7PDzQ==",
+      "path": "runtime.any.system.io/4.3.0",
+      "hashPath": "runtime.any.system.io.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hLC3A3rI8jipR5d9k7+f0MgRCW6texsAp0MWkN/ci18FMtQ9KH7E2vDn/DH2LkxsszlpJpOn9qy6Z6/69rH6eQ==",
+      "path": "runtime.any.system.reflection/4.3.0",
+      "hashPath": "runtime.any.system.reflection.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Reflection.Primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Nrm1p3armp6TTf2xuvaa+jGTTmncALWFq22CpmwRvhDf6dE9ZmH40EbOswD4GnFLrMRS0Ki6Kx5aUPmKK/hZBg==",
+      "path": "runtime.any.system.reflection.primitives/4.3.0",
+      "hashPath": "runtime.any.system.reflection.primitives.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Resources.ResourceManager/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Lxb89SMvf8w9p9+keBLyL6H6x/TEmc6QVsIIA0T36IuyOY3kNvIdyGddA2qt35cRamzxF8K5p0Opq4G4HjNbhQ==",
+      "path": "runtime.any.system.resources.resourcemanager/4.3.0",
+      "hashPath": "runtime.any.system.resources.resourcemanager.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fRS7zJgaG9NkifaAxGGclDDoRn9HC7hXACl52Or06a/fxdzDajWb5wov3c6a+gVSlekRoexfjwQSK9sh5um5LQ==",
+      "path": "runtime.any.system.runtime/4.3.0",
+      "hashPath": "runtime.any.system.runtime.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Text.Encoding/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+ihI5VaXFCMVPJNstG4O4eo1CfbrByLxRrQQTqOTp1ttK0kUKDqOdBSTaCB2IBk/QtjDrs6+x4xuezyMXdm0HQ==",
+      "path": "runtime.any.system.text.encoding/4.3.0",
+      "hashPath": "runtime.any.system.text.encoding.4.3.0.nupkg.sha512"
+    },
+    "runtime.any.System.Threading.Tasks/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OhBAVBQG5kFj1S+hCEQ3TUHBAEtZ3fbEMgZMRNdN8A0Pj4x+5nTELEqL59DU0TjKVE6II3dqKw4Dklb3szT65w==",
+      "path": "runtime.any.system.threading.tasks/4.3.0",
+      "hashPath": "runtime.any.system.threading.tasks.4.3.0.nupkg.sha512"
+    },
     "runtime.linux-arm.runtime.native.System.IO.Ports/7.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1311,6 +1229,13 @@
       "sha512": "sha512-QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
       "path": "system.numerics.vectors/4.5.0",
       "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
+    },
+    "System.Private.Uri/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I4SwANiUGho1esj4V4oSlPllXjzCZDE+5XXso2P03LW2vOda2Enzh8DWOxwN6hnrJyp314c7KuVu31QYhRzOGg==",
+      "path": "system.private.uri/4.3.0",
+      "hashPath": "system.private.uri.4.3.0.nupkg.sha512"
     },
     "System.Reflection/4.3.0": {
       "type": "package",
