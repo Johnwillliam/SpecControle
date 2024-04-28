@@ -419,7 +419,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>aM47OxNbfB/yn1K/tDCaXMuQ1JJH4IDTgYM6ogvsA3w=</dsig:DigestValue>
+      <dsig:DigestValue>9DydSxjcpI/jCkxP4b0snRGJjRwh8lfk0NgeVxfbc5o=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SpecificationsTestingV2.dll.config" size="476">
@@ -437,7 +437,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>H3gZ7aFMXnFOOZvr42MJG1GlNw7bqAQWmrp7RrrmKU4=</dsig:DigestValue>
+      <dsig:DigestValue>0NpNHNIP4ozN/nGHzLudJhe/kirKhkbFO0GnAH0cd50=</dsig:DigestValue>
     </hash>
   </file>
   <file name="SpecificationsTestingV2.runtimeconfig.json" size="527">
