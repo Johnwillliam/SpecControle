@@ -1,0 +1,27 @@
+﻿parameters:
+  - name: connectionString
+    displayName: 'Database connection string'
+    type: string
+
+jobs:
+ - job: Publish_DotNet
+   displayName: 'Publish solution'
+   pool:
+     name: default
+   steps:
+     - task: DotNetCoreCLI@2
+       displayName: Publish
+       inputs:
+         command: 'publish'
+         publishWebProjects: false
+         projects: |
+             **/*.csproj
+             !**/*Tests.csproj
+         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+         zipAfterPublish: True
+
+     - task: PublishPipelineArtifact@1
+       displayName: 'Publish Artifact'
+       inputs:
+         targetPath: $(Build.ArtifactStagingDirectory)
+         artifact: 'SpecificationTesting'

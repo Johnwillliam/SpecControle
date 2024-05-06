@@ -1,0 +1,21 @@
+﻿jobs:
+ - job: UnitTest_DotNet
+   displayName: 'Run Unit Tests'
+   pool:
+     name: default
+   steps:
+     - task: DotNetCoreCLI@2
+       displayName: Run Unit Tests 
+       inputs:
+         command: 'test'
+         projects: |
+             **/*UnitTests/*.csproj
+             !**/*IntegrationTests/*.csproj
+         arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+         publishTestResults: true
+
+     - task: PublishCodeCoverageResults@1
+       displayName: 'Publish Code Coverage Report'
+       inputs:
+         codeCoverageTool: 'Cobertura'
+         summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
