@@ -34,7 +34,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'SpecificationsTestingV2\\bin\\Release'
+    SourceFolder: 'Application\\SpecificationsTestingV2\\bin\\Release'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
