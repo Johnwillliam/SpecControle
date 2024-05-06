@@ -1,8 +1,6 @@
 ﻿jobs:
  - job: Build_DotNet
    displayName: 'Build DotNet'
-   pool:
-     name: default
    steps:
      - task: DotNetCoreCLI@2
        displayName: Restore
