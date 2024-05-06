@@ -1,6 +1,8 @@
 ﻿jobs:
  - job: Build_DotNet
    displayName: 'Build DotNet'
+   pool:
+    vmImage: 'windows-latest'
    steps:
      - task: DotNetCoreCLI@2
        displayName: Restore

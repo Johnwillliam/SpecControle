@@ -1,6 +1,8 @@
 ﻿jobs:
  - job: UnitTest_DotNet
    displayName: 'Run Unit Tests'
+   pool:
+    vmImage: 'windows-latest'
    steps:
      - task: DotNetCoreCLI@2
        displayName: Run Unit Tests 
