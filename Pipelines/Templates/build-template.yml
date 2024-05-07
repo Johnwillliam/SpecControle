@@ -25,14 +25,16 @@ jobs:
          projects: |
             **/*.csproj
 
-     - task: PowerShell@2
-       targetType: 'inline'
-       script: |
+     - task: AzureCLI@2
+       inputs:
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
         # Variables for the new connection string components
-        $databasename = "$(DB_NAME)"
-        $hostname = "$(DB_HOSTNAME)"
-        $username = "$(DB_USERNAME)"
-        $password = "$(DB_PASSWORD)"
+        $databasename = ${{ parameters.DB_NAME }}
+        $hostname = ${{ parameters.DB_HOSTNAME }}
+        $username = ${{ parameters.DB_USERNAME }}
+        $password = ${{ parameters.DB_PASSWORD }}
         
         # Construct the connection string
         $newConnectionString = "data source=$hostname;initial catalog=databasename;user id=$username;password=$password;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
