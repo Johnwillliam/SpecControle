@@ -5,6 +5,7 @@
 
 jobs:
  - job: Publish_DotNet
+   displayName: Publish
    pool:
     vmImage: 'windows-latest'
    steps:
@@ -14,7 +15,7 @@ jobs:
          command: 'publish'
          publishWebProjects: false
          projects: |
-             SpecificationTesting*/*.csproj
+             SpecificationsTesting*/*.csproj
              !**/*Tests.csproj
          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
          zipAfterPublish: True
@@ -23,14 +24,14 @@ jobs:
        displayName: 'Publish Artifact'
        inputs:
          targetPath: $(Build.ArtifactStagingDirectory)
-         artifact: 'SpecificationTesting'
+         artifact: 'SpecificationsTesting'
 
      - task: SendEmail@1
        inputs:
          To: 'mjw-tan@outlook.com'
          From: 'mjw-tan@outlook.com'
          Subject: 'New build artifact'
-         Body: '$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationTesting&api-version=6.0'
+         Body: '$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0'
          BodyAsHtml: false
          AddAttachment: false
          SmtpServer: 'smtp.gmail.com'
