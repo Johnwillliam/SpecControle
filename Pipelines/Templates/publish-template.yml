@@ -15,7 +15,7 @@ jobs:
          command: 'publish'
          publishWebProjects: false
          projects: |
-             SpecificationsTesting*/*.csproj
+             SpecificationsTestingV2/*.csproj
              !**/*Tests.csproj
          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
          zipAfterPublish: True
