@@ -1,4 +1,10 @@
-﻿jobs:
+﻿variables:
+  DB_NAME: "SpecificationsTesting2"
+  DB_HOSTNAME: "10.10.10.124"
+  DB_USERNAME: "xyz"
+  DB_PASSWORD: "abc"
+
+jobs:
  - job: Build_DotNet
    displayName: 'Build DotNet'
    pool:
@@ -10,6 +16,48 @@
          command: 'restore'
          projects: |
             **/*.csproj
+
+     - task: PowerShell@2
+       inputs:
+       targetType: 'inline'
+       script: |
+        # Variables for the new connection string components
+        $databasename = "$(DB_NAME)"
+        $hostname = "$(DB_HOSTNAME)"
+        $username = "$(DB_USERNAME)"
+        $password = "$(DB_PASSWORD)"
+        
+        # Construct the connection string
+        $newConnectionString = "data source=$hostname;initial catalog=databasename;user id=$username;password=$password;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+
+        # Path to the app.config file
+        $appConfigPath = "$(Build.SourcesDirectory)/Application/SpecificationsTestingV2/app.config"
+
+        # Read the XML content of app.config
+        [xml]$configXml = Get-Content -Path $appConfigPath
+
+        # Get the connectionStrings section
+        $connectionStrings = $configXml.configuration.connectionStrings
+
+        # Name of the connection string to update
+        $connectionName = "SpecificationsDatabase"
+
+        # Find the existing connection string
+        $connectionStringElement = $connectionStrings.add | Where-Object { $_.name -eq $connectionName }
+
+        if ($null -eq $connectionStringElement) {
+          # If the connection string doesn't exist, create a new one
+          $newElement = $configXml.CreateElement("add")
+          $newElement.SetAttribute("name", $connectionName)
+          $newElement.SetAttribute("connectionString", $newConnectionString)
+          $connectionStrings.AppendChild($newElement) | Out-Null
+        } else {
+          # If it exists, update its connection string
+          $connectionStringElement.SetAttribute("connectionString", $newConnectionString)
+        }
+
+        # Save the updated config
+        $configXml.Save($appConfigPath)
 
      - task: DotNetCoreCLI@2
        displayName: Build
