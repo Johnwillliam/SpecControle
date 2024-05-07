@@ -1,8 +1,16 @@
-﻿variables:
-  DB_NAME: "SpecificationsTesting2"
-  DB_HOSTNAME: "10.10.10.124"
-  DB_USERNAME: "xyz"
-  DB_PASSWORD: "abc"
+﻿parameters:
+  - name: DB_NAME
+    default: "SpecificationsTesting2"
+    type: string
+  - name: DB_HOSTNAME
+    default: "10.10.10.124"
+    type: string
+  - name: DB_USERNAME
+    default: "xyz"
+    type: string
+  - name: DB_PASSWORD
+    default: "abc"
+    type: string
 
 jobs:
  - job: Build_DotNet
