@@ -25,11 +25,7 @@ jobs:
          projects: |
             **/*.csproj
 
-     - task: AzureCLI@2
-       inputs:
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
+     - pwsh: |
           # Construct the connection string
           $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
 
