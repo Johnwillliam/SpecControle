@@ -1,6 +1,15 @@
 ﻿parameters:
-  - name: connectionString
-    displayName: 'Database connection string'
+  - name: DB_NAME
+    default: "SpecificationsTesting2"
+    type: string
+  - name: DB_HOSTNAME
+    default: "10.10.10.124"
+    type: string
+  - name: DB_USERNAME
+    default: "xyz"
+    type: string
+  - name: DB_PASSWORD
+    default: "abc"
     type: string
 
 jobs:

@@ -1,18 +1,4 @@
-﻿parameters:
-  - name: DB_NAME
-    default: "SpecificationsTesting2"
-    type: string
-  - name: DB_HOSTNAME
-    default: "10.10.10.124"
-    type: string
-  - name: DB_USERNAME
-    default: "xyz"
-    type: string
-  - name: DB_PASSWORD
-    default: "abc"
-    type: string
-
-jobs:
+﻿jobs:
  - job: Build_DotNet
    displayName: 'Build DotNet'
    pool:
@@ -24,7 +10,7 @@ jobs:
          command: 'restore'
          projects: |
             **/*.csproj
-            
+
      - task: DotNetCoreCLI@2
        displayName: Build
        inputs:
