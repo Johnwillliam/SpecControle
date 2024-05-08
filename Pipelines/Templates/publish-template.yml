@@ -18,12 +18,45 @@ jobs:
              **/SpecificationsTestingV2/*.csproj
              !**/*Tests.csproj
          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-         zipAfterPublish: True
+
+     - pwsh: |
+          # Construct the connection string
+          $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+
+          # Path to the app.config file
+          $appConfigPath = "$(Build.ArtifactStagingDirectory)/SpecificationsTestingV2/app.config"
+
+          # Read the XML content of app.config
+          [xml]$configXml = Get-Content -Path $appConfigPath
+
+          # Get the connectionStrings section
+          $connectionStrings = $configXml.configuration.connectionStrings
+
+          # Name of the connection string to update
+          $connectionName = "SpecificationsDatabase"
+
+          # Find the existing connection string
+          $connectionStringElement = $connectionStrings.add | Where-Object { $_.name -eq $connectionName }
+
+          if ($null -eq $connectionStringElement) {
+            # If the connection string doesn't exist, create a new one
+            $newElement = $configXml.CreateElement("add")
+            $newElement.SetAttribute("name", $connectionName)
+            $newElement.SetAttribute("connectionString", $newConnectionString)
+            $connectionStrings.AppendChild($newElement) | Out-Null
+          } else {
+            # If it exists, update its connection string
+            $connectionStringElement.SetAttribute("connectionString", $newConnectionString)
+          }
+
+          # Save the updated config
+          $configXml.Save($appConfigPath)
 
      - task: PublishPipelineArtifact@1
        displayName: 'Publish Artifact'
        inputs:
          targetPath: $(Build.ArtifactStagingDirectory)
+         archiveType: 'zip'
          artifact: 'SpecificationsTesting'
 
      - task: SendEmail@1
