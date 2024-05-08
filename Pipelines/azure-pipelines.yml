@@ -26,8 +26,6 @@ stages:
     - group: 'Development'
   jobs:
     - template: Templates/publish-template.yml
-      parameters:
-        connectionString: $(ConnectionString)
 
 - stage: PublishProd
   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
@@ -36,5 +34,3 @@ stages:
     - group: 'Production'
   jobs:
     - template: Templates/publish-template.yml
-      parameters:
-        connectionString: $(ConnectionString)
