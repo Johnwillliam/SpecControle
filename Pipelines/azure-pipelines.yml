@@ -1,0 +1,36 @@
+trigger:
+- none
+
+pr:
+- '*'
+
+variables:
+  - name: buildConfiguration
+    value: 'Release'
+
+stages:
+- stage: Build
+  displayName: 'Build the solution'
+  jobs:
+    - template: Templates/build-template.yml
+
+- stage: UnitTests
+  displayName: 'Run Unit Tests'
+  jobs:
+    - template: Templates/unit-test-template.yml
+  
+- stage: PublishDev
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+  displayName: 'Publish the development solution'
+  variables:
+    - group: 'Development'
+  jobs:
+    - template: Templates/publish-template.yml
+
+- stage: PublishProd
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+  displayName: 'Publish the production solution'
+  variables:
+    - group: 'Production'
+  jobs:
+    - template: Templates/publish-template.yml

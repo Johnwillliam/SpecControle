@@ -1,0 +1,81 @@
+﻿parameters:
+  - name: DB_NAME
+    default: "SpecificationsTesting2"
+    type: string
+  - name: DB_HOSTNAME
+    default: "10.10.10.124"
+    type: string
+  - name: DB_USERNAME
+    default: "xyz"
+    type: string
+  - name: DB_PASSWORD
+    default: "abc"
+    type: string
+
+jobs:
+ - job: Publish_DotNet
+   displayName: Publish
+   pool:
+    vmImage: 'windows-latest'
+   steps:
+     - task: DotNetCoreCLI@2
+       displayName: Publish
+       inputs:
+         command: 'publish'
+         publishWebProjects: false
+         projects: |
+             **/SpecificationsTestingV2/*.csproj
+             !**/*Tests.csproj
+         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+     - pwsh: |
+          # Construct the connection string
+          $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+
+          # Path to the app.config file
+          $appConfigPath = "$(Build.ArtifactStagingDirectory)/Application/SpecificationsTestingV2/app.config"
+
+          # Read the XML content of app.config
+          [xml]$configXml = Get-Content -Path $appConfigPath
+
+          # Get the connectionStrings section
+          $connectionStrings = $configXml.configuration.connectionStrings
+
+          # Name of the connection string to update
+          $connectionName = "SpecificationsDatabase"
+
+          # Find the existing connection string
+          $connectionStringElement = $connectionStrings.add | Where-Object { $_.name -eq $connectionName }
+
+          if ($null -eq $connectionStringElement) {
+            # If the connection string doesn't exist, create a new one
+            $newElement = $configXml.CreateElement("add")
+            $newElement.SetAttribute("name", $connectionName)
+            $newElement.SetAttribute("connectionString", $newConnectionString)
+            $connectionStrings.AppendChild($newElement) | Out-Null
+          } else {
+            # If it exists, update its connection string
+            $connectionStringElement.SetAttribute("connectionString", $newConnectionString)
+          }
+
+          # Save the updated config
+          $configXml.Save($appConfigPath)
+
+     - task: PublishPipelineArtifact@1
+       displayName: 'Publish Artifact'
+       inputs:
+         targetPath: $(Build.ArtifactStagingDirectory)
+         archiveType: 'zip'
+         artifact: 'SpecificationsTesting'
+
+     - task: SendEmail@1
+       inputs:
+         To: 'mjw-tan@outlook.com'
+         From: 'mjw-tan@outlook.com'
+         Subject: 'New build artifact'
+         Body: '$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0'
+         BodyAsHtml: false
+         AddAttachment: false
+         SmtpServer: 'smtp.gmail.com'
+         SmtpUsername: 'mjw.tan@gmail.com'
+         SmtpPassword: 'xjxoffnoastbrudf'

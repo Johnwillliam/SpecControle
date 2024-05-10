@@ -1,0 +1,19 @@
+﻿jobs:
+ - job: Build_DotNet
+   displayName: 'Build DotNet'
+   pool:
+    vmImage: 'windows-latest'
+   steps:
+     - task: DotNetCoreCLI@2
+       displayName: Restore
+       inputs:
+         command: 'restore'
+         projects: |
+            **/*.csproj
+
+     - task: DotNetCoreCLI@2
+       displayName: Build
+       inputs:
+         command: 'build'
+         projects: '**/*.sln'
+         arguments: --configuration $(buildConfiguration)
