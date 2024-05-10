@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuestPDF.Infrastructure;
 using SpecificationsTesting.Forms;
+using System.Reflection;
 
 namespace SpecificationsTestingV2
 {
@@ -23,7 +24,13 @@ namespace SpecificationsTestingV2
             {
                 new SpecificationsDatabaseModel().Database.EnsureCreated();
                 QuestPDF.Settings.License = LicenseType.Community;
-                var builder = CreateHostBuilder();
+
+                var assembly = Assembly.GetExecutingAssembly();
+                var version = assembly
+                    .GetCustomAttribute<AssemblyFileVersionAttribute>()?
+                    .Version ?? "unknown";
+
+                var builder = CreateHostBuilder(version);
                 var host = builder.Build();
 
                 var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
@@ -59,7 +66,7 @@ namespace SpecificationsTestingV2
         /// Create a host builder to build the service provider
         /// </summary>
         /// <returns></returns>
-        private static IHostBuilder CreateHostBuilder()
+        private static IHostBuilder CreateHostBuilder(string version)
         {
             return Host.CreateDefaultBuilder()
                 .ConfigureHostConfiguration(c =>
@@ -70,7 +77,11 @@ namespace SpecificationsTestingV2
                 .ConfigureLogging((c, l) =>
                 {
                     l.AddConfiguration(c.Configuration);
-                    l.AddSentry();
+                    l.AddSentry(options =>
+                    {
+                        options.Release = version;
+                    }
+                    );
                 })
                 .ConfigureServices((context, services) =>
                 {
