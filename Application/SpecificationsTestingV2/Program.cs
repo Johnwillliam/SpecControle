@@ -1,14 +1,18 @@
 using EntityFrameworkModelV2.Context;
+using Logic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using QuestPDF.Infrastructure;
 using SpecificationsTesting.Forms;
-using System.Diagnostics;
 
 namespace SpecificationsTestingV2
 {
-    internal static class Program
+    internal class Program
     {
+        private static ILogger<Program> logger;
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -17,22 +21,39 @@ namespace SpecificationsTestingV2
         {
             try
             {
-                ApplicationConfiguration.Initialize();
                 new SpecificationsDatabaseModel().Database.EnsureCreated();
                 QuestPDF.Settings.License = LicenseType.Community;
-                ApplicationConfiguration.Initialize();
-                var host = CreateHostBuilder().Build();
-                ServiceProvider = host.Services;
+                var builder = CreateHostBuilder();
+                var host = builder.Build();
 
-                Application.Run(ServiceProvider.GetRequiredService<MainForm>());
+                var loggerFactory = host.Services.GetRequiredService<ILoggerFactory>();
+                logger = loggerFactory.CreateLogger<Program>();
+
+                // For handling exceptions on the UI thread
+                Application.ThreadException += (sender, args) =>
+                {
+                    ExceptionHandler.HandleException(logger, args.Exception);
+                };
+
+                // For handling exceptions on non-UI threads
+                AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+                {
+                    if (args.ExceptionObject is Exception ex)
+                    {
+                        ExceptionHandler.HandleException(logger, ex);
+                    }
+                };
+
+                ApplicationConfiguration.Initialize();
+
+                var mainForm = host.Services.GetRequiredService<MainForm>();
+                Application.Run(mainForm);
             }
             catch (Exception ex)
             {
-                Trace.TraceError("Exception: {0}", ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
-
-        public static IServiceProvider ServiceProvider { get; private set; }
 
         /// <summary>
         /// Create a host builder to build the service provider
@@ -41,6 +62,16 @@ namespace SpecificationsTestingV2
         private static IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
+                .ConfigureHostConfiguration(c =>
+                {
+                    c.SetBasePath(Directory.GetCurrentDirectory());
+                    c.AddJsonFile("appsettings.json", optional: false);
+                })
+                .ConfigureLogging((c, l) =>
+                {
+                    l.AddConfiguration(c.Configuration);
+                    l.AddSentry();
+                })
                 .ConfigureServices((context, services) =>
                 {
                     services.AddTransient<MainForm>();

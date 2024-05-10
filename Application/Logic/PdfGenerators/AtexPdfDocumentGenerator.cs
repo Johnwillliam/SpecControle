@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
@@ -8,15 +9,17 @@ namespace Logic
     public class AtexPdfDocumentGenerator : IDocument
     {
         private readonly List<CustomOrderVentilatorTest> _tests;
+        private readonly ILogger logger;
         private CustomOrderVentilatorTest _currentTest;
         private CustomOrderVentilator _currentVentilator;
         private CustomOrder _currentOrder;
 
         public DocumentMetadata Metadata { get; set; }
 
-        public AtexPdfDocumentGenerator(List<CustomOrderVentilatorTest> tests)
+        public AtexPdfDocumentGenerator(List<CustomOrderVentilatorTest> tests, ILogger logger)
         {
             _tests = tests;
+            this.logger = logger;
         }
 
         public byte[] Generate() => this.GeneratePdf();
@@ -79,7 +82,7 @@ namespace Logic
         {
             if (_currentVentilator == null)
             {
-                ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                 return;
             }
 
@@ -135,7 +138,7 @@ namespace Logic
         {
             if (_currentVentilator == null)
             {
-                ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                 return;
             }
 
@@ -210,7 +213,7 @@ namespace Logic
         {
             if (_currentVentilator == null)
             {
-                ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                 return;
             }
 

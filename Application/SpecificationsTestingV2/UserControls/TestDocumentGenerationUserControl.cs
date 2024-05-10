@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic.Business;
 using Logic.PdfGenerators;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using System.Data;
 
@@ -8,6 +9,8 @@ namespace SpecificationsTesting.UserControls
 {
     public partial class TestDocumentGenerationUserControl : UserControl
     {
+        private readonly ILogger logger;
+
         private CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
         public int SelectedVentilatorTestID { get; set; }
@@ -15,7 +18,7 @@ namespace SpecificationsTesting.UserControls
 
         private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
 
-        public TestDocumentGenerationUserControl()
+        public TestDocumentGenerationUserControl(ILogger logger)
         {
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_RowEnter);
@@ -27,6 +30,7 @@ namespace SpecificationsTesting.UserControls
             InitializeGridColumns();
             SelectedVentilatorID = 0;
             SelectedVentilatorTestID = 0;
+            this.logger = logger;
         }
 
         private void InitializeGridColumns()
@@ -78,7 +82,7 @@ namespace SpecificationsTesting.UserControls
             if (CustomOrder.CustomOrderVentilators.Count == 0)
                 CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
 
-            var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var ventilator = GetSelectedVentilatorID() == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID());
             VentilatorDataGrid.DataSource = null;
             VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ControleDisplayPropertyNames);
             VentilatorDataGrid.AutoResizeColumns();
@@ -159,7 +163,7 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnPrintSelectedTest_Click(object sender, EventArgs e)
         {
-            var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == SelectedVentilatorID).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidateForPrinting(selectedTest))
             {
                 return;
@@ -170,7 +174,7 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnPrintAll_Click(object sender, EventArgs e)
         {
-            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)))
+            if (CustomOrder == null || !BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID())))
             {
                 return;
             }
@@ -180,7 +184,7 @@ namespace SpecificationsTesting.UserControls
 
         private void Print(List<CustomOrderVentilatorTest> tests)
         {
-            var generator = new TestDocumentPdfDocumentGenerator(tests);
+            var generator = new TestDocumentPdfDocumentGenerator(tests, logger);
             var stream = new MemoryStream();
             generator.Generate(stream);
             var document = PdfiumViewer.PdfDocument.Load(stream);

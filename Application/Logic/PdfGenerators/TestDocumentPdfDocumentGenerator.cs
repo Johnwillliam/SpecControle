@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
@@ -8,15 +9,17 @@ namespace Logic.PdfGenerators
     public class TestDocumentPdfDocumentGenerator : IDocument
     {
         private readonly List<CustomOrderVentilatorTest> _tests;
+        private readonly ILogger logger;
         private CustomOrderVentilatorTest _currentTest;
         private CustomOrderVentilator _currentVentilator;
         private CustomOrder _currentOrder;
 
         public DocumentMetadata Metadata { get; set; }
 
-        public TestDocumentPdfDocumentGenerator(List<CustomOrderVentilatorTest> tests)
+        public TestDocumentPdfDocumentGenerator(List<CustomOrderVentilatorTest> tests, ILogger logger)
         {
             _tests = tests;
+            this.logger = logger;
         }
 
         public void Generate(Stream stream) => this.GeneratePdf(stream);
@@ -105,7 +108,7 @@ namespace Logic.PdfGenerators
             {
                 if (_currentVentilator == null)
                 {
-                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                    ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                     return;
                 }
 
@@ -135,7 +138,7 @@ namespace Logic.PdfGenerators
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -145,7 +148,7 @@ namespace Logic.PdfGenerators
             {
                 if (_currentVentilator == null)
                 {
-                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                    ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                     return;
                 }
 
@@ -178,7 +181,7 @@ namespace Logic.PdfGenerators
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -188,7 +191,7 @@ namespace Logic.PdfGenerators
             {
                 if (_currentVentilator == null)
                 {
-                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                    ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                     return;
                 }
 
@@ -232,7 +235,7 @@ namespace Logic.PdfGenerators
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -242,7 +245,7 @@ namespace Logic.PdfGenerators
             {
                 if (_currentVentilator == null)
                 {
-                    ExceptionHandler.HandleException(new Exception("No ventilator found in function CreateOrderTable."));
+                    ExceptionHandler.HandleException(logger, new Exception("No ventilator found in function CreateOrderTable."));
                     return;
                 }
 
@@ -287,7 +290,7 @@ namespace Logic.PdfGenerators
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
 
@@ -18,6 +19,7 @@ namespace SpecificationsTesting.Forms
         private const int _normalImageHeight = 400;
         private const int _smallImageWidth = 580;
         private const int _smallImageHeight = 400;
+        private readonly ILogger logger;
 
         private enum ImageSize
         {
@@ -26,7 +28,7 @@ namespace SpecificationsTesting.Forms
             Large = 2
         }
 
-        public MotorTypePlateStickerUserControl()
+        public MotorTypePlateStickerUserControl(ILogger logger)
         {
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
@@ -44,6 +46,7 @@ namespace SpecificationsTesting.Forms
             ShowTable(SelectedImageSize);
             InitializeGridColumns();
             InitializeGridData();
+            this.logger = logger;
         }
 
         private void InitializeGridColumns()

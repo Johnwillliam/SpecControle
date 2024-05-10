@@ -1,12 +1,14 @@
 ﻿using EntityFrameworkModelV2.Context;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.UserControls;
-using System.Diagnostics;
 using System.Drawing.Printing;
 
 namespace SpecificationsTesting.Forms
 {
     public partial class MainForm : Form
     {
+        private readonly ILogger logger;
+
         public MotorTypePlateStickerUserControl MotorTypePlateUserControl { get; set; }
         public AtexStickerUserControl AtexStickerUserControl { get; set; }
         public MotorTemplateUserControl MotorTemplateUserControl { get; set; }
@@ -15,8 +17,9 @@ namespace SpecificationsTesting.Forms
         public TestDocumentGenerationUserControl TestDocumentGenerationUserControl { get; set; }
         public TabControl TabControl { get => tabControl; }
 
-        public MainForm()
+        public MainForm(ILogger<MainForm> logger)
         {
+            this.logger = logger;
             this.Width = 1400;
             this.Height = 700;
             InitializeComponent();
@@ -32,7 +35,7 @@ namespace SpecificationsTesting.Forms
             }
             else
             {
-                Trace.TraceError("Database is not available.");
+                logger.LogError("Database is not available.");
                 Environment.Exit(1);
             }
         }
@@ -80,7 +83,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeOrderUserControls()
         {
-            OrderUserControl = new OrderUserControl
+            OrderUserControl = new OrderUserControl(logger)
             {
                 AutoSize = true
             };
@@ -89,7 +92,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeControleUserControls()
         {
-            ControleUserControl = new ControleUserControl
+            ControleUserControl = new ControleUserControl(logger)
             {
                 AutoSize = true
             };
@@ -98,7 +101,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeMotorTypePlateUserControl()
         {
-            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl
+            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl(logger)
             {
                 AutoSize = true
             };
@@ -107,7 +110,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeAtexStickerUserControl()
         {
-            AtexStickerUserControl = new AtexStickerUserControl
+            AtexStickerUserControl = new AtexStickerUserControl(logger)
             {
                 AutoSize = true
             };
@@ -116,7 +119,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeMotorTemplateUserControl()
         {
-            MotorTemplateUserControl = new MotorTemplateUserControl
+            MotorTemplateUserControl = new MotorTemplateUserControl(logger)
             {
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowOnly
@@ -126,7 +129,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeTestDocumentGenerationUserControl()
         {
-            TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl
+            TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl(logger)
             {
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowOnly

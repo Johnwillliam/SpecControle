@@ -2,13 +2,14 @@
 using EntityFrameworkModelV2.Extensions;
 using EntityFrameworkModelV2.Models;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using System.Data;
 
 namespace SpecificationsTesting.UserControls
 {
     public partial class MotorTemplateUserControl : UserControl
     {
-        public MotorTemplateUserControl()
+        public MotorTemplateUserControl(ILogger logger)
         {
             InitializeComponent();
             btnSave.Click += new System.EventHandler(BtnSave_Click);

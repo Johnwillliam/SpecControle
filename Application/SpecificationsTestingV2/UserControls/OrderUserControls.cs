@@ -2,6 +2,7 @@
 using EntityFrameworkModelV2.Models;
 using Logic;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using SpecificationsTestingV2.Entities;
@@ -11,6 +12,8 @@ namespace SpecificationsTesting.UserControls
 {
     public partial class OrderUserControl : UserControl
     {
+        private readonly ILogger logger;
+
         public CustomOrder CustomOrder { get; set; }
         public int SelectedVentilatorID { get; set; }
 
@@ -18,13 +21,14 @@ namespace SpecificationsTesting.UserControls
 
         private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
 
-        public OrderUserControl()
+        public OrderUserControl(ILogger logger)
         {
             InitializeComponent();
             AttachEventHandlers();
             InitializeGridColumns();
             InitializeGridData();
             InitializeDefaultValues();
+            this.logger = logger;
         }
 
         private void InitializeDefaultValues()
@@ -250,7 +254,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -310,7 +314,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -366,7 +370,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
