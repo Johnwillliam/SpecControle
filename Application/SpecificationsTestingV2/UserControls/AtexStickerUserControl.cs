@@ -1,6 +1,7 @@
 ﻿using EntityFrameworkModelV2.Models;
 using Logic;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
 
@@ -19,6 +20,7 @@ namespace SpecificationsTesting.Forms
         private const int _normalImageHeight = 520;
         private const int _smallImageWidth = 580;
         private const int _smallImageHeight = 400;
+        private readonly ILogger logger;
         private bool _initGrid = false;
         private int _tableFontSize = 8;
 
@@ -29,7 +31,7 @@ namespace SpecificationsTesting.Forms
             Large = 2
         }
 
-        public AtexStickerUserControl()
+        public AtexStickerUserControl(ILogger logger)
         {
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
@@ -44,6 +46,7 @@ namespace SpecificationsTesting.Forms
             ShowTable(SelectedImageSize);
             InitializeGridColumns();
             InitializeGridData();
+            this.logger = logger;
         }
 
         private void InitializeGridColumns()
@@ -465,7 +468,7 @@ namespace SpecificationsTesting.Forms
             pd.PrintPage += PrintSticker;
             pd.Print();
 
-            var pdfGenerator = new AtexPdfDocumentGenerator(new List<CustomOrderVentilatorTest> { ventilatorTest });
+            var pdfGenerator = new AtexPdfDocumentGenerator(new List<CustomOrderVentilatorTest> { ventilatorTest }, logger);
             var pdf = pdfGenerator.Generate();
             if (pdf == null)
             {

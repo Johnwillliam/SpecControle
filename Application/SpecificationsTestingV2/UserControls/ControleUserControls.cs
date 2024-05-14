@@ -2,6 +2,7 @@
 using EntityFrameworkModelV2.Models;
 using Logic;
 using Logic.Business;
+using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using System.Configuration;
@@ -17,9 +18,11 @@ namespace SpecificationsTesting.UserControls
         public int SelectedVentilatorTestID { get; set; }
         public TemplateMotor SelectedTemplateMotor { get; set; }
         private readonly SerialPort _serialPort = new SerialPort(ConfigurationManager.AppSettings.Get("SerialPortName"), int.Parse(ConfigurationManager.AppSettings.Get("SerialPortBaudRate")), Parity.None, 8, StopBits.One);
+        private readonly ILogger logger;
 
-        public ControleUserControl()
+        public ControleUserControl(ILogger logger)
         {
+            this.logger = logger;
             InitializeComponent();
             btnSearch.Click += new System.EventHandler(BtnSearch_Click);
             CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
@@ -56,7 +59,7 @@ namespace SpecificationsTesting.UserControls
             Show_Combobox(cell, cmbUser);
         }
 
-        private void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
+        private static void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
         {
             if (cell == null)
             {
@@ -185,7 +188,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -211,6 +214,8 @@ namespace SpecificationsTesting.UserControls
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
+            throw new Exception("test");
+
             ShowCustomOrder();
         }
 
@@ -370,7 +375,7 @@ namespace SpecificationsTesting.UserControls
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -437,7 +442,7 @@ namespace SpecificationsTesting.UserControls
             catch (Exception ex)
             {
                 _serialPort.Close();
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
@@ -478,7 +483,7 @@ namespace SpecificationsTesting.UserControls
             catch (Exception ex)
             {
                 _serialPort.Close();
-                ExceptionHandler.HandleException(ex);
+                ExceptionHandler.HandleException(logger, ex);
             }
         }
 
