@@ -27,6 +27,7 @@ jobs:
              **/SpecificationsTestingV2/*.csproj
              !**/*Tests.csproj
          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+         zipAfterPublish: false
 
      - pwsh: |
           # Construct the connection string
