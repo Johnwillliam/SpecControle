@@ -35,6 +35,9 @@ jobs:
           # Path to the app.config file
           $appConfigPath = "$(Build.ArtifactStagingDirectory)/Application/SpecificationsTestingV2/app.config"
 
+          cd $appConfigPath
+          ls
+
           # Read the XML content of app.config
           [xml]$configXml = Get-Content -Path $appConfigPath
 
