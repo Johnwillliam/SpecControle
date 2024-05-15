@@ -26,6 +26,11 @@ stages:
     - group: 'Development'
   jobs:
     - template: Templates/publish-template.yml
+      parameters:
+        DB_NAME: $(DatabaseName)
+        DB_HOSTNAME: $(DatabaseHostName)
+        DB_USERNAME: $(DatabaseUserName)
+        DB_PASSWORD: $(DatabasePassword)
 
 - stage: PublishProd
   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
@@ -34,3 +39,8 @@ stages:
     - group: 'Production'
   jobs:
     - template: Templates/publish-template.yml
+      parameters:
+        DB_NAME: $(DatabaseName)
+        DB_HOSTNAME: $(DatabaseHostName)
+        DB_USERNAME: $(DatabaseUserName)
+        DB_PASSWORD: $(DatabasePassword)
