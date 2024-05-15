@@ -33,7 +33,11 @@ jobs:
          zipAfterPublish: false
 
      - pwsh: |
-          $useIntegratedSecurity = ${{ if (parameters.USE_INTEGRATED_SECURITY -eq 'true') { return $true } else { return $false } }}
+          if (parameters.USE_INTEGRATED_SECURITY == 'true') {
+            $useIntegratedSecurity = true
+          } else {
+            $useIntegratedSecurity = false
+          }
 
           # Construct the connection string
           if ($useIntegratedSecurity) {
