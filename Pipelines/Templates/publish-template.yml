@@ -34,9 +34,9 @@ jobs:
 
      - pwsh: |
           if (${{ parameters.USE_INTEGRATED_SECURITY }} == 'true') {
-            $useIntegratedSecurity = true
+              $useIntegratedSecurity = true
           } else {
-            $useIntegratedSecurity = false
+              $useIntegratedSecurity = false
           }
 
           # Construct the connection string
