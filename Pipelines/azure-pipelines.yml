@@ -27,6 +27,7 @@ stages:
   jobs:
     - template: Templates/publish-template.yml
       parameters:
+        USE_INTEGRATED_SECURITY: $(UseIntegratedSecurity)
         DB_NAME: $(DatabaseName)
         DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)
@@ -40,6 +41,7 @@ stages:
   jobs:
     - template: Templates/publish-template.yml
       parameters:
+        USE_INTEGRATED_SECURITY: $(UseIntegratedSecurity)
         DB_NAME: $(DatabaseName)
         DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)

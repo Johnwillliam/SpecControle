@@ -1,4 +1,7 @@
 ﻿parameters:
+  - name: USE_INTEGRATED_SECURITY
+    default: false
+    type: boolean
   - name: DB_NAME
     default: "SpecificationsTesting2"
     type: string
@@ -31,8 +34,14 @@ jobs:
 
      - pwsh: |
           # Construct the connection string
-          $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
-
+          if (${{ parameters.USE_INTEGRATED_SECURITY }}) {
+              # If integrated security is enabled, construct the connection string with integrated security
+              $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+          } else {
+              # If integrated security is disabled, construct the connection string with username and password
+              $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+          }
+          
           # Path to the app.config file
           $appConfigPath = "$(Build.ArtifactStagingDirectory)/SpecificationsTestingV2/SpecificationsTestingV2.dll.config"
 
