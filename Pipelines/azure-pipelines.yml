@@ -28,7 +28,7 @@ stages:
     - template: Templates/publish-template.yml
       parameters:
         DB_NAME: $(DatabaseName)
-        DB_HOSTNAME: $(DatabaseHostName)
+        DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)
         DB_PASSWORD: $(DatabasePassword)
 
@@ -41,6 +41,6 @@ stages:
     - template: Templates/publish-template.yml
       parameters:
         DB_NAME: $(DatabaseName)
-        DB_HOSTNAME: $(DatabaseHostName)
+        DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)
         DB_PASSWORD: $(DatabasePassword)
