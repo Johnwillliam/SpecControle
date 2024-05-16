@@ -33,7 +33,8 @@ jobs:
          zipAfterPublish: false
 
      - pwsh: |
-          if ("${{ parameters.USE_INTEGRATED_SECURITY }}" -eq "true") {
+          $test = "${{ parameters.USE_INTEGRATED_SECURITY }}"
+          if ($test -eq "true") {
               $useIntegratedSecurity = true
           } else {
               $useIntegratedSecurity = false
