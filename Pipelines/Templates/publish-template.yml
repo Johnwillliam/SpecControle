@@ -33,10 +33,7 @@ jobs:
          zipAfterPublish: false
 
      - pwsh: |
-          $useIntegratedSecuritya = "${{ parameters.USE_INTEGRATED_SECURITY }}"
-          Write-Host "useIntegratedSecuritya : " + $useIntegratedSecuritya 
-
-          if ("${{ parameters.USE_INTEGRATED_SECURITY }}" -eq 'true") {
+          if ("${{ parameters.USE_INTEGRATED_SECURITY }}" -eq "true") {
               $useIntegratedSecurity = true
           } else {
               $useIntegratedSecurity = false
