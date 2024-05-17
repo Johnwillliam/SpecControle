@@ -81,6 +81,8 @@ jobs:
               # Make the HTTP request and get the JSON response
               $response = Invoke-RestMethod -Uri $url
               
+              Write-Host "$response"
+              
               # Extract the downloadUrl from the JSON response
               $downloadUrl = $response.resource.downloadUrl
 
