@@ -32,7 +32,8 @@ jobs:
           arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
           zipAfterPublish: false
 
-      - pwsh: |
+      - displayName: "Update connection string"
+        pwsh: |
           if ($parameters.USE_INTEGRATED_SECURITY -eq 'true') {
               $useIntegratedSecurity = $true
           } else {
@@ -73,12 +74,35 @@ jobs:
           archiveType: "zip"
           artifact: "SpecificationsTesting"
 
+      - displayName: "Get artifact download url"
+        pwsh: |
+          $url = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
+
+          try {
+              # Make the HTTP request and get the JSON response
+              $response = Invoke-RestMethod -Uri $url
+              
+              # Extract the downloadUrl from the JSON response
+              $downloadUrl = $response.downloadUrl
+
+              if ($null -ne $downloadUrl) {
+                  # Set the downloadUrl as a pipeline variable
+                  Write-Host "##vso[task.setvariable variable=downloadUrl]$downloadUrl"
+              } else {
+                  Write-Error "downloadUrl not found in the JSON response."
+              }
+          } catch {
+              Write-Error "Failed to retrieve the JSON response from $url. Error: $_"
+          }
+
       - task: SendEmail@1
         inputs:
           To: "mjw-tan@outlook.com"
           From: "mjw-tan@outlook.com"
           Subject: "New build artifact"
-          Body: "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
+          Body: |
+            The download URL for the new build artifact is: $(downloadUrl)
+            Additional information: $(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&amp;api-version=6.0
           BodyAsHtml: false
           AddAttachment: false
           SmtpServer: "smtp.gmail.com"
