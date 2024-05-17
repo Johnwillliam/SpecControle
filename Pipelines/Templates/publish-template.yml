@@ -16,30 +16,27 @@
     type: string
 
 jobs:
- - job: Publish_DotNet
-   displayName: Publish
-   pool:
-    vmImage: 'windows-latest'
-   steps:
-     - task: DotNetCoreCLI@2
-       displayName: Publish
-       inputs:
-         command: 'publish'
-         publishWebProjects: false
-         projects: |
-             **/SpecificationsTestingV2/*.csproj
-             !**/*Tests.csproj
-         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-         zipAfterPublish: false
+  - job: Publish_DotNet
+    displayName: Publish
+    pool:
+      vmImage: "windows-latest"
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: Publish
+        inputs:
+          command: "publish"
+          publishWebProjects: false
+          projects: |
+            **/SpecificationsTestingV2/*.csproj
+            !**/*Tests.csproj
+          arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
+          zipAfterPublish: false
 
-     - pwsh: |
-          $useIntegratedSecuritya = "${{ parameters.USE_INTEGRATED_SECURITY }}"
-          Write-Host "useIntegratedSecuritya : " + $useIntegratedSecuritya 
-
-          if ("${{ parameters.USE_INTEGRATED_SECURITY }}" -eq 'true") {
-              $useIntegratedSecurity = true
+      - pwsh: |
+          if ($parameters.USE_INTEGRATED_SECURITY -eq 'true') {
+              $useIntegratedSecurity = $true
           } else {
-              $useIntegratedSecurity = false
+              $useIntegratedSecurity = $false
           }
 
           if ($useIntegratedSecurity) {
@@ -69,21 +66,21 @@ jobs:
 
           $configXml.Save($appConfigPath)
 
-     - task: PublishPipelineArtifact@1
-       displayName: 'Publish Artifact'
-       inputs:
-         targetPath: $(Build.ArtifactStagingDirectory)
-         archiveType: 'zip'
-         artifact: 'SpecificationsTesting'
+      - task: PublishPipelineArtifact@1
+        displayName: "Publish Artifact"
+        inputs:
+          targetPath: $(Build.ArtifactStagingDirectory)
+          archiveType: "zip"
+          artifact: "SpecificationsTesting"
 
-     - task: SendEmail@1
-       inputs:
-         To: 'mjw-tan@outlook.com'
-         From: 'mjw-tan@outlook.com'
-         Subject: 'New build artifact'
-         Body: '$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0'
-         BodyAsHtml: false
-         AddAttachment: false
-         SmtpServer: 'smtp.gmail.com'
-         SmtpUsername: 'mjw.tan@gmail.com'
-         SmtpPassword: 'xjxoffnoastbrudf'
+      - task: SendEmail@1
+        inputs:
+          To: "mjw-tan@outlook.com"
+          From: "mjw-tan@outlook.com"
+          Subject: "New build artifact"
+          Body: "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
+          BodyAsHtml: false
+          AddAttachment: false
+          SmtpServer: "smtp.gmail.com"
+          SmtpUsername: "mjw.tan@gmail.com"
+          SmtpPassword: "xjxoffnoastbrudf"
