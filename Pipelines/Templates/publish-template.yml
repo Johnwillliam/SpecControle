@@ -32,8 +32,7 @@ jobs:
           arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
           zipAfterPublish: false
 
-      - displayName: "Update connection string"
-        pwsh: |
+      - pwsh: |
           if ($parameters.USE_INTEGRATED_SECURITY -eq 'true') {
               $useIntegratedSecurity = $true
           } else {
@@ -66,6 +65,7 @@ jobs:
           }
 
           $configXml.Save($appConfigPath)
+        displayName: "Update connection string"
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish Artifact"
@@ -74,8 +74,7 @@ jobs:
           archiveType: "zip"
           artifact: "SpecificationsTesting"
 
-      - displayName: "Get artifact download url"
-        pwsh: |
+      - pwsh: |
           $url = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
 
           try {
@@ -94,6 +93,7 @@ jobs:
           } catch {
               Write-Error "Failed to retrieve the JSON response from $url. Error: $_"
           }
+        displayName: "Get artifact download url"
 
       - task: SendEmail@1
         inputs:
