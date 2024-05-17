@@ -82,7 +82,7 @@ jobs:
               $response = Invoke-RestMethod -Uri $url
               
               # Extract the downloadUrl from the JSON response
-              $downloadUrl = $response.downloadUrl
+              $downloadUrl = $response.resource.downloadUrl
 
               if ($null -ne $downloadUrl) {
                   # Set the downloadUrl as a pipeline variable
