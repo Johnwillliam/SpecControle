@@ -36,7 +36,7 @@ jobs:
           Write-Host "${{ parameters.USE_INTEGRATED_SECURITY }}"
           $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};user id=${{ parameters.DB_USERNAME }};password=${{ parameters.DB_PASSWORD }};Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
 
-          if (${{ parameters.USE_INTEGRATED_SECURITY }} -eq "true") {
+          if ("${{ parameters.USE_INTEGRATED_SECURITY }}" -eq "true") {
               $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
           }
 
