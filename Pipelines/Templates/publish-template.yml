@@ -75,7 +75,7 @@ jobs:
 
           try {
               # Make the HTTP request and get the JSON response
-              $response = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+              $response = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "Bearer $(System.AccessToken)" }
 
               Write-Host "$response"
               
