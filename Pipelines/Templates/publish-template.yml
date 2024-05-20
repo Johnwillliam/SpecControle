@@ -15,13 +15,6 @@
     default: "abc"
     type: string
 
-variables:
-  buildId: $(Build.BuildId)
-  project: "general"
-  organization: "mjw-tan"
-  artifactName: "SpecificationsTesting"
-  apiVersion: "6.0"
-
 jobs:
   - job: Publish_DotNet
     displayName: Publish
@@ -78,7 +71,7 @@ jobs:
           artifact: "SpecificationsTesting"
 
       - pwsh: |
-          $url = "https://dev.azure.com/$(organization)/$(project)/_apis/build/builds/$(buildId)/artifacts?artifactName=$(artifactName)&api-version=$(apiVersion)"
+          $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
 
           try {
               # Make the HTTP request and get the JSON response
