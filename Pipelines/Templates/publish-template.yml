@@ -67,7 +67,6 @@ jobs:
         inputs:
           targetPath: $(Build.ArtifactStagingDirectory)
           archiveType: "zip"
-          artifact: "SpecificationsTesting"
 
       - pwsh: |
           $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
