@@ -62,14 +62,15 @@ jobs:
           $configXml.Save($appConfigPath)
         displayName: "Update connection string"
 
-      - task: PublishPipelineArtifact@1
-        displayName: "Publish Artifact"
-        inputs:
-          targetPath: $(Build.ArtifactStagingDirectory)
-          archiveType: "zip"
+      # - task: PublishPipelineArtifact@1
+      #   displayName: "Publish Artifact"
+      #   inputs:
+      #     targetPath: $(Build.ArtifactStagingDirectory)
+      #     archiveType: "zip"
+      #     artifact: "SpecificationsTesting"
 
       - pwsh: |
-          $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&api-version=6.0"
+          $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTestingV2&api-version=6.0"
 
           try {
               # Make the HTTP request and get the JSON response
