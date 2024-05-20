@@ -33,11 +33,7 @@ jobs:
           zipAfterPublish: false
 
       - pwsh: |
-          if ($parameters.USE_INTEGRATED_SECURITY -eq 'true') {
-              $useIntegratedSecurity = $true
-          } else {
-              $useIntegratedSecurity = $false
-          }
+          $useIntegratedSecurity = $true
 
           if ($useIntegratedSecurity) {
               $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
@@ -79,8 +75,8 @@ jobs:
 
           try {
               # Make the HTTP request and get the JSON response
-              $response = Invoke-RestMethod -Uri $url
-              
+              $response = Invoke-RestMethod -Uri $url -Headers @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+
               Write-Host "$response"
               
               # Extract the downloadUrl from the JSON response
