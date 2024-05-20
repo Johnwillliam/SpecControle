@@ -33,6 +33,7 @@ jobs:
           zipAfterPublish: false
 
       - pwsh: |
+          Write-Host "${{ parameters.USE_INTEGRATED_SECURITY }}"
           if (${{ parameters.USE_INTEGRATED_SECURITY }} -eq "true") {
               $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
           } else {
