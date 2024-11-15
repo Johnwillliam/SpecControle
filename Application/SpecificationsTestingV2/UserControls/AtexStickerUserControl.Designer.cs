@@ -40,6 +40,8 @@
             label7 = new Label();
             label6 = new Label();
             CustomOrderVentilatorTestsDataGrid = new DataGridView();
+            label2 = new Label();
+            ArrowsListBox = new ListBox();
             ((System.ComponentModel.ISupportInitialize)MotorTypePlateImage).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
@@ -61,7 +63,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(769, 122);
+            label1.Location = new Point(923, 122);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(44, 13);
@@ -72,10 +74,10 @@
             // 
             LogosListBox.FormattingEnabled = true;
             LogosListBox.ItemHeight = 15;
-            LogosListBox.Location = new Point(772, 138);
+            LogosListBox.Location = new Point(923, 138);
             LogosListBox.Margin = new Padding(4, 3, 4, 3);
             LogosListBox.Name = "LogosListBox";
-            LogosListBox.Size = new Size(151, 274);
+            LogosListBox.Size = new Size(151, 259);
             LogosListBox.TabIndex = 7;
             // 
             // MotorTypePlateImage
@@ -183,11 +185,34 @@
             CustomOrderVentilatorTestsDataGrid.Size = new Size(154, 455);
             CustomOrderVentilatorTestsDataGrid.TabIndex = 61;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(772, 122);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(45, 13);
+            label2.TabIndex = 65;
+            label2.Text = "Arrows";
+            // 
+            // ArrowsListBox
+            // 
+            ArrowsListBox.FormattingEnabled = true;
+            ArrowsListBox.ItemHeight = 15;
+            ArrowsListBox.Location = new Point(772, 138);
+            ArrowsListBox.Margin = new Padding(4, 3, 4, 3);
+            ArrowsListBox.Name = "ArrowsListBox";
+            ArrowsListBox.Size = new Size(135, 259);
+            ArrowsListBox.TabIndex = 64;
+            // 
             // AtexStickerUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
+            Controls.Add(label2);
+            Controls.Add(ArrowsListBox);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(CustomOrderVentilatorTestsDataGrid);
@@ -223,5 +248,7 @@
         private Label label7;
         private Label label6;
         private DataGridView CustomOrderVentilatorTestsDataGrid;
+        private Label label2;
+        private ListBox ArrowsListBox;
     }
 }

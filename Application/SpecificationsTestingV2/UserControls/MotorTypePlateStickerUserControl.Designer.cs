@@ -75,7 +75,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(919, 122);
+            label1.Location = new Point(923, 122);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(44, 13);
@@ -179,7 +179,6 @@
             btnSize.TabIndex = 46;
             btnSize.Text = "Small";
             btnSize.UseVisualStyleBackColor = true;
-            btnSize.Visible = false;
             btnSize.Click += BtnSize_Click;
             // 
             // CustomOrderVentilatorTestsDataGrid

@@ -15,16 +15,16 @@ namespace SpecificationsTesting.Forms
         private ImageSize SelectedImageSize { get; set; }
         public int SelectedVentilatorTestID { get; private set; }
 
-        private const int _normalImageWidth = 650;
-        private const int _normalImageHeight = 400;
-        private const int _smallImageWidth = 580;
-        private const int _smallImageHeight = 400;
+        private const int _normalImageWidthInMM = 150;
+        private const int _normalImageHeightInMM = 100;
+        private const int _smallImageWidthInMM = 100;
+        private const int _smallImageHeightInMM = 80;
         private readonly ILogger logger;
 
         private enum ImageSize
         {
             Small = 0,
-            Medium = 1,
+            Normal = 1,
             Large = 2
         }
 
@@ -42,7 +42,7 @@ namespace SpecificationsTesting.Forms
             PopulateListBox(ArrowsListBox, Environment.CurrentDirectory + "\\Resources\\Arrows", "*.jpg");
             LogosListBox.SelectedIndex = 0;
             ArrowsListBox.SelectedIndex = 0;
-            SelectedImageSize = ImageSize.Medium;
+            SelectedImageSize = ImageSize.Normal;
             ShowTable(SelectedImageSize);
             InitializeGridColumns();
             InitializeGridData();
@@ -102,7 +102,7 @@ namespace SpecificationsTesting.Forms
 
         private void EnableReportButtons(CustomOrderVentilator ventilator)
         {
-            btnPrint.Enabled = !ventilator.IsAtex();
+            btnPrint.Enabled = true;// !ventilator.IsAtex();
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)
@@ -128,29 +128,53 @@ namespace SpecificationsTesting.Forms
 
         private void ShowTable(ImageSize imageSize)
         {
-            int imageWidth, imageHeight;
-            switch (imageSize)
-            {
-                case ImageSize.Small:
-                    imageWidth = _smallImageWidth;
-                    imageHeight = _smallImageHeight;
-                    break;
-
-                default:
-                    imageWidth = _normalImageWidth;
-                    imageHeight = _normalImageHeight;
-                    break;
-            }
-            var image = GenerateTable(imageWidth, imageHeight);
+            DetermineLabelSizeInMM(imageSize, out int imageWidthInMM, out int imageHeightInMM);
+            var image = GenerateTable(imageWidthInMM, imageHeightInMM);
             if (image != null)
             {
-                MotorTypePlateImage.Image = image;
-                MotorTypePlateImage.Width = imageWidth;
-                MotorTypePlateImage.Height = imageHeight;
+                var scaledImage = ScaleBitmapToFitImageBox(image, MotorTypePlateImage);
+                MotorTypePlateImage.Image = scaledImage;
             }
         }
 
-        private Bitmap GenerateTable(int imageWidth, int imageHeight, Graphics printerGraphics = null)
+        private static Bitmap ScaleBitmapToFitImageBox(Bitmap originalBitmap, PictureBox imageBox)
+        {
+            // Get the size of the ImageBox
+            int boxWidth = imageBox.Width;
+            int boxHeight = imageBox.Height;
+
+            // Calculate the scaling factor while maintaining the aspect ratio
+            float scaleWidth = (float)boxWidth / originalBitmap.Width;
+            float scaleHeight = (float)boxHeight / originalBitmap.Height;
+            float scaleFactor = Math.Min(scaleWidth, scaleHeight);  // Choose the smaller factor to maintain aspect ratio
+
+            // Calculate the new width and height
+            int newWidth = (int)(originalBitmap.Width * scaleFactor);
+            int newHeight = (int)(originalBitmap.Height * scaleFactor);
+
+            // Create a new bitmap with the new dimensions
+            Bitmap scaledBitmap = new Bitmap(originalBitmap, newWidth, newHeight);
+
+            return scaledBitmap;
+        }
+
+        private static void DetermineLabelSizeInMM(ImageSize imageSize, out int imageWidthInMM, out int imageHeightInMM)
+        {
+            switch (imageSize)
+            {
+                case ImageSize.Small:
+                    imageWidthInMM = _smallImageWidthInMM;
+                    imageHeightInMM = _smallImageHeightInMM;
+                    break;
+
+                default:
+                    imageWidthInMM = _normalImageWidthInMM;
+                    imageHeightInMM = _normalImageHeightInMM;
+                    break;
+            }
+        }
+
+        private Bitmap GenerateTable(int imageWidthInMM, int imageHeightInMM, Graphics printerGraphics = null)
         {
             if (LogosListBox.SelectedItem == null || ArrowsListBox.SelectedItem == null || CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
             {
@@ -160,9 +184,14 @@ namespace SpecificationsTesting.Forms
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
+            // Convert image size from mm to pixels
+            float dpiX = printerGraphics?.DpiX ?? 300;  // Default to 300 DPI if printerGraphics is null
+            int imageWidthInPixels = (int)((imageWidthInMM / 25.4) * dpiX);
+            int imageHeightInPixels = (int)((imageHeightInMM / 25.4) * dpiX);
+
             var rows = 14;
-            var colWidth = (int)((imageWidth * 0.9) / 2);
-            var rowHeight = (imageHeight / 21);
+            var colWidth = (int)((imageWidthInPixels * 0.9) / 2);
+            var rowHeight = (imageHeightInPixels / 21);
             var startX = 30;
             var startY = rowHeight * 4;
 
@@ -172,16 +201,19 @@ namespace SpecificationsTesting.Forms
             var arrowFile = (FileInfo)ArrowsListBox.SelectedItem;
             var arrows = Image.FromFile(arrowFile.FullName);
 
-            var image = new Bitmap(imageWidth, imageHeight);
+            var image = new Bitmap(imageWidthInPixels, imageHeightInPixels);
             if (printerGraphics != null)
             {
                 image.SetResolution(printerGraphics.DpiX, printerGraphics.DpiY);
             }
+
             using (Graphics graph = Graphics.FromImage(image))
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
-                graph.DrawImage(arrows, new Rectangle(0, startY, imageWidth, (rowHeight * rows) + startX + rowHeight));
+                graph.DrawImage(arrows, new Rectangle(0, startY, imageWidthInPixels, (rowHeight * rows) + startX + rowHeight));
                 graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, rowHeight * 4));
+                var baseFontSizeInPoints = SelectedImageSize is ImageSize.Normal ? 11 : 8;
+                var font = CalculateFontSize(rowHeight, baseFontSizeInPoints, graph);
 
                 for (int row = 0; row < rows + 1; row++)
                 {
@@ -190,72 +222,72 @@ namespace SpecificationsTesting.Forms
                     {
                         case 1:
                             columns.Add(new StickerRowColumn() { LeftText = CustomOrder.Reference });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, font);
                             break;
 
                         case 2:
-                            columns.Add(new StickerRowColumn() { LeftText = "Serienummer", MiddleText = ventilatorTest.SerialNumber });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns);
+                            columns.Add(new StickerRowColumn() { LeftText = "Serial number", MiddleText = ventilatorTest.SerialNumber });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, font);
                             break;
 
                         case 3:
-                            columns.Add(new StickerRowColumn() { LeftText = "Bouwjaar", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
-                            columns.Add(new StickerRowColumn() { LeftText = "Gewicht", MiddleText = ventilatorTest?.Weight.ToString(), RightText = "kg" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            columns.Add(new StickerRowColumn() { LeftText = "Year built", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Weight", MiddleText = ventilatorTest?.Weight.ToString(), RightText = "kg" });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 4:
-                            columns.Add(new StickerRowColumn() { LeftText = "VENTILATOR" });
-                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = "Merk", RightText = ventilator.CustomOrderMotor.Name });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            columns.Add(new StickerRowColumn() { LeftText = "FAN" });
+                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = "Brand", RightText = ventilator.CustomOrderMotor.Name });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 5:
                             columns.Add(new StickerRowColumn() { LeftText = "Type", MiddleText = ventilator.Name });
-                            columns.Add(new StickerRowColumn() { LeftText = "Frequentie", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString(), RightText = "Hz" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            columns.Add(new StickerRowColumn() { LeftText = "Frequency", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString(), RightText = "Hz" });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 6:
                             columns.Add(new StickerRowColumn() { LeftText = "V", MiddleText = DataHelper.CreateHighLowText(ventilator.HighAirVolume.ToString(), ventilator.LowAirVolume.ToString()), RightText = "m3/h" });
-                            columns.Add(new StickerRowColumn() { LeftText = "Uitv.", MiddleText = ventilator.CustomOrderMotor.Version });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            columns.Add(new StickerRowColumn() { LeftText = "Model", MiddleText = ventilator.CustomOrderMotor.Version });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 7:
                             columns.Add(new StickerRowColumn() { LeftText = "Ptot", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureTotal.ToString(), ventilator.LowPressureTotal.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "P", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "kW" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 8:
                             columns.Add(new StickerRowColumn() { LeftText = "Pst", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureStatic.ToString(), ventilator.LowPressureStatic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "U", MiddleText = ventilator.CustomOrderMotor.VoltageType, RightText = "V" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 9:
                             columns.Add(new StickerRowColumn() { LeftText = "Pdyn", MiddleText = DataHelper.CreateHighLowText(ventilator.HighPressureDynamic.ToString(), ventilator.LowPressureDynamic.ToString()), RightText = "Pa" });
                             columns.Add(new StickerRowColumn() { LeftText = "Inom", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighPower.ToString(), ventilator.CustomOrderMotor.LowPower.ToString()), RightText = "A" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 10:
-                            columns.Add(new StickerRowColumn() { LeftText = "Nvent", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Nfan", MiddleText = DataHelper.CreateHighLowText(ventilator.HighRPM.ToString(), ventilator.LowRPM.ToString()), RightText = "rpm" });
                             columns.Add(new StickerRowColumn() { LeftText = "Istart", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighStartupAmperage.ToString(), ventilator.CustomOrderMotor.LowStartupAmperage.ToString()), RightText = "A" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 11:
-                            columns.Add(new StickerRowColumn() { LeftText = "Schoephoek", MiddleText = ventilator.BladeAngle.ToString(), RightText = "°" });
+                            columns.Add(new StickerRowColumn() { LeftText = "Blade angle", MiddleText = ventilator.BladeAngle.ToString(), RightText = "°" });
                             columns.Add(new StickerRowColumn() { LeftText = "Nmotor", MiddleText = DataHelper.CreateHighLowText(ventilator.CustomOrderMotor.HighRPM.ToString(), ventilator.CustomOrderMotor.LowRPM.ToString()), RightText = "rpm" });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 12:
-                            columns.Add(new StickerRowColumn() { LeftText = "Geluidsvermogen", MiddleText = ventilator.SoundLevel.ToString(), RightText = ventilator.SoundLevelType?.UOM });
+                            columns.Add(new StickerRowColumn() { LeftText = "Sound power", MiddleText = ventilator.SoundLevel.ToString(), RightText = ventilator.SoundLevelType?.UOM });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest?.MotorNumber });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 13:
@@ -263,7 +295,7 @@ namespace SpecificationsTesting.Forms
                             columns.Add(new StickerRowColumn() { LeftText = "ρ", MiddleText = "1,20", RightText = "kg/m3" });
                             columns.Add(new StickerRowColumn() { LeftText = "IP", MiddleText = ventilator.CustomOrderMotor.IP.ToString() });
                             columns.Add(new StickerRowColumn() { LeftText = "ISO", MiddleText = ventilator.CustomOrderMotor.ISO });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns, font);
                             break;
 
                         case 14:
@@ -271,7 +303,7 @@ namespace SpecificationsTesting.Forms
                             columns.Add(new StickerRowColumn());
                             columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.PTC) });
                             columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.HT) });
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns);
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns, font);
                             break;
 
                         default:
@@ -282,12 +314,9 @@ namespace SpecificationsTesting.Forms
             return image;
         }
 
-        private static void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns)
+        private static void CreateSingleRow(Graphics graph, int rowHeight, int startX, ref int startY, int columnCount, int columnWidth, List<StickerRowColumn> columns, Font font)
         {
             var pen = new Pen(Color.Black, 2.0F);
-            var fontPoints = (double)8 / 72;
-            var sizeInPixels = (float)(fontPoints * graph.DpiX);
-            var font = new Font("Tahoma", sizeInPixels, FontStyle.Bold, GraphicsUnit.Pixel);
             var columnStart = startX;
             for (int i = 0; i < columnCount; i++)
             {
@@ -317,6 +346,15 @@ namespace SpecificationsTesting.Forms
                 columnStart += columnWidth;
             }
             startY += rowHeight;
+        }
+
+        private static Font CalculateFontSize(int rowHeight, float baseFontSizeInPoints, Graphics graphics)
+        {
+            // Convert scaled font size from points to pixels
+            var fontSize = rowHeight <= 56 ? baseFontSizeInPoints : 3;
+
+            // Return the font with the calculated size
+            return new Font("Tahoma", fontSize, FontStyle.Bold, GraphicsUnit.Millimeter);
         }
 
         private static void PopulateListBox(ListBox lsb, string Folder, string FileType)
@@ -429,12 +467,8 @@ namespace SpecificationsTesting.Forms
 
         private void PrintPage(object o, PrintPageEventArgs e)
         {
-            var imageWidth = 150;
-            var imageHeight = 100;
-            //pixel = dpi * mm / 25.4 mm (1 in)
-            var widthPixels = (int)((e.Graphics.DpiX / 25.4) * imageWidth);
-            var heightPixels = (int)((e.Graphics.DpiX / 25.4) * imageHeight);
-            var image = GenerateTable(widthPixels, heightPixels, e.Graphics);
+            DetermineLabelSizeInMM(SelectedImageSize, out int imageWidthInMM, out int imageHeightInMM);
+            var image = GenerateTable(imageWidthInMM, imageHeightInMM, e.Graphics);
             var loc = new Point(0, 0);
             image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             e.Graphics.DrawImage(image, loc);
@@ -442,15 +476,15 @@ namespace SpecificationsTesting.Forms
 
         private void BtnSize_Click(object sender, EventArgs e)
         {
-            if (btnSize.Text == "Small")
+            if (btnSize.Text == ImageSize.Small.ToString())
             {
-                btnSize.Text = "Large";
+                btnSize.Text = "Normal";
                 SelectedImageSize = ImageSize.Small;
             }
             else
             {
-                btnSize.Text = "Small";
-                SelectedImageSize = ImageSize.Medium;
+                btnSize.Text = ImageSize.Small.ToString();
+                SelectedImageSize = ImageSize.Normal;
             }
             ShowTable(SelectedImageSize);
         }
