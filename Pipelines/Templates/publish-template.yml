@@ -14,6 +14,9 @@
   - name: DB_PASSWORD
     default: "abc"
     type: string
+  - name: ARTIFACT_NAME
+    default: "SpecificationsTestingV2"
+    type: string
 
 jobs:
   - job: Publish_DotNet
@@ -67,7 +70,7 @@ jobs:
         inputs:
           targetPath: $(Build.ArtifactStagingDirectory)
           archiveType: "zip"
-          artifact: "SpecificationsTestingV2"
+          artifactName: ${{ parameters.artifactName }}
 
       - pwsh: |
           $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTestingV2&api-version=6.0"

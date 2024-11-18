@@ -32,6 +32,7 @@ stages:
         DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)
         DB_PASSWORD: $(DatabasePassword)
+        ARTIFACT_NAME: $(ArtifactName)
 
 - stage: PublishProd
   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
@@ -46,3 +47,4 @@ stages:
         DB_HOSTNAME: $(DatabaseHost)
         DB_USERNAME: $(DatabaseUserName)
         DB_PASSWORD: $(DatabasePassword)
+        ARTIFACT_NAME: $(ArtifactName)
