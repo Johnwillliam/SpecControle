@@ -73,7 +73,7 @@ jobs:
           artifactName: ${{ parameters.ARTIFACT_NAME }}
 
       - pwsh: |
-          $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTestingV2&api-version=6.0"
+          $url = "https://dev.azure.com/mjw-tan/general/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=${{ parameters.ARTIFACT_NAME }}&api-version=6.0"
 
           try {
               # Make the HTTP request and get the JSON response
@@ -102,7 +102,7 @@ jobs:
           Subject: "New build artifact"
           Body: |
             The download URL for the new build artifact is: $(downloadUrl)
-            Additional information: $(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=SpecificationsTesting&amp;api-version=6.0
+            Additional information: $(System.TeamFoundationCollectionUri)$(System.TeamProject)/_apis/build/builds/$(Build.BuildId)/artifacts?artifactName=${{ parameters.ARTIFACT_NAME }}&amp;api-version=6.0
           BodyAsHtml: false
           AddAttachment: false
           SmtpServer: "smtp.gmail.com"
