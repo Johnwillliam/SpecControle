@@ -1,4 +1,5 @@
 using EntityFrameworkModelV2.Context;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -31,7 +32,9 @@ namespace EntityFrameworkModelV2.Models
         public int? HighRPM { get; set; }
         public int? LowRPM { get; set; }
         public int? Efficiency { get; set; }
+        [Precision(18, 2)]
         public decimal? HighShaftPower { get; set; }
+        [Precision(18, 2)]
         public decimal? LowShaftPower { get; set; }
         public int? SoundLevel { get; set; }
         public int? SoundLevelTypeID { get; set; }

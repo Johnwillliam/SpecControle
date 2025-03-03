@@ -20,6 +20,7 @@ namespace SpecificationsTesting.Forms
         private const int _normalImageHeightInMM = 150;
         private const int _smallImageWidthInMM = 80;
         private const int _smallImageHeightInMM = 100;
+        private const int _displayFontSize = 11;
         private readonly ILogger logger;
         private bool _initGrid = false;
 
@@ -217,8 +218,9 @@ namespace SpecificationsTesting.Forms
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
                 DrawScaledImage(graph, arrows, 0, 0, imageWidthInPixels, imageHeightInPixels + rowHeight * 14);
                 graph.DrawImage(logo, new Rectangle(startX, rowHeight, colWidth * 2, rowHeight * 4));
-                var baseFontSizeInPoints = SelectedImageSize is ImageSize.Normal ? 10 : 8;
-                var font = CalculateFontSize(rowHeight, baseFontSizeInPoints, graph);
+                var fontSize = SelectedImageSize is ImageSize.Normal ? 3 : 2;
+                var printing = printerGraphics is not null;
+                var font = CalculateFontSize(fontSize, printing);
 
                 for (int row = 0; row < rows + 1; row++)
                 {
@@ -423,12 +425,9 @@ namespace SpecificationsTesting.Forms
             startY += rowHeight;
         }
 
-        private static Font CalculateFontSize(int rowHeight, float baseFontSizeInPoints, Graphics graphics)
+        private static Font CalculateFontSize(int fontSize, bool printing)
         {
-            // Convert scaled font size from points to pixels
-            var fontSize = rowHeight <= 59 ? baseFontSizeInPoints : 3;
-
-            // Return the font with the calculated size
+            fontSize = printing ? fontSize : _displayFontSize;
             return new Font("Tahoma", fontSize, FontStyle.Bold, GraphicsUnit.Millimeter);
         }
 

@@ -101,7 +101,7 @@ namespace SpecificationsTesting.Forms
 
         private void InitializeMotorTypePlateUserControl()
         {
-            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl(logger)
+            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl()
             {
                 AutoSize = true
             };

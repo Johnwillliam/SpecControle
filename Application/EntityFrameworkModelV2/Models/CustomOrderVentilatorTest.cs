@@ -1,5 +1,6 @@
 namespace EntityFrameworkModelV2.Models
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -21,11 +22,17 @@ namespace EntityFrameworkModelV2.Models
         public int? Weight { get; set; }
         public DateTime? Date { get; set; }
         public int? UserID { get; set; }
+        [Precision(18, 2)]
         public decimal? I1High { get; set; }
+        [Precision(18, 2)]
         public decimal? I1Low { get; set; }
+        [Precision(18, 2)]
         public decimal? I2High { get; set; }
+        [Precision(18, 2)]
         public decimal? I2Low { get; set; }
+        [Precision(18, 2)]
         public decimal? I3High { get; set; }
+        [Precision(18, 2)]
         public decimal? I3Low { get; set; }
         public int? BuildSize { get; set; }
         public bool Locked { get; set; }
