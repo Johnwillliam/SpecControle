@@ -22,7 +22,8 @@ namespace SpecificationsTesting.Forms
         private const int _normalImageHeightInMM = 100;
         private const int _smallImageWidthInMM = 100;
         private const int _smallImageHeightInMM = 80;
-        private const int _displayFontSize = 11;
+        private const int _displayNormalFontSize = 12;
+        private const int _displaySmallFontSize = 8;
 
         private enum ImageSize
         {
@@ -214,9 +215,8 @@ namespace SpecificationsTesting.Forms
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
                 graph.DrawImage(arrows, new Rectangle(0, startY, imageWidthInPixels, (rowHeight * rows) + startX + rowHeight));
                 graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, rowHeight * 4));
-                var fontSize = SelectedImageSize is ImageSize.Normal ? 3 : 2;
                 var printing = printerGraphics is not null;
-                var font = CalculateFontSize(fontSize, printing);
+                var font = CalculateFontSize(printing);
 
                 for (int row = 0; row < rows + 1; row++)
                 {
@@ -246,7 +246,7 @@ namespace SpecificationsTesting.Forms
                             break;
 
                         case 5:
-                            columns.Add(new StickerRowColumn() { LeftText = "Type", MiddleText = ventilator.Name });
+                            columns.Add(new StickerRowColumn() { LeftText = "Type", RightText = ventilator.Name });
                             columns.Add(new StickerRowColumn() { LeftText = "Frequency", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString(), RightText = "Hz" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
@@ -351,9 +351,14 @@ namespace SpecificationsTesting.Forms
             startY += rowHeight;
         }
 
-        private static Font CalculateFontSize(int fontSize, bool printing)
+        private Font CalculateFontSize(bool printing)
         {
-            fontSize = printing ? fontSize : _displayFontSize;
+            var fontSize = SelectedImageSize is ImageSize.Normal ? 3 : 2;
+            if (!printing)
+            {
+                fontSize = SelectedImageSize is ImageSize.Normal ? _displayNormalFontSize : _displaySmallFontSize;
+            }
+
             return new Font("Tahoma", fontSize, FontStyle.Bold, GraphicsUnit.Millimeter);
         }
 
