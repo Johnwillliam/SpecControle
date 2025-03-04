@@ -7,6 +7,7 @@ using SpecificationsTesting.Entities;
 using SpecificationsTesting.Forms;
 using SpecificationsTestingV2.Entities;
 using System.Data;
+using System.ComponentModel;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -14,7 +15,9 @@ namespace SpecificationsTesting.UserControls
     {
         private readonly ILogger logger;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public CustomOrder CustomOrder { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorID { get; set; }
 
         private CustomOrderVentilator SelectedVentilator => CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();

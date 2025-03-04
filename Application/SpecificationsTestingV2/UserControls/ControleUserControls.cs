@@ -8,14 +8,19 @@ using SpecificationsTesting.Forms;
 using System.Configuration;
 using System.Data;
 using System.IO.Ports;
+using System.ComponentModel;
 
 namespace SpecificationsTesting.UserControls
 {
     public partial class ControleUserControl : UserControl
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public CustomOrder CustomOrder { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorTestID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TemplateMotor SelectedTemplateMotor { get; set; }
         private readonly SerialPort _serialPort = new SerialPort(ConfigurationManager.AppSettings.Get("SerialPortName"), int.Parse(ConfigurationManager.AppSettings.Get("SerialPortBaudRate")), Parity.None, 8, StopBits.One);
         private readonly ILogger logger;

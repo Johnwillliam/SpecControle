@@ -1,10 +1,12 @@
 ﻿using EntityFrameworkModelV2.Context;
 using EntityFrameworkModelV2.Models;
+using System.ComponentModel;
 
 namespace SpecificationsTesting
 {
     public partial class MotorTemplateSelection : Form
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DataGridViewRow SelectedRow { get; set; }
 
         public MotorTemplateSelection()

@@ -3,15 +3,19 @@ using Logic;
 using Logic.Business;
 using SpecificationsTesting.Entities;
 using System.Drawing.Printing;
+using System.ComponentModel;
 
 namespace SpecificationsTesting.Forms
 {
     public partial class MotorTypePlateStickerUserControl : UserControl
     {
         private CustomOrder CustomOrder { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string StickerPrinterName { get; set; }
         private ImageSize SelectedImageSize { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorTestID { get; private set; }
 
         private const int _normalImageWidthInMM = 150;

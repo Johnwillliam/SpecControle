@@ -1,7 +1,10 @@
-﻿namespace SpecificationsTesting.Forms
+﻿using System.ComponentModel;
+
+namespace SpecificationsTesting.Forms
 {
     public partial class CopyOrderForm : Form
     {
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int CustomOrderNumber { get; set; }
 
         public CopyOrderForm()

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SpecificationsTesting.UserControls;
 using System.Drawing.Printing;
+using System.ComponentModel;
 
 namespace SpecificationsTesting.Forms
 {
@@ -9,11 +10,17 @@ namespace SpecificationsTesting.Forms
     {
         private readonly ILogger logger;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MotorTypePlateStickerUserControl MotorTypePlateUserControl { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public AtexStickerUserControl AtexStickerUserControl { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MotorTemplateUserControl MotorTemplateUserControl { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OrderUserControl OrderUserControl { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ControleUserControl ControleUserControl { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TestDocumentGenerationUserControl TestDocumentGenerationUserControl { get; set; }
         public TabControl TabControl { get => tabControl; }
 

@@ -4,6 +4,7 @@ using Logic.PdfGenerators;
 using Microsoft.Extensions.Logging;
 using SpecificationsTesting.Entities;
 using System.Data;
+using System.ComponentModel;
 
 namespace SpecificationsTesting.UserControls
 {
@@ -12,8 +13,11 @@ namespace SpecificationsTesting.UserControls
         private readonly ILogger logger;
 
         private CustomOrder CustomOrder { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedVentilatorTestID { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string PrinterName { get; set; }
 
         private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
