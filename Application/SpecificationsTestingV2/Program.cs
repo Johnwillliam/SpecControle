@@ -116,8 +116,8 @@ namespace SpecificationsTestingV2
             // Seed ATEXTypes
             if (!dbContext.ATEXTypes.Any())
             {
-                dbContext.ATEXTypes.AddRange(new[]
-                {
+                dbContext.ATEXTypes.AddRange(
+                [
                     new ATEXType { Description = "N.V.T." },
                     new ATEXType { Description = "II 2 G" },
                     new ATEXType { Description = "II 2 G" },
@@ -129,7 +129,7 @@ namespace SpecificationsTestingV2
                     new ATEXType { Description = "Ex II 2/2G Ex h IIB+H2 T4 Gb/Gb" },
                     new ATEXType { Description = "Ex II 2/2G Ex h IIB+H2 T3 Gb/Gb" },
                     new ATEXType { Description = "Ex II 2/2G Ex h IIB T3 Gb/Gb" }
-                });
+                ]);
             }
 
             // Seed CatTypes
@@ -141,33 +141,33 @@ namespace SpecificationsTestingV2
             // Seed GroupTypes
             if (!dbContext.GroupTypes.Any())
             {
-                dbContext.GroupTypes.AddRange(new[]
-                {
+                dbContext.GroupTypes.AddRange(
+                [
                     new GroupType { Description = "EEx" },
                     new GroupType { Description = "EEx e II" },
                     new GroupType { Description = "IIB" },
                     new GroupType { Description = "IIC" },
                     new GroupType { Description = "N.V.T." }
-                });
+                ]);
             }
 
             // Seed SoundLevelTypes
             if (!dbContext.SoundLevelTypes.Any())
             {
-                dbContext.SoundLevelTypes.AddRange(new[]
-                {
+                dbContext.SoundLevelTypes.AddRange(
+                [
                     new SoundLevelType { Description = "No indication", UOM = "" },
                     new SoundLevelType { Description = "Sound power", UOM = "dB" },
                     new SoundLevelType { Description = "Sound level at 1.5 m", UOM = "dB(A)" },
                     new SoundLevelType { Description = "Sound power", UOM = "dB(A)" }
-                });
+                ]);
             }
 
             // Seed TemperatureClasses
             if (!dbContext.TemperatureClasses.Any())
             {
-                dbContext.TemperatureClasses.AddRange(new[]
-                {
+                dbContext.TemperatureClasses.AddRange(
+                [
                     new TemperatureClass { Description = "No indication" },
                     new TemperatureClass { Description = "N.V.T." },
                     new TemperatureClass { Description = "T3" },
@@ -175,7 +175,7 @@ namespace SpecificationsTestingV2
                     new TemperatureClass { Description = "T5" },
                     new TemperatureClass { Description = "T6" },
                     new TemperatureClass { Description = "T 125°C" }
-                });
+                ]);
             }
 
             // Seed Users
@@ -187,15 +187,15 @@ namespace SpecificationsTestingV2
             // Seed VentilatorTypes
             if (!dbContext.VentilatorTypes.Any())
             {
-                dbContext.VentilatorTypes.AddRange(new[]
-                {
+                dbContext.VentilatorTypes.AddRange(
+                [
                     new VentilatorType { Description = "No Indication" },
                     new VentilatorType { Description = "Centrifugal fans direct driven" },
                     new VentilatorType { Description = "Axial fan direct driven" },
                     new VentilatorType { Description = "Thrust fan" },
                     new VentilatorType { Description = "Centrifugal fan V-belt driven" },
                     new VentilatorType { Description = "Axial fan V-belt driven" }
-                });
+                ]);
             }
 
             dbContext.SaveChanges();

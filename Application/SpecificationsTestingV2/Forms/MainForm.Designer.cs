@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             tabControl = new TabControl();
             OrderTabPage = new TabPage();
             ControleTabPage = new TabPage();
@@ -75,7 +76,7 @@
             ControleTabPage.Margin = new Padding(4, 3, 4, 3);
             ControleTabPage.Name = "ControleTabPage";
             ControleTabPage.Padding = new Padding(4, 3, 4, 3);
-            ControleTabPage.Size = new Size(1432, 728);
+            ControleTabPage.Size = new Size(1432, 786);
             ControleTabPage.TabIndex = 1;
             ControleTabPage.Text = "Controle";
             ControleTabPage.UseVisualStyleBackColor = true;
@@ -85,7 +86,7 @@
             MotorTypePlateTabPage.Location = new Point(4, 24);
             MotorTypePlateTabPage.Margin = new Padding(4, 3, 4, 3);
             MotorTypePlateTabPage.Name = "MotorTypePlateTabPage";
-            MotorTypePlateTabPage.Size = new Size(1432, 728);
+            MotorTypePlateTabPage.Size = new Size(1432, 786);
             MotorTypePlateTabPage.TabIndex = 2;
             MotorTypePlateTabPage.Text = "Typeplate Sticker";
             MotorTypePlateTabPage.UseVisualStyleBackColor = true;
@@ -95,7 +96,7 @@
             AtexStickerTabPage.Location = new Point(4, 24);
             AtexStickerTabPage.Margin = new Padding(4, 3, 4, 3);
             AtexStickerTabPage.Name = "AtexStickerTabPage";
-            AtexStickerTabPage.Size = new Size(1432, 728);
+            AtexStickerTabPage.Size = new Size(1432, 786);
             AtexStickerTabPage.TabIndex = 4;
             AtexStickerTabPage.Text = "Atex Sticker";
             AtexStickerTabPage.UseVisualStyleBackColor = true;
@@ -105,7 +106,7 @@
             RunningTestTabPage.Location = new Point(4, 24);
             RunningTestTabPage.Margin = new Padding(4, 3, 4, 3);
             RunningTestTabPage.Name = "RunningTestTabPage";
-            RunningTestTabPage.Size = new Size(1432, 728);
+            RunningTestTabPage.Size = new Size(1432, 786);
             RunningTestTabPage.TabIndex = 5;
             RunningTestTabPage.Text = "Test Document";
             RunningTestTabPage.UseVisualStyleBackColor = true;
@@ -115,7 +116,7 @@
             TemplateMotorTabPage.Location = new Point(4, 24);
             TemplateMotorTabPage.Margin = new Padding(4, 3, 4, 3);
             TemplateMotorTabPage.Name = "TemplateMotorTabPage";
-            TemplateMotorTabPage.Size = new Size(1432, 728);
+            TemplateMotorTabPage.Size = new Size(1432, 786);
             TemplateMotorTabPage.TabIndex = 3;
             TemplateMotorTabPage.Text = "Motor Templates";
             TemplateMotorTabPage.UseVisualStyleBackColor = true;
@@ -173,6 +174,7 @@
             Controls.Add(cmbStickerPrinters);
             Controls.Add(cmbPrinters);
             Controls.Add(tabControl);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
             Text = "MainForm";
