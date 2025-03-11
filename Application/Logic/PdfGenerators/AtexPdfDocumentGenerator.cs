@@ -29,8 +29,9 @@ namespace Logic
             container
                .Page(page =>
                {
+                   var headerImagePath = Environment.CurrentDirectory + "\\Resources\\AtexDocumentHeader.jpg";
+                   page.Header().MaxHeight(150).AlignCenter().Image(headerImagePath).FitWidth().FitHeight();
                    page.DefaultTextStyle(x => x.FontSize(8));
-                   page.Margin(50);
                    page.Content().Element(ComposeContent);
 
                    page.Footer().AlignCenter().Text(x =>
@@ -88,7 +89,6 @@ namespace Logic
 
             container
                 .PaddingTop(10)
-                .PaddingBottom(10)
                 .Table(table =>
                 {
                     table.ColumnsDefinition(columns =>
@@ -144,7 +144,6 @@ namespace Logic
 
             container
                 .PaddingTop(10)
-                .PaddingBottom(10)
                 .Table(table =>
                 {
                     table.ColumnsDefinition(columns =>
@@ -219,7 +218,6 @@ namespace Logic
 
             container
                 .PaddingTop(10)
-                .PaddingBottom(10)
                 .Table(table =>
                 {
                     table.ColumnsDefinition(columns =>

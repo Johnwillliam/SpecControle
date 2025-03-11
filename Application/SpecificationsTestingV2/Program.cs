@@ -135,7 +135,20 @@ namespace SpecificationsTestingV2
             // Seed CatTypes
             if (!dbContext.CatTypes.Any())
             {
-                dbContext.CatTypes.Add(new CatType { Description = "N.V.T." });
+                dbContext.CatTypes.AddRange(
+                [
+                    new CatType { Description = "N.V.T." },
+                    new CatType { Description = "II 2 G" },
+                    new CatType { Description = "II 2 G" },
+                    new CatType { Description = "II 2 GD" },
+                    new CatType { Description = "II 3 D" },
+                    new CatType { Description = "II 3 G" },
+                    new CatType { Description = "N.A." },
+                    new CatType { Description = "Ex II 3/3G Ex h IIB+H2 T4 Gc/Gc" },
+                    new CatType { Description = "Ex II 2/2G Ex h IIB+H2 T4 Gb/Gb" },
+                    new CatType { Description = "Ex II 2/2G Ex h IIB+H2 T3 Gb/Gb" },
+                    new CatType { Description = "Ex II 2/2G Ex h IIB T3 Gb/Gb" }
+                ]);
             }
 
             // Seed GroupTypes
