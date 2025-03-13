@@ -3,7 +3,7 @@
     default: "false"
     type: string
   - name: DB_NAME
-    default: "SpecificationsTesting2"
+    default: "SpecControle"
     type: string
   - name: DB_HOSTNAME
     default: "10.10.10.124"
@@ -15,7 +15,7 @@
     default: "abc"
     type: string
   - name: ARTIFACT_NAME
-    default: "SpecificationsTestingV2"
+    default: "SpecControle"
     type: string
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
           command: "publish"
           publishWebProjects: false
           projects: |
-            **/SpecificationsTestingV2/*.csproj
+            **/SpecControle/*.csproj
             !**/*Tests.csproj
           arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
           zipAfterPublish: false
@@ -43,7 +43,7 @@ jobs:
               $newConnectionString = "data source=${{ parameters.DB_HOSTNAME }};initial catalog=${{ parameters.DB_NAME }};Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
           }
 
-          $appConfigPath = "$(Build.ArtifactStagingDirectory)/SpecificationsTestingV2/SpecificationsTestingV2.dll.config"
+          $appConfigPath = "$(Build.ArtifactStagingDirectory)/SpecControle/SpecControle.dll.config"
 
           [xml]$configXml = Get-Content -Path $appConfigPath
 
