@@ -473,6 +473,11 @@ namespace SpecificationsTesting.Forms
             DetermineLabelSizeInMM(SelectedImageSize, out int imageWidthInMM, out int imageHeightInMM);
             var image = GenerateTable(imageWidthInMM, imageHeightInMM, e.Graphics);
             var loc = new Point(0, 0);
+            if (SelectedImageSize is ImageSize.Small)
+            {
+                loc.X = 10;
+            }
+
             if (SelectedImageSize is not ImageSize.Small)
             {
                 image.RotateFlip(RotateFlipType.Rotate90FlipNone);

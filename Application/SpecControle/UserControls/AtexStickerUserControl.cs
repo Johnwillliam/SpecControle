@@ -250,19 +250,19 @@ namespace SpecificationsTesting.Forms
                         case 4:
                             columns.Add(new StickerRowColumn() { LeftText = "Year built", MiddleText = CustomOrder.CreateDate.GetValueOrDefault().Year.ToString() });
                             //TODO: get selected test
-                            columns.Add(new StickerRowColumn() { LeftText = "Weight", MiddleText = ventilatorTest.Weight.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Weight", MiddleText = ventilatorTest.Weight.ToString(), RightText = "kg" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 5:
                             columns.Add(new StickerRowColumn() { LeftText = "FAN" });
-                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = ventilator.CustomOrderMotor.Name });
+                            columns.Add(new StickerRowColumn() { LeftText = "MOTOR", MiddleText = "Brand", RightText = ventilator.CustomOrderMotor.Name });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
                         case 6:
                             columns.Add(new StickerRowColumn() { LeftText = "Type", RightText = ventilator.Name });
-                            columns.Add(new StickerRowColumn() { LeftText = "Frequency", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString() });
+                            columns.Add(new StickerRowColumn() { LeftText = "Frequency", MiddleText = ventilator.CustomOrderMotor.Frequency.ToString(), RightText = "Hz" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
 
@@ -362,7 +362,7 @@ namespace SpecificationsTesting.Forms
             return image;
         }
 
-        private void DrawScaledImage(Graphics graph, Image arrows, int x, int y, int targetWidth, int targetHeight)
+        private static void DrawScaledImage(Graphics graph, Image arrows, int x, int y, int targetWidth, int targetHeight)
         {
             // Calculate aspect ratio
             float aspectRatio = (float)arrows.Width / arrows.Height;
@@ -589,7 +589,7 @@ namespace SpecificationsTesting.Forms
         {
             DetermineLabelSizeInMM(SelectedImageSize, out int imageWidthInMM, out int imageHeightInMM);
             var image = GenerateTable(imageWidthInMM, imageHeightInMM, e.Graphics);
-            var loc = new Point(0, 0);
+            var loc = new Point(10, 0);
             e.Graphics.DrawImage(image, loc);
         }
 
