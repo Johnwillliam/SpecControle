@@ -30,7 +30,7 @@ namespace Logic
                .Page(page =>
                {
                    var headerImagePath = Environment.CurrentDirectory + "\\Resources\\AtexDocumentHeader.jpg";
-                   page.Header().MaxHeight(150).AlignCenter().Image(headerImagePath).FitWidth().FitHeight();
+                   page.Header().PaddingTop(20).MaxHeight(150).AlignCenter().Image(headerImagePath).FitWidth().FitHeight();
                    page.DefaultTextStyle(x => x.FontSize(8));
                    page.Content().Element(ComposeContent);
 
