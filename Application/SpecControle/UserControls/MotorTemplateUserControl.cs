@@ -3,6 +3,7 @@ using EntityFrameworkModelV2.Extensions;
 using EntityFrameworkModelV2.Models;
 using Logic.Business;
 using Microsoft.Extensions.Logging;
+using SpecificationsTestingV2.Entities;
 using System.Data;
 
 namespace SpecificationsTesting.UserControls
@@ -14,6 +15,10 @@ namespace SpecificationsTesting.UserControls
             InitializeComponent();
             btnSave.Click += new System.EventHandler(BtnSave_Click);
             Load += new System.EventHandler(MotorTemplateSelection_Load);
+            MotorTemplatesDataGrid.CellValidating += MotorTemplatesDataGrid_CellValidating;
+            MotorTemplatesDataGrid.DataError += MotorTemplateDataGridView_DataError;
+            MotorTemplatesDataGrid.CellParsing += MotorTemplatesDataGrid_CellParsing;
+            MotorTemplatesDataGrid.CellFormatting += MotorTemplatesDataGrid_CellFormatting;
         }
 
         private void MotorTemplateSelection_Load(object sender, EventArgs e)
@@ -22,6 +27,44 @@ namespace SpecificationsTesting.UserControls
             templates.Add(new TemplateMotor());
             MotorTemplatesDataGrid.DataSource = templates;
             MotorTemplatesDataGrid.Columns[0].Visible = false;
+
+            var yesNoDataSource = new List<YesNoItem>
+            {
+                new() { Value = true, DisplayText = "Yes" },
+                new() { Value = false, DisplayText = "No" }
+            };
+            var ptcColumn = new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = nameof(TemplateMotor.PTC),
+                HeaderText = nameof(TemplateMotor.PTC),
+                Name = nameof(TemplateMotor.PTC),
+                DataSource = yesNoDataSource,
+                ValueMember = nameof(YesNoItem.Value),
+                DisplayMember = nameof(YesNoItem.DisplayText)
+            };
+
+            var htColumn = new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = nameof(TemplateMotor.HT),
+                HeaderText = nameof(TemplateMotor.HT),
+                Name = nameof(TemplateMotor.HT),
+                DataSource = yesNoDataSource,
+                ValueMember = nameof(YesNoItem.Value),
+                DisplayMember = nameof(YesNoItem.DisplayText)
+            };
+
+            ReplaceColumn(nameof(TemplateMotor.PTC), ptcColumn);
+            ReplaceColumn(nameof(TemplateMotor.HT), htColumn);
+        }
+
+        private void ReplaceColumn(string columnName, DataGridViewColumn newColumn)
+        {
+            if (MotorTemplatesDataGrid.Columns.Contains(columnName))
+            {
+                var oldColumnIndex = MotorTemplatesDataGrid.Columns[columnName].Index;
+                MotorTemplatesDataGrid.Columns.Remove(columnName);
+                MotorTemplatesDataGrid.Columns.Insert(oldColumnIndex, newColumn);
+            }
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -58,8 +101,8 @@ namespace SpecificationsTesting.UserControls
                 Version = dataRow.Cells[nameof(TemplateMotor.Version)].Value.EmptyIfNull(),
                 IEC = (int?)dataRow.Cells[nameof(TemplateMotor.IEC)].Value,
                 IP = (int?)dataRow.Cells[nameof(TemplateMotor.IP)].Value,
-                PTC = (bool?)dataRow.Cells[nameof(TemplateMotor.PTC)].Value,
-                HT = (bool?)dataRow.Cells[nameof(TemplateMotor.HT)].Value,
+                PTC = ParseYesNoToBool(dataRow.Cells[nameof(TemplateMotor.PTC)].Value),
+                HT = ParseYesNoToBool(dataRow.Cells[nameof(TemplateMotor.HT)].Value),
                 BuildingType = dataRow.Cells[nameof(TemplateMotor.BuildingType)].Value.EmptyIfNull(),
                 ISO = dataRow.Cells[nameof(TemplateMotor.ISO)].Value.EmptyIfNull(),
                 HighPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighPower)].Value,
@@ -75,6 +118,19 @@ namespace SpecificationsTesting.UserControls
                 PowerFactor = (decimal?)dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value,
                 Bearings = dataRow.Cells[nameof(TemplateMotor.Bearings)].Value is null ? new List<int>() : (List<int>)dataRow.Cells[nameof(TemplateMotor.Bearings)].Value
             };
+        }
+
+        private static bool? ParseYesNoToBool(object value)
+        {
+            if (value is string str)
+            {
+                return str == "Yes" ? true : str == "No" ? false : null;
+            }
+            if (value is bool b)
+            {
+                return b;
+            }
+            return null;
         }
 
         private void MotorTemplatesDataGrid_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -111,7 +167,7 @@ namespace SpecificationsTesting.UserControls
 
         private void MotorTemplatesDataGrid_CellParsing(object sender, DataGridViewCellParsingEventArgs e)
         {
-            if (e.DesiredType == typeof(IEnumerable<int>))
+            if (e.DesiredType == typeof(IEnumerable<int>) && e.Value.GetType() != typeof(IEnumerable<int>))
             {
                 e.Value = e.Value.ToString().Split('/').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
             }

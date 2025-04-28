@@ -129,7 +129,8 @@ namespace SpecificationsTesting.Forms
             MotorTemplateUserControl = new MotorTemplateUserControl(logger)
             {
                 AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowOnly
+                Width = 1430,
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
             TemplateMotorTabPage.Controls.Add(MotorTemplateUserControl);
         }
@@ -138,8 +139,7 @@ namespace SpecificationsTesting.Forms
         {
             TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl(logger)
             {
-                AutoSize = true,
-                AutoSizeMode = AutoSizeMode.GrowOnly
+                AutoSize = true
             };
             RunningTestTabPage.Controls.Add(TestDocumentGenerationUserControl);
         }

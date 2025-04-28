@@ -47,6 +47,7 @@
             // MotorTemplatesDataGrid
             // 
             MotorTemplatesDataGrid.AllowUserToAddRows = false;
+            MotorTemplatesDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             MotorTemplatesDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MotorTemplatesDataGrid.FilterAndSortEnabled = true;
             MotorTemplatesDataGrid.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
@@ -58,9 +59,6 @@
             MotorTemplatesDataGrid.Size = new Size(1377, 472);
             MotorTemplatesDataGrid.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             MotorTemplatesDataGrid.TabIndex = 2;
-            MotorTemplatesDataGrid.CellFormatting += MotorTemplatesDataGrid_CellFormatting;
-            MotorTemplatesDataGrid.CellParsing += MotorTemplatesDataGrid_CellParsing;
-            MotorTemplatesDataGrid.CellValidating += MotorTemplatesDataGrid_CellValidating;
             // 
             // MotorTemplateUserControl
             // 

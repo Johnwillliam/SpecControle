@@ -56,6 +56,7 @@ namespace SpecificationsTesting
             DataGridViewTemplateMotor.AllowUserToDeleteRows = false;
             DataGridViewTemplateMotor.AllowUserToOrderColumns = true;
             DataGridViewTemplateMotor.AllowUserToResizeRows = false;
+            DataGridViewTemplateMotor.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DataGridViewTemplateMotor.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridViewTemplateMotor.FilterAndSortEnabled = true;
             DataGridViewTemplateMotor.FilterStringChangedInvokeBeforeDatasourceUpdate = true;

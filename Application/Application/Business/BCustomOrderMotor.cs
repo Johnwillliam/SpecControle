@@ -95,26 +95,30 @@ namespace Logic.Business
 
         public static void UpdateFromTemplate(CustomOrderMotor customOrderMotor, TemplateMotor templateMotor)
         {
+            customOrderMotor.ID = templateMotor.ID;
             customOrderMotor.Name = templateMotor.Name;
-            customOrderMotor.HighAmperage = templateMotor.HighAmperage;
-            customOrderMotor.LowAmperage = templateMotor.LowAmperage;
-            customOrderMotor.BuildingType = templateMotor.BuildingType;
-            customOrderMotor.Frequency = templateMotor.Frequency;
+            customOrderMotor.Type = templateMotor.Type;
+            customOrderMotor.Version = templateMotor.Version;
             customOrderMotor.IEC = templateMotor.IEC;
             customOrderMotor.IP = templateMotor.IP;
+            customOrderMotor.PTC = templateMotor.PTC;
+            customOrderMotor.HT = templateMotor.HT;
+            customOrderMotor.BuildingType = templateMotor.BuildingType;
             customOrderMotor.ISO = templateMotor.ISO;
             customOrderMotor.HighPower = templateMotor.HighPower;
             customOrderMotor.LowPower = templateMotor.LowPower;
-            customOrderMotor.PowerFactor = templateMotor.PowerFactor;
             customOrderMotor.HighRPM = templateMotor.HighRPM;
             customOrderMotor.LowRPM = templateMotor.LowRPM;
+            customOrderMotor.HighAmperage = templateMotor.HighAmperage;
+            customOrderMotor.LowAmperage = templateMotor.LowAmperage;
             customOrderMotor.HighStartupAmperage = templateMotor.HighStartupAmperage;
             customOrderMotor.LowStartupAmperage = templateMotor.LowStartupAmperage;
-            customOrderMotor.Type = templateMotor.Type;
-            customOrderMotor.Version = templateMotor.Version;
             customOrderMotor.VoltageType = templateMotor.VoltageType;
+            customOrderMotor.Frequency = templateMotor.Frequency;
+            customOrderMotor.PowerFactor = templateMotor.PowerFactor;
             customOrderMotor.Bearings = templateMotor.Bearings;
         }
+
 
         public static CustomOrderMotor CreateObject(CustomOrderMotor customOrderMotor, List<DataGridViewRow> rows)
         {
