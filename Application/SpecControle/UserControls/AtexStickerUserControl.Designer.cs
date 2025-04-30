@@ -1,4 +1,4 @@
-﻿namespace SpecificationsTesting.Forms
+﻿namespace SpecControle.UserControls
 {
     partial class AtexStickerUserControl
     {

@@ -1,10 +1,11 @@
-﻿using EntityFrameworkModelV2.Context;
-using Microsoft.Extensions.Logging;
-using SpecificationsTesting.UserControls;
+﻿using Microsoft.Extensions.Logging;
 using System.Drawing.Printing;
 using System.ComponentModel;
+using Infrastructure.Context;
+using SpecControle.Forms;
+using SpecControle.UserControls;
 
-namespace SpecificationsTesting.Forms
+namespace SpecControle.Forms
 {
     public partial class MainForm : Form
     {
@@ -47,20 +48,33 @@ namespace SpecificationsTesting.Forms
             }
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.LastUsedStickerPrinter = cmbStickerPrinters.SelectedItem?.ToString();
+            Properties.Settings.Default.LastUsedPrinter = cmbPrinters.SelectedItem?.ToString();
+            Properties.Settings.Default.Save();
+        }
+
         private void InitializePrinters()
         {
-            var prtdoc = new PrintDocument();
-            var defaultPrinter = prtdoc.PrinterSettings.PrinterName;
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
                 cmbStickerPrinters.Items.Add(printer);
                 cmbPrinters.Items.Add(printer);
-                if (printer == defaultPrinter)
-                {
-                    cmbStickerPrinters.SelectedIndex = cmbStickerPrinters.Items.IndexOf(printer);
-                }
             }
             cmbPrinters.SelectedIndex = 0;
+
+            var lastUsedPrinter = Properties.Settings.Default.LastUsedPrinter;
+            if (PrinterSettings.InstalledPrinters.Contains(lastUsedPrinter) && !string.IsNullOrEmpty(lastUsedPrinter))
+            {
+                cmbPrinters.SelectedItem = lastUsedPrinter;
+            }
+
+            var lastUsedStickerPrinter = Properties.Settings.Default.LastUsedStickerPrinter;
+            if (PrinterSettings.InstalledPrinters.Contains(lastUsedStickerPrinter) && !string.IsNullOrEmpty(lastUsedStickerPrinter))
+            {
+                cmbStickerPrinters.SelectedItem = lastUsedStickerPrinter;
+            }
             SetPrinter();
             SetStickerPrinter();
         }

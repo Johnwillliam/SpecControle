@@ -1,20 +1,21 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Extensions;
-using EntityFrameworkModelV2.Models;
-using Logic.Business;
-using Microsoft.Extensions.Logging;
-using SpecificationsTestingV2.Entities;
+﻿using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 using System.Data;
+using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Extensions;
+using SpecControle.Entities;
+using Infrastructure.Models;
 
-namespace SpecificationsTesting.UserControls
+namespace SpecControle.UserControls
 {
     public partial class MotorTemplateUserControl : UserControl
     {
         public MotorTemplateUserControl(ILogger logger)
         {
             InitializeComponent();
-            btnSave.Click += new System.EventHandler(BtnSave_Click);
-            Load += new System.EventHandler(MotorTemplateSelection_Load);
+            btnSave.Click += new EventHandler(BtnSave_Click);
+            Load += new EventHandler(MotorTemplateSelection_Load);
             MotorTemplatesDataGrid.CellValidating += MotorTemplatesDataGrid_CellValidating;
             MotorTemplatesDataGrid.DataError += MotorTemplateDataGridView_DataError;
             MotorTemplatesDataGrid.CellParsing += MotorTemplatesDataGrid_CellParsing;
@@ -25,46 +26,79 @@ namespace SpecificationsTesting.UserControls
         {
             var templates = new SpecificationsDatabaseModel().TemplateMotors.ToList();
             templates.Add(new TemplateMotor());
-            MotorTemplatesDataGrid.DataSource = templates;
+            var table = ConvertToDataTable(templates);
+
+            MotorTemplatesDataGrid.DataSource = null;
+            MotorTemplatesDataGrid.Columns.Clear();
+            MotorTemplatesDataGrid.DataSource = table;
             MotorTemplatesDataGrid.Columns[0].Visible = false;
 
+            // Filter functionaliteit inschakelen
+            MotorTemplatesDataGrid.FilterAndSortEnabled = true;
+            MotorTemplatesDataGrid.AutoGenerateColumns = true;
+            MotorTemplatesDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Yes/No datasource
             var yesNoDataSource = new List<YesNoItem>
             {
                 new() { Value = true, DisplayText = "Yes" },
                 new() { Value = false, DisplayText = "No" }
             };
-            var ptcColumn = new DataGridViewComboBoxColumn
-            {
-                DataPropertyName = nameof(TemplateMotor.PTC),
-                HeaderText = nameof(TemplateMotor.PTC),
-                Name = nameof(TemplateMotor.PTC),
-                DataSource = yesNoDataSource,
-                ValueMember = nameof(YesNoItem.Value),
-                DisplayMember = nameof(YesNoItem.DisplayText)
-            };
 
-            var htColumn = new DataGridViewComboBoxColumn
-            {
-                DataPropertyName = nameof(TemplateMotor.HT),
-                HeaderText = nameof(TemplateMotor.HT),
-                Name = nameof(TemplateMotor.HT),
-                DataSource = yesNoDataSource,
-                ValueMember = nameof(YesNoItem.Value),
-                DisplayMember = nameof(YesNoItem.DisplayText)
-            };
+            // Vervang PTC-kolom door een dropdown
+            ReplaceColumnWithYesNoDropdown(nameof(TemplateMotor.PTC), yesNoDataSource);
 
-            ReplaceColumn(nameof(TemplateMotor.PTC), ptcColumn);
-            ReplaceColumn(nameof(TemplateMotor.HT), htColumn);
+            // Vervang HT-kolom door een dropdown
+            ReplaceColumnWithYesNoDropdown(nameof(TemplateMotor.HT), yesNoDataSource);
         }
 
-        private void ReplaceColumn(string columnName, DataGridViewColumn newColumn)
+        private void ReplaceColumnWithYesNoDropdown(string columnName, List<YesNoItem> yesNoDataSource)
         {
-            if (MotorTemplatesDataGrid.Columns.Contains(columnName))
+            if (!MotorTemplatesDataGrid.Columns.Contains(columnName))
+                return;
+
+            // Bestaande kolom verwijderen
+            var oldColIndex = MotorTemplatesDataGrid.Columns[columnName].Index;
+            MotorTemplatesDataGrid.Columns.RemoveAt(oldColIndex);
+
+            // Nieuwe dropdown kolom toevoegen op dezelfde positie
+            var comboColumn = new DataGridViewComboBoxColumn
             {
-                var oldColumnIndex = MotorTemplatesDataGrid.Columns[columnName].Index;
-                MotorTemplatesDataGrid.Columns.Remove(columnName);
-                MotorTemplatesDataGrid.Columns.Insert(oldColumnIndex, newColumn);
+                DataPropertyName = columnName,
+                HeaderText = columnName,
+                Name = columnName,
+                DataSource = yesNoDataSource,
+                ValueMember = nameof(YesNoItem.Value),
+                DisplayMember = nameof(YesNoItem.DisplayText),
+                DisplayStyle = DataGridViewComboBoxDisplayStyle.DropDownButton,
+                SortMode = DataGridViewColumnSortMode.Automatic
+            };
+
+            MotorTemplatesDataGrid.Columns.Insert(oldColIndex, comboColumn);
+        }
+
+
+        public static DataTable ConvertToDataTable<T>(IList<T> data)
+        {
+            var properties = TypeDescriptor.GetProperties(typeof(T));
+            var table = new DataTable();
+
+            foreach (PropertyDescriptor prop in properties)
+            {
+                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
             }
+
+            foreach (T item in data)
+            {
+                var row = table.NewRow();
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+                }
+                table.Rows.Add(row);
+            }
+
+            return table;
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -95,28 +129,28 @@ namespace SpecificationsTesting.UserControls
         {
             return new TemplateMotor
             {
-                ID = (int)dataRow.Cells[nameof(TemplateMotor.ID)].Value,
+                ID = Convert.ToInt32(dataRow.Cells[nameof(TemplateMotor.ID)].Value),
                 Name = dataRow.Cells[nameof(TemplateMotor.Name)].Value.EmptyIfNull(),
                 Type = dataRow.Cells[nameof(TemplateMotor.Type)].Value.EmptyIfNull(),
                 Version = dataRow.Cells[nameof(TemplateMotor.Version)].Value.EmptyIfNull(),
-                IEC = (int?)dataRow.Cells[nameof(TemplateMotor.IEC)].Value,
-                IP = (int?)dataRow.Cells[nameof(TemplateMotor.IP)].Value,
+                IEC = dataRow.Cells[nameof(TemplateMotor.IEC)].Value.GetNullable<int>(),
+                IP = dataRow.Cells[nameof(TemplateMotor.IP)].Value.GetNullable<int>(),
                 PTC = ParseYesNoToBool(dataRow.Cells[nameof(TemplateMotor.PTC)].Value),
                 HT = ParseYesNoToBool(dataRow.Cells[nameof(TemplateMotor.HT)].Value),
                 BuildingType = dataRow.Cells[nameof(TemplateMotor.BuildingType)].Value.EmptyIfNull(),
                 ISO = dataRow.Cells[nameof(TemplateMotor.ISO)].Value.EmptyIfNull(),
-                HighPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighPower)].Value,
-                LowPower = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowPower)].Value,
-                HighRPM = (int?)dataRow.Cells[nameof(TemplateMotor.HighRPM)].Value,
-                LowRPM = (int?)dataRow.Cells[nameof(TemplateMotor.LowRPM)].Value,
-                HighAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighAmperage)].Value,
-                LowAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowAmperage)].Value,
-                HighStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.HighStartupAmperage)].Value,
-                LowStartupAmperage = (decimal?)dataRow.Cells[nameof(TemplateMotor.LowStartupAmperage)].Value,
+                HighPower = dataRow.Cells[nameof(TemplateMotor.HighPower)].Value.GetNullable<decimal>(),
+                LowPower = dataRow.Cells[nameof(TemplateMotor.LowPower)].Value.GetNullable<decimal>(),
+                HighRPM = dataRow.Cells[nameof(TemplateMotor.HighRPM)].Value.GetNullable<int>(),
+                LowRPM = dataRow.Cells[nameof(TemplateMotor.LowRPM)].Value.GetNullable<int>(),
+                HighAmperage = dataRow.Cells[nameof(TemplateMotor.HighAmperage)].Value.GetNullable<decimal>(),
+                LowAmperage = dataRow.Cells[nameof(TemplateMotor.LowAmperage)].Value.GetNullable<decimal>(),
+                HighStartupAmperage = dataRow.Cells[nameof(TemplateMotor.HighStartupAmperage)].Value.GetNullable<decimal>(),
+                LowStartupAmperage = dataRow.Cells[nameof(TemplateMotor.LowStartupAmperage)].Value.GetNullable<decimal>(),
                 VoltageType = dataRow.Cells[nameof(TemplateMotor.VoltageType)].Value.EmptyIfNull(),
-                Frequency = (int?)dataRow.Cells[nameof(TemplateMotor.Frequency)].Value,
-                PowerFactor = (decimal?)dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value,
-                Bearings = dataRow.Cells[nameof(TemplateMotor.Bearings)].Value is null ? new List<int>() : (List<int>)dataRow.Cells[nameof(TemplateMotor.Bearings)].Value
+                Frequency = dataRow.Cells[nameof(TemplateMotor.Frequency)].Value.GetNullable<int>(),
+                PowerFactor = dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value.GetNullable<decimal>(),
+                Bearings = dataRow.Cells[nameof(TemplateMotor.Bearings)].Value.EmptyIfNull()
             };
         }
 

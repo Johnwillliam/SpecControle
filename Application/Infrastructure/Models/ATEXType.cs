@@ -1,4 +1,4 @@
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     public class ATEXType
     {

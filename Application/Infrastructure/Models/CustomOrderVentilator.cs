@@ -1,9 +1,10 @@
-using EntityFrameworkModelV2.Context;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Context;
+using Infrastructure.Models;
 
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     public class CustomOrderVentilator
     {

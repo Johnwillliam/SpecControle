@@ -1,4 +1,6 @@
-﻿namespace SpecificationsTesting.Forms
+﻿using SpecControle.Forms;
+
+namespace SpecControle.Forms
 {
     partial class MainForm
     {
@@ -178,6 +180,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "MainForm";
             Text = "MainForm";
+            FormClosing += MainForm_FormClosing;
             tabControl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

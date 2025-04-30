@@ -1,4 +1,6 @@
-﻿namespace EntityFrameworkModelV2.Config
+﻿using Infrastructure.Config;
+
+namespace Infrastructure.Config
 {
     public class ConfigurationSettings : BaseConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace SpecificationsTesting.Entities
+﻿namespace SpecControle.Entities
 {
     public class StickerRowColumn
     {

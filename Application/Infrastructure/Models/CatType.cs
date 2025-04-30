@@ -1,6 +1,7 @@
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     using System.Collections.Generic;
+    using Infrastructure.Models;
 
     public partial class CatType
     {

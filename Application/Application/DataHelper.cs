@@ -2,7 +2,7 @@
 using System.Data;
 using System.Reflection;
 
-namespace Logic
+namespace Application
 {
     public static class DataHelper
     {

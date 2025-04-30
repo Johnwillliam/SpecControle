@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace EntityFrameworkModelV2.Config
+namespace Infrastructure.Config
 {
     public class BaseConfiguration
     {

@@ -1,4 +1,4 @@
-﻿namespace SpecificationsTestingV2
+﻿namespace SpecControle
 {
     public static class Extensions
     {

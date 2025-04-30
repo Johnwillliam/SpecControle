@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
 
-namespace Logic
+namespace Application
 {
     public static class ExceptionHandler
     {

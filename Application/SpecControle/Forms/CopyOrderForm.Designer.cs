@@ -1,5 +1,5 @@
 ﻿
-namespace SpecificationsTesting.Forms
+namespace SpecControle.Forms
 {
   partial class CopyOrderForm
   {

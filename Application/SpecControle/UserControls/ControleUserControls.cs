@@ -1,16 +1,17 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
-using Logic;
-using Logic.Business;
-using Microsoft.Extensions.Logging;
-using SpecificationsTesting.Entities;
-using SpecificationsTesting.Forms;
+﻿using Microsoft.Extensions.Logging;
 using System.Configuration;
 using System.Data;
 using System.IO.Ports;
 using System.ComponentModel;
+using System.Windows.Forms;
+using Application;
+using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Models;
+using SpecControle.Entities;
+using SpecControle.Forms;
 
-namespace SpecificationsTesting.UserControls
+namespace SpecControle.UserControls
 {
     public partial class ControleUserControl : UserControl
     {
@@ -55,11 +56,17 @@ namespace SpecificationsTesting.UserControls
 
         private void InitializeComboBoxes()
         {
-            using SpecificationsDatabaseModel dbContext = new SpecificationsDatabaseModel();
+            using var dbContext = new SpecificationsDatabaseModel();
             cmbUser.DisplayMember = "Name";
             cmbUser.ValueMember = "ID";
             cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbUser.DataSource = dbContext.Users.ToList();
+            var selectedTest = CustomOrder?.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)?.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            if(selectedTest is not null && selectedTest.UserID is not null)
+            {
+                cmbUser.SelectedValue = selectedTest.UserID;
+            }
+
             var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
             Show_Combobox(cell, cmbUser);
         }
@@ -177,6 +184,18 @@ namespace SpecificationsTesting.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = null;
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
+                    if(SelectedVentilatorID != 0)
+                    {
+                        foreach (DataGridViewRow row in CustomOrderVentilatorsDataGrid.Rows)
+                        {
+                            if (row.Cells[0].Value != null && (int)row.Cells[0].Value == ventilator.ID)
+                            {
+                                CustomOrderVentilatorsDataGrid.ClearSelection();
+                                row.Selected = true;
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 if (initVentilatorTestsGrid)
@@ -251,6 +270,7 @@ namespace SpecificationsTesting.UserControls
             {
                 EnableReportButtons(ventilator);
             }
+
             if (ventilator.LowRPM == null)
             {
                 ShowSingleRPMSelection();

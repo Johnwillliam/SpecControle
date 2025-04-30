@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Diagnostics.CodeAnalysis;
+using Infrastructure.Context;
 
-namespace EntityFrameworkModelV2.Context
+namespace Infrastructure.Context
 {
     public static class ContextExtensions
     {

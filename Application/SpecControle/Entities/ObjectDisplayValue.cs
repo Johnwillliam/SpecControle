@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
+using SpecControle.Entities;
 
-namespace SpecificationsTesting.Entities
+namespace SpecControle.Entities
 {
     public class ObjectDisplayValue
     {

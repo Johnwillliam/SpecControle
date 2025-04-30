@@ -1,12 +1,14 @@
-﻿using EntityFrameworkModelV2.Models;
-using Logic;
-using Logic.Business;
-using Microsoft.Extensions.Logging;
-using SpecificationsTesting.Entities;
+﻿using Microsoft.Extensions.Logging;
 using System.Drawing.Printing;
 using System.ComponentModel;
+using Application;
+using Application.Business;
+using Application.PdfGenerators;
+using Infrastructure.Models;
+using SpecControle.Entities;
+using SpecControle.UserControls;
 
-namespace SpecificationsTesting.Forms
+namespace SpecControle.UserControls
 {
     public partial class AtexStickerUserControl : UserControl
     {

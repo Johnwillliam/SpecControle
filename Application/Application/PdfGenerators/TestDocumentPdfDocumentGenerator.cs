@@ -1,10 +1,11 @@
-﻿using EntityFrameworkModelV2.Models;
-using Logic.Business;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using Application.Business;
+using Infrastructure.Models;
 
-namespace Logic.PdfGenerators
+namespace Application.PdfGenerators
 {
     public class TestDocumentPdfDocumentGenerator : IDocument
     {
@@ -32,6 +33,7 @@ namespace Logic.PdfGenerators
                    page.DefaultTextStyle(x => x.FontSize(8));
                    page.Margin(50);
                    page.Content().Element(ComposeContent);
+                   page.Size(PageSizes.A4);
 
                    page.Footer().AlignCenter().Text(x =>
                    {
@@ -123,17 +125,19 @@ namespace Logic.PdfGenerators
                             columns.RelativeColumn(50);
                         });
 
-                        table.Cell().Row(1).Column(1).Element(Block).Text("Systemair order");
-                        table.Cell().Row(1).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
+                        uint rowIndex = 1;
 
-                        table.Cell().Row(2).Column(1).Element(Block).Text("Referentie");
-                        table.Cell().Row(2).Column(2).Element(Block).Text(_currentOrder.Reference);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Systemair order");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
 
-                        table.Cell().Row(3).Column(1).Element(Block).Text("Serienummer");
-                        table.Cell().Row(3).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Referentie");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentOrder.Reference);
 
-                        table.Cell().Row(4).Column(1).Element(Block).Text("Motornummer");
-                        table.Cell().Row(4).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor.Type);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Serienummer");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentTest.SerialNumber.ToString());
+
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Motornummer");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor.Type);
                     });
             }
             catch (Exception ex)
@@ -164,19 +168,21 @@ namespace Logic.PdfGenerators
                             columns.RelativeColumn(50);
                         });
 
-                        table.Cell().Row(1).ColumnSpan(3).Element(Block).Text("VENTILATOR GEGEVENS").Bold();
+                        uint rowIndex = 1;
 
-                        table.Cell().Row(2).Column(1).Element(Block).Text("Type");
-                        table.Cell().Row(2).Column(2).Element(Block).Text(_currentVentilator.Name);
-                        table.Cell().Row(2).Column(3).Element(Block).Text(string.Empty);
+                        table.Cell().Row(rowIndex++).ColumnSpan(3).Element(Block).Text("VENTILATOR GEGEVENS").Bold();
 
-                        table.Cell().Row(3).Column(1).Element(Block).Text("Toerental");
-                        table.Cell().Row(3).Column(2).Element(Block).Text(_currentVentilator.HighRPM.ToString());
-                        table.Cell().Row(3).Column(3).Element(Block).Text("rpm");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Type");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.Name);
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text(string.Empty);
 
-                        table.Cell().Row(4).Column(1).Element(Block).Text("Schoephoek");
-                        table.Cell().Row(4).Column(2).Element(Block).Text(_currentVentilator.BladeAngle.ToString());
-                        table.Cell().Row(4).Column(3).Element(Block).Text("°");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Toerental");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentVentilator.HighRPM} / {_currentVentilator.LowRPM}");
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
+
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Schoephoek");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.BladeAngle.ToString());
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("°");
                     });
             }
             catch (Exception ex)
@@ -206,31 +212,30 @@ namespace Logic.PdfGenerators
                             columns.RelativeColumn(50);
                         });
 
-                        table.Cell().Row(1).ColumnSpan(2).Element(Block).Text("MOTOR GEGEVENS").Bold();
+                        uint rowIndex = 1;
 
-                        table.Cell().Row(2).Column(1).Element(Block).Text("Serienummer");
-                        table.Cell().Row(2).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
+                        table.Cell().Row(rowIndex++).ColumnSpan(2).Element(Block).Text("MOTOR GEGEVENS").Bold();
 
-                        table.Cell().Row(3).Column(1).Element(Block).Text("Motornummer");
-                        table.Cell().Row(3).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor?.Type);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Motornummer");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor?.Type);
 
-                        table.Cell().Row(4).Column(1).Element(Block).Text("Systemair order");
-                        table.Cell().Row(4).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Systemair order");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
 
-                        table.Cell().Row(5).Column(1).Element(Block).Text("Bouwjaar");
-                        table.Cell().Row(5).Column(2).Element(Block).Text(_currentTest.Date.GetValueOrDefault().Year.ToString());
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Bouwjaar");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentTest.Date.GetValueOrDefault().Year.ToString());
 
-                        table.Cell().Row(6).Column(1).Element(Block).Text("ATEX Markering");
-                        table.Cell().Row(6).Column(2).Element(Block).Text(_currentVentilator.Atex);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("ATEX Markering");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.Atex);
 
-                        table.Cell().Row(7).Column(1).Element(Block).Text("Temperatuur bereik");
-                        table.Cell().Row(7).Column(2).Element(Block).Text("-20 - +40 °C");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Temperatuur bereik");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text("-20 - +40 °C");
 
-                        table.Cell().Row(8).Column(1).Element(Block).Text("Temperatuurklasse");
-                        table.Cell().Row(8).Column(2).Element(Block).Text(_currentVentilator.TemperatureClass?.Description);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Temperatuurklasse");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.TemperatureClass?.Description);
 
-                        table.Cell().Row(9).Column(1).Element(Block).Text("Referentie");
-                        table.Cell().Row(9).Column(2).Element(Block).Text(_currentOrder.Reference);
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Referentie");
+                        table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentOrder.Reference);
                     });
             }
             catch (Exception ex)
@@ -261,31 +266,33 @@ namespace Logic.PdfGenerators
                             columns.RelativeColumn(50);
                         });
 
-                        table.Cell().Row(1).ColumnSpan(3).Element(Block).Text("MEETGEGEVENS").Bold();
+                        uint rowIndex = 1;
 
-                        table.Cell().Row(2).Column(1).Element(Block).Text("Stroom I1");
-                        table.Cell().Row(2).Column(2).Element(Block).Text(_currentTest.I1High.ToString());
-                        table.Cell().Row(2).Column(3).Element(Block).Text("A");
+                        table.Cell().Row(rowIndex++).ColumnSpan(3).Element(Block).Text("MEETGEGEVENS").Bold();
 
-                        table.Cell().Row(3).Column(1).Element(Block).Text("Stroom I2");
-                        table.Cell().Row(3).Column(2).Element(Block).Text(_currentTest.I2High.ToString());
-                        table.Cell().Row(3).Column(3).Element(Block).Text("A");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Stroom I1");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentTest.I1High} / {_currentTest.I1Low}");
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("A");
 
-                        table.Cell().Row(4).Column(1).Element(Block).Text("Stroom I3");
-                        table.Cell().Row(4).Column(2).Element(Block).Text(_currentTest.I3High.ToString());
-                        table.Cell().Row(4).Column(3).Element(Block).Text("A");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Stroom I2");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentTest.I2High} / {_currentTest.I2Low}");
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("A");
 
-                        table.Cell().Row(5).Column(1).Element(Block).Text("Toerental motor");
-                        table.Cell().Row(5).Column(2).Element(Block).Text(_currentTest.MeasuredMotorHighRPM.ToString());
-                        table.Cell().Row(5).Column(3).Element(Block).Text("rpm");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Stroom I3");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentTest.I3High} / {_currentTest.I3Low}");
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("A");
 
-                        table.Cell().Row(6).Column(1).Element(Block).Text("Toerental ventilator");
-                        table.Cell().Row(6).Column(2).Element(Block).Text(_currentTest.MeasuredVentilatorHighRPM.ToString());
-                        table.Cell().Row(6).Column(3).Element(Block).Text("rpm");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Toerental motor");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentTest.MeasuredMotorHighRPM.ToString());
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
 
-                        table.Cell().Row(7).Column(1).Element(Block).Text("Schoephoek");
-                        table.Cell().Row(7).Column(2).Element(Block).Text(_currentTest.MeasuredBladeAngle.ToString());
-                        table.Cell().Row(7).Column(3).Element(Block).Text("°");
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Toerental ventilator");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentTest.MeasuredVentilatorHighRPM.ToString());
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
+
+                        table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Schoephoek");
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentTest.MeasuredBladeAngle.ToString());
+                        table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("°");
                     });
             }
             catch (Exception ex)

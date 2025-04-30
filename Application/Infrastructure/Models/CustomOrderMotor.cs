@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Models;
 
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     public class CustomOrderMotor
     {
@@ -42,7 +43,7 @@ namespace EntityFrameworkModelV2.Models
         public int? Frequency { get; set; }
         [Precision(18, 2)]
         public decimal? PowerFactor { get; set; }
-        public IEnumerable<int> Bearings { get; set; }
+        public string Bearings { get; set; }
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
     }
 }

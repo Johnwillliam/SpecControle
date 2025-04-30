@@ -1,12 +1,12 @@
-﻿using EntityFrameworkModelV2.Models;
-using Logic.Business;
-using Logic.PdfGenerators;
-using Microsoft.Extensions.Logging;
-using SpecificationsTesting.Entities;
+﻿using Microsoft.Extensions.Logging;
 using System.Data;
 using System.ComponentModel;
+using Application.Business;
+using Application.PdfGenerators;
+using Infrastructure.Models;
+using SpecControle.Entities;
 
-namespace SpecificationsTesting.UserControls
+namespace SpecControle.UserControls
 {
     public partial class TestDocumentGenerationUserControl : UserControl
     {

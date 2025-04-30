@@ -1,4 +1,4 @@
-﻿namespace Logic.Business
+﻿namespace Application.Business
 {
     public static class CellValidation
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SpecificationsTesting.Forms
+namespace SpecControle.Forms
 {
     public partial class CopyOrderForm : Form
     {

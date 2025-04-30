@@ -1,8 +1,9 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Models;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class BCustomOrderMotor
     {
@@ -142,7 +143,7 @@ namespace Logic.Business
                 customOrderMotor.Frequency = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderMotor.Frequency));
                 customOrderMotor.PowerFactor = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderMotor.PowerFactor));
                 customOrderMotor.VoltageType = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.VoltageType));
-                customOrderMotor.Bearings = DataGridObjectsUtility.ParseSlashSeparatedIntValuesByDataGridViewRows(rows, nameof(CustomOrderMotor.Bearings));
+                customOrderMotor.Bearings = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderMotor.Bearings));
                 return customOrderMotor;
             }
             catch (Exception)

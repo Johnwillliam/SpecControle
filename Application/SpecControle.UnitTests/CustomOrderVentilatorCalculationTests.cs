@@ -1,6 +1,6 @@
-using Logic.Business;
+using Application.Business;
 
-namespace SpecificationsTesting.UnitTests
+namespace SpecControle.UnitTests
 {
     public class CustomOrderVentilatorCalculationTests
     {

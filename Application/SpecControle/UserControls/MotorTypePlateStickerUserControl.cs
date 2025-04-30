@@ -1,11 +1,12 @@
-﻿using EntityFrameworkModelV2.Models;
-using Logic;
-using Logic.Business;
-using SpecificationsTesting.Entities;
-using System.Drawing.Printing;
+﻿using System.Drawing.Printing;
 using System.ComponentModel;
+using Application;
+using Application.Business;
+using Infrastructure.Models;
+using SpecControle.Entities;
+using SpecControle.UserControls;
 
-namespace SpecificationsTesting.Forms
+namespace SpecControle.UserControls
 {
     public partial class MotorTypePlateStickerUserControl : UserControl
     {
@@ -105,7 +106,7 @@ namespace SpecificationsTesting.Forms
 
         private void EnableReportButtons(CustomOrderVentilator ventilator)
         {
-            btnPrint.Enabled = true;// !ventilator.IsAtex();
+            btnPrint.Enabled = !ventilator.IsAtex();
         }
 
         private void InitializeGridData(bool initVentilatorsGrid = true, bool initVentilatorTestsGrid = true)

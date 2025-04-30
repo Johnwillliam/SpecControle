@@ -1,5 +1,5 @@
 ﻿
-namespace SpecificationsTesting
+namespace SpecControle.Forms
 {
     partial class MotorTemplateSelection
     {
@@ -41,10 +41,11 @@ namespace SpecificationsTesting
             // 
             // btnSelectTemplateMotor
             // 
-            btnSelectTemplateMotor.Location = new Point(338, 549);
+            btnSelectTemplateMotor.Dock = DockStyle.Bottom;
+            btnSelectTemplateMotor.Location = new Point(0, 556);
             btnSelectTemplateMotor.Margin = new Padding(4, 3, 4, 3);
             btnSelectTemplateMotor.Name = "btnSelectTemplateMotor";
-            btnSelectTemplateMotor.Size = new Size(224, 27);
+            btnSelectTemplateMotor.Size = new Size(933, 27);
             btnSelectTemplateMotor.TabIndex = 1;
             btnSelectTemplateMotor.Text = "Select";
             btnSelectTemplateMotor.UseVisualStyleBackColor = true;
@@ -73,7 +74,7 @@ namespace SpecificationsTesting
             // 
             // templateMotorBindingSource
             // 
-            templateMotorBindingSource.DataSource = typeof(EntityFrameworkModelV2.Models.TemplateMotor);
+            templateMotorBindingSource.DataSource = typeof(Infrastructure.Models.TemplateMotor);
             // 
             // templateMotorsBindingSource
             // 

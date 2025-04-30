@@ -1,8 +1,7 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Infrastructure.Context;
 
-namespace SpecificationsTesting
+namespace SpecControle.Forms
 {
     public partial class MotorTemplateSelection : Form
     {
@@ -45,7 +44,7 @@ namespace SpecificationsTesting
                 t.Frequency,
                 t.Poles,
                 t.PowerFactor,
-                Bearings = string.Join("/", t.Bearings ?? Enumerable.Empty<int>())
+                t.Bearings
             }).ToList();
 
             DataGridViewTemplateMotor.DataSource = templateDisplayList;

@@ -1,7 +1,9 @@
-﻿using EntityFrameworkModelV2.Models;
+﻿using System.Globalization;
 using System.Windows.Forms;
+using Application.Business;
+using Infrastructure.Models;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class BCustomOrderVentilatorTestUI
     {
@@ -27,14 +29,14 @@ namespace Logic.Business
                     Weight = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilatorTest.Weight))
                 };
                 var date = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderVentilatorTest.Date));
-                newCustomOrderVentilatorTest.Date = string.IsNullOrEmpty(date) ? null : DateTime.Parse(date);
+                newCustomOrderVentilatorTest.Date = DateTime.TryParse(date, out var dateResult) ? dateResult : DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 newCustomOrderVentilatorTest.BuildSize = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilatorTest.BuildSize));
 
                 // Set default values
-                newCustomOrderVentilatorTest.I2High ??= newCustomOrderVentilatorTest.I1High;
-                newCustomOrderVentilatorTest.I3High ??= newCustomOrderVentilatorTest.I1High;
-                newCustomOrderVentilatorTest.I2Low ??= newCustomOrderVentilatorTest.I1Low;
-                newCustomOrderVentilatorTest.I3Low ??= newCustomOrderVentilatorTest.I1Low;
+                newCustomOrderVentilatorTest.I2High = newCustomOrderVentilatorTest.I1High;
+                newCustomOrderVentilatorTest.I3High = newCustomOrderVentilatorTest.I1High;
+                newCustomOrderVentilatorTest.I2Low = newCustomOrderVentilatorTest.I1Low;
+                newCustomOrderVentilatorTest.I3Low = newCustomOrderVentilatorTest.I1Low;
 
                 return newCustomOrderVentilatorTest;
             }

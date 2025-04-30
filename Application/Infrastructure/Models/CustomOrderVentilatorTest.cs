@@ -1,9 +1,10 @@
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Infrastructure.Models;
 
     public class CustomOrderVentilatorTest
     {

@@ -1,7 +1,8 @@
-﻿using EntityFrameworkModelV2.Models;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using Application.Business;
+using Infrastructure.Models;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class BValidateMessage
     {

@@ -1,15 +1,14 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
-using Logic;
-using Logic.Business;
-using Microsoft.Extensions.Logging;
-using SpecificationsTesting.Entities;
-using SpecificationsTesting.Forms;
-using SpecificationsTestingV2.Entities;
+﻿using Microsoft.Extensions.Logging;
 using System.Data;
 using System.ComponentModel;
+using Application;
+using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Models;
+using SpecControle.Entities;
+using SpecControle.Forms;
 
-namespace SpecificationsTesting.UserControls
+namespace SpecControle.UserControls
 {
     public partial class OrderUserControl : UserControl
     {

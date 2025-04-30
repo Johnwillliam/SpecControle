@@ -1,10 +1,11 @@
-﻿using EntityFrameworkModelV2.Config;
-using EntityFrameworkModelV2.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Infrastructure.Config;
+using Infrastructure.Context;
+using Infrastructure.Models;
 
-namespace EntityFrameworkModelV2.Context
+namespace Infrastructure.Context
 {
     public class SpecificationsDatabaseModel : DbContext
     {
@@ -40,29 +41,7 @@ namespace EntityFrameworkModelV2.Context
         {
             modelBuilder.Entity<CustomOrder>().Property(p => p.ID).ValueGeneratedOnAdd();
             modelBuilder.Entity<CustomOrderVentilator>().Property(p => p.ID).ValueGeneratedOnAdd();
-
-            var intArrayValueConverter = new ValueConverter<IEnumerable<int>, string>(
-                i => string.Join(",", i),
-                s => string.IsNullOrWhiteSpace(s) ? Array.Empty<int>() : Parse(s));
-
-            var intListComparer = new ValueComparer<IEnumerable<int>>(
-                (c1, c2) => c1.SequenceEqual(c2),
-                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v)),
-                c => c.ToList());
-
-            modelBuilder.Entity<CustomOrderMotor>()
-                .Property(e => e.Bearings)
-                .HasConversion(intArrayValueConverter)
-                .Metadata.SetValueComparer(intListComparer);
-
-            modelBuilder.Entity<TemplateMotor>()
-                .Property(e => e.Bearings)
-                .HasConversion(intArrayValueConverter)
-                .Metadata.SetValueComparer(intListComparer);
-
             base.OnModelCreating(modelBuilder);
         }
-
-        private static IEnumerable<int> Parse(string value) => value.Split(',').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToList();
     }
 }

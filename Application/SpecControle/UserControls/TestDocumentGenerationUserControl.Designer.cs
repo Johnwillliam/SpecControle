@@ -1,4 +1,4 @@
-﻿namespace SpecificationsTesting.UserControls
+﻿namespace SpecControle.UserControls
 {
     partial class TestDocumentGenerationUserControl
     {

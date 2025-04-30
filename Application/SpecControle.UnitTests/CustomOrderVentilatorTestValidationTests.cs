@@ -1,9 +1,9 @@
-using EntityFrameworkModelV2.Models;
-using Logic.Business;
 using Moq;
 using NUnit.Framework.Internal;
+using Application.Business;
+using Infrastructure.Models;
 
-namespace SpecificationsTesting.UnitTests
+namespace SpecControle.UnitTests
 {
     public class CustomOrderVentilatorTestValidationTests
     {

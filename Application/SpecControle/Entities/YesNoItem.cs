@@ -1,4 +1,4 @@
-﻿namespace SpecificationsTestingV2.Entities
+﻿namespace SpecControle.Entities
 {
     public class YesNoItem
     {

@@ -1,7 +1,8 @@
-﻿using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
+﻿using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Models;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class BCustomOrderVentilatorTest
     {

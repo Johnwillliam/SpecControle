@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EntityFrameworkModelV2.Models
+namespace Infrastructure.Models
 {
     public class TemplateMotor
     {
@@ -10,7 +10,7 @@ namespace EntityFrameworkModelV2.Models
         {
         }
 
-        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, List<int> bearings)
+        public TemplateMotor(int iD, string name, string type, string version, int? iEC, int? iP, bool? ptc, bool? ht, string buildingType, string iSO, decimal? highPower, decimal? lowPower, int? highRPM, int? lowRPM, decimal? highAmperage, decimal? lowAmperage, decimal? highStartupAmperage, decimal? lowStartupAmperage, string voltageType, int? frequency, decimal? powerFactor, string bearings)
         {
             ID = iD;
             Name = name;
@@ -68,6 +68,6 @@ namespace EntityFrameworkModelV2.Models
         public int? Poles { get; set; }
         [Precision(18, 2)]
         public decimal? PowerFactor { get; set; }
-        public IEnumerable<int> Bearings { get; set; }
+        public string Bearings { get; set; }
     }
 }

@@ -1,9 +1,10 @@
-using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Windows.Forms;
+using Application.Business;
+using Infrastructure.Context;
+using Infrastructure.Models;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class BCustomOrderVentilator
     {

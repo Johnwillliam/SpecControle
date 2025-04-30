@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace Logic.Business
+namespace Application.Business
 {
     public static class DataGridObjectsUtility
     {

@@ -1,16 +1,16 @@
-using EntityFrameworkModelV2.Context;
-using EntityFrameworkModelV2.Models;
-using Logic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuestPDF.Infrastructure;
-using SpecificationsTesting.Forms;
 using System.Reflection;
+using Infrastructure.Context;
+using Infrastructure.Models;
+using SpecControle.Forms;
+using Application;
 
-namespace SpecificationsTestingV2
+namespace SpecControle
 {
     internal class Program
     {
@@ -41,7 +41,7 @@ namespace SpecificationsTestingV2
                 ApplyMigrations(host.Services);
 
                 // For handling exceptions on the UI thread
-                Application.ThreadException += (sender, args) =>
+                System.Windows.Forms.Application.ThreadException += (sender, args) =>
                 {
                     ExceptionHandler.HandleException(logger, args.Exception);
                 };
@@ -58,7 +58,7 @@ namespace SpecificationsTestingV2
                 ApplicationConfiguration.Initialize();
 
                 var mainForm = host.Services.GetRequiredService<MainForm>();
-                Application.Run(mainForm);
+                System.Windows.Forms.Application.Run(mainForm);
             }
             catch (Exception ex)
             {
