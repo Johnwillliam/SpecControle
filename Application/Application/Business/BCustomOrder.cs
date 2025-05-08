@@ -77,6 +77,7 @@ namespace Application.Business
             return dbContext.CustomOrders
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(y => y.CustomOrderVentilatorTests)
+                    .ThenInclude(x => x.User)
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(z => z.CustomOrderMotor)
                 .Include(x => x.CustomOrderVentilators)

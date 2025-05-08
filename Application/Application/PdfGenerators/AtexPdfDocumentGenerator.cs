@@ -31,11 +31,11 @@ namespace Application.PdfGenerators
             container
                .Page(page =>
                {
+                   page.Size(PageSizes.A4);
                    var headerImagePath = Environment.CurrentDirectory + "\\Resources\\AtexDocumentHeader.jpg";
                    page.Header().PaddingTop(20).MaxHeight(150).AlignCenter().Image(headerImagePath).FitHeight();
                    page.DefaultTextStyle(x => x.FontSize(8));
                    page.Content().Element(ComposeContent);
-                   page.Size(PageSizes.A4);
 
                    page.Footer().AlignCenter().Text(x =>
                    {

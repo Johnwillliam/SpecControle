@@ -61,6 +61,7 @@ namespace SpecControle.UserControls
             cmbUser.ValueMember = "ID";
             cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbUser.DataSource = dbContext.Users.ToList();
+            cmbUser.SelectedIndex = -1;
             var selectedTest = CustomOrder?.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)?.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if(selectedTest is not null && selectedTest.UserID is not null)
             {

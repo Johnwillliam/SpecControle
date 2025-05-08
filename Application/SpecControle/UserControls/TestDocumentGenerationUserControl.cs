@@ -173,7 +173,7 @@ namespace SpecControle.UserControls
                 return;
             }
 
-            Print(new List<CustomOrderVentilatorTest>() { selectedTest });
+            Print([selectedTest]);
         }
 
         private void BtnPrintAll_Click(object sender, EventArgs e)

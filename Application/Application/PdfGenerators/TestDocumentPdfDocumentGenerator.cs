@@ -30,10 +30,9 @@ namespace Application.PdfGenerators
             container
                .Page(page =>
                {
-                   page.DefaultTextStyle(x => x.FontSize(8));
-                   page.Margin(50);
-                   page.Content().Element(ComposeContent);
                    page.Size(PageSizes.A4);
+                   page.DefaultTextStyle(x => x.FontSize(8));
+                   page.Content().Element(ComposeContent);
 
                    page.Footer().AlignCenter().Text(x =>
                    {
@@ -44,9 +43,9 @@ namespace Application.PdfGenerators
                });
         }
 
-        private void ComposeContent(IContainer container)
+        private void ComposeContent(IContainer container)   
         {
-            container.PaddingVertical(0).Column(column =>
+            container.PaddingVertical(0).PaddingHorizontal(30).Column(column =>
             {
                 foreach (var test in _tests)
                 {
@@ -283,11 +282,11 @@ namespace Application.PdfGenerators
                         table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("A");
 
                         table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Toerental motor");
-                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentTest.MeasuredMotorHighRPM.ToString());
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentTest.MeasuredMotorHighRPM} / {_currentTest.MeasuredMotorLowRPM}");
                         table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
 
                         table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Toerental ventilator");
-                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentTest.MeasuredVentilatorHighRPM.ToString());
+                        table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentTest.MeasuredVentilatorHighRPM} / {_currentTest.MeasuredVentilatorLowRPM}");
                         table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
 
                         table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Schoephoek");
