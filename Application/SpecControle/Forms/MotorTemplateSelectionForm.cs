@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data;
 using Infrastructure.Context;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SpecControle.Forms
 {
