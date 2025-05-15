@@ -26,29 +26,29 @@ namespace SpecControle.UserControls
         {
             var templates = new SpecificationsDatabaseModel().TemplateMotors.ToList();
             templates.Add(new TemplateMotor());
-            var table = ConvertToDataTable(templates);
 
             MotorTemplatesDataGrid.DataSource = null;
             MotorTemplatesDataGrid.Columns.Clear();
-            MotorTemplatesDataGrid.DataSource = table;
+
+            var bindingSource = new BindingSource
+            {
+                DataSource = ConvertToDataTable(templates)
+            };
+            MotorTemplatesDataGrid.DataSource = bindingSource;
             MotorTemplatesDataGrid.Columns[0].Visible = false;
 
-            // Filter functionaliteit inschakelen
             MotorTemplatesDataGrid.FilterAndSortEnabled = true;
             MotorTemplatesDataGrid.AutoGenerateColumns = true;
             MotorTemplatesDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // Yes/No datasource
             var yesNoDataSource = new List<YesNoItem>
             {
                 new() { Value = true, DisplayText = "Yes" },
                 new() { Value = false, DisplayText = "No" }
             };
 
-            // Vervang PTC-kolom door een dropdown
             ReplaceColumnWithYesNoDropdown(nameof(TemplateMotor.PTC), yesNoDataSource);
 
-            // Vervang HT-kolom door een dropdown
             ReplaceColumnWithYesNoDropdown(nameof(TemplateMotor.HT), yesNoDataSource);
         }
 
@@ -57,11 +57,9 @@ namespace SpecControle.UserControls
             if (!MotorTemplatesDataGrid.Columns.Contains(columnName))
                 return;
 
-            // Bestaande kolom verwijderen
             var oldColIndex = MotorTemplatesDataGrid.Columns[columnName].Index;
             MotorTemplatesDataGrid.Columns.RemoveAt(oldColIndex);
 
-            // Nieuwe dropdown kolom toevoegen op dezelfde positie
             var comboColumn = new DataGridViewComboBoxColumn
             {
                 DataPropertyName = columnName,

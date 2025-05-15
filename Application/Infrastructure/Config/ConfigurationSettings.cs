@@ -1,6 +1,4 @@
-﻿using Infrastructure.Config;
-
-namespace Infrastructure.Config
+﻿namespace Infrastructure.Config
 {
     public class ConfigurationSettings : BaseConfiguration
     {

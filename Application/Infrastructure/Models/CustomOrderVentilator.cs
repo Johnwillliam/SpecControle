@@ -1,8 +1,7 @@
+using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Infrastructure.Context;
-using Infrastructure.Models;
 
 namespace Infrastructure.Models
 {
@@ -33,10 +32,13 @@ namespace Infrastructure.Models
         public int? HighRPM { get; set; }
         public int? LowRPM { get; set; }
         public int? Efficiency { get; set; }
+
         [Precision(18, 2)]
         public decimal? HighShaftPower { get; set; }
+
         [Precision(18, 2)]
         public decimal? LowShaftPower { get; set; }
+
         public int? SoundLevel { get; set; }
         public int? SoundLevelTypeID { get; set; }
         public int? BladeAngle { get; set; }

@@ -1,7 +1,7 @@
-using Moq;
-using NUnit.Framework.Internal;
 using Application.Business;
 using Infrastructure.Models;
+using Moq;
+using NUnit.Framework.Internal;
 
 namespace SpecControle.UnitTests
 {

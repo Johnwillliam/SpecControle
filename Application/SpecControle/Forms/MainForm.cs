@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Drawing.Printing;
-using System.ComponentModel;
-using Infrastructure.Context;
-using SpecControle.Forms;
+﻿using Infrastructure.Context;
+using Microsoft.Extensions.Logging;
 using SpecControle.UserControls;
+using System.ComponentModel;
+using System.Drawing.Printing;
 
 namespace SpecControle.Forms
 {
@@ -13,16 +12,22 @@ namespace SpecControle.Forms
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MotorTypePlateStickerUserControl MotorTypePlateUserControl { get; set; }
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public AtexStickerUserControl AtexStickerUserControl { get; set; }
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MotorTemplateUserControl MotorTemplateUserControl { get; set; }
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OrderUserControl OrderUserControl { get; set; }
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ControleUserControl ControleUserControl { get; set; }
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public TestDocumentGenerationUserControl TestDocumentGenerationUserControl { get; set; }
+
         public TabControl TabControl { get => tabControl; }
 
         public MainForm(ILogger<MainForm> logger)

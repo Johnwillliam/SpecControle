@@ -49,25 +49,35 @@ namespace Infrastructure.Models
         public bool? HT { get; set; }
         public string BuildingType { get; set; }
         public string ISO { get; set; }
+
         [Precision(18, 2)]
         public decimal? HighPower { get; set; }
+
         [Precision(18, 2)]
         public decimal? LowPower { get; set; }
+
         public int? HighRPM { get; set; }
         public int? LowRPM { get; set; }
+
         [Precision(18, 2)]
         public decimal? HighAmperage { get; set; }
+
         [Precision(18, 2)]
         public decimal? LowAmperage { get; set; }
+
         [Precision(18, 2)]
         public decimal? HighStartupAmperage { get; set; }
+
         [Precision(18, 2)]
         public decimal? LowStartupAmperage { get; set; }
+
         public string VoltageType { get; set; }
         public int? Frequency { get; set; }
         public int? Poles { get; set; }
+
         [Precision(18, 2)]
         public decimal? PowerFactor { get; set; }
+
         public string Bearings { get; set; }
     }
 }

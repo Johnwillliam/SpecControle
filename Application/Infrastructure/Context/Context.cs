@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Infrastructure.Config;
-using Infrastructure.Context;
+﻿using Infrastructure.Config;
 using Infrastructure.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context
 {
@@ -23,9 +20,8 @@ namespace Infrastructure.Context
         public DbSet<User> Users { get; set; }
         public DbSet<VentilatorType> VentilatorTypes { get; set; }
 
-
         public SpecificationsDatabaseModel()
-        {     
+        {
         }
 
         public SpecificationsDatabaseModel(DbContextOptions<SpecificationsDatabaseModel> options) : base(options)
