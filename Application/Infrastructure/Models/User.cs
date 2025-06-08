@@ -17,6 +17,8 @@ namespace Infrastructure.Models
 
         public string Name { get; set; }
 
+        public string PasswordHash { get; set; }
+
         public virtual ICollection<CustomOrderVentilatorTest> CustomOrderVentilatorTests { get; set; }
     }
 }

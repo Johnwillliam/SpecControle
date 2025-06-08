@@ -43,6 +43,7 @@ namespace SpecControle.UserControls
             btnReadRPM.Click += new System.EventHandler(BtnReadRPM_Click);
             btnMotorTypePlate.Click += new System.EventHandler(BtnMotorTypePlate_Click);
             btnAtex.Click += new System.EventHandler(BtnAtex_Click);
+            btnLock.Click += new System.EventHandler(BtnLock_Click);
 
             CustomOrder = null;
             SelectedVentilatorID = 0;
@@ -63,7 +64,7 @@ namespace SpecControle.UserControls
             cmbUser.DataSource = dbContext.Users.ToList();
             cmbUser.SelectedIndex = -1;
             var selectedTest = CustomOrder?.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)?.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-            if(selectedTest is not null && selectedTest.UserID is not null)
+            if (selectedTest is not null && selectedTest.UserID is not null)
             {
                 cmbUser.SelectedValue = selectedTest.UserID;
             }
@@ -167,8 +168,13 @@ namespace SpecControle.UserControls
                 VentilatorDataGrid.AutoResizeColumns();
 
                 var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
-                if (selectedTest != null && selectedTest.Date == null)
-                    selectedTest.Date = DateTime.Now.Date;
+                btnLock.Visible = false;
+                if (selectedTest != null)
+                {
+                    selectedTest.Date ??= DateTime.Now.Date;
+                    btnLock.Visible = true;
+                    btnLock.Text = selectedTest.Locked ? "Unlock Test" : "Lock Test";
+                }
 
                 SelectedVentilatorTestDataGrid.DataSource = null;
                 SelectedVentilatorTestDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilatorTest), selectedTest, BCustomOrderVentilatorTest.ControleDisplayPropertyNames);
@@ -185,7 +191,7 @@ namespace SpecControle.UserControls
                     CustomOrderVentilatorsDataGrid.DataSource = null;
                     CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
-                    if(SelectedVentilatorID != 0)
+                    if (SelectedVentilatorID != 0)
                     {
                         foreach (DataGridViewRow row in CustomOrderVentilatorsDataGrid.Rows)
                         {
@@ -245,7 +251,9 @@ namespace SpecControle.UserControls
         private void ShowCustomOrder()
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
+            {
                 return;
+            }
 
             var customOrderNumber = int.Parse(txtCustomOrderNumber.Text);
             CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrderNumber);
@@ -555,6 +563,31 @@ namespace SpecControle.UserControls
             {
                 ShowCustomOrder();
             }
+        }
+
+        private void BtnLock_Click(object sender, EventArgs e)
+        {
+            var customOrderVentilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+
+            if (customOrderVentilatorTest is null)
+            {
+                return;
+            }
+
+            if (customOrderVentilatorTest.Locked)
+            {
+                using var loginForm = new LoginForm();
+                var result = loginForm.ShowDialog();
+                customOrderVentilatorTest.Locked = result != DialogResult.OK;
+            }
+            else
+            {
+                customOrderVentilatorTest.Locked = true;
+            }
+
+            BCustomOrderVentilatorTest.Update(customOrderVentilatorTest);
+            ShowCustomOrder();
         }
     }
 }

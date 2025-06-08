@@ -281,6 +281,10 @@ public class AtexPdfDocumentGenerator : IDocument
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Frequency").Bold();
                 table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor.Frequency.ToString());
                 table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("Hz");
+
+                table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Bearings").Bold();
+                table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor.Bearings);
+                table.Cell().Row(rowIndex++).Column(3).Element(Block).Text(string.Empty);
             });
     }
 }

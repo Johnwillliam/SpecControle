@@ -55,6 +55,7 @@
             btnAtex = new Button();
             label6 = new Label();
             label7 = new Label();
+            btnLock = new Button();
             ((System.ComponentModel.ISupportInitialize)CustomOrderDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)VentilatorDataGrid).BeginInit();
@@ -109,7 +110,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label1.Location = new Point(5, 3);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
@@ -120,7 +121,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label2.Location = new Point(5, 142);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
@@ -141,7 +142,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label3.Location = new Point(5, 298);
             label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
@@ -161,7 +162,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label4.Location = new Point(393, 3);
             label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
@@ -354,7 +355,7 @@
             // 
             label6.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label6.Location = new Point(1090, 3);
             label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
@@ -366,7 +367,7 @@
             // 
             label7.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label7.AutoSize = true;
-            label7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold);
             label7.Location = new Point(1268, 3);
             label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
@@ -374,10 +375,22 @@
             label7.TabIndex = 58;
             label7.Text = "Ventilator Tests";
             // 
+            // btnLock
+            // 
+            btnLock.Location = new Point(788, 281);
+            btnLock.Margin = new Padding(4, 3, 4, 3);
+            btnLock.Name = "btnLock";
+            btnLock.Size = new Size(288, 27);
+            btnLock.TabIndex = 59;
+            btnLock.Text = "Lock Test";
+            btnLock.UseVisualStyleBackColor = true;
+            btnLock.Visible = false;
+            // 
             // ControleUserControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnLock);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(btnAtex);
@@ -443,5 +456,6 @@
         private Button btnAtex;
         private Label label6;
         private Label label7;
+        private Button btnLock;
     }
 }
