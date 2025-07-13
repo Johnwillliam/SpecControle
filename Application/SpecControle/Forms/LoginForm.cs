@@ -19,11 +19,12 @@ public partial class LoginForm : Form
         string hashedPassword = PasswordHelper.ComputeSha256Hash(password);
 
         using var db = new SpecificationsDatabaseModel();
-        var user = db.Users.SingleOrDefault(u => u.Name == username && u.PasswordHash == hashedPassword);
+        var user = db.Users.SingleOrDefault(u => u.Name.ToUpper() == username.ToUpper() && u.PasswordHash == hashedPassword);
 
-        if (user is not null)
+        if (user is null)
         {
             MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            DialogResult = DialogResult.No;
             return;
         }
 

@@ -8,6 +8,12 @@ public class PasswordHelper
     public static string ComputeSha256Hash(string rawData)
     {
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(rawData));
-        return Convert.ToBase64String(bytes);
+        var builder = new StringBuilder();
+        foreach (var b in bytes)
+        {
+            builder.Append(b.ToString("x2"));
+        }
+        return builder.ToString();
     }
+
 }
