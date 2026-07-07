@@ -278,8 +278,12 @@ namespace SpecControle.UserControls
             if (ventilator != null)
             {
                 EnableReportButtons(ventilator);
+                UpdateRPMSelection(ventilator);
             }
+        }
 
+        private void UpdateRPMSelection(CustomOrderVentilator ventilator)
+        {
             if (ventilator.LowRPM == null)
             {
                 ShowSingleRPMSelection();
@@ -292,6 +296,8 @@ namespace SpecControle.UserControls
 
         private void ShowSingleRPMSelection()
         {
+            radioButtonMotorLow.Checked = false;
+            radioButtonVentilatorLow.Checked = false;
             radioButtonMotorLow.Visible = false;
             radioButtonVentilatorLow.Visible = false;
 
@@ -332,6 +338,7 @@ namespace SpecControle.UserControls
                 if (ventilator != null)
                 {
                     EnableReportButtons(ventilator);
+                    UpdateRPMSelection(ventilator);
                 }
                 InitializeGridData(false, true);
             }
