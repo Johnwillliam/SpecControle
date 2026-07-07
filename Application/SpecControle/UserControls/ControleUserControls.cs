@@ -69,7 +69,7 @@ namespace SpecControle.UserControls
                 cmbUser.SelectedValue = selectedTest.UserID;
             }
 
-            var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().First(x => x.Cells["Description"].Value.ToString().Equals("UserID")).Cells["Value"];
+            var cell = CustomOrderVentilatorTestsDataGrid.Rows.Count == 0 ? null : SelectedVentilatorTestDataGrid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => x.Cells["Description"].Value?.ToString() == "UserID")?.Cells["Value"];
             Show_Combobox(cell, cmbUser);
         }
 

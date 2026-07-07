@@ -37,7 +37,7 @@ namespace Infrastructure.Context
             using var transaction = context.Database.BeginTransaction();
             context.EnableIdentityInsert<T>();
             context.SaveChanges();
-            context.EnableIdentityInsert<T>();
+            context.DisableIdentityInsert<T>();
             transaction.Commit();
         }
     }
