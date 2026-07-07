@@ -300,7 +300,7 @@ namespace SpecControle.UserControls
 
         private void UpdateRPMSelection(CustomOrderVentilator ventilator)
         {
-            if (ventilator.LowRPM == null)
+            if (ventilator.IsSingleSpeed())
             {
                 ShowSingleRPMSelection();
             }

@@ -85,5 +85,10 @@ namespace Infrastructure.Models
 
             return VentilatorType != null && VentilatorType.IsDirectDriven();
         }
+
+        public bool IsSingleSpeed()
+        {
+            return LowRPM == null;
+        }
     }
 }
