@@ -171,7 +171,7 @@ namespace SpecControle.UserControls
                 btnLock.Visible = false;
                 if (selectedTest != null)
                 {
-                    selectedTest.Date ??= DateTime.Now.Date;
+                    BCustomOrderVentilatorTest.ApplyControleDefaults(selectedTest, ventilator);
                     btnLock.Visible = true;
                     btnLock.Text = selectedTest.Locked ? "Unlock Test" : "Lock Test";
                 }

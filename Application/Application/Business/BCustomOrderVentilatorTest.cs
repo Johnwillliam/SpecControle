@@ -48,6 +48,12 @@ namespace Application.Business
             }
         }
 
+        public static void ApplyControleDefaults(CustomOrderVentilatorTest test, CustomOrderVentilator ventilator)
+        {
+            test.Date ??= DateTime.Now.Date;
+            test.BuildSize ??= ventilator.CustomOrderMotor?.IEC;
+        }
+
         public static void Update(CustomOrderVentilatorTest customOrderVentilatorTest)
         {
             using var dbContext = new SpecificationsDatabaseModel();
