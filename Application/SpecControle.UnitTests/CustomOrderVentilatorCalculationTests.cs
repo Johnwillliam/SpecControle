@@ -78,7 +78,7 @@ namespace SpecControle.UnitTests
         [TestCase(1463, 50, 1500)]
         [TestCase(2790, 50, 3000)]
         [TestCase(1440, 50, 1500)]
-        // 755 rpm bij 50 Hz is ratio 15,1: het maximum is de volgende synchrone snelheid (1500), niet 750
+        // 755 rpm at 50 Hz is ratio 15.1: the maximum is the next synchronous speed (1500), not 750
         [TestCase(755, 50, 1500)]
         public void TestCalculateAtexValue(int? highRPM, int? frequency, decimal expectedResult)
         {

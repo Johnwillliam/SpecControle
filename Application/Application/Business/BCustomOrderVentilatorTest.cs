@@ -189,7 +189,7 @@ namespace Application.Business
                     return frequency * 30;
 
                 default:
-                    // Boven ratio 30 is de hoogste synchrone snelheid (2-polig) van toepassing
+                    // Above ratio 30 the highest synchronous speed (2 pole) applies
                     return frequency * 60;
             }
         }
