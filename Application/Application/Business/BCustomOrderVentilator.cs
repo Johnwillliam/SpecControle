@@ -262,7 +262,7 @@ namespace Application.Business
 
         public static int? CalculateLowAirVolume(double motorConstant, int? highAirVolume)
         {
-            return motorConstant != 0 ? (int?)(motorConstant * highAirVolume) : null;
+            return motorConstant != 0 && highAirVolume != null ? (int?)Math.Round(motorConstant * (int)highAirVolume) : null;
         }
 
         public static int? CalculateLowPressureTotal(double motorConstant, int? highPressureTotal)
@@ -277,7 +277,7 @@ namespace Application.Business
 
         public static decimal CalculateAtexValue(int? highRPM, int? frequency)
         {
-            var value = (decimal)(highRPM / frequency);
+            var value = (decimal)highRPM / (decimal)frequency;
             switch (value)
             {
                 case decimal n when n >= 5 && n <= 7.5m:
@@ -306,6 +306,12 @@ namespace Application.Business
             return value * (int)frequency;
         }
 
+        public static bool HasValidPressures(CustomOrderVentilator customOrderVentilator)
+        {
+            return !(customOrderVentilator.HighPressureStatic > customOrderVentilator.HighPressureTotal
+                || customOrderVentilator.LowPressureStatic > customOrderVentilator.LowPressureTotal);
+        }
+
         public static bool Validate(CustomOrderVentilator customOrderVentilator)
         {
             if (customOrderVentilator == null)
@@ -320,7 +326,7 @@ namespace Application.Business
                 return false;
             }
 
-            if (customOrderVentilator.HighPressureTotal < customOrderVentilator.HighPressureDynamic || customOrderVentilator.LowPressureTotal < customOrderVentilator.LowPressureDynamic)
+            if (!HasValidPressures(customOrderVentilator))
             {
                 MessageBox.Show("Creation failed. Static pressure can't be higher than the total pressure.");
                 return false;

@@ -24,8 +24,7 @@ namespace Application.Business
 
         public static CustomOrderVentilatorTest GetByID(int id)
         {
-            var dbContext = new SpecificationsDatabaseModel();
-            dbContext.SaveChanges();
+            using var dbContext = new SpecificationsDatabaseModel();
             return dbContext.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == id);
         }
 
@@ -163,9 +162,9 @@ namespace Application.Business
 
         public static bool MeasuredVentilatorRPMIsInSpec(int? customOrderMotorHighRPM, int? customOrderVentilatorHighRPM, int? measuredMotorHighRPM, int? measuredVentilatorHighRPM, int percentage)
         {
-            var nv = measuredMotorHighRPM / customOrderMotorHighRPM * customOrderVentilatorHighRPM;
+            var nv = (double)measuredMotorHighRPM / (double)customOrderMotorHighRPM * (double)customOrderVentilatorHighRPM;
             var max = Math.Max((double)customOrderVentilatorHighRPM, (double)measuredVentilatorHighRPM);
-            var min = Math.Min((double)nv, (double)measuredVentilatorHighRPM);
+            var min = Math.Min(nv, (double)measuredVentilatorHighRPM);
             var calc = max / min;
             var perc = ((double)percentage / (double)100) + 1;
             return calc < perc;
@@ -189,13 +188,10 @@ namespace Application.Business
                 case double n when n <= 30:
                     return frequency * 30;
 
-                case double n when n <= 60:
-                    return frequency * 60;
-
                 default:
-                    break;
+                    // Boven ratio 30 is de hoogste synchrone snelheid (2-polig) van toepassing
+                    return frequency * 60;
             }
-            return 0;
         }
     }
 }

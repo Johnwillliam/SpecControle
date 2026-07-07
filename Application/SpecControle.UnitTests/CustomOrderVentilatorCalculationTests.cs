@@ -34,6 +34,7 @@ namespace SpecControle.UnitTests
 
         [TestCase(710, 1440, 29182, 14388)]
         [TestCase(725, 1463, 44825, 22213)]
+        [TestCase(710, 1440, 29183, 14389)]
         [TestCase(null, 2790, 2520, null)]
         [TestCase(null, 2940, 1675, null)]
         public void TestCalculateLowAirVolume(int? motorLowRPM, int? motorHighRPM, int? highAirVolume, decimal? expectedResult)
@@ -77,6 +78,8 @@ namespace SpecControle.UnitTests
         [TestCase(1463, 50, 1500)]
         [TestCase(2790, 50, 3000)]
         [TestCase(1440, 50, 1500)]
+        // 755 rpm bij 50 Hz is ratio 15,1: het maximum is de volgende synchrone snelheid (1500), niet 750
+        [TestCase(755, 50, 1500)]
         public void TestCalculateAtexValue(int? highRPM, int? frequency, decimal expectedResult)
         {
             var result = BCustomOrderVentilator.CalculateAtexValue(highRPM, frequency);
