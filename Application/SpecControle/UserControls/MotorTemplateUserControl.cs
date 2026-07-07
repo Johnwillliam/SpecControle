@@ -24,6 +24,11 @@ namespace SpecControle.UserControls
 
         private void MotorTemplateSelection_Load(object sender, EventArgs e)
         {
+            LoadTemplates();
+        }
+
+        private void LoadTemplates()
+        {
             var templates = new SpecificationsDatabaseModel().TemplateMotors.ToList();
             templates.Add(new TemplateMotor());
 
@@ -118,12 +123,10 @@ namespace SpecControle.UserControls
                     BTemplateMotor.Update(motorTemplate);
                 }
             }
-            var templates = new SpecificationsDatabaseModel().TemplateMotors.ToList();
-            templates.Add(new TemplateMotor());
-            MotorTemplatesDataGrid.DataSource = templates;
+            LoadTemplates();
         }
 
-        private static TemplateMotor CreateTemplateMotorByDataGridViewRow(DataGridViewRow dataRow)
+        public static TemplateMotor CreateTemplateMotorByDataGridViewRow(DataGridViewRow dataRow)
         {
             return new TemplateMotor
             {
@@ -147,6 +150,7 @@ namespace SpecControle.UserControls
                 LowStartupAmperage = dataRow.Cells[nameof(TemplateMotor.LowStartupAmperage)].Value.GetNullable<decimal>(),
                 VoltageType = dataRow.Cells[nameof(TemplateMotor.VoltageType)].Value.EmptyIfNull(),
                 Frequency = dataRow.Cells[nameof(TemplateMotor.Frequency)].Value.GetNullable<int>(),
+                Poles = dataRow.Cells[nameof(TemplateMotor.Poles)].Value.GetNullable<int>(),
                 PowerFactor = dataRow.Cells[nameof(TemplateMotor.PowerFactor)].Value.GetNullable<decimal>(),
                 Bearings = dataRow.Cells[nameof(TemplateMotor.Bearings)].Value.EmptyIfNull()
             };
