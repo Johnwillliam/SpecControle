@@ -87,7 +87,9 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: Publish
-        run: dotnet publish Application/SpecControle/SpecControle.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --output publish/SpecControle
+        # Self-contained: the .NET Desktop runtime is bundled, so the artifact
+        # runs on end user machines without installing any runtime.
+        run: dotnet publish Application/SpecControle/SpecControle.csproj -p:PublishProfile=win-x64-selfcontained --output publish/SpecControle
 
       - name: Update connection string
         shell: pwsh
