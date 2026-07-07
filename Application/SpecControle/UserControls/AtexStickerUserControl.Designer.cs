@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             btnPrint = new Button();
+            btnSize = new Button();
             label1 = new Label();
             LogosListBox = new ListBox();
             MotorTypePlateImage = new PictureBox();
@@ -58,9 +59,21 @@
             btnPrint.TabIndex = 11;
             btnPrint.Text = "Print";
             btnPrint.UseVisualStyleBackColor = true;
-            // 
+            //
+            // btnSize
+            //
+            btnSize.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSize.Location = new Point(772, 487);
+            btnSize.Margin = new Padding(4, 3, 4, 3);
+            btnSize.Name = "btnSize";
+            btnSize.Size = new Size(183, 54);
+            btnSize.TabIndex = 12;
+            btnSize.Text = "Small";
+            btnSize.UseVisualStyleBackColor = true;
+            btnSize.Click += BtnSize_Click;
+            //
             // label1
-            // 
+            //
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(923, 122);
@@ -219,6 +232,7 @@
             Controls.Add(CustomOrderVentilatorsDataGrid);
             Controls.Add(groupBox1);
             Controls.Add(btnPrint);
+            Controls.Add(btnSize);
             Controls.Add(label1);
             Controls.Add(LogosListBox);
             Controls.Add(MotorTypePlateImage);
@@ -237,6 +251,7 @@
         #endregion
 
         private Button btnPrint;
+        private Button btnSize;
         private Label label1;
         private ListBox LogosListBox;
         private PictureBox MotorTypePlateImage;

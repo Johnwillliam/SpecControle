@@ -598,6 +598,21 @@ namespace SpecControle.UserControls
             e.Graphics.DrawImage(image, loc);
         }
 
+        private void BtnSize_Click(object sender, EventArgs e)
+        {
+            if (btnSize.Text == ImageSize.Small.ToString())
+            {
+                btnSize.Text = "Normal";
+                SelectedImageSize = ImageSize.Small;
+            }
+            else
+            {
+                btnSize.Text = ImageSize.Small.ToString();
+                SelectedImageSize = ImageSize.Normal;
+            }
+            ShowTable(SelectedImageSize);
+        }
+
         private void TxtCustomOrderNumber_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.Enter)
