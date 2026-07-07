@@ -27,6 +27,7 @@ namespace SpecControle.UserControls
         private const int _normalImageHeightInMM = 150;
         private const int _smallImageWidthInMM = 80;
         private const int _smallImageHeightInMM = 100;
+        private const string _atexLogoFileName = "AtexStickerLogo.jpg";
         private const int _displayNormalFontSize = 8;
         private const int _displaySmallFontSize = 8;
         private readonly ILogger logger;
@@ -44,14 +45,15 @@ namespace SpecControle.UserControls
             InitializeComponent();
             CustomOrderVentilatorsDataGrid.CellClick += new DataGridViewCellEventHandler(CustomOrderVentilatorsDataGrid_CellClick);
             CustomOrderVentilatorTestsDataGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(CustomOrderVentilatorTestsDataGrid_CellClick);
-            LogosListBox.SelectedIndexChanged += new EventHandler(LogosListBox_SelectedIndexChanged);
             ArrowsListBox.SelectedIndexChanged += new System.EventHandler(ArrowsListBox_SelectedIndexChanged);
             btnSearch.Click += new EventHandler(BtnSearch_Click);
             btnPrint.Click += new EventHandler(BtnPrint_Click);
 
-            PopulateListBox(LogosListBox, Environment.CurrentDirectory + "\\Resources\\Logos", "*.jpg");
+            // Atex stickers always use the standard CE Ex logo, so there is no logo choice
+            LogosListBox.Visible = false;
+            label1.Visible = false;
+
             PopulateListBox(ArrowsListBox, Environment.CurrentDirectory + "\\Resources\\Arrows", "*.jpg");
-            LogosListBox.SelectedIndex = 0;
             ArrowsListBox.SelectedIndex = 0;
             SelectedImageSize = ImageSize.Normal;
             ShowTable(SelectedImageSize);
@@ -191,8 +193,15 @@ namespace SpecControle.UserControls
 
         private Bitmap GenerateTable(int imageWidthInMM, int imageHeightInMM, Graphics printerGraphics = null)
         {
-            if (LogosListBox.SelectedItem == null || CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
+            if (CustomOrder == null || CustomOrder.CustomOrderVentilators.Count == 0)
             {
+                return null;
+            }
+
+            var logoPath = Path.Combine(Environment.CurrentDirectory, "Resources", _atexLogoFileName);
+            if (!File.Exists(logoPath))
+            {
+                MessageBox.Show($"Logo '{_atexLogoFileName}' not found in the Resources folder.");
                 return null;
             }
 
@@ -210,8 +219,7 @@ namespace SpecControle.UserControls
             var startX = 40;
             var startY = rowHeight * 5;
 
-            var logoFile = (FileInfo)LogosListBox.SelectedItem;
-            var logo = Image.FromFile(logoFile.FullName);
+            var logo = Image.FromFile(logoPath);
 
             var arrowFile = (FileInfo)ArrowsListBox.SelectedItem;
             var arrows = Image.FromFile(arrowFile.FullName);
@@ -452,11 +460,6 @@ namespace SpecControle.UserControls
             {
                 lsb.Items.Add(file);
             }
-        }
-
-        private void LogosListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ShowTable(SelectedImageSize);
         }
 
         private void ArrowsListBox_SelectedIndexChanged(object sender, EventArgs e)
