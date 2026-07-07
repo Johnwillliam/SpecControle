@@ -462,7 +462,10 @@ namespace SpecControle.UserControls
                 MessageBox.Show($"No order found for number: {customOrderNumber}");
                 return;
             }
-            SelectedVentilatorID = CustomOrder.CustomOrderVentilators.Count > 0 ? CustomOrder.CustomOrderVentilators.First().ID : -1;
+            if (CustomOrder.CustomOrderVentilators.All(x => x.ID != SelectedVentilatorID))
+            {
+                SelectedVentilatorID = CustomOrder.CustomOrderVentilators.Count > 0 ? CustomOrder.CustomOrderVentilators.First().ID : -1;
+            }
             InitializeGridData(validateVentilator: true);
             btnCopyOrder.Enabled = true;
 
