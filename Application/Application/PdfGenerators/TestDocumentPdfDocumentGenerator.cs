@@ -69,7 +69,7 @@ namespace Application.PdfGenerators
 
         private void AddAssemblyDate(IContainer container)
         {
-            container.Text($"Assembly date             {_currentTest.Date:yyyy-dd-MM}").FontSize(10).Bold();
+            container.Text($"Assembly date             {_currentTest.Date:dd-MM-yyyy}").FontSize(10).Bold();
         }
 
         private void AddAssemblyBy(IContainer container)
