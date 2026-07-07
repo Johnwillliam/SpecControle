@@ -209,7 +209,6 @@ namespace Application.Business
             customOrderVentilator.LowPressureTotal = CalculateLowPressureTotal(motorConstant, customOrderVentilator.HighPressureTotal);
             customOrderVentilator.LowPressureStatic = CalculateLowPressureStatic(motorConstant, customOrderVentilator.HighPressureStatic);
             customOrderVentilator.LowShaftPower = CalculateLowShaftPower(motorConstant, customOrderVentilator.HighShaftPower);
-            customOrderVentilator.LowRPM = customOrderVentilator.CustomOrderMotor.LowRPM;
 
             customOrderVentilator.HighPressureDynamic = customOrderVentilator.HighPressureTotal - customOrderVentilator.HighPressureStatic;
             customOrderVentilator.LowPressureDynamic = customOrderVentilator.LowPressureTotal - customOrderVentilator.LowPressureStatic;
@@ -219,7 +218,12 @@ namespace Application.Business
                 customOrderVentilator.VentilatorType = new SpecificationsDatabaseModel().VentilatorTypes.FirstOrDefault(x => x.ID == customOrderVentilator.VentilatorTypeID);
             }
 
-            if (customOrderVentilator.VentilatorType != null && !customOrderVentilator.IsDirectBelt())
+            if (customOrderVentilator.IsDirectDriven())
+            {
+                customOrderVentilator.HighRPM = customOrderVentilator.CustomOrderMotor.HighRPM;
+                customOrderVentilator.LowRPM = customOrderVentilator.CustomOrderMotor.LowRPM;
+            }
+            else if (customOrderVentilator.VentilatorType != null && !customOrderVentilator.IsDirectBelt())
             {
                 if (customOrderVentilator.CustomOrderMotor.LowRPM > 0)
                 {

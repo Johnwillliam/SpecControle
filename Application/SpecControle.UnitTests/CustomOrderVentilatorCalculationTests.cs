@@ -1,4 +1,5 @@
 using Application.Business;
+using Infrastructure.Models;
 
 namespace SpecControle.UnitTests
 {
@@ -80,6 +81,58 @@ namespace SpecControle.UnitTests
         {
             var result = BCustomOrderVentilator.CalculateAtexValue(highRPM, frequency);
             Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [TestCase("Centrifugal fans direct driven")]
+        [TestCase("Axial fan direct driven")]
+        public void TestCalculateDirectDrivenTakesRPMFromMotor(string ventilatorTypeDescription)
+        {
+            var ventilator = CreateVentilator(ventilatorTypeDescription);
+
+            BCustomOrderVentilator.Calculate(ventilator);
+
+            Assert.That(ventilator.HighRPM, Is.EqualTo(2900));
+            Assert.That(ventilator.LowRPM, Is.EqualTo(1450));
+        }
+
+        [TestCase("No Indication")]
+        [TestCase("Thrust fan")]
+        public void TestCalculateManualTypesKeepEnteredRPM(string ventilatorTypeDescription)
+        {
+            var ventilator = CreateVentilator(ventilatorTypeDescription);
+
+            BCustomOrderVentilator.Calculate(ventilator);
+
+            Assert.That(ventilator.HighRPM, Is.EqualTo(1400));
+            Assert.That(ventilator.LowRPM, Is.EqualTo(999));
+        }
+
+        [TestCase("Centrifugal fan V-belt driven")]
+        [TestCase("Axial fan V-belt driven")]
+        public void TestCalculateVBeltKeepsHighRPMAndCalculatesLowRPM(string ventilatorTypeDescription)
+        {
+            var ventilator = CreateVentilator(ventilatorTypeDescription);
+
+            BCustomOrderVentilator.Calculate(ventilator);
+
+            Assert.That(ventilator.HighRPM, Is.EqualTo(1400));
+            Assert.That(ventilator.LowRPM, Is.EqualTo(700));
+        }
+
+        private static CustomOrderVentilator CreateVentilator(string ventilatorTypeDescription)
+        {
+            return new CustomOrderVentilator
+            {
+                VentilatorTypeID = 1,
+                VentilatorType = new VentilatorType { ID = 1, Description = ventilatorTypeDescription },
+                HighRPM = 1400,
+                LowRPM = 999,
+                HighAirVolume = 3600,
+                HighPressureTotal = 100,
+                HighPressureStatic = 50,
+                Efficiency = 50,
+                CustomOrderMotor = new CustomOrderMotor { HighRPM = 2900, LowRPM = 1450 }
+            };
         }
     }
 }

@@ -18,6 +18,11 @@ namespace Infrastructure.Models
 
         public string Description { get; set; }
 
+        public bool IsDirectDriven()
+        {
+            return Description != null && Description.ToUpper().Contains("DIRECT DRIVEN");
+        }
+
         public virtual ICollection<CustomOrderVentilator> CustomOrderVentilators { get; set; }
 
         public virtual ICollection<TemplateVentilator> TemplateVentilators { get; set; }

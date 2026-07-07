@@ -56,6 +56,7 @@ namespace SpecControle.UserControls
             btnCopyOrder.Click += (s, e) => BtnCopyOrder_Click(s, e);
             btnMotorTypePlate.Click += (s, e) => BtnMotorTypePlate_Click(s, e);
             btnAtex.Click += (s, e) => BtnAtex_Click(s, e);
+            cmbVentilatorType.SelectedValueChanged += (s, e) => UpdateRPMRowsReadOnly();
 
             txtCustomOrderNumber.KeyDown += (s, e) =>
             {
@@ -173,7 +174,7 @@ namespace SpecControle.UserControls
             {
                 nameof(CustomOrderVentilator.HighPressureDynamic), nameof(CustomOrderVentilator.LowPressureDynamic), nameof(CustomOrderVentilator.HighShaftPower),
                 nameof(CustomOrderVentilator.LowShaftPower), nameof(CustomOrderVentilator.LowAirVolume), nameof(CustomOrderVentilator.LowPressureTotal),
-                nameof(CustomOrderVentilator.LowPressureStatic), nameof(CustomOrderVentilator.LowRPM), nameof(CustomOrderVentilator.Atex)
+                nameof(CustomOrderVentilator.LowPressureStatic), nameof(CustomOrderVentilator.Atex)
             };
 
             foreach (var rowName in rowsToDisable)
@@ -188,6 +189,24 @@ namespace SpecControle.UserControls
                 if (configRow != null)
                 {
                     DataGridObjectsUtility.SetRowReadOnlyAndColor(configRow, true);
+                }
+            }
+
+            UpdateRPMRowsReadOnly();
+        }
+
+        private void UpdateRPMRowsReadOnly()
+        {
+            var isDirectDriven = (cmbVentilatorType.SelectedItem as VentilatorType)?.IsDirectDriven() == true;
+            var ventilatorDataGridRows = VentilatorDataGrid.Rows.Cast<DataGridViewRow>().ToList();
+            var rpmRowNames = new[] { nameof(CustomOrderVentilator.HighRPM), nameof(CustomOrderVentilator.LowRPM) };
+
+            foreach (var rowName in rpmRowNames)
+            {
+                var rpmRow = ventilatorDataGridRows.FirstOrDefault(row => row.Cells["Description"].Value?.ToString() == rowName);
+                if (rpmRow != null)
+                {
+                    DataGridObjectsUtility.SetRowReadOnlyAndColor(rpmRow, isDirectDriven);
                 }
             }
         }

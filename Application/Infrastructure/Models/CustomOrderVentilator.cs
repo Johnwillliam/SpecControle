@@ -75,5 +75,15 @@ namespace Infrastructure.Models
 
             return VentilatorType != null && !VentilatorType.Description.ToUpper().Contains("V-BELT") && !VentilatorType.Description.ToUpper().Contains("VBELT");
         }
+
+        public bool IsDirectDriven()
+        {
+            if (VentilatorTypeID.HasValue && VentilatorType == null)
+            {
+                VentilatorType = new SpecificationsDatabaseModel().VentilatorTypes.Find(VentilatorTypeID);
+            }
+
+            return VentilatorType != null && VentilatorType.IsDirectDriven();
+        }
     }
 }
