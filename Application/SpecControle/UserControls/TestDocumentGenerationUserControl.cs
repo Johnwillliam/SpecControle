@@ -86,12 +86,12 @@ namespace SpecControle.UserControls
             if (CustomOrder.CustomOrderVentilators.Count == 0)
                 CustomOrder.CustomOrderVentilators.Add(new CustomOrderVentilator());
 
-            var ventilator = GetSelectedVentilatorID() == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID());
+            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();
             VentilatorDataGrid.DataSource = null;
             VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ControleDisplayPropertyNames);
             VentilatorDataGrid.AutoResizeColumns();
 
-            var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.FirstOrDefault() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (selectedTest != null && selectedTest.Date == null)
                 selectedTest.Date = DateTime.Now.Date;
 
@@ -102,12 +102,6 @@ namespace SpecControle.UserControls
             MotorDataGrid.AutoResizeColumns();
 
             if (initVentilatorsGrid)
-            {
-                CustomOrderVentilatorsDataGrid.DataSource = null;
-                CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
-                CustomOrderVentilatorsDataGrid.AutoResizeColumns();
-            }
-            if (CustomOrder != null && initVentilatorsGrid)
             {
                 CustomOrderVentilatorsDataGrid.DataSource = null;
                 CustomOrderVentilatorsDataGrid.DataSource = CustomOrder.CustomOrderVentilators.ToList();
@@ -167,7 +161,7 @@ namespace SpecControle.UserControls
 
         private void BtnPrintSelectedTest_Click(object sender, EventArgs e)
         {
-            var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()).CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            var selectedTest = CustomOrder?.CustomOrderVentilators?.FirstOrDefault(x => x.ID == GetSelectedVentilatorID())?.CustomOrderVentilatorTests?.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (CustomOrder == null || selectedTest == null || !BValidateMessage.ValidateForPrinting(selectedTest))
             {
                 return;

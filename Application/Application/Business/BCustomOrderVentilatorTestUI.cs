@@ -21,10 +21,6 @@ namespace Application.Business
                     Cover = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilatorTest.Cover)),
                     I1High = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I1High)),
                     I1Low = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I1Low)),
-                    I2High = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I2High)),
-                    I2Low = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I2Low)),
-                    I3High = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I3High)),
-                    I3Low = DataGridObjectsUtility.ParseNullableDecimalValue(rows, nameof(CustomOrderVentilatorTest.I3Low)),
                     MotorNumber = DataGridObjectsUtility.ParseStringValue(rows, nameof(CustomOrderVentilatorTest.MotorNumber)),
                     Weight = DataGridObjectsUtility.ParseNullableIntValue(rows, nameof(CustomOrderVentilatorTest.Weight))
                 };

@@ -350,7 +350,7 @@ namespace SpecControle.UserControls
             {
                 SelectedVentilatorID = ventilatorID;
                 var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
+                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.ID ?? 0;
                 if (ventilator != null)
                 {
                     EnableReportButtons(ventilator);
