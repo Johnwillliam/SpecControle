@@ -213,6 +213,18 @@ namespace SpecControle.UserControls
                         CustomOrderVentilatorTestsDataGrid.DataSource = ventilator.CustomOrderVentilatorTests.Select(x => new { x.ID, x.CustomOrderVentilator.Name }).ToList();
                     }
                     CustomOrderVentilatorTestsDataGrid.AutoResizeColumns();
+                    if (SelectedVentilatorTestID != 0)
+                    {
+                        foreach (DataGridViewRow row in CustomOrderVentilatorTestsDataGrid.Rows)
+                        {
+                            if (row.Cells[0].Value != null && (int)row.Cells[0].Value == SelectedVentilatorTestID)
+                            {
+                                CustomOrderVentilatorTestsDataGrid.ClearSelection();
+                                row.Selected = true;
+                                break;
+                            }
+                        }
+                    }
                 }
                 InitializeComboBoxes();
                 DisableCalculatedRows();
@@ -269,10 +281,14 @@ namespace SpecControle.UserControls
                 ClearDataGrids();
                 return;
             }
-            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault();
+            var ventilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)
+                ?? CustomOrder.CustomOrderVentilators.First();
 
             SelectedVentilatorID = ventilator.ID;
-            SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault().ID;
+            if (ventilator.CustomOrderVentilatorTests.All(x => x.ID != SelectedVentilatorTestID))
+            {
+                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault().ID;
+            }
             InitializeGridData();
 
             if (ventilator != null)
