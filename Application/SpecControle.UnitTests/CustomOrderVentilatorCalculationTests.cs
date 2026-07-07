@@ -74,6 +74,23 @@ namespace SpecControle.UnitTests
             Assert.That(result, Is.EqualTo(expectedResult));
         }
 
+        [TestCase(null, 1440, 0)]
+        [TestCase(710, null, 0)]
+        [TestCase(null, null, 0)]
+        [TestCase(710, 0, 0)]
+        public void TestCalculateMotorConstantWithIncompleteMotorData(int? lowRPM, int? highRPM, double expectedResult)
+        {
+            var result = BCustomOrderVentilator.CalculateMotorConstant(lowRPM, highRPM);
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+        [Test]
+        public void TestCalculateVBeltLowRPMWithoutHighRPMReturnsZero()
+        {
+            var result = BCustomOrderVentilator.CalculateVBeltLowRPM(0.5, null);
+            Assert.That(result, Is.EqualTo(0));
+        }
+
         [TestCase(1420, 50, 1500)]
         [TestCase(1463, 50, 1500)]
         [TestCase(2790, 50, 3000)]

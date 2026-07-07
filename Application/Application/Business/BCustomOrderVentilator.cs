@@ -86,11 +86,10 @@ namespace Application.Business
                 if (customOrderVentilator.Amount < toUpdate.Amount && tests.Count > 1)
                 {
                     var difference = toUpdate.Amount - customOrderVentilator.Amount;
-                    for (int i = 0; i < difference; i++)
+                    foreach (var testToRemove in SelectTestsToRemove(tests, difference))
                     {
-                        var lastTest = tests.Last(x => !x.Locked);
-                        customOrderVentilator.CustomOrderVentilatorTests.Remove(lastTest);
-                        dbContext.CustomOrderVentilatorTests.Remove(lastTest);
+                        customOrderVentilator.CustomOrderVentilatorTests.Remove(testToRemove);
+                        dbContext.CustomOrderVentilatorTests.Remove(testToRemove);
                     }
                 }
                 else if (customOrderVentilator.Amount > toUpdate.Amount)
@@ -106,6 +105,11 @@ namespace Application.Business
             customOrderVentilator.CustomOrderID = toUpdate.CustomOrderID;
             dbContext.Entry(toUpdate).CurrentValues.SetValues(customOrderVentilator);
             dbContext.SaveChanges();
+        }
+
+        public static List<CustomOrderVentilatorTest> SelectTestsToRemove(List<CustomOrderVentilatorTest> tests, int amountToRemove)
+        {
+            return tests.Where(x => !x.Locked).TakeLast(amountToRemove).ToList();
         }
 
         public static CustomOrderVentilator Copy(CustomOrderVentilator toCopy)
@@ -132,7 +136,10 @@ namespace Application.Business
                     dbContext.CustomOrderVentilatorTests.Remove(test);
                 }
                 var motor = dbContext.CustomOrderMotors.Find(customOrderVentilator.CustomOrderMotorID);
-                dbContext.CustomOrderMotors.Remove(motor);
+                if (motor != null)
+                {
+                    dbContext.CustomOrderMotors.Remove(motor);
+                }
                 dbContext.CustomOrderVentilators.Remove(customOrderVentilator);
                 dbContext.SaveChanges();
             }
@@ -242,12 +249,16 @@ namespace Application.Business
 
         public static int CalculateVBeltLowRPM(double motorConstant, int? highRPM)
         {
-            return (int)Math.Round(motorConstant * (int)highRPM);
+            return highRPM == null ? 0 : (int)Math.Round(motorConstant * (int)highRPM);
         }
 
         public static double CalculateMotorConstant(int? motorLowRpm, int? motorHighRPM)
         {
-            return motorLowRpm == null ? 0 : (double)motorLowRpm / (double)motorHighRPM;
+            if (motorLowRpm == null || motorHighRPM == null || motorHighRPM == 0)
+            {
+                return 0;
+            }
+            return (double)motorLowRpm / (double)motorHighRPM;
         }
 
         public static decimal? CalculateLowShaftPower(double motorConstant, decimal? highShaftPower)
