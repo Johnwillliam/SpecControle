@@ -289,7 +289,7 @@ namespace SpecControle.UserControls
                             break;
 
                         case 12:
-                            columns.Add(new StickerRowColumn() { LeftText = "Sound power", MiddleText = ventilator.SoundLevel.ToString(), RightText = ventilator.SoundLevelType?.UOM });
+                            columns.Add(new StickerRowColumn() { LeftText = ventilator.SoundLevelType?.Description, RightText = $"{ventilator.SoundLevel} {ventilator.SoundLevelType?.UOM}" });
                             columns.Add(new StickerRowColumn() { LeftText = "nr", MiddleText = ventilatorTest?.MotorNumber });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 2, colWidth, columns, font);
                             break;
