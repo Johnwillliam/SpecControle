@@ -1,0 +1,132 @@
+# Build, test and publish pipeline, migrated from Pipelines/azure-pipelines.yml.
+#
+# Pull requests run build and unit tests. A manual run (workflow_dispatch)
+# additionally publishes the Development and Production artifacts, mirroring
+# the manual-only publish stages of the Azure pipeline.
+#
+# The publish jobs use the GitHub environments "Development" and "Production".
+# Configure per environment (Settings > Environments):
+#   variables: USE_INTEGRATED_SECURITY, DATABASE_NAME, DATABASE_HOST
+#   secrets:   DATABASE_USERNAME, DATABASE_PASSWORD
+# The artifact download link is written to the run summary.
+
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  SOLUTION: Application/SpecControle.sln
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION }} --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+  unit-tests:
+    name: Unit tests
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Run unit tests
+        run: dotnet test ${{ env.SOLUTION }} --configuration ${{ env.BUILD_CONFIGURATION }} --collect:"XPlat Code Coverage" --results-directory TestResults
+
+      - name: Upload code coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage
+          path: TestResults/**/coverage.cobertura.xml
+
+  publish:
+    name: Publish ${{ matrix.environment }}
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: windows-latest
+    needs: unit-tests
+    strategy:
+      matrix:
+        environment: [Development, Production]
+    environment: ${{ matrix.environment }}
+    env:
+      USE_INTEGRATED_SECURITY: ${{ vars.USE_INTEGRATED_SECURITY }}
+      DB_NAME: ${{ vars.DATABASE_NAME }}
+      DB_HOSTNAME: ${{ vars.DATABASE_HOST }}
+      DB_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Publish
+        run: dotnet publish Application/SpecControle/SpecControle.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --output publish/SpecControle
+
+      - name: Update connection string
+        shell: pwsh
+        run: |
+          $newConnectionString = "data source=$env:DB_HOSTNAME;initial catalog=$env:DB_NAME;user id=$env:DB_USERNAME;password=$env:DB_PASSWORD;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+
+          if ($env:USE_INTEGRATED_SECURITY -eq "true") {
+              $newConnectionString = "data source=$env:DB_HOSTNAME;initial catalog=$env:DB_NAME;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True;"
+          }
+
+          $appConfigPath = "publish/SpecControle/SpecControle.dll.config"
+
+          [xml]$configXml = Get-Content -Path $appConfigPath
+
+          $connectionStrings = $configXml.configuration.connectionStrings
+
+          $connectionName = "SpecificationsDatabase"
+
+          $connectionStringElement = $connectionStrings.add | Where-Object { $_.name -eq $connectionName }
+
+          if ($null -eq $connectionStringElement) {
+            $newElement = $configXml.CreateElement("add")
+            $newElement.SetAttribute("name", $connectionName)
+            $newElement.SetAttribute("connectionString", $newConnectionString)
+            $connectionStrings.AppendChild($newElement) | Out-Null
+          } else {
+            $connectionStringElement.SetAttribute("connectionString", $newConnectionString)
+          }
+
+          $configXml.Save((Join-Path $pwd $appConfigPath))
+
+      - name: Upload artifact
+        id: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: SpecControle-${{ matrix.environment }}
+          path: publish
+
+      - name: Add download link to run summary
+        shell: pwsh
+        run: |
+          "Artifact **SpecControle-${{ matrix.environment }}**: ${{ steps.upload.outputs.artifact-url }}" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
