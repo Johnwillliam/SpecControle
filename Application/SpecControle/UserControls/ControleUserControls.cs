@@ -494,6 +494,12 @@ namespace SpecControle.UserControls
                 var bytess = new byte[13] { 0x81, 0x4D, 0x45, 0x41, 0x20, 0x43, 0x48, 0x20, 0x31, 0x20, 0x3F, 0x03, 0x6F };
                 _serialPort.Write(bytess, 0, bytess.Length);
             }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                _serialPort.Close();
+                logger.LogWarning(ex, "Could not open serial port {PortName} to read RPM", _serialPort.PortName);
+                MessageBox.Show($"Could not connect to the RPM meter on port {_serialPort.PortName}. Please check that the device is connected and the correct port is configured.");
+            }
             catch (Exception ex)
             {
                 _serialPort.Close();

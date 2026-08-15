@@ -186,6 +186,10 @@ namespace SpecControle.UserControls
             }
 
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            if (ventilator == null || ventilator.CustomOrderVentilatorTests.Count == 0)
+            {
+                return null;
+            }
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
 
             // Convert image size from mm to pixels
@@ -457,6 +461,11 @@ namespace SpecControle.UserControls
             }
 
             var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
+            if (ventilator == null || ventilator.CustomOrderVentilatorTests.Count == 0)
+            {
+                MessageBox.Show("No test available for this ventilator.");
+                return;
+            }
             var ventilatorTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (!BValidateMessage.ValidateForPrinting(ventilatorTest))
             {

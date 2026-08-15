@@ -51,6 +51,7 @@ namespace SpecControle.Forms
             else
             {
                 logger.LogError("Database is not available.");
+                MessageBox.Show("Could not connect to the database. Please check your network connection and try again.", "Database unavailable", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
         }
