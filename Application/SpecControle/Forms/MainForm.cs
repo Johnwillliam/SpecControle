@@ -35,6 +35,8 @@ namespace SpecControle.Forms
             this.logger = logger;
             this.Width = 1400;
             this.Height = 700;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.WindowState = FormWindowState.Maximized;
             InitializeComponent();
             if (DatabaseIsAvailable())
             {
