@@ -18,6 +18,9 @@ namespace Infrastructure.Context
             ExecuteSqlRaw(context, entityType, value);
         }
 
+        // SET IDENTITY_INSERT does not accept parameterized object names, so ExecuteSql cannot be used here.
+        // Schema/table come from EF's own model metadata and value is restricted to "ON"/"OFF" above, not user input.
+        [SuppressMessage("Microsoft.EntityFrameworkCore", "EF1002", Justification = "No user input; schema/table come from EF model metadata and value is a fixed \"ON\"/\"OFF\" literal.")]
         private static void ExecuteSqlRaw(SpecificationsDatabaseModel context, IEntityType entityType, string value)
         {
             context.Database.ExecuteSqlRaw($"SET IDENTITY_INSERT {entityType?.GetSchema()}.{entityType?.GetTableName()} {value}");
