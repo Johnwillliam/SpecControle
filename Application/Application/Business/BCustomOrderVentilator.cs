@@ -234,11 +234,11 @@ namespace Application.Business
             {
                 if (customOrderVentilator.CustomOrderMotor.LowRPM > 0)
                 {
-                    customOrderVentilator.LowRPM = CalculateVBeltLowRPM(motorConstant, (int)customOrderVentilator.HighRPM);
+                    customOrderVentilator.LowRPM = CalculateVBeltLowRPM(motorConstant, customOrderVentilator.HighRPM);
                 }
                 else
                 {
-                    customOrderVentilator.LowRPM = 0;
+                    customOrderVentilator.LowRPM = null;
                 }
             }
             if (customOrderVentilator.CustomOrderMotor.Frequency > 40)

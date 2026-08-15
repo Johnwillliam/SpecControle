@@ -139,6 +139,18 @@ namespace SpecControle.UnitTests
             Assert.That(ventilator.LowRPM, Is.EqualTo(700));
         }
 
+        [TestCase("Centrifugal fan V-belt driven")]
+        [TestCase("Axial fan V-belt driven")]
+        public void TestCalculateVBeltWithSingleSpeedMotorKeepsLowRPMNull(string ventilatorTypeDescription)
+        {
+            var ventilator = CreateVentilator(ventilatorTypeDescription);
+            ventilator.CustomOrderMotor.LowRPM = null;
+
+            BCustomOrderVentilator.Calculate(ventilator);
+
+            Assert.That(ventilator.LowRPM, Is.Null);
+        }
+
         private static CustomOrderVentilator CreateVentilator(string ventilatorTypeDescription)
         {
             return new CustomOrderVentilator
