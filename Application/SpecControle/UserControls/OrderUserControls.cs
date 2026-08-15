@@ -386,7 +386,7 @@ namespace SpecControle.UserControls
                 BCustomOrderMotor.Update(customOrderVentilator.CustomOrderMotor);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(customOrder.CustomOrderNumber);
                 InitializeGridData();
-                SearchOrder();
+                SearchOrder(validateVentilator: false);
                 MessageBox.Show("Sucessful updated");
             }
             catch (Exception ex)
@@ -450,7 +450,7 @@ namespace SpecControle.UserControls
             SearchOrder();
         }
 
-        private void SearchOrder()
+        private void SearchOrder(bool validateVentilator = true)
         {
             if (string.IsNullOrEmpty(txtCustomOrderNumber.Text))
                 return;
@@ -466,7 +466,7 @@ namespace SpecControle.UserControls
             {
                 SelectedVentilatorID = CustomOrder.CustomOrderVentilators.Count > 0 ? CustomOrder.CustomOrderVentilators.First().ID : -1;
             }
-            InitializeGridData(validateVentilator: true);
+            InitializeGridData(validateVentilator: validateVentilator);
             btnCopyOrder.Enabled = true;
 
             var ventilator = SelectedVentilator;
