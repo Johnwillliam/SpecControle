@@ -47,6 +47,13 @@ namespace SpecControle.Forms
                 InitializeMotorTemplateUserControl();
                 InitializeTestDocumentGenerationUserControl();
                 InitializePrinters();
+
+                // Bij het aanmaken staat het venster nog niet op zijn uiteindelijke (gemaximaliseerde) grootte,
+                // dus centreren we opnieuw zodra het venster echt getoond en/of geresized wordt. Niet-geselecteerde
+                // tabbladen krijgen hun juiste afmetingen pas zodra ze zichtbaar worden, dus ook dan hercentreren.
+                Shown += (s, e) => RecenterAllUserControls();
+                Resize += (s, e) => RecenterAllUserControls();
+                tabControl.SelectedIndexChanged += (s, e) => RecenterAllUserControls();
             }
             else
             {
@@ -112,58 +119,72 @@ namespace SpecControle.Forms
 
         private void InitializeOrderUserControls()
         {
-            OrderUserControl = new OrderUserControl(logger)
-            {
-                AutoSize = true
-            };
-            OrderTabPage.Controls.Add(OrderUserControl);
+            OrderUserControl = new OrderUserControl(logger);
+            AddCenteredToTabPage(OrderUserControl, OrderTabPage);
         }
 
         private void InitializeControleUserControls()
         {
-            ControleUserControl = new ControleUserControl(logger)
-            {
-                AutoSize = true
-            };
-            ControleTabPage.Controls.Add(ControleUserControl);
+            ControleUserControl = new ControleUserControl(logger);
+            AddCenteredToTabPage(ControleUserControl, ControleTabPage);
         }
 
         private void InitializeMotorTypePlateUserControl()
         {
-            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl()
-            {
-                AutoSize = true
-            };
-            MotorTypePlateTabPage.Controls.Add(MotorTypePlateUserControl);
+            MotorTypePlateUserControl = new MotorTypePlateStickerUserControl();
+            AddCenteredToTabPage(MotorTypePlateUserControl, MotorTypePlateTabPage);
         }
 
         private void InitializeAtexStickerUserControl()
         {
-            AtexStickerUserControl = new AtexStickerUserControl(logger)
-            {
-                AutoSize = true
-            };
-            AtexStickerTabPage.Controls.Add(AtexStickerUserControl);
+            AtexStickerUserControl = new AtexStickerUserControl(logger);
+            AddCenteredToTabPage(AtexStickerUserControl, AtexStickerTabPage);
         }
 
         private void InitializeMotorTemplateUserControl()
         {
-            MotorTemplateUserControl = new MotorTemplateUserControl(logger)
-            {
-                AutoSize = true,
-                Width = 1430,
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
-            };
-            TemplateMotorTabPage.Controls.Add(MotorTemplateUserControl);
+            MotorTemplateUserControl = new MotorTemplateUserControl(logger);
+            AddCenteredToTabPage(MotorTemplateUserControl, TemplateMotorTabPage);
         }
 
         private void InitializeTestDocumentGenerationUserControl()
         {
-            TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl(logger)
+            TestDocumentGenerationUserControl = new TestDocumentGenerationUserControl(logger);
+            AddCenteredToTabPage(TestDocumentGenerationUserControl, RunningTestTabPage);
+        }
+
+        /// <summary>
+        /// Voegt de user control toe aan de tabpagina, zonder de vaste ontwerp-lay-out van de user control zelf te verstoren.
+        /// Centrering gebeurt via RecenterAllUserControls (bij Shown/Resize van het hoofdvenster).
+        /// </summary>
+        private static void AddCenteredToTabPage(Control userControl, TabPage tabPage)
+        {
+            userControl.Anchor = AnchorStyles.None;
+            tabPage.Controls.Add(userControl);
+            CenterControlInParent(userControl);
+        }
+
+        private void RecenterAllUserControls()
+        {
+            CenterControlInParent(OrderUserControl);
+            CenterControlInParent(ControleUserControl);
+            CenterControlInParent(MotorTypePlateUserControl);
+            CenterControlInParent(AtexStickerUserControl);
+            CenterControlInParent(MotorTemplateUserControl);
+            CenterControlInParent(TestDocumentGenerationUserControl);
+        }
+
+        private const int TopMargin = 8;
+
+        private static void CenterControlInParent(Control control)
+        {
+            if (control?.Parent == null)
             {
-                AutoSize = true
-            };
-            RunningTestTabPage.Controls.Add(TestDocumentGenerationUserControl);
+                return;
+            }
+
+            control.Left = Math.Max(0, (control.Parent.ClientSize.Width - control.Width) / 2);
+            control.Top = TopMargin;
         }
 
         private void CmbStickerPrinters_SelectedIndexChanged(object sender, System.EventArgs e)

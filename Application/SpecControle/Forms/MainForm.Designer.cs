@@ -124,7 +124,8 @@ namespace SpecControle.Forms
             TemplateMotorTabPage.UseVisualStyleBackColor = true;
             // 
             // cmbStickerPrinters
-            // 
+            //
+            cmbStickerPrinters.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbStickerPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStickerPrinters.FormattingEnabled = true;
             cmbStickerPrinters.Location = new Point(752, 1);
@@ -133,9 +134,10 @@ namespace SpecControle.Forms
             cmbStickerPrinters.Size = new Size(279, 23);
             cmbStickerPrinters.TabIndex = 0;
             cmbStickerPrinters.SelectedIndexChanged += CmbStickerPrinters_SelectedIndexChanged;
-            // 
+            //
             // label1
-            // 
+            //
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
             label1.Location = new Point(621, 6);
             label1.Margin = new Padding(4, 0, 4, 0);
@@ -143,9 +145,10 @@ namespace SpecControle.Forms
             label1.Size = new Size(117, 15);
             label1.TabIndex = 0;
             label1.Text = "Select Sticker Printer:";
-            // 
+            //
             // label2
-            // 
+            //
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
             label2.Location = new Point(1060, 6);
             label2.Margin = new Padding(4, 0, 4, 0);
@@ -153,9 +156,10 @@ namespace SpecControle.Forms
             label2.Size = new Size(79, 15);
             label2.TabIndex = 35;
             label2.Text = "Select Printer:";
-            // 
+            //
             // cmbPrinters
-            // 
+            //
+            cmbPrinters.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPrinters.FormattingEnabled = true;
             cmbPrinters.Location = new Point(1149, 1);
@@ -164,12 +168,11 @@ namespace SpecControle.Forms
             cmbPrinters.Size = new Size(279, 23);
             cmbPrinters.TabIndex = 36;
             cmbPrinters.SelectedIndexChanged += CmbPrinters_SelectedIndexChanged;
-            // 
+            //
             // MainForm
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
             ClientSize = new Size(1440, 819);
             Controls.Add(label2);
             Controls.Add(label1);
