@@ -22,6 +22,13 @@ namespace Application.Business
             return customOrderVentilatorTest;
         }
 
+        public static CustomOrderVentilatorTest GetSelected(ICollection<CustomOrderVentilatorTest> tests, int selectedVentilatorTestID)
+        {
+            return selectedVentilatorTestID == 0
+                ? tests.FirstOrDefault()
+                : tests.FirstOrDefault(x => x.ID == selectedVentilatorTestID);
+        }
+
         public static CustomOrderVentilatorTest GetByID(int id)
         {
             using var dbContext = new SpecificationsDatabaseModel();

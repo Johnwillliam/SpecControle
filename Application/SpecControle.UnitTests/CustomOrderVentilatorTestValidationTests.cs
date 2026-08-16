@@ -13,6 +13,21 @@ namespace SpecControle.UnitTests
         }
 
         [Test]
+        public void TestValidateForPrintingVentilatorNullReturnsFalse()
+        {
+            var result = BValidateMessage.ValidateForPrinting((CustomOrderVentilator)null);
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void TestValidateForPrintingVentilatorWithNoTestsReturnsTrue()
+        {
+            var ventilator = new CustomOrderVentilator();
+            var result = BValidateMessage.ValidateForPrinting(ventilator, showMessage: false);
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
         public void TestValidateForPrintingMeasuredBladeAngleEmpty()
         {
             var ventilatorTest = new Mock<CustomOrderVentilatorTest>();

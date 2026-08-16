@@ -5,7 +5,7 @@
         public static bool ValidateNumber(string value, Type type)
         {
             return (IsDecimalNumber(type) && !double.TryParse(value, out _)) ||
-                        (!IsDecimalNumber(type) && IsNumericType(type) && !value.All(char.IsDigit));
+                        (!IsDecimalNumber(type) && IsNumericType(type) && !string.IsNullOrEmpty(value) && !value.All(char.IsDigit));
         }
 
         public static bool CheckValue(string value, Type type)

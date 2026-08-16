@@ -34,6 +34,20 @@ namespace SpecControle.UnitTests
         }
 
         [Test]
+        public void ValidateNumber_NullNonDecimal_ReturnsFalse()
+        {
+            bool result = CellValidation.ValidateNumber(null, typeof(int));
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public void ValidateNumber_EmptyNonDecimal_ReturnsFalse()
+        {
+            bool result = CellValidation.ValidateNumber(string.Empty, typeof(int));
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
         public void CheckValue_NullableTypeWithNullValue_ReturnsTrue()
         {
             bool result = CellValidation.CheckValue(null, typeof(int?));

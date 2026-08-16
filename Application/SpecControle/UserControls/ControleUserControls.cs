@@ -162,12 +162,12 @@ namespace SpecControle.UserControls
                     CustomOrder.CustomOrderVentilators.Add(emptyVentilator);
                 }
 
-                var ventilator = SelectedVentilatorID == 0 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+                var ventilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID) ?? CustomOrder.CustomOrderVentilators.First();
                 VentilatorDataGrid.DataSource = null;
                 VentilatorDataGrid.DataSource = ObjectDisplayValue.GetDisplayValues(typeof(CustomOrderVentilator), ventilator, BCustomOrderVentilator.ControleDisplayPropertyNames);
                 VentilatorDataGrid.AutoResizeColumns();
 
-                var selectedTest = SelectedVentilatorTestID == 0 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                var selectedTest = BCustomOrderVentilatorTest.GetSelected(ventilator.CustomOrderVentilatorTests, SelectedVentilatorTestID);
                 btnLock.Visible = false;
                 if (selectedTest != null)
                 {
@@ -287,7 +287,7 @@ namespace SpecControle.UserControls
             SelectedVentilatorID = ventilator.ID;
             if (ventilator.CustomOrderVentilatorTests.All(x => x.ID != SelectedVentilatorTestID))
             {
-                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault().ID;
+                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.ID ?? 0;
             }
             InitializeGridData();
 
@@ -349,8 +349,8 @@ namespace SpecControle.UserControls
             if (e.RowIndex >= 0 && int.TryParse(CustomOrderVentilatorsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString(), out int ventilatorID))
             {
                 SelectedVentilatorID = ventilatorID;
-                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.ID ?? 0;
+                var ventilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID);
+                SelectedVentilatorTestID = ventilator?.CustomOrderVentilatorTests.FirstOrDefault()?.ID ?? 0;
                 if (ventilator != null)
                 {
                     EnableReportButtons(ventilator);
@@ -365,13 +365,13 @@ namespace SpecControle.UserControls
             if (e.RowIndex >= 0 && CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value != null && int.TryParse(CustomOrderVentilatorTestsDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString().Replace("Test ID ", ""), out int testID))
             {
                 SelectedVentilatorTestID = testID;
-                var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                if (!ventilator.CustomOrderVentilatorTests.Any(x => x.ID == SelectedVentilatorTestID))
-                {
-                    SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.First().ID;
-                }
+                var ventilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID);
                 if (ventilator != null)
                 {
+                    if (!ventilator.CustomOrderVentilatorTests.Any(x => x.ID == SelectedVentilatorTestID))
+                    {
+                        SelectedVentilatorTestID = ventilator.CustomOrderVentilatorTests.FirstOrDefault()?.ID ?? 0;
+                    }
                     EnableReportButtons(ventilator);
                 }
                 InitializeGridData(false, false);
@@ -387,8 +387,13 @@ namespace SpecControle.UserControls
 
             try
             {
-                var customOrderVentilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-                var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+                var customOrderVentilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID);
+                var customOrderVentilatorTest = customOrderVentilator == null ? null : BCustomOrderVentilatorTest.GetSelected(customOrderVentilator.CustomOrderVentilatorTests, SelectedVentilatorTestID);
+                if (customOrderVentilatorTest == null)
+                {
+                    MessageBox.Show("Please select a ventilator and test first.");
+                    return;
+                }
                 var lockedTest = customOrderVentilatorTest.Locked;
                 if (lockedTest)
                 {
@@ -521,8 +526,13 @@ namespace SpecControle.UserControls
                     return;
                 }
 
-                var ventilator = SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder.CustomOrderVentilators.First() : CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
-                var selectedTest = SelectedVentilatorTestID == 0 || SelectedVentilatorTestID == -1 ? ventilator.CustomOrderVentilatorTests.First() : ventilator.CustomOrderVentilatorTests.Single(x => x.ID == SelectedVentilatorTestID);
+                var ventilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID == -1 ? 0 : SelectedVentilatorID);
+                var selectedTest = ventilator == null ? null : BCustomOrderVentilatorTest.GetSelected(ventilator.CustomOrderVentilatorTests, SelectedVentilatorTestID == -1 ? 0 : SelectedVentilatorTestID);
+                if (selectedTest == null)
+                {
+                    serialPort.Close();
+                    return;
+                }
                 if (radioButtonMotorHigh.Checked)
                     selectedTest.MeasuredMotorHighRPM = (int)rpm;
                 else if (radioButtonMotorLow.Checked)
@@ -574,9 +584,9 @@ namespace SpecControle.UserControls
                 MessageBox.Show("Please search a order first.");
                 return;
             }
-            var ventilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID);
+            var ventilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID);
             var test = BCustomOrderVentilatorTest.GetByID(SelectedVentilatorTestID);
-            if (!ventilator.IsAtex() || test == null || !BValidateMessage.ValidateForPrinting(test))
+            if (ventilator == null || !ventilator.IsAtex() || test == null || !BValidateMessage.ValidateForPrinting(test))
             {
                 return;
             }
@@ -596,8 +606,8 @@ namespace SpecControle.UserControls
 
         private void BtnLock_Click(object sender, EventArgs e)
         {
-            var customOrderVentilator = CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID);
-            var customOrderVentilatorTest = customOrderVentilator.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
+            var customOrderVentilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, SelectedVentilatorID);
+            var customOrderVentilatorTest = customOrderVentilator == null ? null : BCustomOrderVentilatorTest.GetSelected(customOrderVentilator.CustomOrderVentilatorTests, SelectedVentilatorTestID);
 
             if (customOrderVentilatorTest is null)
             {

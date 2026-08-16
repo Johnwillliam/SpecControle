@@ -30,6 +30,13 @@ namespace Application.Business
 
         public static List<string> ConfigurationDisplayPropertyNames => _configurationDisplayPropertyNames;
 
+        public static CustomOrderVentilator GetSelected(ICollection<CustomOrderVentilator> ventilators, int selectedVentilatorID)
+        {
+            return selectedVentilatorID == 0
+                ? ventilators.FirstOrDefault()
+                : ventilators.FirstOrDefault(x => x.ID == selectedVentilatorID);
+        }
+
         public static CustomOrderVentilator GetById(int id)
         {
             using var dbContext = new SpecificationsDatabaseModel();

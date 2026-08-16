@@ -8,6 +8,11 @@ namespace Application.Business
     {
         public static bool ValidateForPrinting(CustomOrderVentilator ventilator, bool showMessage = true)
         {
+            if (ventilator == null)
+            {
+                return false;
+            }
+
             foreach (CustomOrderVentilatorTest test in ventilator.CustomOrderVentilatorTests)
             {
                 if (!ValidateForPrinting(test, showMessage))

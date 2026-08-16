@@ -20,7 +20,7 @@ namespace SpecControle.UserControls
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string PrinterName { get; set; }
 
-        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
+        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.FirstOrDefault()?.ID ?? -1 : SelectedVentilatorID;
 
         public TestDocumentGenerationUserControl(ILogger logger)
         {

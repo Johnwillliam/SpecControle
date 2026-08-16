@@ -21,7 +21,7 @@ namespace SpecControle.UserControls
 
         private CustomOrderVentilator SelectedVentilator => CustomOrder.CustomOrderVentilators.FirstOrDefault(x => x.ID == GetSelectedVentilatorID()) ?? CustomOrder.CustomOrderVentilators.First();
 
-        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.First()?.ID ?? -1 : SelectedVentilatorID;
+        private int GetSelectedVentilatorID() => SelectedVentilatorID == 0 || SelectedVentilatorID == -1 ? CustomOrder?.CustomOrderVentilators?.FirstOrDefault()?.ID ?? -1 : SelectedVentilatorID;
 
         public OrderUserControl(ILogger logger)
         {
@@ -262,7 +262,11 @@ namespace SpecControle.UserControls
                     CustomOrderVentilatorsDataGrid.AutoResizeColumns();
                     if (SelectedVentilatorID > 0)
                     {
-                        CustomOrderVentilatorsDataGrid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => (int)x.Cells[0].Value == SelectedVentilatorID).Selected = true;
+                        var row = CustomOrderVentilatorsDataGrid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => (int)x.Cells[0].Value == SelectedVentilatorID);
+                        if (row != null)
+                        {
+                            row.Selected = true;
+                        }
                     }
                 }
 
@@ -351,7 +355,12 @@ namespace SpecControle.UserControls
                 }
 
                 customOrder.ID = CustomOrder.ID;
-                var customOrderVentilator = CustomOrder.CustomOrderVentilators.Single(x => x.ID == GetSelectedVentilatorID());
+                var customOrderVentilator = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, GetSelectedVentilatorID());
+                if (customOrderVentilator == null)
+                {
+                    MessageBox.Show("Please select a ventilator first. Order is not saved.");
+                    return;
+                }
 
                 var ventilatorID = customOrderVentilator.ID;
                 var motorID = customOrderVentilator.CustomOrderMotorID;
@@ -509,7 +518,13 @@ namespace SpecControle.UserControls
             }
 
             var customOrderVentilatorId = int.Parse(CustomOrderVentilatorsDataGrid.SelectedRows[0].Cells[0].Value.ToString());
-            if (CustomOrder.CustomOrderVentilators.Single(x => x.ID == customOrderVentilatorId).CustomOrderVentilatorTests.Any(x => x.Locked))
+            var customOrderVentilatorToRemove = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, customOrderVentilatorId);
+            if (customOrderVentilatorToRemove == null)
+            {
+                return;
+            }
+
+            if (customOrderVentilatorToRemove.CustomOrderVentilatorTests.Any(x => x.Locked))
             {
                 MessageBox.Show("One of the tests of the selected ventilator is locked and therefore the ventilator cannot be removed. \n\nPlease contact IT support if changes has to be done.");
                 return;
@@ -521,7 +536,7 @@ namespace SpecControle.UserControls
             {
                 BCustomOrderVentilator.DeleteById(customOrderVentilatorId);
                 CustomOrder = BCustomOrder.ByCustomOrderNumber(CustomOrder.CustomOrderNumber);
-                SelectedVentilatorID = CustomOrder.CustomOrderVentilators.First().ID;
+                SelectedVentilatorID = CustomOrder.CustomOrderVentilators.FirstOrDefault()?.ID ?? -1;
                 InitializeGridData();
             }
         }
@@ -581,14 +596,16 @@ namespace SpecControle.UserControls
                 return;
             }
 
-            if (!BValidateMessage.ValidateForPrinting(CustomOrder.CustomOrderVentilators.Single(x => x.ID == SelectedVentilatorID)))
+            var selectedVentilatorID = GetSelectedVentilatorID();
+            var ventilatorToPrint = BCustomOrderVentilator.GetSelected(CustomOrder.CustomOrderVentilators, selectedVentilatorID);
+            if (ventilatorToPrint == null || !BValidateMessage.ValidateForPrinting(ventilatorToPrint))
             {
                 return;
             }
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 2;
-            mainForm.MotorTypePlateUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
+            mainForm.MotorTypePlateUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, selectedVentilatorID);
         }
 
         private void BtnAtex_Click(object sender, EventArgs e)
@@ -607,7 +624,7 @@ namespace SpecControle.UserControls
 
             var mainForm = (MainForm)ParentForm;
             mainForm.TabControl.SelectedIndex = 3;
-            mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, SelectedVentilatorID);
+            mainForm.AtexStickerUserControl.SetSelectedVentilator(CustomOrder.CustomOrderNumber, GetSelectedVentilatorID());
         }
 
         private static void Show_Combobox(DataGridViewCell cell, ComboBox comboBox)
