@@ -75,6 +75,8 @@ namespace Application.Business
         {
             using var dbContext = new SpecificationsDatabaseModel();
             return dbContext.CustomOrders
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(y => y.CustomOrderVentilatorTests)
                     .ThenInclude(x => x.User)
@@ -86,6 +88,10 @@ namespace Application.Business
                     .ThenInclude(y => y.TemperatureClass)
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(y => y.CatType)
+                .Include(x => x.CustomOrderVentilators)
+                    .ThenInclude(y => y.GroupType)
+                .Include(x => x.CustomOrderVentilators)
+                    .ThenInclude(y => y.VentilatorType)
                 .SingleOrDefault(x => x.CustomOrderNumber == customOrderNumber);
         }
 
@@ -93,6 +99,8 @@ namespace Application.Business
         {
             using var dbContext = new SpecificationsDatabaseModel();
             return dbContext.CustomOrders
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(y => y.CustomOrderVentilatorTests)
                 .Include(x => x.CustomOrderVentilators)

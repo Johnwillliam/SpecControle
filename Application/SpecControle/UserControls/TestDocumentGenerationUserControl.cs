@@ -95,6 +95,8 @@ namespace SpecControle.UserControls
             if (selectedTest != null && selectedTest.Date == null)
                 selectedTest.Date = DateTime.Now.Date;
 
+            lblSerialNumber.Text = selectedTest?.SerialNumber ?? "-";
+
             ventilator.CustomOrderMotor ??= new CustomOrderMotor();
 
             MotorDataGrid.DataSource = null;

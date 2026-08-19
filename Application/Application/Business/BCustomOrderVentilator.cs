@@ -41,10 +41,13 @@ namespace Application.Business
         {
             using var dbContext = new SpecificationsDatabaseModel();
             return dbContext.CustomOrderVentilators
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.CustomOrderMotor)
                 .Include(x => x.CustomOrderVentilatorTests)
                 .Include(x => x.TemperatureClass)
                 .Include(x => x.VentilatorType)
+                .Include(x => x.GroupType)
                 .FirstOrDefault(x => x.ID == id);
         }
 
@@ -58,6 +61,11 @@ namespace Application.Business
 
             BCustomOrderVentilatorTest.Create(customOrderVentilator);
             return customOrderVentilator;
+        }
+
+        public static bool HasLockedTests(CustomOrderVentilator customOrderVentilator)
+        {
+            return customOrderVentilator.CustomOrderVentilatorTests.Any(x => x.Locked);
         }
 
         public static bool ShouldAdjustTests(CustomOrderVentilator customOrderVentilator)
@@ -229,7 +237,7 @@ namespace Application.Business
 
             if (customOrderVentilator.VentilatorType == null && customOrderVentilator.VentilatorTypeID != null)
             {
-                customOrderVentilator.VentilatorType = new SpecificationsDatabaseModel().VentilatorTypes.FirstOrDefault(x => x.ID == customOrderVentilator.VentilatorTypeID);
+                customOrderVentilator.VentilatorType = BLookupData.VentilatorTypes.FirstOrDefault(x => x.ID == customOrderVentilator.VentilatorTypeID);
             }
 
             if (customOrderVentilator.IsDirectDriven())

@@ -3,7 +3,6 @@ using System.Data;
 using System.ComponentModel;
 using Application;
 using Application.Business;
-using Infrastructure.Context;
 using Infrastructure.Models;
 using SpecControle.Entities;
 using SpecControle.Forms;
@@ -79,13 +78,15 @@ namespace SpecControle.UserControls
 
         private void InitializeComboBoxes()
         {
-            using SpecificationsDatabaseModel dbContext = new();
-            InitializeComboBox(cmbSoundLevelType, dbContext.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
-            InitializeComboBox(cmbVentilatorType, dbContext.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
-            InitializeComboBox(cmbGroupType, dbContext.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
-            InitializeComboBox(cmbTemperatureClassType, dbContext.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
-            InitializeComboBox(cmbCatType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
-            InitializeComboBox(cmbCatOutType, dbContext.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
+            // Deze lookup-tabellen wijzigen niet tijdens het draaien van de app en worden via BLookupData
+            // één keer gecachet, in plaats van bij elke keer dat dit tabblad zichtbaar wordt opnieuw
+            // opgevraagd (belangrijk over de VPN-verbinding van de klant).
+            InitializeComboBox(cmbSoundLevelType, BLookupData.SoundLevelTypes, nameof(CustomOrderVentilator.SoundLevelTypeID), "ID", "Description", VentilatorDataGrid);
+            InitializeComboBox(cmbVentilatorType, BLookupData.VentilatorTypes, nameof(CustomOrderVentilator.VentilatorTypeID), "ID", "Description", VentilatorDataGrid);
+            InitializeComboBox(cmbGroupType, BLookupData.GroupTypes, nameof(CustomOrderVentilator.GroupTypeID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbTemperatureClassType, BLookupData.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbCatType, BLookupData.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbCatOutType, BLookupData.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
 
             var yesNoDataSource = new List<YesNoItem>
             {
@@ -106,7 +107,7 @@ namespace SpecControle.UserControls
             SetComboBoxValue(cmbHT, ventilator.CustomOrderMotor.HT);
         }
 
-        private static void InitializeComboBox<T>(ComboBox comboBox, IQueryable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
+        private static void InitializeComboBox<T>(ComboBox comboBox, IEnumerable<T> dataSource, string cellDescription, string valueMember, string displayMember, DataGridView dataGridView)
         {
             comboBox.DisplayMember = displayMember;
             comboBox.ValueMember = valueMember;
@@ -359,6 +360,12 @@ namespace SpecControle.UserControls
                 if (customOrderVentilator == null)
                 {
                     MessageBox.Show("Please select a ventilator first. Order is not saved.");
+                    return;
+                }
+
+                if (BCustomOrderVentilator.HasLockedTests(customOrderVentilator))
+                {
+                    MessageBox.Show("This ventilator has a locked test and cannot be changed, please contact IT support if changes has to be done.");
                     return;
                 }
 

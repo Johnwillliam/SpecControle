@@ -30,7 +30,13 @@ namespace Infrastructure.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConfigurationSettings.DefaultConnectionStrings);
+            optionsBuilder.UseSqlServer(ConfigurationSettings.DefaultConnectionStrings, sqlOptions =>
+            {
+                // De klant verbindt over een VPN, dus latency-pieken en korte verbindingsonderbrekingen
+                // moeten opgevangen worden zonder dat de gebruiker meteen een foutmelding krijgt.
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
+                sqlOptions.CommandTimeout(60);
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -44,6 +44,8 @@
             label4 = new Label();
             MotorDataGrid = new DataGridView();
             label6 = new Label();
+            lblSerialNumberCaption = new Label();
+            lblSerialNumber = new Label();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorTestsDataGrid).BeginInit();
@@ -232,9 +234,31 @@
             label6.Size = new Size(46, 16);
             label6.TabIndex = 59;
             label6.Text = "Motor";
-            // 
+            //
+            // lblSerialNumberCaption
+            //
+            lblSerialNumberCaption.AutoSize = true;
+            lblSerialNumberCaption.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSerialNumberCaption.Location = new Point(7, 200);
+            lblSerialNumberCaption.Margin = new Padding(4, 0, 4, 0);
+            lblSerialNumberCaption.Name = "lblSerialNumberCaption";
+            lblSerialNumberCaption.Size = new Size(101, 16);
+            lblSerialNumberCaption.TabIndex = 60;
+            lblSerialNumberCaption.Text = "Serial Number";
+            //
+            // lblSerialNumber
+            //
+            lblSerialNumber.AutoSize = true;
+            lblSerialNumber.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lblSerialNumber.Location = new Point(7, 220);
+            lblSerialNumber.Margin = new Padding(4, 0, 4, 0);
+            lblSerialNumber.Name = "lblSerialNumber";
+            lblSerialNumber.Size = new Size(16, 21);
+            lblSerialNumber.TabIndex = 61;
+            lblSerialNumber.Text = "-";
+            //
             // TestDocumentGenerationUserControl
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(CustomOrderDataGrid);
@@ -243,6 +267,8 @@
             Controls.Add(label4);
             Controls.Add(MotorDataGrid);
             Controls.Add(label6);
+            Controls.Add(lblSerialNumberCaption);
+            Controls.Add(lblSerialNumber);
             Controls.Add(btnPrintAll);
             Controls.Add(btnPrintSelectedTest);
             Controls.Add(CustomOrderVentilatorTestsDataGrid);
@@ -282,5 +308,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView MotorDataGrid;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblSerialNumberCaption;
+        private System.Windows.Forms.Label lblSerialNumber;
     }
 }

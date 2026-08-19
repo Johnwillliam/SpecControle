@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Application;
 using Application.Business;
-using Infrastructure.Context;
 using Infrastructure.Models;
 using SpecControle.Entities;
 using SpecControle.Forms;
@@ -57,11 +56,10 @@ namespace SpecControle.UserControls
 
         private void InitializeComboBoxes()
         {
-            using var dbContext = new SpecificationsDatabaseModel();
             cmbUser.DisplayMember = "Name";
             cmbUser.ValueMember = "ID";
             cmbUser.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbUser.DataSource = dbContext.Users.ToList();
+            cmbUser.DataSource = BLookupData.Users.ToList();
             cmbUser.SelectedIndex = -1;
             var selectedTest = CustomOrder?.CustomOrderVentilators.FirstOrDefault(x => x.ID == SelectedVentilatorID)?.CustomOrderVentilatorTests.FirstOrDefault(x => x.ID == SelectedVentilatorTestID);
             if (selectedTest is not null && selectedTest.UserID is not null)

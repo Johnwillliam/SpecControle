@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using QuestPDF.Infrastructure;
 using System.Reflection;
+using Application.Business;
 using Infrastructure.Context;
 using Infrastructure.Models;
 using SpecControle.Forms;
@@ -26,6 +27,11 @@ namespace SpecControle
             {
                 //new SpecificationsDatabaseModel().Database.EnsureCreated();
                 QuestPDF.Settings.License = LicenseType.Community;
+
+                // Begint meteen op de achtergrond met het opzetten van de databaseverbinding en het opbouwen
+                // van het EF-model, zodat die kosten (extra merkbaar over de VPN-verbinding van de klant)
+                // al lopen terwijl de rest van de app opstart, in plaats van pas bij het eerste scherm.
+                BLookupData.Preload();
 
                 var assembly = Assembly.GetExecutingAssembly();
                 var version = assembly
@@ -187,7 +193,7 @@ namespace SpecControle
                     new TemperatureClass { Description = "T4" },
                     new TemperatureClass { Description = "T5" },
                     new TemperatureClass { Description = "T6" },
-                    new TemperatureClass { Description = "T 125°C" }
+                    new TemperatureClass { Description = "T 125ï¿½C" }
                 ]);
             }
 
