@@ -174,8 +174,6 @@ namespace SpecControle.Forms
             CenterControlInParent(TestDocumentGenerationUserControl);
         }
 
-        private const int TopMargin = 8;
-
         private static void CenterControlInParent(Control control)
         {
             if (control?.Parent == null)
@@ -184,7 +182,7 @@ namespace SpecControle.Forms
             }
 
             control.Left = Math.Max(0, (control.Parent.ClientSize.Width - control.Width) / 2);
-            control.Top = TopMargin;
+            control.Top = Math.Max(0, (control.Parent.ClientSize.Height - control.Height) / 2);
         }
 
         private void CmbStickerPrinters_SelectedIndexChanged(object sender, System.EventArgs e)
