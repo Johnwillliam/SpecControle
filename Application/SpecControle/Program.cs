@@ -182,6 +182,18 @@ namespace SpecControle
                 ]);
             }
 
+            // Seed FanApplications
+            if (!dbContext.FanApplications.Any())
+            {
+                dbContext.FanApplications.AddRange(
+                [
+                    new FanApplication { Description = "Marine" },
+                    new FanApplication { Description = "Transport" },
+                    new FanApplication { Description = "Emergency operations" },
+                    new FanApplication { Description = "Process air" }
+                ]);
+            }
+
             // Seed TemperatureClasses
             if (!dbContext.TemperatureClasses.Any())
             {

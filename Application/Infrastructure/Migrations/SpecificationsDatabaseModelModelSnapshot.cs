@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "9.0.17")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -36,6 +36,20 @@ namespace Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ATEXTypes");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.AppSetting", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("AppSettings");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.CatType", b =>
@@ -200,6 +214,9 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("Efficiency")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FanApplicationID")
+                        .HasColumnType("int");
+
                     b.Property<int?>("GroupTypeID")
                         .HasColumnType("int");
 
@@ -263,6 +280,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("CustomOrderID");
 
                     b.HasIndex("CustomOrderMotorID");
+
+                    b.HasIndex("FanApplicationID");
 
                     b.HasIndex("GroupTypeID");
 
@@ -354,6 +373,23 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("CustomOrderVentilatorTests");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.FanApplication", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(0);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("FanApplications");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.GroupType", b =>
@@ -606,6 +642,10 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Infrastructure.Models.FanApplication", "FanApplication")
+                        .WithMany("CustomOrderVentilators")
+                        .HasForeignKey("FanApplicationID");
+
                     b.HasOne("Infrastructure.Models.GroupType", "GroupType")
                         .WithMany("CustomOrderVentilators")
                         .HasForeignKey("GroupTypeID");
@@ -627,6 +667,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("CustomOrder");
 
                     b.Navigation("CustomOrderMotor");
+
+                    b.Navigation("FanApplication");
 
                     b.Navigation("GroupType");
 
@@ -687,6 +729,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Models.CustomOrderVentilator", b =>
                 {
                     b.Navigation("CustomOrderVentilatorTests");
+                });
+
+            modelBuilder.Entity("Infrastructure.Models.FanApplication", b =>
+                {
+                    b.Navigation("CustomOrderVentilators");
                 });
 
             modelBuilder.Entity("Infrastructure.Models.GroupType", b =>

@@ -11,7 +11,7 @@ namespace Application.Business
         private static readonly List<string> _orderDisplayPropertyNames = new()
         {
             "Name", "Amount", "VentilatorTypeID", "HighAirVolume", "LowAirVolume", "HighPressureTotal", "LowPressureTotal", "HighPressureStatic", "LowPressureStatic", "HighPressureDynamic", "LowPressureDynamic",
-            "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle"
+            "HighRPM", "LowRPM", "Efficiency", "HighShaftPower", "LowShaftPower", "SoundLevelTypeID", "SoundLevel", "BladeAngle", "FanApplicationID"
         };
 
         private static readonly List<string> _controleDisplayPropertyNames = new()
@@ -48,6 +48,7 @@ namespace Application.Business
                 .Include(x => x.TemperatureClass)
                 .Include(x => x.VentilatorType)
                 .Include(x => x.GroupType)
+                .Include(x => x.FanApplication)
                 .FirstOrDefault(x => x.ID == id);
         }
 

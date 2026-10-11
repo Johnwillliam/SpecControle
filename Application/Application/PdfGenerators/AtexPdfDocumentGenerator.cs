@@ -185,9 +185,12 @@ public class AtexPdfDocumentGenerator : IDocument
                 table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentVentilator.HighRPM} / {_currentVentilator.LowRPM}");
                 table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("rpm");
 
-                table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Efficiency").Bold();
-                table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.Efficiency.ToString());
-                table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("%");
+                if (BAppSettings.ShowEfficiencyOnStickers)
+                {
+                    table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Efficiency").Bold();
+                    table.Cell().Row(rowIndex).Column(2).Element(Block).Text(_currentVentilator.Efficiency.ToString());
+                    table.Cell().Row(rowIndex++).Column(3).Element(Block).Text("%");
+                }
 
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Shaft power").Bold();
                 table.Cell().Row(rowIndex).Column(2).Element(Block).Text($"{_currentVentilator.HighShaftPower} / {_currentVentilator.LowShaftPower}");

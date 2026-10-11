@@ -60,6 +60,7 @@
             btnAtex = new Button();
             cmbPTC = new ComboBox();
             cmbHT = new ComboBox();
+            cmbFanApplication = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)CustomOrderDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)CustomOrderVentilatorsDataGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)VentilatorDataGrid).BeginInit();
@@ -403,11 +404,21 @@
             cmbHT.Name = "cmbHT";
             cmbHT.Size = new Size(140, 23);
             cmbHT.TabIndex = 59;
-            // 
+            //
+            // cmbFanApplication
+            //
+            cmbFanApplication.FormattingEnabled = true;
+            cmbFanApplication.Location = new Point(244, 520);
+            cmbFanApplication.Margin = new Padding(4, 3, 4, 3);
+            cmbFanApplication.Name = "cmbFanApplication";
+            cmbFanApplication.Size = new Size(140, 23);
+            cmbFanApplication.TabIndex = 60;
+            //
             // OrderUserControl
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cmbFanApplication);
             Controls.Add(cmbHT);
             Controls.Add(cmbPTC);
             Controls.Add(btnAtex);
@@ -482,5 +493,6 @@
         private Button btnAtex;
         private ComboBox cmbPTC;
         private ComboBox cmbHT;
+        private ComboBox cmbFanApplication;
     }
 }

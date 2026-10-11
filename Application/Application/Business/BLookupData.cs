@@ -11,6 +11,7 @@ namespace Application.Business
         private static readonly Lazy<List<GroupType>> _groupTypes = CreateLazy(dbContext => dbContext.GroupTypes);
         private static readonly Lazy<List<TemperatureClass>> _temperatureClasses = CreateLazy(dbContext => dbContext.TemperatureClasses);
         private static readonly Lazy<List<CatType>> _catTypes = CreateLazy(dbContext => dbContext.CatTypes);
+        private static readonly Lazy<List<FanApplication>> _fanApplications = CreateLazy(dbContext => dbContext.FanApplications);
         private static readonly Lazy<List<User>> _users = CreateLazy(dbContext => dbContext.Users);
 
         public static List<SoundLevelType> SoundLevelTypes => _soundLevelTypes.Value;
@@ -18,6 +19,7 @@ namespace Application.Business
         public static List<GroupType> GroupTypes => _groupTypes.Value;
         public static List<TemperatureClass> TemperatureClasses => _temperatureClasses.Value;
         public static List<CatType> CatTypes => _catTypes.Value;
+        public static List<FanApplication> FanApplications => _fanApplications.Value;
         public static List<User> Users => _users.Value;
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace Application.Business
             Task.Run(() => _groupTypes.Value);
             Task.Run(() => _temperatureClasses.Value);
             Task.Run(() => _catTypes.Value);
+            Task.Run(() => _fanApplications.Value);
             Task.Run(() => _users.Value);
         }
 

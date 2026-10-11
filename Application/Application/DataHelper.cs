@@ -77,5 +77,17 @@ namespace Application
         }
 
         public static string NullableBooleanToYesNo(bool? value) => value.HasValue && value.Value ? "Yes" : "No";
+
+        /// <summary>
+        /// Sentence that regulations require on the type plate sticker. Returns an empty string when no
+        /// application has been chosen, so the sticker shows an empty bar instead of a dangling sentence.
+        /// </summary>
+        public static string CreateFanApplicationText(string fanApplication)
+        {
+            if (string.IsNullOrWhiteSpace(fanApplication))
+                return "";
+
+            return $"This fan is suitable exclusively for the following applications: {fanApplication.Trim()}";
+        }
     }
 }

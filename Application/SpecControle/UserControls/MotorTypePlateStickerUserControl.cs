@@ -201,7 +201,7 @@ namespace SpecControle.UserControls
             int imageWidthInPixels = (int)((imageWidthInMM / 25.4) * dpiX);
             int imageHeightInPixels = (int)((imageHeightInMM / 25.4) * dpiX);
 
-            var rows = 14;
+            var rows = 15;
             var colWidth = (int)((imageWidthInPixels * 0.9) / 2);
             var rowHeight = (imageHeightInPixels / 21);
             var startX = 30;
@@ -222,7 +222,10 @@ namespace SpecControle.UserControls
             using (Graphics graph = Graphics.FromImage(image))
             {
                 graph.FillRectangle(Brushes.White, new Rectangle(new Point(0, 0), image.Size));
-                graph.DrawImage(arrows, new Rectangle(0, startY, imageWidthInPixels, (rowHeight * rows) + startX + rowHeight));
+                // Clamp to the sticker height so the "Air Flow" text at the bottom of the arrows image is not
+                // clipped now that the table has an extra row for the fan application.
+                var arrowsHeight = Math.Min((rowHeight * rows) + startX + rowHeight, imageHeightInPixels - startY);
+                graph.DrawImage(arrows, new Rectangle(0, startY, imageWidthInPixels, arrowsHeight));
                 graph.DrawImage(logo, new Rectangle(startX, 0, colWidth * 2, rowHeight * 4));
                 var printing = printerGraphics is not null;
                 var font = CalculateFontSize(printing);
@@ -311,11 +314,20 @@ namespace SpecControle.UserControls
                             break;
 
                         case 14:
-                            columns.Add(new StickerRowColumn());
+                            columns.Add(BAppSettings.ShowEfficiencyOnStickers
+                                ? new StickerRowColumn() { LeftText = "η", MiddleText = ventilator.Efficiency?.ToString(), RightText = "%" }
+                                : new StickerRowColumn());
                             columns.Add(new StickerRowColumn());
                             columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.PTC) });
                             columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.HT) });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 4, colWidth / 2, columns, font);
+                            break;
+
+                        case 15:
+                            // Full-width bar with the application the fan is suitable for (required by regulations).
+                            var fanApplicationText = DataHelper.CreateFanApplicationText(ventilator.FanApplication?.Description);
+                            columns.Add(new StickerRowColumn() { LeftText = fanApplicationText });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, StickerFontHelper.FitToWidth(graph, font, fanApplicationText, colWidth * 2));
                             break;
 
                         default:
@@ -515,6 +527,11 @@ namespace SpecControle.UserControls
                 image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             }
             e.Graphics.DrawImage(image, loc);
+        }
+
+        public void RefreshPreview()
+        {
+            ShowTable(SelectedImageSize);
         }
 
         private void BtnSize_Click(object sender, EventArgs e)

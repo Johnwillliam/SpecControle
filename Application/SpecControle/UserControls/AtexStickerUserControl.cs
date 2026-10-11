@@ -333,7 +333,9 @@ namespace SpecControle.UserControls
                             break;
 
                         case 15:
-                            columns.Add(new StickerRowColumn());
+                            columns.Add(BAppSettings.ShowEfficiencyOnStickers
+                                ? new StickerRowColumn() { LeftText = "η", RightText = $"{ventilator.Efficiency} %" }
+                                : new StickerRowColumn());
                             columns.Add(new StickerRowColumn());
                             columns.Add(new StickerRowColumn() { LeftText = $"PTC", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.PTC) });
                             columns.Add(new StickerRowColumn() { LeftText = $"HT", MiddleText = DataHelper.NullableBooleanToYesNo(ventilator.CustomOrderMotor.HT) });
@@ -356,18 +358,20 @@ namespace SpecControle.UserControls
                             break;
 
                         case 19:
-                            columns.Add(new StickerRowColumn());
-                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, font);
-                            break;
-
-                        case 20:
                             columns.Add(new StickerRowColumn() { LeftText = "ATEX marking", RightText = ventilator.CatType?.Description });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, font);
                             break;
 
-                        case 21:
+                        case 20:
                             columns.Add(new StickerRowColumn() { LeftText = "Ambient temperature range", RightText = "-20 - +40 °C" });
                             CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, font);
+                            break;
+
+                        case 21:
+                            // Full-width bar with the application the fan is suitable for (required by regulations).
+                            var fanApplicationText = DataHelper.CreateFanApplicationText(ventilator.FanApplication?.Description);
+                            columns.Add(new StickerRowColumn() { LeftText = fanApplicationText });
+                            CreateSingleRow(graph, rowHeight, startX, ref startY, 1, colWidth * 2, columns, StickerFontHelper.FitToWidth(graph, font, fanApplicationText, colWidth * 2));
                             break;
 
                         default:
@@ -626,6 +630,11 @@ namespace SpecControle.UserControls
             var image = GenerateTable(imageWidthInMM, imageHeightInMM, e.Graphics);
             var loc = new Point(10, 0);
             e.Graphics.DrawImage(image, loc);
+        }
+
+        public void RefreshPreview()
+        {
+            ShowTable(SelectedImageSize);
         }
 
         private void BtnSize_Click(object sender, EventArgs e)

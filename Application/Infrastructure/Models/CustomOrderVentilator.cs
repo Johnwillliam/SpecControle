@@ -47,6 +47,7 @@ namespace Infrastructure.Models
         public int? TemperatureClassID { get; set; }
         public int? CatTypeID { get; set; }
         public int? CatOutID { get; set; }
+        public int? FanApplicationID { get; set; }
         public virtual CatType CatType { get; set; }
         public virtual CustomOrderMotor CustomOrderMotor { get; set; }
         public virtual CustomOrder CustomOrder { get; set; }
@@ -54,6 +55,7 @@ namespace Infrastructure.Models
         public virtual GroupType GroupType { get; set; }
         public virtual TemperatureClass TemperatureClass { get; set; }
         public virtual VentilatorType VentilatorType { get; set; }
+        public virtual FanApplication FanApplication { get; set; }
         public virtual ICollection<CustomOrderVentilatorTest> CustomOrderVentilatorTests { get; set; }
 
         public bool IsAtex()

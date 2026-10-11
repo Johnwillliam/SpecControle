@@ -87,6 +87,7 @@ namespace SpecControle.UserControls
             InitializeComboBox(cmbTemperatureClassType, BLookupData.TemperatureClasses, nameof(CustomOrderVentilator.TemperatureClassID), "ID", "Description", ConfigDataGrid);
             InitializeComboBox(cmbCatType, BLookupData.CatTypes, nameof(CustomOrderVentilator.CatTypeID), "ID", "Description", ConfigDataGrid);
             InitializeComboBox(cmbCatOutType, BLookupData.CatTypes, nameof(CustomOrderVentilator.CatOutID), "ID", "Description", ConfigDataGrid);
+            InitializeComboBox(cmbFanApplication, BLookupData.FanApplications, nameof(CustomOrderVentilator.FanApplicationID), "ID", "Description", VentilatorDataGrid);
 
             var yesNoDataSource = new List<YesNoItem>
             {
@@ -103,6 +104,7 @@ namespace SpecControle.UserControls
             SetComboBoxValue(cmbCatType, ventilator.CatTypeID);
             SetComboBoxValue(cmbCatOutType, ventilator.CatOutID);
             SetComboBoxValue(cmbTemperatureClassType, ventilator.TemperatureClassID);
+            SetComboBoxValue(cmbFanApplication, ventilator.FanApplicationID);
             SetComboBoxValue(cmbPTC, ventilator.CustomOrderMotor.PTC);
             SetComboBoxValue(cmbHT, ventilator.CustomOrderMotor.HT);
         }
@@ -441,7 +443,8 @@ namespace SpecControle.UserControls
                 GroupTypeID = (int?)cmbGroupType.SelectedValue,
                 TemperatureClassID = (int?)cmbTemperatureClassType.SelectedValue,
                 CatTypeID = (int?)cmbCatType.SelectedValue,
-                CatOutID = (int?)cmbCatOutType.SelectedValue
+                CatOutID = (int?)cmbCatOutType.SelectedValue,
+                FanApplicationID = (int?)cmbFanApplication.SelectedValue
             };
         }
 
@@ -504,6 +507,7 @@ namespace SpecControle.UserControls
             txtCustomOrderNumber.Text = "";
             cmbSoundLevelType.SelectedValue = -1;
             cmbVentilatorType.SelectedValue = -1;
+            cmbFanApplication.SelectedValue = -1;
             btnCopyOrder.Enabled = false;
             InitializeGridData();
         }

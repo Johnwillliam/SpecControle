@@ -92,6 +92,8 @@ namespace Application.Business
                     .ThenInclude(y => y.GroupType)
                 .Include(x => x.CustomOrderVentilators)
                     .ThenInclude(y => y.VentilatorType)
+                .Include(x => x.CustomOrderVentilators)
+                    .ThenInclude(y => y.FanApplication)
                 .SingleOrDefault(x => x.CustomOrderNumber == customOrderNumber);
         }
 
