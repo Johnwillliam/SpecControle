@@ -140,6 +140,7 @@ namespace SpecControle.UserControls
             VentilatorDataGrid.RowHeadersVisible = false;
             VentilatorDataGrid.AutoGenerateColumns = false;
             VentilatorDataGrid.AllowUserToResizeRows = false;
+            VentilatorDataGrid.CellFormatting += VentilatorDataGrid_CellFormatting;
 
             MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Description", DataPropertyName = "Description", Name = "Description", ReadOnly = true });
             MotorDataGrid.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Value", DataPropertyName = "DisplayValue", Name = "Value", ReadOnly = false, AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
@@ -161,6 +162,18 @@ namespace SpecControle.UserControls
             ConfigDataGrid.RowHeadersVisible = false;
             ConfigDataGrid.AutoGenerateColumns = false;
             ConfigDataGrid.AllowUserToResizeRows = false;
+        }
+
+        private void VentilatorDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Alleen de weergave aanpassen: de celwaarde blijft de propertynaam, want daarop wordt de
+            // combobox aan de rij gekoppeld.
+            if (e.ColumnIndex == VentilatorDataGrid.Columns["Description"].Index
+                && Equals(e.Value, nameof(CustomOrderVentilator.FanApplicationID)))
+            {
+                e.Value = "Applications";
+                e.FormattingApplied = true;
+            }
         }
 
         private void CustomOrderVentilatorsDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
