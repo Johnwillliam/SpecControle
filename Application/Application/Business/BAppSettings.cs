@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Context;
-using Infrastructure.Models;
 
 namespace Application.Business
 {
@@ -13,8 +12,10 @@ namespace Application.Business
         /// <summary>
         /// Bepaalt of de efficiency op de Type Sticker, de ATEX-sticker en het ATEX-document komt.
         /// Staat standaard uit, totdat Systemair de go geeft om de efficiency te vermelden.
-        /// De waarde wordt één keer per sessie uit de database gelezen; een wijziging op een andere
-        /// werkplek is daar dus pas zichtbaar na het herstarten van de app.
+        /// Er is bewust geen knop in de app voor: de waarde wordt rechtstreeks in de tabel AppSettings
+        /// gezet (rij "ShowEfficiencyOnStickers", waarde "True" of "False"). De waarde wordt één keer
+        /// per sessie uit de database gelezen; een wijziging is dus pas zichtbaar na het herstarten
+        /// van de app.
         /// </summary>
         public static bool ShowEfficiencyOnStickers
         {
@@ -23,11 +24,6 @@ namespace Application.Business
                 _showEfficiencyOnStickers ??= GetBool(_showEfficiencyOnStickersName);
                 return _showEfficiencyOnStickers.Value;
             }
-            set
-            {
-                SetBool(_showEfficiencyOnStickersName, value);
-                _showEfficiencyOnStickers = value;
-            }
         }
 
         private static bool GetBool(string name)
@@ -35,19 +31,6 @@ namespace Application.Business
             using var dbContext = new SpecificationsDatabaseModel();
             var setting = dbContext.AppSettings.AsNoTracking().FirstOrDefault(x => x.Name == name);
             return bool.TryParse(setting?.Value, out bool value) && value;
-        }
-
-        private static void SetBool(string name, bool value)
-        {
-            using var dbContext = new SpecificationsDatabaseModel();
-            var setting = dbContext.AppSettings.FirstOrDefault(x => x.Name == name);
-            if (setting == null)
-            {
-                setting = new AppSetting { Name = name };
-                dbContext.AppSettings.Add(setting);
-            }
-            setting.Value = value.ToString();
-            dbContext.SaveChanges();
         }
     }
 }

@@ -632,11 +632,6 @@ namespace SpecControle.UserControls
             e.Graphics.DrawImage(image, loc);
         }
 
-        public void RefreshPreview()
-        {
-            ShowTable(SelectedImageSize);
-        }
-
         private void BtnSize_Click(object sender, EventArgs e)
         {
             if (btnSize.Text == ImageSize.Small.ToString())

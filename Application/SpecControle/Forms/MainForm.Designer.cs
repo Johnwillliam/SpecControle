@@ -42,7 +42,6 @@ namespace SpecControle.Forms
             label1 = new Label();
             label2 = new Label();
             cmbPrinters = new ComboBox();
-            chkShowEfficiencyOnStickers = new CheckBox();
             tabControl.SuspendLayout();
             SuspendLayout();
             // 
@@ -129,10 +128,10 @@ namespace SpecControle.Forms
             cmbStickerPrinters.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbStickerPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbStickerPrinters.FormattingEnabled = true;
-            cmbStickerPrinters.Location = new Point(880, 1);
+            cmbStickerPrinters.Location = new Point(752, 1);
             cmbStickerPrinters.Margin = new Padding(4, 3, 4, 3);
             cmbStickerPrinters.Name = "cmbStickerPrinters";
-            cmbStickerPrinters.Size = new Size(220, 23);
+            cmbStickerPrinters.Size = new Size(279, 23);
             cmbStickerPrinters.TabIndex = 0;
             cmbStickerPrinters.SelectedIndexChanged += CmbStickerPrinters_SelectedIndexChanged;
             //
@@ -140,7 +139,7 @@ namespace SpecControle.Forms
             //
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(755, 6);
+            label1.Location = new Point(621, 6);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(117, 15);
@@ -151,7 +150,7 @@ namespace SpecControle.Forms
             //
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new Point(1121, 6);
+            label2.Location = new Point(1060, 6);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(79, 15);
@@ -163,24 +162,12 @@ namespace SpecControle.Forms
             cmbPrinters.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             cmbPrinters.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPrinters.FormattingEnabled = true;
-            cmbPrinters.Location = new Point(1208, 1);
+            cmbPrinters.Location = new Point(1149, 1);
             cmbPrinters.Margin = new Padding(4, 3, 4, 3);
             cmbPrinters.Name = "cmbPrinters";
-            cmbPrinters.Size = new Size(220, 23);
+            cmbPrinters.Size = new Size(279, 23);
             cmbPrinters.TabIndex = 36;
             cmbPrinters.SelectedIndexChanged += CmbPrinters_SelectedIndexChanged;
-            //
-            // chkShowEfficiencyOnStickers
-            //
-            chkShowEfficiencyOnStickers.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            chkShowEfficiencyOnStickers.AutoSize = true;
-            chkShowEfficiencyOnStickers.Location = new Point(590, 4);
-            chkShowEfficiencyOnStickers.Margin = new Padding(4, 3, 4, 3);
-            chkShowEfficiencyOnStickers.Name = "chkShowEfficiencyOnStickers";
-            chkShowEfficiencyOnStickers.Size = new Size(150, 19);
-            chkShowEfficiencyOnStickers.TabIndex = 37;
-            chkShowEfficiencyOnStickers.Text = "Efficiency on stickers";
-            chkShowEfficiencyOnStickers.UseVisualStyleBackColor = true;
             //
             // MainForm
             //
@@ -191,7 +178,6 @@ namespace SpecControle.Forms
             Controls.Add(label1);
             Controls.Add(cmbStickerPrinters);
             Controls.Add(cmbPrinters);
-            Controls.Add(chkShowEfficiencyOnStickers);
             Controls.Add(tabControl);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
@@ -216,6 +202,5 @@ namespace SpecControle.Forms
         private TabPage RunningTestTabPage;
         private Label label2;
         private ComboBox cmbPrinters;
-        private CheckBox chkShowEfficiencyOnStickers;
     }
 }

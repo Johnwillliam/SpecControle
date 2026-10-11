@@ -48,7 +48,6 @@ namespace SpecControle.Forms
                 InitializeMotorTemplateUserControl();
                 InitializeTestDocumentGenerationUserControl();
                 InitializePrinters();
-                InitializeShowEfficiencyOnStickers();
 
                 // Bij het aanmaken staat het venster nog niet op zijn uiteindelijke (gemaximaliseerde) grootte,
                 // dus centreren we opnieuw zodra het venster echt getoond en/of geresized wordt. Niet-geselecteerde
@@ -94,32 +93,6 @@ namespace SpecControle.Forms
             }
             SetPrinter();
             SetStickerPrinter();
-        }
-
-        private void InitializeShowEfficiencyOnStickers()
-        {
-            chkShowEfficiencyOnStickers.Checked = BAppSettings.ShowEfficiencyOnStickers;
-            chkShowEfficiencyOnStickers.CheckedChanged += ChkShowEfficiencyOnStickers_CheckedChanged;
-        }
-
-        private void ChkShowEfficiencyOnStickers_CheckedChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                BAppSettings.ShowEfficiencyOnStickers = chkShowEfficiencyOnStickers.Checked;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Could not save the efficiency on stickers setting.");
-                MessageBox.Show("Could not save the setting. Please check your network connection and try again.");
-                chkShowEfficiencyOnStickers.CheckedChanged -= ChkShowEfficiencyOnStickers_CheckedChanged;
-                chkShowEfficiencyOnStickers.Checked = !chkShowEfficiencyOnStickers.Checked;
-                chkShowEfficiencyOnStickers.CheckedChanged += ChkShowEfficiencyOnStickers_CheckedChanged;
-                return;
-            }
-
-            MotorTypePlateUserControl?.RefreshPreview();
-            AtexStickerUserControl?.RefreshPreview();
         }
 
         private static bool DatabaseIsAvailable()
