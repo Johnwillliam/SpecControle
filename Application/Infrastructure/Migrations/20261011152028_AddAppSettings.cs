@@ -21,6 +21,12 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_AppSettings", x => x.Name);
                 });
+
+            // Efficiency on stickers starts disabled until Systemair approves showing it.
+            migrationBuilder.InsertData(
+                table: "AppSettings",
+                columns: ["Name", "Value"],
+                values: ["ShowEfficiencyOnStickers", "False"]);
         }
 
         /// <inheritdoc />

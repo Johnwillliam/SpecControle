@@ -28,11 +28,6 @@ namespace SpecControle
                 //new SpecificationsDatabaseModel().Database.EnsureCreated();
                 QuestPDF.Settings.License = LicenseType.Community;
 
-                // Begint meteen op de achtergrond met het opzetten van de databaseverbinding en het opbouwen
-                // van het EF-model, zodat die kosten (extra merkbaar over de VPN-verbinding van de klant)
-                // al lopen terwijl de rest van de app opstart, in plaats van pas bij het eerste scherm.
-                BLookupData.Preload();
-
                 var assembly = Assembly.GetExecutingAssembly();
                 var version = assembly
                     .GetCustomAttribute<AssemblyFileVersionAttribute>()?
@@ -45,6 +40,13 @@ namespace SpecControle
                 logger = loggerFactory.CreateLogger<Program>();
 
                 ApplyMigrations(host.Services);
+
+                // Begint meteen op de achtergrond met het laden van de lookup-tabellen, zodat die kosten
+                // (extra merkbaar over de VPN-verbinding van de klant) al lopen terwijl de rest van de app
+                // opstart, in plaats van pas bij het eerste scherm. Dit moet ná de migraties gebeuren:
+                // een nieuwe lookup-tabel (zoals FanApplications) bestaat anders nog niet op het moment
+                // dat de preload hem bevraagt.
+                BLookupData.Preload();
 
                 // For handling exceptions on the UI thread
                 System.Windows.Forms.Application.ThreadException += (sender, args) =>

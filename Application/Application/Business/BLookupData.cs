@@ -42,11 +42,14 @@ namespace Application.Business
 
         private static Lazy<List<T>> CreateLazy<T>(Func<SpecificationsDatabaseModel, IQueryable<T>> query) where T : class
         {
+            // PublicationOnly cachet geen exceptions: mislukt het laden (bijvoorbeeld door een haperende
+            // VPN-verbinding tijdens de preload), dan wordt het bij de volgende aanroep opnieuw geprobeerd
+            // in plaats van dat dezelfde fout de rest van de sessie blijft terugkomen.
             return new Lazy<List<T>>(() =>
             {
                 using var dbContext = new SpecificationsDatabaseModel();
                 return query(dbContext).AsNoTracking().ToList();
-            }, LazyThreadSafetyMode.ExecutionAndPublication);
+            }, LazyThreadSafetyMode.PublicationOnly);
         }
     }
 }
