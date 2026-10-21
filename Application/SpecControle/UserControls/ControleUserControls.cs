@@ -531,22 +531,14 @@ namespace SpecControle.UserControls
                     serialPort.Close();
                     return;
                 }
-                if (radioButtonMotorHigh.Checked)
-                    selectedTest.MeasuredMotorHighRPM = (int)rpm;
-                else if (radioButtonMotorLow.Checked)
-                    selectedTest.MeasuredMotorLowRPM = (int)rpm;
-                else if (radioButtonVentilatorHigh.Checked)
-                    selectedTest.MeasuredVentilatorHighRPM = (int)rpm;
-                else if (radioButtonVentilatorLow.Checked)
-                    selectedTest.MeasuredVentilatorLowRPM = (int)rpm;
-
                 if (serialPort.IsOpen)
                 {
                     serialPort.Close();
                 }
+                // Only fill in the measured RPM in the grid; reloading the grid would discard unsaved input.
                 BeginInvoke(new MethodInvoker(delegate
                 {
-                    InitializeGridData();
+                    SetMeasuredRPMInGrid((int)rpm);
                 }));
             }
             catch (Exception ex)
@@ -554,6 +546,45 @@ namespace SpecControle.UserControls
                 _serialPort.Close();
                 ExceptionHandler.HandleException(logger, ex);
             }
+        }
+
+        private void SetMeasuredRPMInGrid(int rpm)
+        {
+            var propertyName = GetMeasuredRPMPropertyName(radioButtonMotorHigh.Checked, radioButtonMotorLow.Checked, radioButtonVentilatorHigh.Checked, radioButtonVentilatorLow.Checked);
+            SetMeasuredRPM(SelectedVentilatorTestDataGrid, propertyName, rpm);
+        }
+
+        public static string GetMeasuredRPMPropertyName(bool motorHigh, bool motorLow, bool ventilatorHigh, bool ventilatorLow)
+        {
+            if (motorHigh)
+            {
+                return nameof(CustomOrderVentilatorTest.MeasuredMotorHighRPM);
+            }
+            if (motorLow)
+            {
+                return nameof(CustomOrderVentilatorTest.MeasuredMotorLowRPM);
+            }
+            if (ventilatorHigh)
+            {
+                return nameof(CustomOrderVentilatorTest.MeasuredVentilatorHighRPM);
+            }
+            if (ventilatorLow)
+            {
+                return nameof(CustomOrderVentilatorTest.MeasuredVentilatorLowRPM);
+            }
+            return null;
+        }
+
+        public static void SetMeasuredRPM(DataGridView grid, string propertyName, int rpm)
+        {
+            var row = grid.Rows.Cast<DataGridViewRow>().FirstOrDefault(x => x.Cells["Description"].Value?.ToString() == propertyName);
+            if (propertyName == null || row == null)
+            {
+                return;
+            }
+
+            grid.EndEdit();
+            row.Cells["Value"].Value = rpm.ToString();
         }
 
         private void BtnMotorTypePlate_Click(object sender, EventArgs e)
