@@ -105,7 +105,7 @@ public class AtexPdfDocumentGenerator : IDocument
                 table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentTest.SerialNumber.ToString());
 
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Motor number");
-                table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.CustomOrderMotor?.Type);
+                table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentTest.MotorNumber);
 
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Systemair order");
                 table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentOrder.CustomOrderNumber.ToString());
@@ -114,7 +114,7 @@ public class AtexPdfDocumentGenerator : IDocument
                 table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentTest.Date.GetValueOrDefault().Year.ToString());
 
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("ATEX Marking");
-                table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.Atex);
+                table.Cell().Row(rowIndex++).Column(2).Element(Block).Text(_currentVentilator.CatType?.Description);
 
                 table.Cell().Row(rowIndex).Column(1).Element(Block).Text("Temperature range");
                 table.Cell().Row(rowIndex++).Column(2).Element(Block).Text("-20 - +40 °C");

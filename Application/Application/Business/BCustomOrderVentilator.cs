@@ -49,6 +49,7 @@ namespace Application.Business
                 .Include(x => x.VentilatorType)
                 .Include(x => x.GroupType)
                 .Include(x => x.FanApplication)
+                .Include(x => x.CatType)
                 .FirstOrDefault(x => x.ID == id);
         }
 
